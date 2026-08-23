@@ -43,83 +43,248 @@ function initNativeSqlite() {
   ;`);
 
   // Seed Projects with Global Country Metadata, Publishers & Years (1928 - 2026)
-  db.exec(`INSERT INTO research_projects 
+  const baseProjects = [
+    {
+      id: 'proj-hist-1', title: 'On the Antibacterial Action of Cultures of a Penicillium (Discovery of Penicillin)', code: 'HIST-1928-PEN',
+      summary: 'Landmark historical paper detailing the isolation and bactericidal properties of penicillin against Staphylococcus and Gram-positive pathogens.',
+      abstract: 'While working with Staphylococcus variants at St. Mary’s Hospital, London, a mold contaminant was observed to inhibit bacterial colony growth. This pioneer paper proved that penicillin broth possesses powerful non-toxic antibacterial activity.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'infectious diseases',
+      journal_citation: 'British Journal of Experimental Pathology (1929)', publisher_name: 'BMJ Publishing Group',
+      country_code: 'GB', country_name: 'United Kingdom', publication_year: 1928,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/20421034/', doi: '10.1016/S0140-6736(00)52899-7',
+      likes_count: 1540, progress_percent: 100, crowdfunding_raised: 0, crowdfunding_target: 0
+    },
+    {
+      id: 'proj-hist-2', title: 'Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid (DNA)', code: 'HIST-1953-DNA',
+      summary: 'The seminal double-helix structural model of DNA held by hydrogen bonds between complementary purine and pyrimidine bases.',
+      abstract: 'We wish to suggest a structure for the salt of deoxyribose nucleic acid (D.N.A.). This structure has two helical chains each coiled round the same axis. The novel feature of the structure is the manner in which the two chains are held together by purine and pyrimidine bases.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'crispr',
+      journal_citation: 'Nature (1953)', publisher_name: 'Nature Publishing Group',
+      country_code: 'GB', country_name: 'United Kingdom', publication_year: 1953,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/13054692/', doi: '10.1038/171737a0',
+      likes_count: 2180, progress_percent: 100, crowdfunding_raised: 0, crowdfunding_target: 0
+    },
+    {
+      id: 'proj-hist-3', title: 'DNA Sequencing with Chain-Terminating Inhibitors (Sanger Method)', code: 'HIST-1977-SEQ',
+      summary: 'Development of dideoxynucleotide chain-termination technology allowing rapid precise decoding of nucleotide sequences.',
+      abstract: 'A method using 2’3’-dideoxy and arabinonucleoside triphosphates to terminate enzymatic elongation by DNA polymerase I. This historic breakthrough laid the foundational chemistry for modern genomics.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'crispr',
+      journal_citation: 'Proceedings of the National Academy of Sciences (1977)', publisher_name: 'National Academy of Sciences',
+      country_code: 'GB', country_name: 'United Kingdom', publication_year: 1977,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/271968/', doi: '10.1073/pnas.74.12.5463',
+      likes_count: 1890, progress_percent: 100, crowdfunding_raised: 0, crowdfunding_target: 0
+    },
+    {
+      id: 'proj-hist-4', title: 'Initial Sequencing and Analysis of the Human Genome', code: 'HIST-2003-HGP',
+      summary: 'The completed draft reference sequence of the 3 billion base pair human genome mapped by an international public consortium.',
+      abstract: 'The International Human Genome Sequencing Consortium reports the draft sequence of the human genome. Covering >90% of the euchromatic genome, this landmark provides the blue-print for all human molecular medicine.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'crispr',
+      journal_citation: 'Nature (2003)', publisher_name: 'Nature Publishing Group',
+      country_code: 'US', country_name: 'United States', publication_year: 2003,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/11237011/', doi: '10.1038/35057062',
+      likes_count: 2950, progress_percent: 100, crowdfunding_raised: 0, crowdfunding_target: 0
+    },
+    {
+      id: 'proj-hist-5', title: 'A Programmable Dual-RNA-Guided DNA Endonuclease in Adaptive Bacterial Immunity (CRISPR-Cas9)', code: 'HIST-2012-CAS9',
+      summary: 'Discovery that the Cas9 endonuclease can be programmed with single guide RNA (sgRNA) to cleavage targeted genomic DNA.',
+      abstract: 'Bacteria and archaea have evolved adaptive immune systems that rely on CRISPR RNAs (crRNAs) and Cas proteins to silent foreign nucleic acids. We demonstrate that Cas9 can be engineered as a universal two-component genome editing tool.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'crispr',
+      journal_citation: 'Science (2012)', publisher_name: 'AAAS Science',
+      country_code: 'SE', country_name: 'Sweden', publication_year: 2012,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/22745249/', doi: '10.1126/science.1225829',
+      likes_count: 3120, progress_percent: 100, crowdfunding_raised: 0, crowdfunding_target: 0
+    },
+    {
+      id: 'proj-hist-6', title: 'Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine', code: 'HIST-2020-MRNA',
+      summary: 'Phase 3 multinational randomized clinical trial demonstrating 95% protection against symptomatic infection.',
+      abstract: 'A lipid nanoparticle-formulated nucleoside-modified mRNA encoding the prefusion spike protein was evaluated in 43,548 participants. Two doses of 30 µg conferred 95% protection against COVID-19 in persons 16 years of age or older.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'rna oncology',
+      journal_citation: 'New England Journal of Medicine (2020)', publisher_name: 'Massachusetts Medical Society',
+      country_code: 'DE', country_name: 'Germany', publication_year: 2020,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/33301246/', doi: '10.1056/NEJMoa2035389',
+      likes_count: 2410, progress_percent: 100, crowdfunding_raised: 0, crowdfunding_target: 0
+    },
+    {
+      id: 'proj-hist-7', title: 'Highly Accurate Protein Structure Prediction with AlphaFold2', code: 'HIST-2021-AF2',
+      summary: 'AI structural biology system predicting 3D atomic coordinates of proteins with sub-angstrom accuracy.',
+      abstract: 'Proteins are essential to life, and understanding their 3D structures is key to understanding function. AlphaFold2 uses novel deep learning attention networks to predict 3D protein structure directly from primary amino acid sequence.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'infectious diseases',
+      journal_citation: 'Nature (2021)', publisher_name: 'Nature Publishing Group',
+      country_code: 'GB', country_name: 'United Kingdom', publication_year: 2021,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/34265844/', doi: '10.1038/s41586-021-03819-2',
+      likes_count: 2890, progress_percent: 100, crowdfunding_raised: 0, crowdfunding_target: 0
+    },
+    {
+      id: 'proj-1', title: 'Targeted mRNA Delivery for Solid Tumors', code: 'BT-402-ONC', 
+      summary: 'Investigating ionizable lipid nanoparticle formulations to facilitate targeted tissue accumulation and mRNA translation inside glioblastoma multiforme microenvironments.',
+      abstract: 'Glioblastoma multiforme (GBM) remains one of the most aggressive primary brain tumors. This study evaluates engineered ionizable lipid nanoparticles (LNPs) capable of traversing the blood-brain tumor barrier (BBTB) to deliver mRNA encodings for tumor suppressor p53 and anti-angiogenic factors.',
+      status: 'ongoing', stage: 'phase_2', visibility: 'public', domain: 'rna oncology',
+      journal_citation: 'Nature Biotechnology (2026)', publisher_name: 'Nature Publishing Group',
+      country_code: 'US', country_name: 'United States', publication_year: 2026,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/38910245/', doi: '10.1038/s41587-026-01928-3',
+      likes_count: 342, progress_percent: 65, crowdfunding_raised: 32500, crowdfunding_target: 50000
+    },
+    {
+      id: 'proj-2', title: 'CRISPR Editing for Alpha-1 Antitrypsin Deficiency', code: 'AAT-901-GEN', 
+      summary: 'In-vivo gene editing therapeutic targeting AATD liver expression through high-precision AAV9 vector delivery.',
+      abstract: 'Alpha-1 antitrypsin deficiency (AATD) causes severe liver disease and emphysema. Using adenine base editors (ABEs) packaged inside adeno-associated virus serotype 9 (AAV9), this study achieves precise correction of the PiZ mutation (E342K) in human primary hepatocytes.',
+      status: 'ongoing', stage: 'preclinical', visibility: 'public', domain: 'crispr',
+      journal_citation: 'Cell Stem Cell (2025)', publisher_name: 'Cell Press',
+      country_code: 'US', country_name: 'United States', publication_year: 2025,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/37628109/', doi: '10.1016/j.stem.2025.11.004',
+      likes_count: 219, progress_percent: 40, crowdfunding_raised: 18200, crowdfunding_target: 40000
+    },
+    {
+      id: 'proj-5', title: 'Dual-Targeted CAR-T Cell Efficacy in Refractory B-Cell Lymphoma', code: 'CAR-LYM-100', 
+      summary: 'Multi-center clinical trial demonstrating 82% complete remission rate in patients receiving CD19/CD22 targeted CAR-T therapy.',
+      abstract: 'Relapsed or refractory diffuse large B-cell lymphoma (DLBCL) often escapes single-target CAR-T therapies through antigen loss. This completed multi-center Phase III study presents long-term clinical data on bispecific CD19/CD22 chimeric antigen receptor T-cells with humanized scFv domains.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'cell therapy',
+      journal_citation: 'New England Journal of Medicine (2025)', publisher_name: 'Massachusetts Medical Society',
+      country_code: 'US', country_name: 'United States', publication_year: 2025,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/38201948/', doi: '10.1056/NEJMoa2408192',
+      likes_count: 890, progress_percent: 100, crowdfunding_raised: 75000, crowdfunding_target: 75000
+    },
+    {
+      id: 'proj-6', title: 'Monoclonal Antibody Clearance of Amyloid-Beta Plaques in Early Alzheimer’s', code: 'ALZ-NEURO-55', 
+      summary: 'Pivotal study proving 38% slowing of cognitive decline over 18 months following bi-weekly monoclonal antibody infusions.',
+      abstract: 'Alzheimer’s disease pathogenesis is strongly linked to soluble amyloid-beta (Aβ) oligomers. This completed Phase III randomized double-blind trial verified significant plaque reduction via amyloid-PET imaging and measurable slowing of Clinical Dementia Rating-Sum of Boxes (CDR-SB).',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'neurodegeneration',
+      journal_citation: 'Science Translational Medicine (2025)', publisher_name: 'AAAS Science',
+      country_code: 'CH', country_name: 'Switzerland', publication_year: 2025,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/37910284/', doi: '10.1126/scitranslmed.abd8102',
+      likes_count: 640, progress_percent: 100, crowdfunding_raised: 90000, crowdfunding_target: 90000
+    },
+    {
+      id: 'proj-7', title: 'Synthetic Antimicrobial Peptides Targeting MDR Pseudomonas aeruginosa', code: 'AMP-MDR-03', 
+      summary: 'Design and structural characterization of helical cationic peptides exhibiting rapid membrane disruption against superbugs.',
+      abstract: 'Multi-drug resistant (MDR) Gram-negative bacterial pathogens represent a global public health crisis. This research engineered a novel class of amphipathic alpha-helical cationic peptides that disrupt outer membrane integrity without toxicity to mammalian erythrocytes.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'infectious diseases',
+      journal_citation: 'Nature Microbiology (2024)', publisher_name: 'Nature Publishing Group',
+      country_code: 'DE', country_name: 'Germany', publication_year: 2024,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/38102941/', doi: '10.1038/s41564-024-01642-1',
+      likes_count: 425, progress_percent: 100, crowdfunding_raised: 45000, crowdfunding_target: 45000
+    },
+    {
+      id: 'proj-10', title: 'Alpha-Synuclein PET Radiotracer for Early Detection of Parkinson’s Disease', code: 'PARK-PET-22',
+      summary: 'First-in-human fluorine-18 PET molecular radiotracer binding pathological alpha-synuclein aggregates in basal ganglia.',
+      abstract: 'Early neuroimaging diagnosis of Parkinson’s disease and Multiple System Atrophy (MSA) has historically lacked fibrillar synuclein specificity. This completed clinical study validated binding kinetics of [18F]SYN-304 in idiopathic Parkinson’s cohorts.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'neurodegeneration',
+      journal_citation: 'Brain (2025)', publisher_name: 'Oxford University Press',
+      country_code: 'JP', country_name: 'Japan', publication_year: 2025,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/38190241/', doi: '10.1093/brain/awad401',
+      likes_count: 480, progress_percent: 100, crowdfunding_raised: 50000, crowdfunding_target: 50000
+    },
+    {
+      id: 'proj-12', title: 'iPSC-Derived Functional Islet Cell Transplants for Type 1 Diabetes', code: 'DIAB-STEM-04',
+      summary: 'Encapsulated human induced pluripotent stem cell derived beta-like clusters delivering glucose-responsive insulin.',
+      abstract: 'Autoimmune Type 1 Diabetes necessitates lifelong exocrine insulin administration. This ongoing Phase I/II protocol evaluates macro-encapsulation devices holding patient-derived iPSC beta cells to protect against allo-rejection.',
+      status: 'ongoing', stage: 'phase_1', visibility: 'public', domain: 'crispr',
+      journal_citation: 'Nature Medicine (2026)', publisher_name: 'Nature Publishing Group',
+      country_code: 'JP', country_name: 'Japan', publication_year: 2026,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/38910482/', doi: '10.1038/s41591-026-02901-w',
+      likes_count: 510, progress_percent: 35, crowdfunding_raised: 21000, crowdfunding_target: 60000
+    },
+    {
+      id: 'proj-13', title: 'R21/Matrix-M Malaria Vaccine Phase III Global Efficacy Trial', code: 'MAL-R21-99',
+      summary: 'Phase 3 trial in African children demonstrating 75% vaccine efficacy against clinical malaria.',
+      abstract: 'Malaria remains a major cause of pediatric mortality in sub-Saharan Africa. The R21 vaccine combined with Matrix-M adjuvant met the WHO target of >75% efficacy across seasonal transmission sites.',
+      status: 'completed', stage: 'completed', visibility: 'public', domain: 'infectious diseases',
+      journal_citation: 'The Lancet (2024)', publisher_name: 'Elsevier',
+      country_code: 'IN', country_name: 'India', publication_year: 2024,
+      source_url: 'https://pubmed.ncbi.nlm.nih.gov/38102984/', doi: '10.1016/S0140-6736(24)00812-4',
+      likes_count: 1120, progress_percent: 100, crowdfunding_raised: 100000, crowdfunding_target: 100000
+    }
+  ];
+
+  // Dynamically generate 90 additional global research papers (Total = 105 papers)
+  const countriesList = [
+    { code: 'IN', name: 'India' }, { code: 'US', name: 'United States' }, { code: 'GB', name: 'United Kingdom' },
+    { code: 'DE', name: 'Germany' }, { code: 'JP', name: 'Japan' }, { code: 'CH', name: 'Switzerland' },
+    { code: 'SE', name: 'Sweden' }, { code: 'FR', name: 'France' }, { code: 'CA', name: 'Canada' },
+    { code: 'AU', name: 'Australia' }, { code: 'IL', name: 'Israel' }, { code: 'CN', name: 'China' }
+  ];
+
+  const publishersList = [
+    { name: 'Nature Publishing Group', journal: 'Nature' },
+    { name: 'AAAS Science', journal: 'Science' },
+    { name: 'Massachusetts Medical Society', journal: 'New England Journal of Medicine' },
+    { name: 'Cell Press', journal: 'Cell' },
+    { name: 'Elsevier', journal: 'The Lancet' },
+    { name: 'National Academy of Sciences', journal: 'PNAS' },
+    { name: 'Oxford University Press', journal: 'Brain' },
+    { name: 'BMJ Publishing Group', journal: 'BMJ' }
+  ];
+
+  const domainsList = ['crispr', 'rna oncology', 'cell therapy', 'neurodegeneration', 'infectious diseases', 'cardiology'];
+  const stagesList = ['discovery', 'preclinical', 'phase_1', 'phase_2', 'phase_3', 'completed'];
+
+  const generatedProjects = [];
+  const titlesTemplates = [
+    "AAV Gene Therapy Vector Optimization for Neuromuscular Regeneration",
+    "Single-Cell RNA Sequencing of Intestinal Epithelial Stem Cell Niches",
+    "Cryo-EM Structure of Multidrug Efflux Pump Complex in Enteric Bacilli",
+    "Allogeneic Off-the-Shelf CAR-NK Cell Immunotherapy for Acute Myeloid Leukemia",
+    "CRISPR-Cas13 Ribonuclease Cleavage of Viral Transcripts in Respiratory Infections",
+    "Small Molecule Inhibition of Oncogenic KRAS G12D in Pancreatic Ductal Carcinoma",
+    "Machine Learning Prediction of Protein-Ligand Binding Kinetics in Drug Discovery",
+    "Patient iPSC Organoid Platform for High-Throughput Neurotoxicity Screening",
+    "Epigenetic Remodeling via HDAC Inhibitors in Refractory Triple-Negative Breast Cancer",
+    "Antibody-Drug Conjugates (ADCs) Targeting Trop-2 Epithelial Cell Adhesion",
+    "Systemic Adenine Base Editing Restoring Dystrophin in Duchenne Muscular Dystrophy",
+    "Long-Read Nanopore Genome Assemblies Revealing Structural Variants in Rare Diseases",
+    "T-Cell Receptor (TCR) Engineered Adoptive Transfer in Synovial Sarcoma",
+    "Bi-Functional Fusion Proteins Blocking TGF-Beta Transsignaling in Tissue Fibrosis"
+  ];
+
+  for (let i = 1; i <= 90; i++) {
+    const countryObj = countriesList[i % countriesList.length];
+    const pubObj = publishersList[i % publishersList.length];
+    const domain = domainsList[i % domainsList.length];
+    const isCompleted = (i % 2 === 0);
+    const stage = isCompleted ? 'completed' : stagesList[i % (stagesList.length - 1)];
+    const status = isCompleted ? 'completed' : 'ongoing';
+    const year = isCompleted ? (1985 + (i * 3) % 40) : (2024 + (i % 3));
+    const title = `${titlesTemplates[i % titlesTemplates.length]} (${countryObj.name} Cohort ${i})`;
+    const code = `PUB-${year}-${countryObj.code}-${100 + i}`;
+
+    generatedProjects.push({
+      id: `gen-proj-${i}`,
+      title: title,
+      code: code,
+      summary: `Multinational biomedical research study investigating ${title.toLowerCase()} conducted across lead institutes in ${countryObj.name}.`,
+      abstract: `This study presents comprehensive empirical trial data on ${title.toLowerCase()}. Using high-throughput structural validation, molecular assays, and verified cohort data from ${countryObj.name}, the protocol demonstrates significant statistical efficacy.`,
+      status: status,
+      stage: stage,
+      visibility: 'public',
+      domain: domain,
+      journal_citation: `${pubObj.journal} (${year})`,
+      publisher_name: pubObj.name,
+      country_code: countryObj.code,
+      country_name: countryObj.name,
+      publication_year: year,
+      source_url: `https://pubmed.ncbi.nlm.nih.gov/3800${1000 + i}/`,
+      doi: `10.1038/s41586-${year}-${1000 + i}`,
+      likes_count: 100 + (i * 17) % 800,
+      progress_percent: isCompleted ? 100 : (20 + (i * 7) % 75),
+      crowdfunding_raised: isCompleted ? 50000 : ((i * 3500) % 45000),
+      crowdfunding_target: 50000
+    });
+  }
+
+  const allProjectsToSeed = [...baseProjects, ...generatedProjects];
+
+  const stmt = db.prepare(`INSERT INTO research_projects 
     (id, title, code, summary, abstract, status, stage, visibility, domain, journal_citation, publisher_name, country_code, country_name, publication_year, source_url, doi, likes_count, progress_percent, crowdfunding_raised, crowdfunding_target, lead_investigator_id, organization_id) VALUES
-    ('proj-hist-1', 'On the Antibacterial Action of Cultures of a Penicillium (Discovery of Penicillin)', 'HIST-1928-PEN',
-     'Landmark historical paper detailing the isolation and bactericidal properties of penicillin against Staphylococcus and Gram-positive pathogens.',
-     'While working with Staphylococcus variants at St. Mary’s Hospital, London, a mold contaminant was observed to inhibit bacterial colony growth. This pioneer paper proved that penicillin broth possesses powerful non-toxic antibacterial activity.',
-     'completed', 'completed', 'public', 'infectious diseases', 'British Journal of Experimental Pathology (1929)', 'BMJ Publishing Group', 'GB', 'United Kingdom', 1928, 'https://pubmed.ncbi.nlm.nih.gov/20421034/', '10.1016/S0140-6736(00)52899-7', 1540, 100, 0, 0, 'usr-2', 'org-2'),
+    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'usr-1', 'org-1')
+  `);
 
-    ('proj-hist-2', 'Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid (DNA)', 'HIST-1953-DNA',
-     'The seminal double-helix structural model of DNA held by hydrogen bonds between complementary purine and pyrimidine bases.',
-     'We wish to suggest a structure for the salt of deoxyribose nucleic acid (D.N.A.). This structure has two helical chains each coiled round the same axis. The novel feature of the structure is the manner in which the two chains are held together by purine and pyrimidine bases.',
-     'completed', 'completed', 'public', 'crispr', 'Nature (1953)', 'Nature Publishing Group', 'GB', 'United Kingdom', 1953, 'https://pubmed.ncbi.nlm.nih.gov/13054692/', '10.1038/171737a0', 2180, 100, 0, 0, 'usr-1', 'org-2'),
-
-    ('proj-hist-3', 'DNA Sequencing with Chain-Terminating Inhibitors (Sanger Method)', 'HIST-1977-SEQ',
-     'Development of dideoxynucleotide chain-termination technology allowing rapid precise decoding of nucleotide sequences.',
-     'A method using 2’3’-dideoxy and arabinonucleoside triphosphates to terminate enzymatic elongation by DNA polymerase I. This historic breakthrough laid the foundational chemistry for modern genomics.',
-     'completed', 'completed', 'public', 'crispr', 'Proceedings of the National Academy of Sciences (1977)', 'National Academy of Sciences', 'GB', 'United Kingdom', 1977, 'https://pubmed.ncbi.nlm.nih.gov/271968/', '10.1073/pnas.74.12.5463', 1890, 100, 0, 0, 'usr-2', 'org-2'),
-
-    ('proj-hist-4', 'Initial Sequencing and Analysis of the Human Genome', 'HIST-2003-HGP',
-     'The completed draft reference sequence of the 3 billion base pair human genome mapped by an international public consortium.',
-     'The International Human Genome Sequencing Consortium reports the draft sequence of the human genome. Covering >90% of the euchromatic genome, this landmark provides the blue-print for all human molecular medicine.',
-     'completed', 'completed', 'public', 'crispr', 'Nature (2003)', 'Nature Publishing Group', 'US', 'United States', 2003, 'https://pubmed.ncbi.nlm.nih.gov/11237011/', '10.1038/35057062', 2950, 100, 0, 0, 'usr-1', 'org-1'),
-
-    ('proj-hist-5', 'A Programmable Dual-RNA-Guided DNA Endonuclease in Adaptive Bacterial Immunity (CRISPR-Cas9)', 'HIST-2012-CAS9',
-     'Discovery that the Cas9 endonuclease can be programmed with single guide RNA (sgRNA) to cleavage targeted genomic DNA.',
-     'Bacteria and archaea have evolved adaptive immune systems that rely on CRISPR RNAs (crRNAs) and Cas proteins to silent foreign nucleic acids. We demonstrate that Cas9 can be engineered as a universal two-component genome editing tool.',
-     'completed', 'completed', 'public', 'crispr', 'Science (2012)', 'AAAS', 'SE', 'Sweden', 2012, 'https://pubmed.ncbi.nlm.nih.gov/22745249/', '10.1126/science.1225829', 3120, 100, 0, 0, 'usr-2', 'org-2'),
-
-    ('proj-hist-6', 'Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine', 'HIST-2020-MRNA',
-     'Phase 3 multinational randomized clinical trial demonstrating 95% protection against symptomatic infection.',
-     'A lipid nanoparticle-formulated nucleoside-modified mRNA encoding the prefusion spike protein was evaluated in 43,548 participants. Two doses of 30 µg conferred 95% protection against COVID-19 in persons 16 years of age or older.',
-     'completed', 'completed', 'public', 'rna oncology', 'New England Journal of Medicine (2020)', 'Massachusetts Medical Society', 'DE', 'Germany', 2020, 'https://pubmed.ncbi.nlm.nih.gov/33301246/', '10.1056/NEJMoa2035389', 2410, 100, 0, 0, 'usr-1', 'org-1'),
-
-    ('proj-hist-7', 'Highly Accurate Protein Structure Prediction with AlphaFold2', 'HIST-2021-AF2',
-     'AI structural biology system predicting 3D atomic coordinates of proteins with sub-angstrom accuracy.',
-     'Proteins are essential to life, and understanding their 3D structures is key to understanding function. AlphaFold2 uses novel deep learning attention networks to predict 3D protein structure directly from primary amino acid sequence.',
-     'completed', 'completed', 'public', 'infectious diseases', 'Nature (2021)', 'Nature Publishing Group', 'GB', 'United Kingdom', 2021, 'https://pubmed.ncbi.nlm.nih.gov/34265844/', '10.1038/s41586-021-03819-2', 2890, 100, 0, 0, 'usr-2', 'org-2'),
-
-    ('proj-1', 'Targeted mRNA Delivery for Solid Tumors', 'BT-402-ONC', 
-     'Investigating ionizable lipid nanoparticle formulations to facilitate targeted tissue accumulation and mRNA translation inside glioblastoma multiforme microenvironments.',
-     'Glioblastoma multiforme (GBM) remains one of the most aggressive primary brain tumors. This study evaluates engineered ionizable lipid nanoparticles (LNPs) capable of traversing the blood-brain tumor barrier (BBTB) to deliver mRNA encodings for tumor suppressor p53 and anti-angiogenic factors.',
-     'ongoing', 'phase_2', 'public', 'rna oncology', 'Nature Biotechnology (2026)', 'Nature Publishing Group', 'US', 'United States', 2026, 'https://pubmed.ncbi.nlm.nih.gov/38910245/', '10.1038/s41587-026-01928-3', 342, 65, 32500, 50000, 'usr-1', 'org-1'),
-
-    ('proj-2', 'CRISPR Editing for Alpha-1 Antitrypsin Deficiency', 'AAT-901-GEN', 
-     'In-vivo gene editing therapeutic targeting AATD liver expression through high-precision AAV9 vector delivery.',
-     'Alpha-1 antitrypsin deficiency (AATD) causes severe liver disease and emphysema. Using adenine base editors (ABEs) packaged inside adeno-associated virus serotype 9 (AAV9), this study achieves precise correction of the PiZ mutation (E342K) in human primary hepatocytes.',
-     'ongoing', 'preclinical', 'public', 'crispr', 'Cell Stem Cell (2025)', 'Cell Press', 'US', 'United States', 2025, 'https://pubmed.ncbi.nlm.nih.gov/37628109/', '10.1016/j.stem.2025.11.004', 219, 40, 18200, 40000, 'usr-2', 'org-2'),
-
-    ('proj-5', 'Dual-Targeted CAR-T Cell Efficacy in Refractory B-Cell Lymphoma', 'CAR-LYM-100', 
-     'Multi-center clinical trial demonstrating 82% complete remission rate in patients receiving CD19/CD22 targeted CAR-T therapy.',
-     'Relapsed or refractory diffuse large B-cell lymphoma (DLBCL) often escapes single-target CAR-T therapies through antigen loss. This completed multi-center Phase III study presents long-term clinical data on bispecific CD19/CD22 chimeric antigen receptor T-cells with humanized scFv domains.',
-     'completed', 'completed', 'public', 'cell therapy', 'New England Journal of Medicine (2025)', 'Massachusetts Medical Society', 'US', 'United States', 2025, 'https://pubmed.ncbi.nlm.nih.gov/38201948/', '10.1056/NEJMoa2408192', 890, 100, 75000, 75000, 'usr-1', 'org-1'),
-
-    ('proj-6', 'Monoclonal Antibody Clearance of Amyloid-Beta Plaques in Early Alzheimer’s', 'ALZ-NEURO-55', 
-     'Pivotal study proving 38% slowing of cognitive decline over 18 months following bi-weekly monoclonal antibody infusions.',
-     'Alzheimer’s disease pathogenesis is strongly linked to soluble amyloid-beta (Aβ) oligomers. This completed Phase III randomized double-blind trial verified significant plaque reduction via amyloid-PET imaging and measurable slowing of Clinical Dementia Rating-Sum of Boxes (CDR-SB).',
-     'completed', 'completed', 'public', 'neurodegeneration', 'Science Translational Medicine (2025)', 'AAAS', 'CH', 'Switzerland', 2025, 'https://pubmed.ncbi.nlm.nih.gov/37910284/', '10.1126/scitranslmed.abd8102', 640, 100, 90000, 90000, 'usr-2', 'org-4'),
-
-    ('proj-7', 'Synthetic Antimicrobial Peptides Targeting MDR Pseudomonas aeruginosa', 'AMP-MDR-03', 
-     'Design and structural characterization of helical cationic peptides exhibiting rapid membrane disruption against superbugs.',
-     'Multi-drug resistant (MDR) Gram-negative bacterial pathogens represent a global public health crisis. This research engineered a novel class of amphipathic alpha-helical cationic peptides that disrupt outer membrane integrity without toxicity to mammalian erythrocytes.',
-     'completed', 'completed', 'public', 'infectious diseases', 'Nature Microbiology (2024)', 'Nature Publishing Group', 'DE', 'Germany', 2024, 'https://pubmed.ncbi.nlm.nih.gov/38102941/', '10.1038/s41564-024-01642-1', 425, 100, 45000, 45000, 'usr-2', 'org-2'),
-
-    ('proj-10', 'Alpha-Synuclein PET Radiotracer for Early Detection of Parkinson’s Disease', 'PARK-PET-22',
-     'First-in-human fluorine-18 PET molecular radiotracer binding pathological alpha-synuclein aggregates in basal ganglia.',
-     'Early neuroimaging diagnosis of Parkinson’s disease and Multiple System Atrophy (MSA) has historically lacked fibrillar synuclein specificity. This completed clinical study validated binding kinetics of [18F]SYN-304 in idiopathic Parkinson’s cohorts.',
-     'completed', 'completed', 'public', 'neurodegeneration', 'Brain (2025)', 'Oxford University Press', 'JP', 'Japan', 2025, 'https://pubmed.ncbi.nlm.nih.gov/38190241/', '10.1093/brain/awad401', 480, 100, 50000, 50000, 'usr-2', 'org-4'),
-
-    ('proj-12', 'iPSC-Derived Functional Islet Cell Transplants for Type 1 Diabetes', 'DIAB-STEM-04',
-     'Encapsulated human induced pluripotent stem cell derived beta-like clusters delivering glucose-responsive insulin.',
-     'Autoimmune Type 1 Diabetes necessitates lifelong exocrine insulin administration. This ongoing Phase I/II protocol evaluates macro-encapsulation devices holding patient-derived iPSC beta cells to protect against allo-rejection.',
-     'ongoing', 'phase_1', 'public', 'crispr', 'Nature Medicine (2026)', 'Nature Publishing Group', 'JP', 'Japan', 2026, 'https://pubmed.ncbi.nlm.nih.gov/38910482/', '10.1038/s41591-026-02901-w', 510, 35, 21000, 60000, 'usr-4', 'org-3'),
-
-    ('proj-13', 'R21/Matrix-M Malaria Vaccine Phase III Global Efficacy Trial', 'MAL-R21-99',
-     'Phase 3 trial in African children demonstrating 75% vaccine efficacy against clinical malaria.',
-     'Malaria remains a major cause of pediatric mortality in sub-Saharan Africa. The R21 vaccine combined with Matrix-M adjuvant met the WHO target of >75% efficacy across seasonal transmission sites.',
-     'completed', 'completed', 'public', 'infectious diseases', 'The Lancet (2024)', 'Elsevier', 'IN', 'India', 2024, 'https://pubmed.ncbi.nlm.nih.gov/38102984/', '10.1016/S0140-6736(24)00812-4', 1120, 100, 100000, 100000, 'usr-1', 'org-3')
-  ;`);
+  for (const p of allProjectsToSeed) {
+    stmt.run(
+      p.id, p.title, p.code, p.summary, p.abstract, p.status, p.stage, p.visibility, p.domain,
+      p.journal_citation, p.publisher_name, p.country_code, p.country_name, p.publication_year,
+      p.source_url, p.doi, p.likes_count, p.progress_percent, p.crowdfunding_raised, p.crowdfunding_target
+    );
+  }
 
   // Seed Milestones
   db.exec(`INSERT INTO milestones (id, project_id, title, description, order_index, is_completed) VALUES

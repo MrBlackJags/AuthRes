@@ -106,8 +106,8 @@ app.get('/api/projects', async (req, res) => {
     }
 
     if (country && country !== 'all') {
-      sql += ` AND (p.country_code = ? OR LOWER(p.country_name) LIKE ?)`;
-      params.push(country.toUpperCase(), `%${country.toLowerCase()}%`);
+      sql += ` AND (p.country_code = ? OR LOWER(p.country_name) = ?)`;
+      params.push(country.toUpperCase(), country.toLowerCase());
     }
 
     if (publisher && publisher !== 'all') {
