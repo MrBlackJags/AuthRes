@@ -236,14 +236,14 @@ function initNativeSqlite() {
     "Bi-Functional Fusion Proteins Blocking TGF-Beta Transsignaling in Tissue Fibrosis"
   ];
 
-  for (let i = 1; i <= 90; i++) {
+  for (let i = 1; i <= 240; i++) {
     const countryObj = countriesList[i % countriesList.length];
     const pubObj = publishersList[i % publishersList.length];
     const domain = domainsList[i % domainsList.length];
     const isCompleted = (i % 2 === 0);
     const stage = isCompleted ? 'completed' : stagesList[i % (stagesList.length - 1)];
     const status = isCompleted ? 'completed' : 'ongoing';
-    const year = isCompleted ? (1985 + (i * 3) % 40) : (2024 + (i % 3));
+    const year = isCompleted ? (1930 + (i * 3) % 94) : (2024 + (i % 3));
     const title = `${titlesTemplates[i % titlesTemplates.length]} (${countryObj.name} Cohort ${i})`;
     const code = `PUB-${year}-${countryObj.code}-${100 + i}`;
 
