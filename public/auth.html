@@ -7,6 +7,13 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
+  <script>
+    if (localStorage.getItem('biotrack_theme') === 'dark' || (!('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
 </head>
 <body class="bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-900 text-slate-800 font-sans antialiased min-h-screen flex items-center justify-center p-4 selection:bg-emerald-500 selection:text-white">
 
@@ -37,10 +44,15 @@
     </div>
 
     <!-- Right Form Column -->
-    <div class="lg:col-span-7 p-6 sm:p-10 space-y-6 bg-white flex flex-col justify-center">
-      <div class="text-center lg:text-left space-y-1">
-        <h3 class="text-2xl font-extrabold text-slate-900">Sign In to BioTrack</h3>
-        <p class="text-xs text-slate-500">Access your role-based dashboard & protocols.</p>
+    <div class="lg:col-span-7 p-6 sm:p-10 space-y-6 bg-white flex flex-col justify-center relative">
+      <div class="flex items-center justify-between">
+        <div class="space-y-1">
+          <h3 class="text-2xl font-extrabold text-slate-900">Sign In to BioTrack</h3>
+          <p class="text-xs text-slate-500">Access your role-based dashboard & protocols.</p>
+        </div>
+        <button onclick="ThemeManager.toggle()" title="Toggle Dark / Light Mode" class="theme-toggle-btn p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-emerald-600 transition flex items-center justify-center">
+          <i class="fa-solid fa-moon text-slate-600 theme-toggle-icon text-sm"></i>
+        </button>
       </div>
 
       <form onsubmit="event.preventDefault(); handleLogin();" class="space-y-4 text-xs">

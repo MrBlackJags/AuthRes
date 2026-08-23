@@ -5,6 +5,68 @@
 
 const API_BASE_URL = 'http://localhost:5000/api';
 
+// Theme Toggle Manager (Dark / Light Mode)
+const ThemeManager = {
+  getTheme: function() {
+    return localStorage.getItem('biotrack_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  },
+
+  setTheme: function(theme) {
+    localStorage.setItem('biotrack_theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      if (document.body) document.body.classList.add('dark-theme');
+    } else {
+      document.documentElement.classList.remove('dark');
+      if (document.body) document.body.classList.remove('dark-theme');
+    }
+    this.updateToggleIcons();
+  },
+
+  toggle: function() {
+    const current = this.getTheme();
+    const newTheme = current === 'dark' ? 'light' : 'dark';
+    this.setTheme(newTheme);
+    if (typeof showToast === 'function') {
+      showToast(`Switched to ${newTheme.toUpperCase()} theme mode`, 'Theme Updated', 'info');
+    }
+  },
+
+  updateToggleIcons: function() {
+    const isDark = this.getTheme() === 'dark';
+    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+      const icon = btn.querySelector('.theme-toggle-icon');
+      const text = btn.querySelector('.theme-toggle-text');
+      if (icon) {
+        icon.className = isDark ? 'fa-solid fa-sun text-amber-400 theme-toggle-icon' : 'fa-solid fa-moon text-slate-600 theme-toggle-icon';
+      }
+      if (text) {
+        text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+      }
+    });
+  },
+
+  init: function() {
+    const theme = this.getTheme();
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      if (document.body) document.body.classList.add('dark-theme');
+    } else {
+      document.documentElement.classList.remove('dark');
+      if (document.body) document.body.classList.remove('dark-theme');
+    }
+  }
+};
+
+// Immediate initialization
+ThemeManager.init();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => ThemeManager.init());
+} else {
+  ThemeManager.init();
+}
+
+
 // BioTrack REST API Client
 const BioTrackAPI = {
   getProjects: async function(params = {}) {
@@ -383,6 +445,11 @@ function renderHeader(activePage = 'home') {
             <span>Sign In</span>
           </a>
 
+          <!-- Theme Mode Toggle Button -->
+          <button onclick="ThemeManager.toggle()" title="Toggle Dark / Light Mode" class="theme-toggle-btn p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-emerald-600 transition flex items-center justify-center">
+            <i class="${ThemeManager.getTheme() === 'dark' ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-slate-600'} theme-toggle-icon text-sm"></i>
+          </button>
+
           <!-- Mobile Toggle -->
           <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 transition">
             <i class="fa-solid fa-bars text-base"></i>
@@ -408,6 +475,16 @@ function renderHeader(activePage = 'home') {
         <a href="research.html" class="px-3 py-1.5 text-slate-700 hover:bg-slate-50 rounded-lg">Research Directory</a>
         <a href="profile.html" class="px-3 py-1.5 text-slate-700 hover:bg-slate-50 rounded-lg">My Lab & Profile</a>
         <a href="publish.html" class="px-3 py-2 bg-emerald-600 text-white rounded-xl text-center font-bold">+ Register New Protocol</a>
+        
+        <div class="pt-2 border-t border-slate-100">
+          <button onclick="ThemeManager.toggle()" class="theme-toggle-btn w-full px-3 py-2 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-between font-bold">
+            <span class="flex items-center gap-2">
+              <i class="${ThemeManager.getTheme() === 'dark' ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-slate-600'} theme-toggle-icon"></i>
+              <span class="theme-toggle-text">${ThemeManager.getTheme() === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+            </span>
+            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-600">Toggle</span>
+          </button>
+        </div>
       </div>
     </header>
   `;
