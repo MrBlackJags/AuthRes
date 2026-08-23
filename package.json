@@ -1,5 +1,5 @@
 {
-  "name": "biotrack",
+  "name": "authros",
   "version": "2.0.0",
   "description": "Centralized Biomedical Research Tracking, Crowdfunding & Hospital Clinical Network",
   "main": "server.js",

@@ -1,11 +1,12 @@
 /**
- * BioTrack REST API & Web Application Server
+ * AuthRos REST API & Web Application Server
  * Framework: Express.js + SQLite3
  */
 
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 require('dotenv').config();
 
@@ -20,13 +21,17 @@ app.use(express.urlencoded({ extended: true }));
 // Serve Public Static Files cleanly
 app.use(express.static(path.join(__dirname, 'public')));
 
-// SQLite Database Setup
-const dbPath = path.join(__dirname, 'Database', 'biotrack.db');
+// SQLite Database Setup (AuthRos primary db)
+let dbPath = path.join(__dirname, 'Database', 'authros.db');
+if (!fs.existsSync(dbPath) && fs.existsSync(path.join(__dirname, 'Database', 'biotrack.db'))) {
+  dbPath = path.join(__dirname, 'Database', 'biotrack.db');
+}
+
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('Failed to open Database file. Run "npm run seed" first.', err.message);
   } else {
-    console.log('BioTrack API connected to SQLite Database:', dbPath);
+    console.log('AuthRos API connected to SQLite Database:', dbPath);
   }
 });
 
@@ -44,7 +49,7 @@ const dbRun = (sql, params = []) => {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
       if (err) reject(err);
-      else resolve({ lastID: this.lastID, changes: this.changes });
+      else resolve(this);
     });
   });
 };
@@ -55,7 +60,7 @@ const dbRun = (sql, params = []) => {
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',
-    platform: 'BioTrack Biomedical Network',
+    platform: 'AuthRos Biomedical Network',
     version: '2.0.0',
     portals: ['Public Donors', 'Hospitals', 'Researchers'],
     timestamp: new Date().toISOString()
@@ -263,7 +268,7 @@ app.get('*', (req, res) => {
 // Start Server
 app.listen(PORT, () => {
   console.log(`=================================================`);
-  console.log(` BioTrack Web App & API Server running on port ${PORT}`);
+  console.log(` AuthRos Web App & API Server running on port ${PORT}`);
   console.log(` Main Website:     http://localhost:${PORT}/`);
   console.log(` Public Portal:    http://localhost:${PORT}/public-portal.html`);
   console.log(` Hospital Portal:  http://localhost:${PORT}/hospital-portal.html`);

@@ -1,5 +1,5 @@
 /**
- * BioTrack - Centralized Biomedical Research, Crowdfunding & Hospital Portal
+ * AuthRos - Centralized Biomedical Research, Crowdfunding & Hospital Portal
  * Frontend API Bridge & Portal Navigation Manager
  */
 
@@ -8,10 +8,11 @@ const API_BASE_URL = 'http://localhost:5000/api';
 // Theme Toggle Manager (Dark / Light Mode)
 const ThemeManager = {
   getTheme: function() {
-    return localStorage.getItem('biotrack_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    return localStorage.getItem('authros_theme') || localStorage.getItem('biotrack_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   },
 
   setTheme: function(theme) {
+    localStorage.setItem('authros_theme', theme);
     localStorage.setItem('biotrack_theme', theme);
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
@@ -67,8 +68,8 @@ if (document.readyState === 'loading') {
 }
 
 
-// BioTrack REST API Client
-const BioTrackAPI = {
+// AuthRos REST API Client
+const AuthRosAPI = {
   getProjects: async function(params = {}) {
     try {
       const query = new URLSearchParams(params).toString();
@@ -131,9 +132,10 @@ const BioTrackAPI = {
     }
   }
 };
+const BioTrackAPI = AuthRosAPI;
 
 // Global State
-const BioTrackState = {
+const AuthRosState = {
   currentRole: 'pi',
   roles: {
     pi: { title: 'Principal Investigator (PI)', badge: 'PI • Full Access', color: 'bg-emerald-600' },
@@ -144,7 +146,7 @@ const BioTrackState = {
   },
 
   getBookmarks: function() {
-    try { return JSON.parse(localStorage.getItem('biotrack_bookmarks') || '[]'); } catch(e) { return []; }
+    try { return JSON.parse(localStorage.getItem('authros_bookmarks') || localStorage.getItem('biotrack_bookmarks') || '[]'); } catch(e) { return []; }
   },
   isBookmarked: function(id) { return this.getBookmarks().includes(id); },
   toggleBookmark: function(id) {
@@ -153,12 +155,13 @@ const BioTrackState = {
     let added = false;
     if (index > -1) { bookmarks.splice(index, 1); } 
     else { bookmarks.push(id); added = true; }
+    localStorage.setItem('authros_bookmarks', JSON.stringify(bookmarks));
     localStorage.setItem('biotrack_bookmarks', JSON.stringify(bookmarks));
     return added;
   },
 
   getLikes: function() {
-    try { return JSON.parse(localStorage.getItem('biotrack_likes') || '[]'); } catch(e) { return []; }
+    try { return JSON.parse(localStorage.getItem('authros_likes') || localStorage.getItem('biotrack_likes') || '[]'); } catch(e) { return []; }
   },
   isLiked: function(id) { return this.getLikes().includes(id); },
   toggleLike: function(id) {
@@ -167,10 +170,12 @@ const BioTrackState = {
     let isLikedNow = false;
     if (index > -1) { likes.splice(index, 1); }
     else { likes.push(id); isLikedNow = true; }
+    localStorage.setItem('authros_likes', JSON.stringify(likes));
     localStorage.setItem('biotrack_likes', JSON.stringify(likes));
     return isLikedNow;
   }
 };
+const BioTrackState = AuthRosState;
 
 // Global Toast Notification System
 function showToast(message, title = 'Notification', type = 'success') {
@@ -541,7 +546,7 @@ function renderHeader(activePage = 'home') {
               <i class="fa-solid fa-dna text-lg"></i>
             </div>
             <span class="font-extrabold text-xl tracking-tight text-slate-900">
-              Bio<span class="text-gradient-emerald">Track</span>
+              Auth<span class="text-gradient-emerald">Ros</span>
             </span>
           </a>
 

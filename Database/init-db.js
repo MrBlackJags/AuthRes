@@ -1,16 +1,20 @@
 /**
- * BioTrack - Database Initializer & Mock Data Seeder
+ * AuthRos - Database Initializer & Mock Data Seeder
  * Uses native Node.js SQLite (node:sqlite) or sqlite3 npm fallback
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const dbPath = path.join(__dirname, 'biotrack.db');
+const dbPath = path.join(__dirname, 'authros.db');
+const legacyDbPath = path.join(__dirname, 'biotrack.db');
 
 // Remove existing database to re-seed cleanly
 if (fs.existsSync(dbPath)) {
   try { fs.unlinkSync(dbPath); } catch(e) {}
+}
+if (fs.existsSync(legacyDbPath)) {
+  try { fs.unlinkSync(legacyDbPath); } catch(e) {}
 }
 
 const schemaSql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf-8');
@@ -18,8 +22,9 @@ const schemaSql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf-8');
 function initNativeSqlite() {
   const { DatabaseSync } = require('node:sqlite');
   const db = new DatabaseSync(dbPath);
+  fs.copyFileSync(dbPath, legacyDbPath);
 
-  console.log('Connected to SQLite Database at:', dbPath);
+  console.log('Connected to AuthRos SQLite Database at:', dbPath);
 
   // Execute schema.sql
   db.exec(schemaSql);
@@ -324,7 +329,8 @@ function initNativeSqlite() {
     ('pm-4', 'proj-1', 'usr-4', 'hospital', '{"publish":false,"privacy":false,"grants":false,"milestones":false,"datasets":false,"cohorts":true}')
   ;`);
 
-  console.log('Database biotrack.db initialized & seeded successfully with mock data!');
+  fs.copyFileSync(dbPath, legacyDbPath);
+  console.log('Database authros.db initialized & seeded successfully with 250+ mock data projects!');
 }
 
 try {
