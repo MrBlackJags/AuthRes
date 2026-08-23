@@ -33,12 +33,17 @@ CREATE TABLE IF NOT EXISTS research_projects (
     visibility TEXT NOT NULL DEFAULT 'private' CHECK (visibility IN ('public', 'private')),
     domain TEXT NOT NULL DEFAULT 'oncology',
     journal_citation TEXT, -- e.g. Nature Medicine (2026)
+    publisher_name TEXT, -- e.g. Nature Publishing Group, Mass. Medical Society (NEJM)
+    country_code TEXT DEFAULT 'US', -- e.g. US, UK, DE, JP, FR, CH, SE, IN, CA
+    country_name TEXT DEFAULT 'United States',
+    publication_year INTEGER DEFAULT 2026,
     source_url TEXT, -- e.g. https://pubmed.ncbi.nlm.nih.gov/...
     doi TEXT, -- e.g. 10.1038/s41587-026-01928-3
     likes_count INTEGER DEFAULT 0,
     progress_percent INTEGER DEFAULT 0 CHECK (progress_percent BETWEEN 0 AND 100),
     crowdfunding_raised REAL DEFAULT 0,
     crowdfunding_target REAL DEFAULT 50000,
+    translations_json TEXT, -- Multi-language translations dictionary (ES, FR, DE, JP, HI)
     lead_investigator_id TEXT REFERENCES users(id) ON DELETE SET NULL,
     organization_id TEXT REFERENCES organizations(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

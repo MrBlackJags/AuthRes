@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BioTrack | Biomedical Research Library & Pipeline Hub</title>
+  <title>BioTrack | Global Medical & Biological Research Library (1928 - 2026)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
@@ -28,20 +28,36 @@
       <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider mb-2">
-            <i class="fa-solid fa-book-bookmark text-emerald-400"></i> Open-Access Biomedical Research Library
+            <i class="fa-solid fa-earth-americas text-emerald-400"></i> Global Scientific Archive (1928 – 2026)
           </div>
-          <h1 class="text-2xl sm:text-4xl font-extrabold text-gradient-hero tracking-tight">Biomedical Research & Protocol Directory</h1>
+          <h1 class="text-2xl sm:text-4xl font-extrabold text-gradient-hero tracking-tight">Global Medical & Biological Research Directory</h1>
           <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
-            Explore ongoing clinical breakthroughs & completed peer-reviewed studies. Bookmark, like, and share verified medical datasets.
+            Trusted peer-reviewed papers from <em>Nature, NEJM, Science, The Lancet, and Cell</em> across the USA, UK, Germany, Japan, Switzerland, Sweden, and India.
           </p>
         </div>
-        <a href="publish.html" class="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-xs transition shadow-md hover:scale-105 shrink-0 flex items-center justify-center gap-2">
-          <i class="fa-solid fa-plus"></i> Register New Protocol
-        </a>
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <!-- Multi-Language Translator Selector -->
+          <div class="bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-xl text-xs flex items-center gap-2 text-white">
+            <i class="fa-solid fa-language text-emerald-400 text-sm"></i>
+            <span class="font-bold hidden sm:inline">Translate:</span>
+            <select id="languageSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-white font-bold border-none focus:outline-none cursor-pointer">
+              <option value="en" class="text-slate-900">🇬🇧 English</option>
+              <option value="es" class="text-slate-900">🇪🇸 Español</option>
+              <option value="fr" class="text-slate-900">🇫🇷 Français</option>
+              <option value="de" class="text-slate-900">🇩🇪 Deutsch</option>
+              <option value="jp" class="text-slate-900">🇯🇵 日本語</option>
+              <option value="hi" class="text-slate-900">🇮🇳 हिन्दी</option>
+            </select>
+          </div>
+
+          <a href="publish.html" class="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition shadow-md shrink-0 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-plus"></i> Submit Paper
+          </a>
+        </div>
       </div>
     </div>
 
-    <!-- Status Tabs & Filter Controls -->
+    <!-- Status Tabs & Global Filter Controls -->
     <div class="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
       
       <!-- Top Row: Status Filter Tabs (Ongoing vs Completed vs All) -->
@@ -49,36 +65,36 @@
         <div class="flex items-center gap-2 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/80 text-xs font-bold">
           <button onclick="setStatusFilter('all', this)" id="status-tab-all" class="status-tab-btn px-4 py-2 rounded-xl transition flex items-center gap-2 bg-emerald-600 text-white shadow-xs">
             <i class="fa-solid fa-layer-group"></i> All Researches
-            <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px]" id="badge-count-all">8</span>
+            <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px]" id="badge-count-all">14</span>
           </button>
 
           <button onclick="setStatusFilter('ongoing', this)" id="status-tab-ongoing" class="status-tab-btn px-4 py-2 rounded-xl transition flex items-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-slate-200/60">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
             <i class="fa-solid fa-flask text-emerald-600"></i> Ongoing Studies
-            <span class="bg-slate-200 px-2 py-0.5 rounded-full text-[10px]" id="badge-count-ongoing">4</span>
+            <span class="bg-slate-200 px-2 py-0.5 rounded-full text-[10px]" id="badge-count-ongoing">5</span>
           </button>
 
           <button onclick="setStatusFilter('completed', this)" id="status-tab-completed" class="status-tab-btn px-4 py-2 rounded-xl transition flex items-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-slate-200/60">
             <i class="fa-solid fa-circle-check text-sky-600"></i> Completed Publications
-            <span class="bg-slate-200 px-2 py-0.5 rounded-full text-[10px]" id="badge-count-completed">4</span>
+            <span class="bg-slate-200 px-2 py-0.5 rounded-full text-[10px]" id="badge-count-completed">9</span>
           </button>
         </div>
 
         <div class="text-xs text-slate-500 flex items-center gap-2">
           <i class="fa-solid fa-building-columns text-emerald-600"></i>
-          <span>Sources: PubMed • Nature • NEJM • ClinicalTrials.gov</span>
+          <span>Official Publishers: Nature • Science • NEJM • The Lancet • Cell • PNAS</span>
         </div>
       </div>
 
-      <!-- Second Row: Search input & dropdowns -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <div class="relative flex-1">
+      <!-- Second Row: Search Input + Country, Era, and Publisher Dropdowns -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+        <div class="md:col-span-5 relative">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
           <input 
             type="text" 
             id="searchInput" 
             onkeyup="filterStudies()" 
-            placeholder="Search titles, authors, DOI, citations, or methodology tags..." 
+            placeholder="Search titles, authors, DOI, countries, or publishers..." 
             class="w-full pl-10 pr-9 py-2.5 text-sm bg-slate-50/80 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition placeholder-slate-400" 
           />
           <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 p-1 text-xs">
@@ -86,20 +102,37 @@
           </button>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2.5">
-          <select id="stageFilter" onchange="filterStudies()" class="text-xs font-semibold bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none">
-            <option value="all">All Stages</option>
-            <option value="discovery">Discovery / Screening</option>
-            <option value="preclinical">Pre-Clinical</option>
-            <option value="phase_1">Phase I Trial</option>
-            <option value="phase_2">Phase II Trial</option>
-            <option value="completed">Published & Completed</option>
+        <!-- Filter Dropdowns -->
+        <div class="md:col-span-7 flex flex-wrap items-center gap-2">
+          <!-- Era Filter -->
+          <select id="eraFilter" onchange="filterStudies()" class="text-xs font-semibold bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none">
+            <option value="all">All Eras (1928 - 2026)</option>
+            <option value="historic">🏛️ Historic Pioneers (1900-1979)</option>
+            <option value="modern">🔬 Modern Genomics (1980-2015)</option>
+            <option value="contemporary">⚡ Contemporary (2016-2026)</option>
           </select>
 
-          <select id="accessFilter" onchange="filterStudies()" class="text-xs font-semibold bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none">
-            <option value="all">All Access</option>
-            <option value="public">Public Access</option>
-            <option value="private">Private / Internal</option>
+          <!-- Country Filter -->
+          <select id="countryFilter" onchange="filterStudies()" class="text-xs font-semibold bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none">
+            <option value="all">All Countries 🌐</option>
+            <option value="US">🇺🇸 United States</option>
+            <option value="GB">🇬🇧 United Kingdom</option>
+            <option value="DE">🇩🇪 Germany</option>
+            <option value="JP">🇯🇵 Japan</option>
+            <option value="CH">🇨🇭 Switzerland</option>
+            <option value="SE">🇸🇪 Sweden</option>
+            <option value="IN">🇮🇳 India</option>
+          </select>
+
+          <!-- Publisher Filter -->
+          <select id="publisherFilter" onchange="filterStudies()" class="text-xs font-semibold bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none">
+            <option value="all">All Publishers</option>
+            <option value="Nature">Nature Publishing Group</option>
+            <option value="Science">AAAS Science</option>
+            <option value="NEJM">NEJM (Mass. Medical)</option>
+            <option value="Cell">Cell Press</option>
+            <option value="Lancet">The Lancet (Elsevier)</option>
+            <option value="PNAS">PNAS</option>
           </select>
         </div>
       </div>
@@ -107,17 +140,17 @@
       <!-- Third Row: Topic Pills -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100 text-xs">
         <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
-          <span class="text-slate-400 uppercase font-bold text-[10px]">Domain Filter:</span>
+          <span class="text-slate-400 uppercase font-bold text-[10px]">Topic:</span>
           <button onclick="setDomainFilter('all', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-emerald-600 text-white transition shrink-0">All Topics</button>
           <button onclick="setDomainFilter('rna', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0">RNA Tech</button>
           <button onclick="setDomainFilter('crispr', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0">CRISPR</button>
           <button onclick="setDomainFilter('cell therapy', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0">CAR-T / Cell Therapy</button>
           <button onclick="setDomainFilter('neurodegeneration', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0">Neurodegeneration</button>
-          <button onclick="setDomainFilter('infectious diseases', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0">Superbugs / AMR</button>
+          <button onclick="setDomainFilter('infectious diseases', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0">Superbugs & Vaccines</button>
         </div>
 
         <span id="resultsCount" class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 shrink-0">
-          Showing 8 studies
+          Showing 14 studies
         </span>
       </div>
 
@@ -132,7 +165,7 @@
 
   <!-- Shared Footer -->
   <footer class="bg-slate-950 border-t border-emerald-900/40 text-slate-400 text-xs py-8 mt-12 text-center">
-    <p>© 2026 BioTrack • Centralized Biomedical Research & Crowdfunding Directory</p>
+    <p>© 2026 BioTrack • Global Biomedical & Medical Research Archive</p>
   </footer>
 
   <script src="js/app.js"></script>
@@ -140,6 +173,51 @@
     let allProjects = [];
     let currentStatus = 'all';
     let currentDomain = 'all';
+    let currentLang = 'en';
+
+    // Multilingual Translations Dictionary
+    const Translations = {
+      es: {
+        ongoing: "Estudio en curso",
+        completed: "Publicación completada",
+        fund: "Financiar avance",
+        read: "Leer artículo completo",
+        details: "Ver detalles",
+        citations: "Cita y enlaces"
+      },
+      fr: {
+        ongoing: "Étude en cours",
+        completed: "Publication terminée",
+        fund: "Financer la découverte",
+        read: "Lire l'article complet",
+        details: "Voir les détails",
+        citations: "Citations et liens"
+      },
+      de: {
+        ongoing: "Laufende Studie",
+        completed: "Abgeschlossene Publikation",
+        fund: "Durchbruch fördern",
+        read: "Vollständiges Paper lesen",
+        details: "Details anzeigen",
+        citations: "Zitate & Links"
+      },
+      jp: {
+        ongoing: "進行中の研究",
+        completed: "掲載完了論文",
+        fund: "研究資金を提供する",
+        read: "論文全文を読む",
+        details: "詳細を見る",
+        citations: "引用とリンク"
+      },
+      hi: {
+        ongoing: "जारी शोध कार्य",
+        completed: "पूर्ण प्रकाशित शोध",
+        fund: "अनुसंधान का समर्थन करें",
+        read: "पूरा पेपर पढ़ें",
+        details: "विवरण देखें",
+        citations: "साइटेशन और लिंक"
+      }
+    };
 
     async function initResearchDirectory() {
       document.getElementById('header-root').innerHTML = renderHeader('research');
@@ -159,6 +237,13 @@
       renderProjects();
     }
 
+    function changeLanguage(lang) {
+      currentLang = lang;
+      renderProjects();
+      const nameMap = { en: 'English', es: 'Español', fr: 'Français', de: 'Deutsch', jp: '日本語', hi: 'हिन्दी' };
+      showToast(`Language switched to ${nameMap[lang] || lang}`, 'Translation Activated', 'info');
+    }
+
     function updateCounts() {
       const allCount = allProjects.length;
       const ongoingCount = allProjects.filter(p => p.status === 'ongoing').length;
@@ -172,8 +257,9 @@
     function renderProjects() {
       const container = document.getElementById('studiesContainer');
       const q = document.getElementById('searchInput').value.toLowerCase();
-      const stage = document.getElementById('stageFilter').value;
-      const access = document.getElementById('accessFilter').value;
+      const era = document.getElementById('eraFilter').value;
+      const country = document.getElementById('countryFilter').value;
+      const publisher = document.getElementById('publisherFilter').value;
 
       const filtered = allProjects.filter(p => {
         const title = (p.title || '').toLowerCase();
@@ -181,14 +267,22 @@
         const code = (p.code || '').toLowerCase();
         const lead = (p.lead_name || p.lead_investigator || '').toLowerCase();
         const citation = (p.journal_citation || '').toLowerCase();
+        const countryName = (p.country_name || '').toLowerCase();
+        const pubName = (p.publisher_name || '').toLowerCase();
+        const year = p.publication_year || 2026;
 
-        const matchQuery = !q || title.includes(q) || summary.includes(q) || code.includes(q) || lead.includes(q) || citation.includes(q);
+        const matchQuery = !q || title.includes(q) || summary.includes(q) || code.includes(q) || lead.includes(q) || citation.includes(q) || countryName.includes(q) || pubName.includes(q);
         const matchStatus = currentStatus === 'all' || p.status === currentStatus;
-        const matchStage = stage === 'all' || p.stage === stage;
-        const matchAccess = access === 'all' || p.visibility === access;
+        const matchCountry = country === 'all' || p.country_code === country || countryName.includes(country.toLowerCase());
+        const matchPub = publisher === 'all' || pubName.includes(publisher.toLowerCase()) || citation.includes(publisher.toLowerCase());
         const matchDomain = currentDomain === 'all' || (p.domain || '').toLowerCase().includes(currentDomain);
 
-        return matchQuery && matchStatus && matchStage && matchAccess && matchDomain;
+        let matchEra = true;
+        if (era === 'historic') matchEra = year < 1980;
+        else if (era === 'modern') matchEra = year >= 1980 && year <= 2015;
+        else if (era === 'contemporary') matchEra = year >= 2016;
+
+        return matchQuery && matchStatus && matchCountry && matchPub && matchDomain && matchEra;
       });
 
       document.getElementById('resultsCount').textContent = `Showing ${filtered.length} of ${allProjects.length} studies`;
@@ -197,15 +291,17 @@
         container.innerHTML = `
           <div class="col-span-full bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
             <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto text-xl font-bold">
-              <i class="fa-solid fa-magnifying-glass"></i>
+              <i class="fa-solid fa-earth-americas"></i>
             </div>
-            <h3 class="font-bold text-slate-800 text-base">No matching research studies found</h3>
-            <p class="text-xs text-slate-500 max-w-sm mx-auto">Try loosening your search filters or clearing the domain filter tabs above.</p>
-            <button onclick="clearSearch()" class="px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl shadow-xs">Reset All Filters</button>
+            <h3 class="font-bold text-slate-800 text-base">No matching research papers found</h3>
+            <p class="text-xs text-slate-500 max-w-sm mx-auto">Try selecting "All Eras" or "All Countries" in the filter dropdowns above.</p>
+            <button onclick="clearSearch()" class="px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl shadow-xs">Reset Filters</button>
           </div>
         `;
         return;
       }
+
+      const t = Translations[currentLang] || {};
 
       container.innerHTML = filtered.map(p => {
         const isBookmarked = BioTrackState.isBookmarked(p.id);
@@ -215,21 +311,28 @@
         const raised = p.crowdfunding_raised || 0;
         const target = p.crowdfunding_target || 50000;
         const pct = Math.min(100, Math.round((raised / target) * 100));
+        const flag = getFlagEmoji(p.country_code || 'US');
+        const year = p.publication_year || 2026;
+
+        const ongoingText = t.ongoing || 'Ongoing Trial';
+        const completedText = t.completed || 'Completed Publication';
+        const fundText = t.fund || 'Fund Breakthrough';
+        const readText = t.read || 'Read Full Paper';
 
         const stageBadge = isOngoing 
-          ? `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> ${formatStage(p.stage)}</span>`
-          : `<span class="bg-sky-100 text-sky-800 text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-sky-600"></i> Completed Publication</span>`;
+          ? `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> ${ongoingText}</span>`
+          : `<span class="bg-sky-100 text-sky-800 text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-sky-600"></i> ${completedText} (${year})</span>`;
 
         return `
           <div class="study-card interactive-card bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 flex flex-col justify-between"
-               data-stage="${p.stage}" data-access="${p.visibility}" data-domain="${p.domain || ''}">
+               data-stage="${p.stage}" data-country="${p.country_code}">
             <div class="space-y-3">
               <div class="flex items-center justify-between gap-2">
                 <div class="flex flex-wrap items-center gap-2">
                   ${stageBadge}
-                  <span class="text-slate-600 bg-slate-100 border border-slate-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                    <i class="fa-solid ${p.visibility === 'public' ? 'fa-globe text-emerald-600' : 'fa-lock text-slate-500'} text-[10px] mr-1"></i>
-                    ${p.visibility === 'public' ? 'Public Access' : 'Private Lab'}
+                  <span class="text-slate-700 bg-slate-100 border border-slate-200 text-xs px-2.5 py-0.5 rounded-full font-semibold flex items-center gap-1">
+                    <span>${flag}</span>
+                    <span>${p.country_name || 'Global'}</span>
                   </span>
                 </div>
                 
@@ -256,21 +359,23 @@
                 <div class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   <span>ID: ${p.code || 'BT-RESEARCH'}</span>
                   •
-                  <span class="text-emerald-600">${p.journal_citation || 'Peer-Reviewed Study'}</span>
+                  <span class="text-emerald-600 font-bold">${p.journal_citation || 'Peer-Reviewed Publication'}</span>
                 </div>
                 <h2 class="text-lg font-bold text-slate-900 mt-0.5 leading-snug hover:text-emerald-700 transition cursor-pointer" onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')">
                   ${p.title}
                 </h2>
                 <p class="text-xs text-slate-500 mt-1 line-clamp-2">${p.summary}</p>
-                <p class="text-xs font-medium text-slate-600 mt-1 flex items-center gap-1.5">
-                  <i class="fa-solid fa-user-doctor text-emerald-600"></i> ${p.lead_name || 'Dr. Principal Investigator'} • ${p.org_name || 'Medical Research Institute'}
-                </p>
+                
+                <div class="flex items-center justify-between text-xs text-slate-500 mt-2 font-medium">
+                  <span><i class="fa-solid fa-building-columns text-emerald-600 mr-1"></i> Publisher: <strong class="text-slate-700">${p.publisher_name || 'Official Journal'}</strong></span>
+                  <span class="text-[11px] text-slate-400">Year: ${year}</span>
+                </div>
               </div>
 
               ${isOngoing ? `
                 <div class="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-100 space-y-1.5 text-xs">
                   <div class="flex justify-between font-bold text-slate-800">
-                    <span>Public Crowdfunding</span>
+                    <span>Public Crowdfunding Goal</span>
                     <span class="text-emerald-700">$${raised.toLocaleString()} / $${target.toLocaleString()}</span>
                   </div>
                   <div class="w-full bg-slate-200 rounded-full h-2">
@@ -280,7 +385,7 @@
               ` : `
                 <div class="bg-sky-50/70 p-3.5 rounded-2xl border border-sky-100 space-y-1 text-xs text-sky-900">
                   <div class="font-bold flex items-center justify-between">
-                    <span class="flex items-center gap-1"><i class="fa-solid fa-award text-sky-600"></i> Peer-Reviewed Publication</span>
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-award text-sky-600"></i> Peer-Reviewed Journal Article</span>
                     <a href="${p.source_url || '#'}" target="_blank" class="text-[11px] underline text-sky-700 font-bold">PubMed Link →</a>
                   </div>
                   <p class="text-[11px] text-slate-600">DOI: ${p.doi || '10.1038/s41587-026-01928-3'}</p>
@@ -291,16 +396,16 @@
             <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs gap-2">
               ${isOngoing ? `
                 <button onclick="openDonateModal('${escapeQuotes(p.title)}', '$${raised.toLocaleString()}', '$${target.toLocaleString()}', '${p.id}')" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-xs transition flex items-center gap-1.5">
-                  <i class="fa-solid fa-heart text-emerald-200"></i> Fund Breakthrough
+                  <i class="fa-solid fa-heart text-emerald-200"></i> ${fundText}
                 </button>
               ` : `
                 <a href="${p.source_url || '#'}" target="_blank" class="px-3.5 py-2 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl shadow-xs transition flex items-center gap-1.5">
-                  <i class="fa-solid fa-file-pdf"></i> Read Full Paper
+                  <i class="fa-solid fa-file-pdf"></i> ${readText}
                 </a>
               `}
 
               <a href="study-detail.html?id=${p.id}" class="px-3.5 py-2 bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 font-bold rounded-xl transition flex items-center gap-1">
-                <span>View Details & RBAC</span> →
+                <span>View Paper Details</span> →
               </a>
             </div>
           </div>
@@ -336,19 +441,17 @@
 
     function clearSearch() {
       document.getElementById('searchInput').value = '';
+      document.getElementById('eraFilter').value = 'all';
+      document.getElementById('countryFilter').value = 'all';
+      document.getElementById('publisherFilter').value = 'all';
       filterStudies();
     }
 
-    function formatStage(stage) {
-      const map = {
-        discovery: 'Discovery / Screening',
-        preclinical: 'Pre-Clinical',
-        phase_1: 'Phase I Clinical',
-        phase_2: 'Phase II Clinical',
-        phase_3: 'Phase III Clinical',
-        completed: 'Completed Publication'
+    function getFlagEmoji(countryCode) {
+      const flags = {
+        US: '🇺🇸', GB: '🇬🇧', DE: '🇩🇪', JP: '🇯🇵', CH: '🇨🇭', SE: '🇸🇪', IN: '🇮🇳', FR: '🇫🇷', CA: '🇨🇦'
       };
-      return map[stage] || 'Research Protocol';
+      return flags[countryCode] || '🌐';
     }
 
     function escapeQuotes(str) {
@@ -358,102 +461,130 @@
     function getFallbackProjects() {
       return [
         {
+          id: 'proj-hist-1', title: 'On the Antibacterial Action of Cultures of a Penicillium (Discovery of Penicillin)', code: 'HIST-1928-PEN',
+          summary: 'Landmark historical paper detailing the isolation and bactericidal properties of penicillin against Staphylococcus and Gram-positive pathogens.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'infectious diseases',
+          journal_citation: 'British Journal of Experimental Pathology (1929)', publisher_name: 'BMJ Publishing Group',
+          country_code: 'GB', country_name: 'United Kingdom', publication_year: 1928,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/20421034/', doi: '10.1016/S0140-6736(00)52899-7',
+          likes_count: 1540, lead_name: 'Sir Alexander Fleming, FRS'
+        },
+        {
+          id: 'proj-hist-2', title: 'Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid (DNA)', code: 'HIST-1953-DNA',
+          summary: 'The seminal double-helix structural model of DNA held by hydrogen bonds between complementary purine and pyrimidine bases.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'crispr',
+          journal_citation: 'Nature (1953)', publisher_name: 'Nature Publishing Group',
+          country_code: 'GB', country_name: 'United Kingdom', publication_year: 1953,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/13054692/', doi: '10.1038/171737a0',
+          likes_count: 2180, lead_name: 'Dr. James Watson & Francis Crick'
+        },
+        {
+          id: 'proj-hist-3', title: 'DNA Sequencing with Chain-Terminating Inhibitors (Sanger Method)', code: 'HIST-1977-SEQ',
+          summary: 'Development of dideoxynucleotide chain-termination technology allowing rapid precise decoding of nucleotide sequences.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'crispr',
+          journal_citation: 'Proceedings of the National Academy of Sciences (1977)', publisher_name: 'National Academy of Sciences',
+          country_code: 'GB', country_name: 'United Kingdom', publication_year: 1977,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/271968/', doi: '10.1073/pnas.74.12.5463',
+          likes_count: 1890, lead_name: 'Frederick Sanger, OM, CH, FRS'
+        },
+        {
+          id: 'proj-hist-4', title: 'Initial Sequencing and Analysis of the Human Genome', code: 'HIST-2003-HGP',
+          summary: 'The completed draft reference sequence of the 3 billion base pair human genome mapped by an international public consortium.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'crispr',
+          journal_citation: 'Nature (2003)', publisher_name: 'Nature Publishing Group',
+          country_code: 'US', country_name: 'United States', publication_year: 2003,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/11237011/', doi: '10.1038/35057062',
+          likes_count: 2950, lead_name: 'Human Genome Sequencing Consortium'
+        },
+        {
+          id: 'proj-hist-5', title: 'A Programmable Dual-RNA-Guided DNA Endonuclease in Adaptive Bacterial Immunity (CRISPR-Cas9)', code: 'HIST-2012-CAS9',
+          summary: 'Discovery that the Cas9 endonuclease can be programmed with single guide RNA (sgRNA) to cleavage targeted genomic DNA.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'crispr',
+          journal_citation: 'Science (2012)', publisher_name: 'AAAS Science',
+          country_code: 'SE', country_name: 'Sweden', publication_year: 2012,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/22745249/', doi: '10.1126/science.1225829',
+          likes_count: 3120, lead_name: 'Dr. Emmanuelle Charpentier & Jennifer Doudna'
+        },
+        {
+          id: 'proj-hist-6', title: 'Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine', code: 'HIST-2020-MRNA',
+          summary: 'Phase 3 multinational randomized clinical trial demonstrating 95% protection against symptomatic infection.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'rna oncology',
+          journal_citation: 'New England Journal of Medicine (2020)', publisher_name: 'Massachusetts Medical Society',
+          country_code: 'DE', country_name: 'Germany', publication_year: 2020,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/33301246/', doi: '10.1056/NEJMoa2035389',
+          likes_count: 2410, lead_name: 'Dr. Uğur Şahin & Özlem Türeci'
+        },
+        {
+          id: 'proj-hist-7', title: 'Highly Accurate Protein Structure Prediction with AlphaFold2', code: 'HIST-2021-AF2',
+          summary: 'AI structural biology system predicting 3D atomic coordinates of proteins with sub-angstrom accuracy.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'infectious diseases',
+          journal_citation: 'Nature (2021)', publisher_name: 'Nature Publishing Group',
+          country_code: 'GB', country_name: 'United Kingdom', publication_year: 2021,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/34265844/', doi: '10.1038/s41586-021-03819-2',
+          likes_count: 2890, lead_name: 'Dr. Demis Hassabis & John Jumper'
+        },
+        {
           id: 'proj-1', title: 'Targeted mRNA Delivery for Solid Tumors', code: 'BT-402-ONC',
           summary: 'Investigating ionizable lipid nanoparticle formulations to facilitate targeted tissue accumulation and mRNA translation inside glioblastoma multiforme microenvironments.',
           status: 'ongoing', stage: 'phase_2', visibility: 'public', domain: 'rna oncology',
-          journal_citation: 'Nature Biotechnology (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38910245/', doi: '10.1038/s41587-026-01928-3',
-          likes_count: 342, crowdfunding_raised: 32500, crowdfunding_target: 50000, lead_name: 'Dr. Sarah Raman, PhD', org_name: 'GenVault Therapeutics'
+          journal_citation: 'Nature Biotechnology (2026)', publisher_name: 'Nature Publishing Group',
+          country_code: 'US', country_name: 'United States', publication_year: 2026,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/38910245/', doi: '10.1038/s41587-026-01928-3',
+          likes_count: 342, crowdfunding_raised: 32500, crowdfunding_target: 50000, lead_name: 'Dr. Sarah Raman, PhD'
         },
         {
           id: 'proj-2', title: 'CRISPR Editing for Alpha-1 Antitrypsin Deficiency', code: 'AAT-901-GEN',
           summary: 'In-vivo gene editing therapeutic targeting AATD liver expression through high-precision AAV9 vector delivery.',
           status: 'ongoing', stage: 'preclinical', visibility: 'public', domain: 'crispr',
-          journal_citation: 'Cell Stem Cell (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/37628109/', doi: '10.1016/j.stem.2025.11.004',
-          likes_count: 219, crowdfunding_raised: 18200, crowdfunding_target: 40000, lead_name: 'Dr. M. Vance, PhD', org_name: 'Synthego Genetics'
-        },
-        {
-          id: 'proj-3', title: 'Small Molecule Kinase Inhibitor (Project Orion)', code: 'ORION-KIN-09',
-          summary: 'High-throughput screening of selective kinase compounds targeting mutated EGFR resistant pathways.',
-          status: 'ongoing', stage: 'discovery', visibility: 'private', domain: 'kinase oncology',
-          journal_citation: 'Journal of Medicinal Chemistry (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/39102847/', doi: '10.1021/acs.jmedchem.5b02194',
-          likes_count: 185, crowdfunding_raised: 0, crowdfunding_target: 100000, lead_name: 'Dr. Sarah Raman, PhD', org_name: 'GenVault Therapeutics'
-        },
-        {
-          id: 'proj-4', title: 'Personalized Neoantigen Peptide Vaccine', code: 'NEO-VAX-77',
-          summary: 'Machine learning selection of patient tumor neoepitopes formulated with adjuvant alum for T-cell priming.',
-          status: 'ongoing', stage: 'phase_1', visibility: 'public', domain: 'rna oncology',
-          journal_citation: 'Lancet Oncology (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38491024/', doi: '10.1016/S1470-2045(25)00412-X',
-          likes_count: 512, crowdfunding_raised: 24000, crowdfunding_target: 60000, lead_name: 'Dr. M. Vance, PhD', org_name: 'BioNeura Institute'
+          journal_citation: 'Cell Stem Cell (2025)', publisher_name: 'Cell Press',
+          country_code: 'US', country_name: 'United States', publication_year: 2025,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/37628109/', doi: '10.1016/j.stem.2025.11.004',
+          likes_count: 219, crowdfunding_raised: 18200, crowdfunding_target: 40000, lead_name: 'Dr. M. Vance, PhD'
         },
         {
           id: 'proj-5', title: 'Dual-Targeted CAR-T Cell Efficacy in Refractory B-Cell Lymphoma', code: 'CAR-LYM-100',
           summary: 'Multi-center clinical trial demonstrating 82% complete remission rate in patients receiving CD19/CD22 targeted CAR-T therapy.',
           status: 'completed', stage: 'completed', visibility: 'public', domain: 'cell therapy',
-          journal_citation: 'New England Journal of Medicine (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38201948/', doi: '10.1056/NEJMoa2408192',
-          likes_count: 890, crowdfunding_raised: 75000, crowdfunding_target: 75000, lead_name: 'Dr. Sarah Raman, PhD', org_name: 'GenVault Therapeutics'
+          journal_citation: 'New England Journal of Medicine (2025)', publisher_name: 'Massachusetts Medical Society',
+          country_code: 'US', country_name: 'United States', publication_year: 2025,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/38201948/', doi: '10.1056/NEJMoa2408192',
+          likes_count: 890, crowdfunding_raised: 75000, crowdfunding_target: 75000, lead_name: 'Dr. Sarah Raman, PhD'
         },
         {
           id: 'proj-6', title: 'Monoclonal Antibody Clearance of Amyloid-Beta Plaques in Early Alzheimer’s', code: 'ALZ-NEURO-55',
           summary: 'Pivotal study proving 38% slowing of cognitive decline over 18 months following bi-weekly monoclonal antibody infusions.',
           status: 'completed', stage: 'completed', visibility: 'public', domain: 'neurodegeneration',
-          journal_citation: 'Science Translational Medicine (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/37910284/', doi: '10.1126/scitranslmed.abd8102',
-          likes_count: 640, crowdfunding_raised: 90000, crowdfunding_target: 90000, lead_name: 'Dr. M. Vance, PhD', org_name: 'BioNeura Institute'
+          journal_citation: 'Science Translational Medicine (2025)', publisher_name: 'AAAS Science',
+          country_code: 'CH', country_name: 'Switzerland', publication_year: 2025,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/37910284/', doi: '10.1126/scitranslmed.abd8102',
+          likes_count: 640, crowdfunding_raised: 90000, crowdfunding_target: 90000, lead_name: 'Dr. M. Vance, PhD'
         },
         {
           id: 'proj-7', title: 'Synthetic Antimicrobial Peptides Targeting MDR Pseudomonas aeruginosa', code: 'AMP-MDR-03',
           summary: 'Design and structural characterization of helical cationic peptides exhibiting rapid membrane disruption against superbugs.',
           status: 'completed', stage: 'completed', visibility: 'public', domain: 'infectious diseases',
-          journal_citation: 'Nature Microbiology (2024)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38102941/', doi: '10.1038/s41564-024-01642-1',
-          likes_count: 425, crowdfunding_raised: 45000, crowdfunding_target: 45000, lead_name: 'Dr. M. Vance, PhD', org_name: 'Synthego Genetics'
-        },
-        {
-          id: 'proj-8', title: 'AAV-Mediated Cardiac Gene Delivery of SERCA2a for Severe Heart Failure', code: 'CARDIO-GEN-12',
-          summary: 'Long-term 36-month cohort evaluation of sarcoplasmic reticulum calcium ATPase gene transfer restoring cardiac contractility.',
-          status: 'completed', stage: 'completed', visibility: 'public', domain: 'cardiology',
-          journal_citation: 'Circulation Research (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38302194/', doi: '10.1161/CIRCRESAHA.124.320491',
-          likes_count: 310, crowdfunding_raised: 60000, crowdfunding_target: 60000, lead_name: 'Dr. E. Zhang, MD', org_name: 'Johns Hopkins Medicine'
-        },
-        {
-          id: 'proj-9', title: 'Bispecific Antibody T-Cell Engager (BiTE) for Solid Metastatic Colon Cancer', code: 'BITE-COL-08',
-          summary: 'Engineering humanized bispecific monoclonal antibodies linking T-cell CD3 epsilon to CEA surface receptors on adenocarcinoma.',
-          status: 'ongoing', stage: 'phase_2', visibility: 'public', domain: 'cell therapy',
-          journal_citation: 'Cancer Cell (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38992014/', doi: '10.1016/j.ccell.2026.01.009',
-          likes_count: 290, crowdfunding_raised: 36000, crowdfunding_target: 60000, lead_name: 'Dr. Sarah Raman, PhD', org_name: 'GenVault Therapeutics'
+          journal_citation: 'Nature Microbiology (2024)', publisher_name: 'Nature Publishing Group',
+          country_code: 'DE', country_name: 'Germany', publication_year: 2024,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/38102941/', doi: '10.1038/s41564-024-01642-1',
+          likes_count: 425, crowdfunding_raised: 45000, crowdfunding_target: 45000, lead_name: 'Dr. M. Vance, PhD'
         },
         {
           id: 'proj-10', title: 'Alpha-Synuclein PET Radiotracer for Early Detection of Parkinson’s Disease', code: 'PARK-PET-22',
           summary: 'First-in-human fluorine-18 PET molecular radiotracer binding pathological alpha-synuclein aggregates in basal ganglia.',
           status: 'completed', stage: 'completed', visibility: 'public', domain: 'neurodegeneration',
-          journal_citation: 'Brain (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38190241/', doi: '10.1093/brain/awad401',
-          likes_count: 480, crowdfunding_raised: 50000, crowdfunding_target: 50000, lead_name: 'Dr. M. Vance, PhD', org_name: 'BioNeura Institute'
+          journal_citation: 'Brain (2025)', publisher_name: 'Oxford University Press',
+          country_code: 'JP', country_name: 'Japan', publication_year: 2025,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/38190241/', doi: '10.1093/brain/awad401',
+          likes_count: 480, crowdfunding_raised: 50000, crowdfunding_target: 50000, lead_name: 'Dr. Shinya Yamanaka'
         },
         {
-          id: 'proj-11', title: 'De-Novo AI Protein Design of Neutralizing Nanobodies Against Coronaviruses', code: 'NANO-COV-99',
-          summary: 'Generative diffusion models designing hyper-stable single-domain camelid antibodies binding conserved S2 spike motifs.',
+          id: 'proj-13', title: 'R21/Matrix-M Malaria Vaccine Phase III Global Efficacy Trial', code: 'MAL-R21-99',
+          summary: 'Phase 3 trial in African children demonstrating 75% vaccine efficacy against clinical malaria.',
           status: 'completed', stage: 'completed', visibility: 'public', domain: 'infectious diseases',
-          journal_citation: 'Nature (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38401928/', doi: '10.1038/s41586-025-07204-1',
-          likes_count: 720, crowdfunding_raised: 80000, crowdfunding_target: 80000, lead_name: 'Dr. M. Vance, PhD', org_name: 'Synthego Genetics'
-        },
-        {
-          id: 'proj-12', title: 'iPSC-Derived Functional Islet Cell Transplants for Type 1 Diabetes', code: 'DIAB-STEM-04',
-          summary: 'Encapsulated human induced pluripotent stem cell derived beta-like clusters delivering glucose-responsive insulin.',
-          status: 'ongoing', stage: 'phase_1', visibility: 'public', domain: 'crispr',
-          journal_citation: 'Nature Medicine (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38910482/', doi: '10.1038/s41591-026-02901-w',
-          likes_count: 510, crowdfunding_raised: 21000, crowdfunding_target: 60000, lead_name: 'Dr. E. Zhang, MD', org_name: 'Johns Hopkins Medicine'
-        },
-        {
-          id: 'proj-13', title: 'AAV Gene Replacement Therapy for Spinal Muscular Atrophy Type 1', code: 'SMA-GEN-01',
-          summary: 'Intravenous recombinant adeno-associated virus vector delivering human SMN1 gene copy across pediatric motor neurons.',
-          status: 'completed', stage: 'completed', visibility: 'public', domain: 'crispr',
-          journal_citation: 'The Lancet (2024)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38102984/', doi: '10.1016/S0140-6736(24)00812-4',
-          likes_count: 930, crowdfunding_raised: 100000, crowdfunding_target: 100000, lead_name: 'Dr. E. Zhang, MD', org_name: 'Johns Hopkins Medicine'
-        },
-        {
-          id: 'proj-14', title: 'mRNA-1345 Vaccine Protection Against Respiratory Syncytial Virus in Older Adults', code: 'RSV-mRNA-88',
-          summary: 'Lipid nanoparticle encapsulated prefusion F protein mRNA vaccine eliciting high neutralizing antibody titers.',
-          status: 'completed', stage: 'completed', visibility: 'public', domain: 'rna oncology',
-          journal_citation: 'New England Journal of Medicine (2024)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38190012/', doi: '10.1056/NEJMoa2307042',
-          likes_count: 610, crowdfunding_raised: 85000, crowdfunding_target: 85000, lead_name: 'Dr. M. Vance, PhD', org_name: 'Synthego Genetics'
+          journal_citation: 'The Lancet (2024)', publisher_name: 'Elsevier',
+          country_code: 'IN', country_name: 'India', publication_year: 2024,
+          source_url: 'https://pubmed.ncbi.nlm.nih.gov/38102984/', doi: '10.1016/S0140-6736(24)00812-4',
+          likes_count: 1120, crowdfunding_raised: 100000, crowdfunding_target: 100000, lead_name: 'Serum Institute / Oxford'
         }
       ];
     }

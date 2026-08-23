@@ -84,7 +84,7 @@ app.get('/api/stats', async (req, res) => {
 // 3. Projects
 app.get('/api/projects', async (req, res) => {
   try {
-    const { q, stage, status, visibility, domain } = req.query;
+    const { q, stage, status, visibility, domain, country, publisher, era } = req.query;
     let sql = `
       SELECT p.*, u.full_name as lead_name, o.name as org_name 
       FROM research_projects p
@@ -95,14 +95,30 @@ app.get('/api/projects', async (req, res) => {
     const params = [];
 
     if (q) {
-      sql += ` AND (LOWER(p.title) LIKE ? OR LOWER(p.summary) LIKE ? OR LOWER(p.code) LIKE ? OR LOWER(u.full_name) LIKE ? OR LOWER(p.journal_citation) LIKE ?)`;
+      sql += ` AND (LOWER(p.title) LIKE ? OR LOWER(p.summary) LIKE ? OR LOWER(p.code) LIKE ? OR LOWER(u.full_name) LIKE ? OR LOWER(p.journal_citation) LIKE ? OR LOWER(p.country_name) LIKE ? OR LOWER(p.publisher_name) LIKE ?)`;
       const term = `%${q.toLowerCase()}%`;
-      params.push(term, term, term, term, term);
+      params.push(term, term, term, term, term, term, term);
     }
 
     if (status && status !== 'all') {
       sql += ` AND p.status = ?`;
       params.push(status);
+    }
+
+    if (country && country !== 'all') {
+      sql += ` AND (p.country_code = ? OR LOWER(p.country_name) LIKE ?)`;
+      params.push(country.toUpperCase(), `%${country.toLowerCase()}%`);
+    }
+
+    if (publisher && publisher !== 'all') {
+      sql += ` AND LOWER(p.publisher_name) LIKE ?`;
+      params.push(`%${publisher.toLowerCase()}%`);
+    }
+
+    if (era && era !== 'all') {
+      if (era === 'historic') sql += ` AND p.publication_year < 1980`;
+      else if (era === 'modern') sql += ` AND p.publication_year BETWEEN 1980 AND 2015`;
+      else if (era === 'contemporary') sql += ` AND p.publication_year >= 2016`;
     }
 
     if (stage && stage !== 'all') {
@@ -120,7 +136,7 @@ app.get('/api/projects', async (req, res) => {
       params.push(`%${domain.toLowerCase()}%`);
     }
 
-    sql += ` ORDER BY p.created_at DESC`;
+    sql += ` ORDER BY p.publication_year DESC, p.created_at DESC`;
 
     const rows = await dbQuery(sql, params);
     res.json({ count: rows.length, projects: rows });
