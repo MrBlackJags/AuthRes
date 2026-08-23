@@ -83,7 +83,37 @@ function initNativeSqlite() {
     ('proj-8', 'AAV-Mediated Cardiac Gene Delivery of SERCA2a for Severe Heart Failure', 'CARDIO-GEN-12', 
      'Long-term 36-month cohort evaluation of sarcoplasmic reticulum calcium ATPase gene transfer restoring cardiac contractility.',
      'Impaired calcium handling due to down-regulated SERCA2a expression is a hallmark of ischemic cardiomyopathy. This finished 3-year clinical cohort study confirmed sustained vector genome persistence and improved left ventricular ejection fraction in gene therapy recipients.',
-     'completed', 'completed', 'public', 'cardiology', 'Circulation Research (2025)', 'https://pubmed.ncbi.nlm.nih.gov/38302194/', '10.1161/CIRCRESAHA.124.320491', 310, 100, 60000, 60000, 'usr-1', 'org-3')
+     'completed', 'completed', 'public', 'cardiology', 'Circulation Research (2025)', 'https://pubmed.ncbi.nlm.nih.gov/38302194/', '10.1161/CIRCRESAHA.124.320491', 310, 100, 60000, 60000, 'usr-1', 'org-3'),
+
+    ('proj-9', 'Bispecific Antibody T-Cell Engager (BiTE) for Solid Metastatic Colon Cancer', 'BITE-COL-08',
+     'Engineering humanized bispecific monoclonal antibodies linking T-cell CD3 epsilon to CEA surface receptors on adenocarcinoma.',
+     'Solid digestive tract tumors frequently resist systemic immunotherapy due to immunosuppressive stroma. This ongoing Phase II study assesses continuous intravenous infusion of CEA-CD3 BiTE molecules to recruit cytotoxic T lymphocytes.',
+     'ongoing', 'phase_2', 'public', 'cell therapy', 'Cancer Cell (2026)', 'https://pubmed.ncbi.nlm.nih.gov/38992014/', '10.1016/j.ccell.2026.01.009', 290, 60, 36000, 60000, 'usr-1', 'org-1'),
+
+    ('proj-10', 'Alpha-Synuclein PET Radiotracer for Early Detection of Parkinson’s Disease', 'PARK-PET-22',
+     'First-in-human fluorine-18 PET molecular radiotracer binding pathological alpha-synuclein aggregates in basal ganglia.',
+     'Early neuroimaging diagnosis of Parkinson’s disease and Multiple System Atrophy (MSA) has historically lacked fibrillar synuclein specificity. This completed clinical study validated binding kinetics of [18F]SYN-304 in idiopathic Parkinson’s cohorts.',
+     'completed', 'completed', 'public', 'neurodegeneration', 'Brain (2025)', 'https://pubmed.ncbi.nlm.nih.gov/38190241/', '10.1093/brain/awad401', 480, 100, 50000, 50000, 'usr-2', 'org-4'),
+
+    ('proj-11', 'De-Novo AI Protein Design of Neutralizing Nanobodies Against Coronaviruses', 'NANO-COV-99',
+     'Generative diffusion models designing hyper-stable single-domain camelid antibodies binding conserved S2 spike motifs.',
+     'Structural computational biology enables rapid antibody generation during emerging zoonotic outbreaks. This completed project produced synthetic nanobodies exhibiting sub-nanomolar neutralization against pan-sarbecovirus variants.',
+     'completed', 'completed', 'public', 'infectious diseases', 'Nature (2025)', 'https://pubmed.ncbi.nlm.nih.gov/38401928/', '10.1038/s41586-025-07204-1', 720, 100, 80000, 80000, 'usr-2', 'org-2'),
+
+    ('proj-12', 'iPSC-Derived Functional Islet Cell Transplants for Type 1 Diabetes', 'DIAB-STEM-04',
+     'Encapsulated human induced pluripotent stem cell derived beta-like clusters delivering glucose-responsive insulin.',
+     'Autoimmune Type 1 Diabetes necessitates lifelong exocrine insulin administration. This ongoing Phase I/II protocol evaluates macro-encapsulation devices holding patient-derived iPSC beta cells to protect against allo-rejection.',
+     'ongoing', 'phase_1', 'public', 'crispr', 'Nature Medicine (2026)', 'https://pubmed.ncbi.nlm.nih.gov/38910482/', '10.1038/s41591-026-02901-w', 510, 35, 21000, 60000, 'usr-4', 'org-3'),
+
+    ('proj-13', 'AAV Gene Replacement Therapy for Spinal Muscular Atrophy Type 1', 'SMA-GEN-01',
+     'Intravenous recombinant adeno-associated virus vector delivering human SMN1 gene copy across pediatric motor neurons.',
+     'Infantile spinal muscular atrophy Type 1 is caused by homozygous SMN1 exon 7 deletions. This completed pivotal study verified dramatic event-free survival improvement and motor milestone achievements in infants receiving systemic gene replacement.',
+     'completed', 'completed', 'public', 'crispr', 'The Lancet (2024)', 'https://pubmed.ncbi.nlm.nih.gov/38102984/', '10.1016/S0140-6736(24)00812-4', 930, 100, 100000, 100000, 'usr-1', 'org-3'),
+
+    ('proj-14', 'mRNA-1345 Vaccine Protection Against Respiratory Syncytial Virus in Older Adults', 'RSV-mRNA-88',
+     'Lipid nanoparticle encapsulated prefusion F protein mRNA vaccine eliciting high neutralizing antibody titers.',
+     'RSV infection causes significant morbidity and hospitalization in elderly demographics. This completed Phase III randomized double-blind clinical trial demonstrated 83.7% efficacy against lower respiratory tract disease.',
+     'completed', 'completed', 'public', 'rna oncology', 'New England Journal of Medicine (2024)', 'https://pubmed.ncbi.nlm.nih.gov/38190012/', '10.1056/NEJMoa2307042', 610, 100, 85000, 85000, 'usr-2', 'org-2')
   ;`);
 
   // Seed Milestones

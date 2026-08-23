@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioTrack | My Saved Research & Bookmarked Publications</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script>
+    if (localStorage.getItem('biotrack_theme') === 'dark' || (!('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+<body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+
+  <!-- Shared Header -->
+  <div id="header-root"></div>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+    
+    <!-- Top Hero Banner -->
+    <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-900 text-white p-6 sm:p-8 rounded-3xl border border-emerald-500/20 shadow-xl relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider mb-2">
+            <i class="fa-solid fa-star text-amber-400"></i> Personal Research Library
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold text-gradient-hero tracking-tight">My Saved Studies & Bookmarks</h1>
+          <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+            Access your saved medical research papers, appreciated publications, and reading list across devices.
+          </p>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <button onclick="exportSavedCitations()" class="bg-white/10 hover:bg-white/20 text-white font-bold px-4 py-2.5 rounded-xl text-xs backdrop-blur-md border border-white/20 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-download"></i> Export APA Citations
+          </button>
+          <a href="research.html" class="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md shrink-0 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-plus"></i> Browse Directory
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs Bar -->
+    <div class="bg-white p-4 rounded-3xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/80 text-xs font-bold">
+        <button onclick="filterSaved('all', this)" id="tab-all" class="saved-tab-btn px-4 py-2 rounded-xl transition flex items-center gap-2 bg-emerald-600 text-white shadow-xs">
+          <i class="fa-solid fa-layer-group"></i> All Saved Items
+          <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px]" id="count-all">0</span>
+        </button>
+
+        <button onclick="filterSaved('bookmarked', this)" id="tab-bookmarked" class="saved-tab-btn px-4 py-2 rounded-xl transition flex items-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-slate-200/60">
+          <i class="fa-solid fa-star text-amber-500"></i> Bookmarked (<span id="count-bookmarked">0</span>)
+        </button>
+
+        <button onclick="filterSaved('liked', this)" id="tab-liked" class="saved-tab-btn px-4 py-2 rounded-xl transition flex items-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-slate-200/60">
+          <i class="fa-solid fa-heart text-rose-500"></i> Liked Studies (<span id="count-liked">0</span>)
+        </button>
+      </div>
+
+      <button onclick="clearAllSaved()" class="text-xs text-rose-600 font-bold hover:underline flex items-center gap-1">
+        <i class="fa-solid fa-trash-can"></i> Clear Saved Library
+      </button>
+    </div>
+
+    <!-- Cards Container -->
+    <div id="savedContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Loaded dynamically -->
+    </div>
+
+  </main>
+
+  <!-- Shared Footer -->
+  <footer class="bg-slate-950 border-t border-emerald-900/40 text-slate-400 text-xs py-8 mt-12 text-center">
+    <p>© 2026 BioTrack • Saved Research Library</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    let savedFilter = 'all';
+
+    function initSavedPage() {
+      document.getElementById('header-root').innerHTML = renderHeader('saved');
+      renderSavedCards();
+    }
+
+    function getAllLibraryProjects() {
+      // Aggregate fallback and local state items
+      return [
+        {
+          id: 'proj-1', title: 'Targeted mRNA Delivery for Solid Tumors', code: 'BT-402-ONC',
+          summary: 'Investigating ionizable lipid nanoparticle formulations to facilitate targeted tissue accumulation and mRNA translation inside glioblastoma multiforme microenvironments.',
+          status: 'ongoing', stage: 'phase_2', visibility: 'public', domain: 'rna oncology',
+          journal_citation: 'Nature Biotechnology (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38910245/', doi: '10.1038/s41587-026-01928-3',
+          likes_count: 342, crowdfunding_raised: 32500, crowdfunding_target: 50000, lead_name: 'Dr. Sarah Raman, PhD'
+        },
+        {
+          id: 'proj-2', title: 'CRISPR Editing for Alpha-1 Antitrypsin Deficiency', code: 'AAT-901-GEN',
+          summary: 'In-vivo gene editing therapeutic targeting AATD liver expression through high-precision AAV9 vector delivery.',
+          status: 'ongoing', stage: 'preclinical', visibility: 'public', domain: 'crispr',
+          journal_citation: 'Cell Stem Cell (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/37628109/', doi: '10.1016/j.stem.2025.11.004',
+          likes_count: 219, crowdfunding_raised: 18200, crowdfunding_target: 40000, lead_name: 'Dr. M. Vance, PhD'
+        },
+        {
+          id: 'proj-3', title: 'Small Molecule Kinase Inhibitor (Project Orion)', code: 'ORION-KIN-09',
+          summary: 'High-throughput screening of selective kinase compounds targeting mutated EGFR resistant pathways.',
+          status: 'ongoing', stage: 'discovery', visibility: 'private', domain: 'kinase oncology',
+          journal_citation: 'Journal of Medicinal Chemistry (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/39102847/', doi: '10.1021/acs.jmedchem.5b02194',
+          likes_count: 185, crowdfunding_raised: 0, crowdfunding_target: 100000, lead_name: 'Dr. Sarah Raman, PhD'
+        },
+        {
+          id: 'proj-4', title: 'Personalized Neoantigen Peptide Vaccine', code: 'NEO-VAX-77',
+          summary: 'Machine learning selection of patient tumor neoepitopes formulated with adjuvant alum for T-cell priming.',
+          status: 'ongoing', stage: 'phase_1', visibility: 'public', domain: 'rna oncology',
+          journal_citation: 'Lancet Oncology (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38491024/', doi: '10.1016/S1470-2045(25)00412-X',
+          likes_count: 512, crowdfunding_raised: 24000, crowdfunding_target: 60000, lead_name: 'Dr. M. Vance, PhD'
+        },
+        {
+          id: 'proj-5', title: 'Dual-Targeted CAR-T Cell Efficacy in Refractory B-Cell Lymphoma', code: 'CAR-LYM-100',
+          summary: 'Multi-center clinical trial demonstrating 82% complete remission rate in patients receiving CD19/CD22 targeted CAR-T therapy.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'cell therapy',
+          journal_citation: 'New England Journal of Medicine (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38201948/', doi: '10.1056/NEJMoa2408192',
+          likes_count: 890, crowdfunding_raised: 75000, crowdfunding_target: 75000, lead_name: 'Dr. Sarah Raman, PhD'
+        },
+        {
+          id: 'proj-6', title: 'Monoclonal Antibody Clearance of Amyloid-Beta Plaques in Early Alzheimer’s', code: 'ALZ-NEURO-55',
+          summary: 'Pivotal study proving 38% slowing of cognitive decline over 18 months following bi-weekly monoclonal antibody infusions.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'neurodegeneration',
+          journal_citation: 'Science Translational Medicine (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/37910284/', doi: '10.1126/scitranslmed.abd8102',
+          likes_count: 640, crowdfunding_raised: 90000, crowdfunding_target: 90000, lead_name: 'Dr. M. Vance, PhD'
+        },
+        {
+          id: 'proj-7', title: 'Synthetic Antimicrobial Peptides Targeting MDR Pseudomonas aeruginosa', code: 'AMP-MDR-03',
+          summary: 'Design and structural characterization of helical cationic peptides exhibiting rapid membrane disruption against superbugs.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'infectious diseases',
+          journal_citation: 'Nature Microbiology (2024)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38102941/', doi: '10.1038/s41564-024-01642-1',
+          likes_count: 425, crowdfunding_raised: 45000, crowdfunding_target: 45000, lead_name: 'Dr. M. Vance, PhD'
+        },
+        {
+          id: 'proj-8', title: 'AAV-Mediated Cardiac Gene Delivery of SERCA2a for Severe Heart Failure', code: 'CARDIO-GEN-12',
+          summary: 'Long-term 36-month cohort evaluation of sarcoplasmic reticulum calcium ATPase gene transfer restoring cardiac contractility.',
+          status: 'completed', stage: 'completed', visibility: 'public', domain: 'cardiology',
+          journal_citation: 'Circulation Research (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38302194/', doi: '10.1161/CIRCRESAHA.124.320491',
+          likes_count: 310, crowdfunding_raised: 60000, crowdfunding_target: 60000, lead_name: 'Dr. E. Zhang, MD'
+        }
+      ];
+    }
+
+    function renderSavedCards() {
+      const container = document.getElementById('savedContainer');
+      const bookmarks = BioTrackState.getBookmarks();
+      const likes = BioTrackState.getLikes();
+      const library = getAllLibraryProjects();
+
+      // Filter items
+      const savedItems = library.filter(p => {
+        const isB = bookmarks.includes(p.id);
+        const isL = likes.includes(p.id);
+        if (savedFilter === 'bookmarked') return isB;
+        if (savedFilter === 'liked') return isL;
+        return isB || isL;
+      });
+
+      document.getElementById('count-all').textContent = library.filter(p => bookmarks.includes(p.id) || likes.includes(p.id)).length;
+      document.getElementById('count-bookmarked').textContent = bookmarks.length;
+      document.getElementById('count-liked').textContent = likes.length;
+
+      if (savedItems.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
+            <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto text-xl font-bold">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-base">Your saved research library is empty</h3>
+            <p class="text-xs text-slate-500 max-w-sm mx-auto">Explore the research directory and click the star or heart buttons on studies to save them here.</p>
+            <a href="research.html" class="inline-block px-5 py-2.5 bg-emerald-600 text-white text-xs font-bold rounded-xl shadow-xs">
+              Browse Research Directory →
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = savedItems.map(p => {
+        const isB = bookmarks.includes(p.id);
+        const isL = likes.includes(p.id);
+
+        return `
+          <div class="study-card interactive-card bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">
+                  ${p.status === 'ongoing' ? 'Ongoing Trial' : 'Completed Publication'}
+                </span>
+
+                <div class="flex items-center gap-1">
+                  <button onclick="toggleBookmarkInSaved('${p.id}')" title="Remove Bookmark" class="p-2 rounded-xl border border-slate-200 ${isB ? 'bg-amber-50 text-amber-600 border-amber-200' : 'text-slate-300'}">
+                    <i class="fa-solid fa-star"></i>
+                  </button>
+                  <button onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')" title="Share" class="p-2 rounded-xl border border-slate-200 text-slate-400 hover:text-emerald-600">
+                    <i class="fa-solid fa-share-nodes"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">${p.code} • ${p.journal_citation}</span>
+                <h3 class="text-lg font-bold text-slate-900 mt-0.5 leading-snug">${p.title}</h3>
+                <p class="text-xs text-slate-500 mt-1 line-clamp-2">${p.summary}</p>
+                <p class="text-xs text-slate-600 mt-1 font-semibold"><i class="fa-solid fa-user-doctor text-emerald-600"></i> ${p.lead_name}</p>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs gap-2">
+              <button onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')" class="px-3.5 py-2 bg-emerald-50 text-emerald-700 font-bold rounded-xl hover:bg-emerald-600 hover:text-white transition">
+                <i class="fa-regular fa-copy mr-1"></i> Citation & Links
+              </button>
+
+              <a href="study-detail.html?id=${p.id}" class="px-3.5 py-2 bg-emerald-600 text-white font-bold rounded-xl shadow-xs transition">
+                View Full Study →
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleBookmarkInSaved(id) {
+      BioTrackState.toggleBookmark(id);
+      renderSavedCards();
+      showToast('Saved research list updated', 'Library Synchronized', 'info');
+    }
+
+    function filterSaved(type, btn) {
+      savedFilter = type;
+      document.querySelectorAll('.saved-tab-btn').forEach(b => {
+        b.className = 'saved-tab-btn px-4 py-2 rounded-xl transition flex items-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-slate-200/60';
+      });
+      btn.className = 'saved-tab-btn px-4 py-2 rounded-xl transition flex items-center gap-2 bg-emerald-600 text-white shadow-xs font-bold';
+      renderSavedCards();
+    }
+
+    function clearAllSaved() {
+      if (confirm('Are you sure you want to clear your saved research items?')) {
+        localStorage.setItem('biotrack_bookmarks', '[]');
+        localStorage.setItem('biotrack_likes', '[]');
+        renderSavedCards();
+        showToast('Your saved research library has been cleared.', 'Cleared', 'info');
+      }
+    }
+
+    function exportSavedCitations() {
+      const bookmarks = BioTrackState.getBookmarks();
+      const library = getAllLibraryProjects().filter(p => bookmarks.includes(p.id));
+      if (library.length === 0) {
+        showToast('No bookmarked studies to export. Bookmark a study first!', 'Export Empty', 'amber');
+        return;
+      }
+
+      const text = library.map(p => `[${p.code}] ${p.title}.\n  Citation: ${p.journal_citation}\n  DOI: ${p.doi}\n  URL: ${p.source_url}\n`).join('\n---\n\n');
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`Exported ${library.length} APA publication citations to your clipboard!`, 'Citations Exported', 'success');
+      });
+    }
+
+    function escapeQuotes(str) {
+      return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    document.addEventListener('DOMContentLoaded', initSavedPage);
+  </script>
+</body>
+</html>

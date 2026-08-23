@@ -575,10 +575,12 @@ function renderHeader(activePage = 'home') {
 
         <!-- Navigation Links -->
         <div class="flex items-center gap-3">
-          <nav class="hidden md:flex items-center gap-1.5 text-xs font-semibold text-slate-600">
-            <a href="index.html" class="px-3 py-1.5 rounded-xl hover:text-slate-900 hover:bg-emerald-50/50 transition ${activePage === 'home' ? 'font-bold text-emerald-700 bg-emerald-50' : ''}">Home</a>
-            <a href="research.html" class="px-3 py-1.5 rounded-xl hover:text-slate-900 hover:bg-emerald-50/50 transition ${activePage === 'research' ? 'font-bold text-emerald-700 bg-emerald-50' : ''}">Directory</a>
-            <a href="profile.html" class="px-3 py-1.5 rounded-xl hover:text-slate-900 hover:bg-emerald-50/50 transition ${activePage === 'profile' ? 'font-bold text-emerald-700 bg-emerald-50' : ''}">My Lab</a>
+          <nav class="hidden md:flex items-center gap-1 text-xs font-semibold text-slate-600">
+            <a href="index.html" class="px-2.5 py-1.5 rounded-xl hover:text-slate-900 hover:bg-emerald-50/50 transition ${activePage === 'home' ? 'font-bold text-emerald-700 bg-emerald-50' : ''}">Home</a>
+            <a href="research.html" class="px-2.5 py-1.5 rounded-xl hover:text-slate-900 hover:bg-emerald-50/50 transition ${activePage === 'research' ? 'font-bold text-emerald-700 bg-emerald-50' : ''}">Directory</a>
+            <a href="research-domains.html" class="px-2.5 py-1.5 rounded-xl hover:text-slate-900 hover:bg-emerald-50/50 transition ${activePage === 'domains' ? 'font-bold text-emerald-700 bg-emerald-50' : ''}">Domains Hub</a>
+            <a href="saved-research.html" class="px-2.5 py-1.5 rounded-xl hover:text-slate-900 hover:bg-emerald-50/50 transition ${activePage === 'saved' ? 'font-bold text-emerald-700 bg-emerald-50' : ''}">Saved Papers</a>
+            <a href="profile.html" class="px-2.5 py-1.5 rounded-xl hover:text-slate-900 hover:bg-emerald-50/50 transition ${activePage === 'profile' ? 'font-bold text-emerald-700 bg-emerald-50' : ''}">My Lab</a>
           </nav>
 
           <a href="publish.html" class="hidden sm:inline-flex items-center gap-1.5 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-md shadow-emerald-600/20 transition hover:scale-105">
@@ -618,6 +620,8 @@ function renderHeader(activePage = 'home') {
         <div class="text-[10px] uppercase text-slate-400 tracking-wider pt-2">General Pages</div>
         <a href="index.html" class="px-3 py-1.5 text-slate-700 hover:bg-slate-50 rounded-lg">Home Overview</a>
         <a href="research.html" class="px-3 py-1.5 text-slate-700 hover:bg-slate-50 rounded-lg">Research Directory</a>
+        <a href="research-domains.html" class="px-3 py-1.5 text-slate-700 hover:bg-slate-50 rounded-lg">Medical & Biological Domains</a>
+        <a href="saved-research.html" class="px-3 py-1.5 text-slate-700 hover:bg-slate-50 rounded-lg">My Saved Studies</a>
         <a href="profile.html" class="px-3 py-1.5 text-slate-700 hover:bg-slate-50 rounded-lg">My Lab & Profile</a>
         <a href="publish.html" class="px-3 py-2 bg-emerald-600 text-white rounded-xl text-center font-bold">+ Register New Protocol</a>
         
