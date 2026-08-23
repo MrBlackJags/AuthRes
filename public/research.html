@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioTrack | Research & Crowdfunding Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+
+  <!-- Shared Header -->
+  <div id="header-root"></div>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+    
+    <!-- Top Banner Card -->
+    <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-900 text-white p-6 sm:p-8 rounded-3xl border border-emerald-500/20 shadow-xl relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider mb-2">
+            <i class="fa-solid fa-flask-vial"></i> Open-Science & Crowdfunding Network
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold text-gradient-hero tracking-tight">Biomedical Research & Protocol Directory</h1>
+          <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+            Public crowdfunding, hospital cohort integration, and hierarchical lab pipeline tracking on one open platform.
+          </p>
+        </div>
+        <a href="publish.html" class="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-xs transition shadow-md hover:scale-105 shrink-0 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-plus"></i> Register New Protocol
+        </a>
+      </div>
+    </div>
+
+    <!-- Controls Panel -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        
+        <div class="relative flex-1">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            onkeyup="filterStudies()" 
+            placeholder="Search titles, PIs, crowdfunding goals, or hospital cohorts..." 
+            class="w-full pl-10 pr-9 py-2.5 text-sm bg-slate-50/80 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition placeholder-slate-400" 
+          />
+          <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 p-1 text-xs">
+            <i class="fa-solid fa-circle-xmark text-sm"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5">
+          <select id="stageFilter" onchange="filterStudies()" class="text-xs font-semibold bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none">
+            <option value="all">All Stages</option>
+            <option value="discovery">Discovery / Screening</option>
+            <option value="preclinical">Pre-Clinical</option>
+            <option value="clinical">Clinical Trial (Phase I-III)</option>
+          </select>
+
+          <select id="accessFilter" onchange="filterStudies()" class="text-xs font-semibold bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none">
+            <option value="all">All Access</option>
+            <option value="public">Public Access</option>
+            <option value="private">Private / Internal</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100 text-xs">
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
+          <span class="text-slate-400 uppercase font-bold text-[10px]">Filter:</span>
+          <button onclick="setDomainFilter('all', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-emerald-600 text-white transition shrink-0">All Studies</button>
+          <button onclick="setDomainFilter('crowdfunded', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0">Crowdfunded</button>
+          <button onclick="setDomainFilter('hospital', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0">Hospital Cohorts</button>
+          <button onclick="setDomainFilter('rna', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0">RNA Tech</button>
+          <button onclick="setDomainFilter('crispr', this)" class="domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0">CRISPR</button>
+        </div>
+
+        <span id="resultsCount" class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60">
+          Showing 4 studies
+        </span>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div id="studiesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Item 1 -->
+      <div class="study-card interactive-card bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 flex flex-col justify-between"
+           data-stage="clinical" data-access="public" data-domain="crowdfunded rna hospital">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full">Phase II Clinical</span>
+              <span class="text-emerald-700 bg-emerald-50 border border-emerald-200 text-xs px-2.5 py-0.5 rounded-full font-semibold"><i class="fa-solid fa-globe text-[10px]"></i> Public</span>
+            </div>
+            <button onclick="handleBookmarkClick(this, 'bt-402', 'Targeted mRNA Delivery')" class="text-slate-400 hover:text-emerald-600 p-1.5"><i class="fa-regular fa-star"></i></button>
+          </div>
+
+          <div>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">ID: BT-402-ONC</span>
+            <h2 class="text-lg font-bold text-slate-900 mt-0.5">Targeted mRNA Delivery for Solid Tumors</h2>
+            <p class="text-xs text-slate-500 mt-0.5"><i class="fa-solid fa-user-doctor text-emerald-600"></i> Lead: Helix Biotech • Dr. Sarah Raman, PhD</p>
+          </div>
+
+          <div class="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-100 space-y-1.5 text-xs">
+            <div class="flex justify-between font-bold text-slate-800">
+              <span>Public Crowdfunding</span>
+              <span class="text-emerald-700">$32,500 / $50,000</span>
+            </div>
+            <div class="w-full bg-slate-200 rounded-full h-2">
+              <div class="bg-gradient-to-r from-emerald-600 to-green-500 h-2 rounded-full" style="width: 65%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+          <button onclick="openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1')" class="px-3.5 py-1.5 bg-emerald-600 text-white font-bold rounded-xl shadow-xs">
+            <i class="fa-solid fa-heart"></i> Fund Breakthrough
+          </button>
+          <a href="study-detail.html" class="px-3.5 py-1.5 bg-emerald-50 text-emerald-700 font-bold rounded-xl hover:bg-emerald-600 hover:text-white transition">
+            View Details & RBAC →
+          </a>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="study-card interactive-card bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 flex flex-col justify-between"
+           data-stage="preclinical" data-access="public" data-domain="crowdfunded crispr hospital">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-0.5 rounded-full">Pre-Clinical</span>
+              <span class="text-emerald-700 bg-emerald-50 border border-emerald-200 text-xs px-2.5 py-0.5 rounded-full font-semibold"><i class="fa-solid fa-globe text-[10px]"></i> Public</span>
+            </div>
+            <button onclick="handleBookmarkClick(this, 'crispr-a1', 'CRISPR Alpha-1')" class="text-slate-400 hover:text-emerald-600 p-1.5"><i class="fa-regular fa-star"></i></button>
+          </div>
+
+          <div>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">ID: AAT-901-GEN</span>
+            <h2 class="text-lg font-bold text-slate-900 mt-0.5">CRISPR Editing for Alpha-1 Antitrypsin</h2>
+            <p class="text-xs text-slate-500 mt-0.5"><i class="fa-solid fa-user-doctor text-emerald-600"></i> Lead: Synthego Labs • Dr. M. Vance</p>
+          </div>
+
+          <div class="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-100 space-y-1.5 text-xs">
+            <div class="flex justify-between font-bold text-slate-800">
+              <span>Public Crowdfunding</span>
+              <span class="text-emerald-700">$18,200 / $40,000</span>
+            </div>
+            <div class="w-full bg-slate-200 rounded-full h-2">
+              <div class="bg-gradient-to-r from-emerald-600 to-green-500 h-2 rounded-full" style="width: 45.5%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+          <button onclick="openDonateModal('CRISPR Editing for Alpha-1 Antitrypsin', '$18,200', '$40,000', 'proj-2')" class="px-3.5 py-1.5 bg-emerald-600 text-white font-bold rounded-xl shadow-xs">
+            <i class="fa-solid fa-heart"></i> Fund Breakthrough
+          </button>
+          <a href="study-detail.html" class="px-3.5 py-1.5 bg-emerald-50 text-emerald-700 font-bold rounded-xl hover:bg-emerald-600 hover:text-white transition">
+            View Details & RBAC →
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="bg-slate-950 border-t border-emerald-900/40 text-slate-400 text-xs py-8 mt-12 text-center">
+    <p>© 2026 BioTrack • Research Directory & Crowdfunding Hub</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('header-root').innerHTML = renderHeader('research');
+    let currentDomain = 'all';
+
+    function filterStudies() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const stage = document.getElementById('stageFilter').value;
+      const access = document.getElementById('accessFilter').value;
+      
+      const cards = document.querySelectorAll('.study-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const cardStage = card.dataset.stage;
+        const cardAccess = card.dataset.access;
+        const cardDomain = card.dataset.domain || '';
+
+        const matchQuery = text.includes(q);
+        const matchStage = stage === 'all' || cardStage === stage;
+        const matchAccess = access === 'all' || cardAccess === access;
+        const matchDomain = currentDomain === 'all' || cardDomain.includes(currentDomain);
+
+        if (matchQuery && matchStage && matchAccess && matchDomain) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      document.getElementById('resultsCount').textContent = `Showing ${visibleCount} of ${cards.length} studies`;
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      filterStudies();
+    }
+
+    function setDomainFilter(domain, btn) {
+      currentDomain = domain;
+      document.querySelectorAll('.domain-tag').forEach(b => {
+        b.className = 'domain-tag px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-50 transition shrink-0';
+      });
+      btn.className = 'domain-tag px-3 py-1 rounded-full font-semibold bg-emerald-600 text-white transition shrink-0';
+      filterStudies();
+    }
+  </script>
+</body>
+</html>

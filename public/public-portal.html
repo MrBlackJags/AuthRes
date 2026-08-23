@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioTrack | Public Donor & Crowdfunding Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-public-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-500 selection:text-white">
+
+  <!-- Header Placeholder -->
+  <div id="header-root"></div>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+    
+    <!-- Portal Hero Banner -->
+    <div class="bg-gradient-to-r from-amber-950 via-slate-900 to-emerald-950 text-white p-8 sm:p-12 rounded-3xl border border-amber-500/20 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="relative z-10 max-w-3xl space-y-4">
+        <div class="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider">
+          <i class="fa-solid fa-heart text-amber-400"></i> Public Supporter & Crowdfunding Hub
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-gradient-amber tracking-tight leading-tight">
+          Directly Accelerate Life-Saving Open Medical Research
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          As a public supporter, you can directly crowdfund verified preclinical breakthroughs and clinical trials. Track 100% transparent open-science milestones as researchers publish progress.
+        </p>
+
+        <div class="pt-2 flex flex-wrap items-center gap-4">
+          <button onclick="openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1')" class="bg-gradient-to-r from-amber-500 to-emerald-500 hover:from-amber-400 hover:to-emerald-400 text-slate-950 font-black px-6 py-3 rounded-2xl text-xs shadow-lg shadow-amber-500/20 transition hover:scale-105">
+            <i class="fa-solid fa-hand-holding-dollar mr-1"></i> Make a Direct Research Donation
+          </button>
+          <span class="text-xs text-slate-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-check text-emerald-400"></i> 100% Tax-Deductible & Verifiable Ledger
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Impact & Metrics Summary -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="interactive-card bg-white p-5 rounded-2xl border border-amber-200/80 shadow-xs">
+        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold mb-2">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+        </div>
+        <span class="text-slate-400 block font-bold text-[10px] uppercase">Total Crowdfunded</span>
+        <strong class="text-slate-900 text-2xl font-black">$128,500 Raised</strong>
+      </div>
+
+      <div class="interactive-card bg-white p-5 rounded-2xl border border-amber-200/80 shadow-xs">
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold mb-2">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <span class="text-slate-400 block font-bold text-[10px] uppercase">Public Backers</span>
+        <strong class="text-slate-900 text-2xl font-black">1,420 Supporters</strong>
+      </div>
+
+      <div class="interactive-card bg-white p-5 rounded-2xl border border-amber-200/80 shadow-xs">
+        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold mb-2">
+          <i class="fa-solid fa-flask"></i>
+        </div>
+        <span class="text-slate-400 block font-bold text-[10px] uppercase">Open Pipelines</span>
+        <strong class="text-slate-900 text-2xl font-black">14 Trials Funded</strong>
+      </div>
+
+      <div class="interactive-card bg-white p-5 rounded-2xl border border-amber-200/80 shadow-xs">
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold mb-2">
+          <i class="fa-solid fa-check-double"></i>
+        </div>
+        <span class="text-slate-400 block font-bold text-[10px] uppercase">Milestones Published</span>
+        <strong class="text-slate-900 text-2xl font-black">88 Logged</strong>
+      </div>
+    </div>
+
+    <!-- Active Crowdfunding Campaigns Grid -->
+    <div class="space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-fire text-amber-500"></i> Active Open Research Crowdfunding Campaigns
+          </h2>
+          <p class="text-xs text-slate-500">Fund clinical breakthroughs and follow real-time progress updates.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        
+        <!-- Campaign Card 1 -->
+        <div class="interactive-card bg-white p-6 rounded-3xl border border-amber-200 shadow-xs space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-300">
+                <i class="fa-solid fa-bullseye text-[10px]"></i> Active Campaign
+              </span>
+              <span class="text-xs text-slate-400 font-bold">142 Backers</span>
+            </div>
+
+            <div>
+              <span class="text-[10px] font-bold text-slate-400 uppercase">Oncology Research</span>
+              <h3 class="text-lg font-bold text-slate-900 mt-0.5">Targeted mRNA Delivery for Solid Tumors (BT-402)</h3>
+              <p class="text-xs text-slate-500 mt-1">Lead: Dr. Sarah Raman, PhD (Helix Biotech / Harvard BioLab)</p>
+            </div>
+
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Developing ionizable lipid nanoparticle delivery systems to accumulate mRNA inside glioblastoma multiforme microenvironments.
+            </p>
+
+            <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-100 space-y-2 text-xs">
+              <div class="flex justify-between font-bold text-slate-800">
+                <span>Funding Progress</span>
+                <span class="text-amber-700">$32,500 / $50,000 Goal</span>
+              </div>
+              <div class="w-full bg-slate-200 rounded-full h-2.5 p-0.5">
+                <div class="bg-gradient-to-r from-amber-500 to-emerald-500 h-1.5 rounded-full" style="width: 65%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+            <button onclick="openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1')" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-emerald-500 text-slate-950 font-black rounded-xl text-xs shadow-md">
+              <i class="fa-solid fa-heart text-amber-900 mr-1"></i> Fund This Campaign
+            </button>
+            <a href="study-detail.html" class="text-xs font-bold text-amber-700 hover:underline">
+              View Open Protocol →
+            </a>
+          </div>
+        </div>
+
+        <!-- Campaign Card 2 -->
+        <div class="interactive-card bg-white p-6 rounded-3xl border border-amber-200 shadow-xs space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-300">
+                <i class="fa-solid fa-bullseye text-[10px]"></i> Active Campaign
+              </span>
+              <span class="text-xs text-slate-400 font-bold">89 Backers</span>
+            </div>
+
+            <div>
+              <span class="text-[10px] font-bold text-slate-400 uppercase">Gene Editing</span>
+              <h3 class="text-lg font-bold text-slate-900 mt-0.5">CRISPR Editing for Alpha-1 Antitrypsin</h3>
+              <p class="text-xs text-slate-500 mt-1">Lead: Dr. M. Vance, PhD (Synthego Labs)</p>
+            </div>
+
+            <p class="text-xs text-slate-600 leading-relaxed">
+              In-vivo base editing therapeutic targeting point mutation correction in hepatocyte genome models.
+            </p>
+
+            <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-100 space-y-2 text-xs">
+              <div class="flex justify-between font-bold text-slate-800">
+                <span>Funding Progress</span>
+                <span class="text-amber-700">$18,200 / $40,000 Goal</span>
+              </div>
+              <div class="w-full bg-slate-200 rounded-full h-2.5 p-0.5">
+                <div class="bg-gradient-to-r from-amber-500 to-emerald-500 h-1.5 rounded-full" style="width: 45.5%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+            <button onclick="openDonateModal('CRISPR Editing for Alpha-1 Antitrypsin', '$18,200', '$40,000', 'proj-2')" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-emerald-500 text-slate-950 font-black rounded-xl text-xs shadow-md">
+              <i class="fa-solid fa-heart text-amber-900 mr-1"></i> Fund This Campaign
+            </button>
+            <a href="study-detail.html" class="text-xs font-bold text-amber-700 hover:underline">
+              View Open Protocol →
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="bg-slate-950 border-t border-amber-900/40 text-slate-400 text-xs py-8 mt-12 text-center">
+    <p>© 2026 BioTrack • Public Crowdfunding & Open Science Network</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('header-root').innerHTML = renderHeader('public-portal');
+  </script>
+</body>
+</html>

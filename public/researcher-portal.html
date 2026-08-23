@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioTrack | Researcher & Institutional RBAC Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+
+  <!-- Header Placeholder -->
+  <div id="header-root"></div>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+    
+    <!-- Portal Hero Banner -->
+    <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-900 text-white p-8 sm:p-12 rounded-3xl border border-emerald-500/20 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="relative z-10 max-w-3xl space-y-4">
+        <div class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider">
+          <i class="fa-solid fa-microscope text-emerald-400"></i> Researcher & Institutional Lab Portal
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-gradient-hero tracking-tight leading-tight">
+          Hierarchical RBAC & Preclinical Data Management
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          Enforcing strict access control from Principal Investigators with full publication, grant, and privacy rights, to Senior Scientists, Lab Technicians, and Collaborators.
+        </p>
+
+        <div class="pt-2 flex flex-wrap items-center gap-4">
+          <a href="publish.html" class="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-slate-950 font-black px-6 py-3 rounded-2xl text-xs shadow-lg shadow-emerald-500/20 transition hover:scale-105">
+            <i class="fa-solid fa-plus-circle mr-1"></i> Register New Protocol Record
+          </a>
+          <span class="text-xs text-slate-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-halved text-emerald-400"></i> Cryptographic Audit Trail Enabled
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hierarchical RBAC Perspective Matrix Card -->
+    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-crown text-amber-500"></i> Active Hierarchical RBAC Matrix
+          </h2>
+          <p class="text-xs text-slate-500">Granular role-based permissions governing confidential preclinical data, milestones, & datasets.</p>
+        </div>
+        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">
+          Current Role: Principal Investigator (PI)
+        </span>
+      </div>
+
+      <!-- Role Descriptions Grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+        
+        <!-- Role 1: PI -->
+        <div class="p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-slate-900">Level 1 • PI</span>
+            <i class="fa-solid fa-crown text-amber-500 text-sm"></i>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            Full publication, privacy toggles, crowdfunding grant management, & RBAC policy control.
+          </p>
+          <span class="inline-block bg-emerald-600 text-white font-bold px-2 py-0.5 rounded text-[10px]">Full Admin Rights</span>
+        </div>
+
+        <!-- Role 2: Senior Scientist -->
+        <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-slate-900">Level 2 • Senior Scientist</span>
+            <i class="fa-solid fa-microscope text-teal-600 text-sm"></i>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            View confidential preclinical data, log milestone progress, review lab technician uploads.
+          </p>
+          <span class="inline-block bg-teal-100 text-teal-800 font-bold px-2 py-0.5 rounded text-[10px]">Write Access</span>
+        </div>
+
+        <!-- Role 3: Lab Tech -->
+        <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-slate-900">Level 3 • Lab Technician</span>
+            <i class="fa-solid fa-vial text-cyan-600 text-sm"></i>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            Upload raw FastQ/CSV experimental datasets, log daily assay results.
+          </p>
+          <span class="inline-block bg-cyan-100 text-cyan-800 font-bold px-2 py-0.5 rounded text-[10px]">Upload & Log</span>
+        </div>
+
+        <!-- Role 4: Hospital Rep -->
+        <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-slate-900">Hospital Partner</span>
+            <i class="fa-solid fa-hospital text-sky-600 text-sm"></i>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            Access verified trial data, submit anonymized patient cohort records.
+          </p>
+          <span class="inline-block bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded text-[10px]">Clinical Cohorts</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Preclinical Pipelines Managed -->
+    <div class="space-y-4">
+      <h2 class="text-xl font-bold text-slate-900">Institutional Pipelines & Protocols</h2>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="bg-emerald-100 text-emerald-800 font-bold text-xs px-2.5 py-0.5 rounded-full">Phase II Clinical</span>
+            <span class="text-xs text-slate-400 font-mono">ID: BT-402-ONC</span>
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900">Targeted mRNA Delivery for Solid Tumors</h3>
+          <p class="text-xs text-slate-500">Lead PI: Dr. Sarah Raman, PhD • GenVault Therapeutics</p>
+
+          <div class="pt-2">
+            <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+              <span>Overall Progress</span>
+              <span class="text-emerald-700">65%</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2">
+              <div class="bg-emerald-600 h-2 rounded-full" style="width: 65%"></div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+            <a href="study-detail.html" class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold">
+              Manage Protocol & RBAC →
+            </a>
+          </div>
+        </div>
+
+        <div class="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="bg-amber-100 text-amber-800 font-bold text-xs px-2.5 py-0.5 rounded-full">Private Discovery</span>
+            <span class="text-xs text-slate-400 font-mono">ID: ORION-KIN-09</span>
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900">Small Molecule Kinase Inhibitor (Project Orion)</h3>
+          <p class="text-xs text-slate-500">Lead PI: Dr. Sarah Raman, PhD • Confidential Preclinical Vault</p>
+
+          <div class="pt-2">
+            <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+              <span>Overall Progress</span>
+              <span class="text-amber-700">18%</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2">
+              <div class="bg-amber-500 h-2 rounded-full" style="width: 18%"></div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+            <a href="study-detail.html" class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold">
+              Manage Protocol & RBAC →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="bg-slate-950 border-t border-emerald-900/40 text-slate-400 text-xs py-8 mt-12 text-center">
+    <p>© 2026 BioTrack • Researcher & Institutional RBAC Portal</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('header-root').innerHTML = renderHeader('researcher-portal');
+  </script>
+</body>
+</html>

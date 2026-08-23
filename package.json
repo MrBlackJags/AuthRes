@@ -1,0 +1,29 @@
+{
+  "name": "biotrack",
+  "version": "2.0.0",
+  "description": "Centralized Biomedical Research Tracking, Crowdfunding & Hospital Clinical Network",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "seed": "node Database/init-db.js"
+  },
+  "keywords": [
+    "biomedical",
+    "crowdfunding",
+    "clinical-trials",
+    "rbac",
+    "open-science",
+    "express",
+    "sqlite"
+  ],
+  "author": "Antigravity Engineering",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  }
+}
