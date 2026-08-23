@@ -27,9 +27,15 @@ CREATE TABLE IF NOT EXISTS research_projects (
     title TEXT NOT NULL,
     code TEXT, -- e.g. BT-402-ONC
     summary TEXT NOT NULL,
+    abstract TEXT, -- Detailed methodology and background
+    status TEXT NOT NULL DEFAULT 'ongoing' CHECK (status IN ('ongoing', 'completed')),
     stage TEXT NOT NULL CHECK (stage IN ('discovery', 'preclinical', 'phase_1', 'phase_2', 'phase_3', 'completed')),
     visibility TEXT NOT NULL DEFAULT 'private' CHECK (visibility IN ('public', 'private')),
     domain TEXT NOT NULL DEFAULT 'oncology',
+    journal_citation TEXT, -- e.g. Nature Medicine (2026)
+    source_url TEXT, -- e.g. https://pubmed.ncbi.nlm.nih.gov/...
+    doi TEXT, -- e.g. 10.1038/s41587-026-01928-3
+    likes_count INTEGER DEFAULT 0,
     progress_percent INTEGER DEFAULT 0 CHECK (progress_percent BETWEEN 0 AND 100),
     crowdfunding_raised REAL DEFAULT 0,
     crowdfunding_target REAL DEFAULT 50000,

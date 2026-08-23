@@ -44,22 +44,46 @@ function initNativeSqlite() {
 
   // Seed Projects
   db.exec(`INSERT INTO research_projects 
-    (id, title, code, summary, stage, visibility, domain, progress_percent, crowdfunding_raised, crowdfunding_target, lead_investigator_id, organization_id) VALUES
+    (id, title, code, summary, abstract, status, stage, visibility, domain, journal_citation, source_url, doi, likes_count, progress_percent, crowdfunding_raised, crowdfunding_target, lead_investigator_id, organization_id) VALUES
     ('proj-1', 'Targeted mRNA Delivery for Solid Tumors', 'BT-402-ONC', 
-     'Investigating ionizable lipid nanoparticle formulations to facilitate targeted tissue accumulation and mRNA translation inside glioblastoma multiforme microenvironments.', 
-     'phase_2', 'public', 'rna oncology', 65, 32500, 50000, 'usr-1', 'org-1'),
+     'Investigating ionizable lipid nanoparticle formulations to facilitate targeted tissue accumulation and mRNA translation inside glioblastoma multiforme microenvironments.',
+     'Glioblastoma multiforme (GBM) remains one of the most aggressive primary brain tumors. This study evaluates engineered ionizable lipid nanoparticles (LNPs) capable of traversing the blood-brain tumor barrier (BBTB) to deliver mRNA encodings for tumor suppressor p53 and anti-angiogenic factors.',
+     'ongoing', 'phase_2', 'public', 'rna oncology', 'Nature Biotechnology (2026)', 'https://pubmed.ncbi.nlm.nih.gov/38910245/', '10.1038/s41587-026-01928-3', 342, 65, 32500, 50000, 'usr-1', 'org-1'),
 
-    ('proj-2', 'CRISPR Editing for Alpha-1 Antitrypsin', 'AAT-901-GEN', 
-     'In-vivo gene editing therapeutic targeting AATD liver expression through high-precision AAV9 vector delivery.', 
-     'preclinical', 'public', 'crispr', 40, 18200, 40000, 'usr-2', 'org-2'),
+    ('proj-2', 'CRISPR Editing for Alpha-1 Antitrypsin Deficiency', 'AAT-901-GEN', 
+     'In-vivo gene editing therapeutic targeting AATD liver expression through high-precision AAV9 vector delivery.',
+     'Alpha-1 antitrypsin deficiency (AATD) causes severe liver disease and emphysema. Using adenine base editors (ABEs) packaged inside adeno-associated virus serotype 9 (AAV9), this study achieves precise correction of the PiZ mutation (E342K) in human primary hepatocytes.',
+     'ongoing', 'preclinical', 'public', 'crispr', 'Cell Stem Cell (2025)', 'https://pubmed.ncbi.nlm.nih.gov/37628109/', '10.1016/j.stem.2025.11.004', 219, 40, 18200, 40000, 'usr-2', 'org-2'),
 
     ('proj-3', 'Small Molecule Kinase Inhibitor (Project Orion)', 'ORION-KIN-09', 
-     'High-throughput screening of selective kinase compounds targeting mutated EGFR resistant pathways.', 
-     'discovery', 'private', 'kinase oncology', 18, 0, 100000, 'usr-1', 'org-1'),
+     'High-throughput screening of selective kinase compounds targeting mutated EGFR resistant pathways.',
+     'Acquired resistance to third-generation EGFR inhibitors (e.g. osimertinib) via C797S point mutations is a crucial clinical bottleneck in non-small cell lung cancer (NSCLC). Project Orion uses molecular dynamics and high-throughput crystallography to synthesize allosteric kinase inhibitors.',
+     'ongoing', 'discovery', 'private', 'kinase oncology', 'Journal of Medicinal Chemistry (2026)', 'https://pubmed.ncbi.nlm.nih.gov/39102847/', '10.1021/acs.jmedchem.5b02194', 185, 18, 0, 100000, 'usr-1', 'org-1'),
 
     ('proj-4', 'Personalized Neoantigen Peptide Vaccine', 'NEO-VAX-77', 
-     'Machine learning selection of patient tumor neoepitopes formulated with adjuvant alum for T-cell priming.', 
-     'preclinical', 'public', 'rna oncology', 52, 24000, 60000, 'usr-2', 'org-4')
+     'Machine learning selection of patient tumor neoepitopes formulated with adjuvant alum for T-cell priming.',
+     'Personalized cancer vaccines rely on precise identification of somatic mutations. We present a deep learning pipeline trained on mass spectrometry immunopeptidomics that selects high-affinity MHC-I binding peptides for autologous T-cell expansion.',
+     'ongoing', 'phase_1', 'public', 'rna oncology', 'Lancet Oncology (2026)', 'https://pubmed.ncbi.nlm.nih.gov/38491024/', '10.1016/S1470-2045(25)00412-X', 512, 52, 24000, 60000, 'usr-2', 'org-4'),
+
+    ('proj-5', 'Dual-Targeted CAR-T Cell Efficacy in Refractory B-Cell Lymphoma', 'CAR-LYM-100', 
+     'Multi-center clinical trial demonstrating 82% complete remission rate in patients receiving CD19/CD22 targeted CAR-T therapy.',
+     'Relapsed or refractory diffuse large B-cell lymphoma (DLBCL) often escapes single-target CAR-T therapies through antigen loss. This completed multi-center Phase III study presents long-term clinical data on bispecific CD19/CD22 chimeric antigen receptor T-cells with humanized scFv domains.',
+     'completed', 'completed', 'public', 'cell therapy', 'New England Journal of Medicine (2025)', 'https://pubmed.ncbi.nlm.nih.gov/38201948/', '10.1056/NEJMoa2408192', 890, 100, 75000, 75000, 'usr-1', 'org-1'),
+
+    ('proj-6', 'Monoclonal Antibody Clearance of Amyloid-Beta Plaques in Early Alzheimer’s', 'ALZ-NEURO-55', 
+     'Pivotal study proving 38% slowing of cognitive decline over 18 months following bi-weekly monoclonal antibody infusions.',
+     'Alzheimer’s disease pathogenesis is strongly linked to soluble amyloid-beta (Aβ) oligomers. This completed Phase III randomized double-blind trial verified significant plaque reduction via amyloid-PET imaging and measurable slowing of Clinical Dementia Rating-Sum of Boxes (CDR-SB).',
+     'completed', 'completed', 'public', 'neurodegeneration', 'Science Translational Medicine (2025)', 'https://pubmed.ncbi.nlm.nih.gov/37910284/', '10.1126/scitranslmed.abd8102', 640, 100, 90000, 90000, 'usr-2', 'org-4'),
+
+    ('proj-7', 'Synthetic Antimicrobial Peptides Targeting MDR Pseudomonas aeruginosa', 'AMP-MDR-03', 
+     'Design and structural characterization of helical cationic peptides exhibiting rapid membrane disruption against superbugs.',
+     'Multi-drug resistant (MDR) Gram-negative bacterial pathogens represent a global public health crisis. This research engineered a novel class of amphipathic alpha-helical cationic peptides that disrupt outer membrane integrity without toxicity to mammalian erythrocytes.',
+     'completed', 'completed', 'public', 'infectious diseases', 'Nature Microbiology (2024)', 'https://pubmed.ncbi.nlm.nih.gov/38102941/', '10.1038/s41564-024-01642-1', 425, 100, 45000, 45000, 'usr-2', 'org-2'),
+
+    ('proj-8', 'AAV-Mediated Cardiac Gene Delivery of SERCA2a for Severe Heart Failure', 'CARDIO-GEN-12', 
+     'Long-term 36-month cohort evaluation of sarcoplasmic reticulum calcium ATPase gene transfer restoring cardiac contractility.',
+     'Impaired calcium handling due to down-regulated SERCA2a expression is a hallmark of ischemic cardiomyopathy. This finished 3-year clinical cohort study confirmed sustained vector genome persistence and improved left ventricular ejection fraction in gene therapy recipients.',
+     'completed', 'completed', 'public', 'cardiology', 'Circulation Research (2025)', 'https://pubmed.ncbi.nlm.nih.gov/38302194/', '10.1161/CIRCRESAHA.124.320491', 310, 100, 60000, 60000, 'usr-1', 'org-3')
   ;`);
 
   // Seed Milestones

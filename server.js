@@ -84,7 +84,7 @@ app.get('/api/stats', async (req, res) => {
 // 3. Projects
 app.get('/api/projects', async (req, res) => {
   try {
-    const { q, stage, visibility, domain } = req.query;
+    const { q, stage, status, visibility, domain } = req.query;
     let sql = `
       SELECT p.*, u.full_name as lead_name, o.name as org_name 
       FROM research_projects p
@@ -95,9 +95,14 @@ app.get('/api/projects', async (req, res) => {
     const params = [];
 
     if (q) {
-      sql += ` AND (LOWER(p.title) LIKE ? OR LOWER(p.summary) LIKE ? OR LOWER(p.code) LIKE ? OR LOWER(u.full_name) LIKE ?)`;
+      sql += ` AND (LOWER(p.title) LIKE ? OR LOWER(p.summary) LIKE ? OR LOWER(p.code) LIKE ? OR LOWER(u.full_name) LIKE ? OR LOWER(p.journal_citation) LIKE ?)`;
       const term = `%${q.toLowerCase()}%`;
-      params.push(term, term, term, term);
+      params.push(term, term, term, term, term);
+    }
+
+    if (status && status !== 'all') {
+      sql += ` AND p.status = ?`;
+      params.push(status);
     }
 
     if (stage && stage !== 'all') {
@@ -119,6 +124,22 @@ app.get('/api/projects', async (req, res) => {
 
     const rows = await dbQuery(sql, params);
     res.json({ count: rows.length, projects: rows });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Like Research Project Endpoint
+app.post('/api/projects/:id/like', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { action } = req.body; // 'like' or 'unlike'
+    const delta = action === 'unlike' ? -1 : 1;
+
+    await dbRun('UPDATE research_projects SET likes_count = MAX(0, likes_count + ?) WHERE id = ?', [delta, id]);
+    const updated = await dbQuery('SELECT likes_count FROM research_projects WHERE id = ?', [id]);
+
+    res.json({ message: 'Like count updated successfully', likes_count: updated[0]?.likes_count || 0 });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

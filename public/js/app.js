@@ -116,6 +116,19 @@ const BioTrackAPI = {
     } catch (e) {
       return { message: 'Hospital cohort record submitted in local state.' };
     }
+  },
+
+  likeProject: async function(projectId, action = 'like') {
+    try {
+      const res = await fetch(`${API_BASE_URL}/projects/${projectId}/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action })
+      });
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
   }
 };
 
@@ -142,6 +155,20 @@ const BioTrackState = {
     else { bookmarks.push(id); added = true; }
     localStorage.setItem('biotrack_bookmarks', JSON.stringify(bookmarks));
     return added;
+  },
+
+  getLikes: function() {
+    try { return JSON.parse(localStorage.getItem('biotrack_likes') || '[]'); } catch(e) { return []; }
+  },
+  isLiked: function(id) { return this.getLikes().includes(id); },
+  toggleLike: function(id) {
+    let likes = this.getLikes();
+    const index = likes.indexOf(id);
+    let isLikedNow = false;
+    if (index > -1) { likes.splice(index, 1); }
+    else { likes.push(id); isLikedNow = true; }
+    localStorage.setItem('biotrack_likes', JSON.stringify(likes));
+    return isLikedNow;
   }
 };
 
@@ -211,6 +238,124 @@ function handleBookmarkClick(btn, studyId, studyTitle) {
     if (icon) icon.className = 'fa-regular fa-star';
     showToast(`Removed from your saved studies.`, 'Bookmark Removed', 'info');
   }
+}
+
+// Like Toggle Function
+async function handleLikeClick(btn, studyId, studyTitle) {
+  const isLikedNow = BioTrackState.toggleLike(studyId);
+  const icon = btn.querySelector('i');
+  const countSpan = btn.querySelector('.like-count');
+  let count = countSpan ? parseInt(countSpan.textContent) || 0 : 0;
+
+  if (isLikedNow) {
+    count++;
+    btn.classList.add('text-rose-600', 'bg-rose-50', 'border-rose-200');
+    btn.classList.remove('text-slate-400', 'hover:text-slate-600');
+    if (icon) icon.className = 'fa-solid fa-heart text-rose-600 animate-pulse';
+    showToast(`Liked "${studyTitle}"! Added to your appreciated publications.`, 'Research Liked', 'success');
+    await BioTrackAPI.likeProject(studyId, 'like');
+  } else {
+    count = Math.max(0, count - 1);
+    btn.classList.remove('text-rose-600', 'bg-rose-50', 'border-rose-200');
+    btn.classList.add('text-slate-400', 'hover:text-slate-600');
+    if (icon) icon.className = 'fa-regular fa-heart';
+    showToast(`Unliked "${studyTitle}".`, 'Like Removed', 'info');
+    await BioTrackAPI.likeProject(studyId, 'unlike');
+  }
+
+  if (countSpan) countSpan.textContent = count;
+}
+
+// --- SHARE RESEARCH MODAL SYSTEM ---
+function openShareModal(title, code, doi, citation, sourceUrl) {
+  let modal = document.getElementById('share-modal');
+  const shareUrl = sourceUrl || `${window.location.origin}/study-detail.html?id=${code || 'BT-402'}`;
+  const bibtex = `@article{${code || 'BT2026'},\n  title={${title}},\n  journal={${citation || 'BioTrack Research Directory'}},\n  year={2026},\n  doi={${doi || '10.1038/s41587-026-01928-3'}}\n}`;
+
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'share-modal';
+    modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300';
+    document.body.appendChild(modal);
+  }
+
+  modal.innerHTML = `
+    <div class="bg-white rounded-3xl max-w-lg w-full border border-slate-200 shadow-2xl overflow-hidden transform scale-95 transition-all duration-300" id="share-card">
+      <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-900 text-white p-6 relative">
+        <button onclick="closeShareModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white bg-white/10 w-8 h-8 rounded-full flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="inline-flex items-center gap-1.5 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider mb-2">
+          <i class="fa-solid fa-share-nodes text-emerald-400"></i> Share Research Publication
+        </div>
+        <h3 class="text-base font-extrabold text-white line-clamp-2">${title}</h3>
+        <p class="text-xs text-emerald-300 mt-1">${code || 'BT-RESEARCH'} • ${citation || 'Open Science Publication'}</p>
+      </div>
+
+      <div class="p-6 space-y-5 text-xs text-slate-700">
+        <!-- Direct Link Box -->
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-slate-500 mb-1.5">Direct Share Link</label>
+          <div class="flex items-center gap-2">
+            <input type="text" readonly id="share-url-input" value="${shareUrl}" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 font-mono text-[11px] text-slate-700 focus:outline-none" />
+            <button onclick="copyShareLink('${shareUrl}')" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shrink-0 transition flex items-center gap-1.5">
+              <i class="fa-regular fa-copy"></i> Copy Link
+            </button>
+          </div>
+        </div>
+
+        <!-- Citation Format -->
+        <div>
+          <div class="flex justify-between items-center mb-1.5">
+            <label class="font-bold uppercase tracking-wider text-slate-500">Citation (APA & DOI)</label>
+            <button onclick="copyCitation('${citation || title}', '${doi || ''}')" class="text-emerald-700 font-bold hover:underline">Copy APA Citation</button>
+          </div>
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-[11px] text-slate-600 leading-relaxed">
+            "${title}." <em>${citation || 'BioTrack Medical Network'}</em> (2026). DOI: ${doi || '10.1038/s41587-026-01928-3'}
+          </div>
+        </div>
+
+        <!-- Social Share Buttons -->
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-slate-500 mb-2">Share via Channels</label>
+          <div class="grid grid-cols-3 gap-2 text-center font-bold">
+            <a href="mailto:?subject=${encodeURIComponent('Research Publication: ' + title)}&body=${encodeURIComponent('Check out this research study on BioTrack:\n\n' + title + '\n\nLink: ' + shareUrl)}" class="p-2.5 rounded-xl border border-slate-200 hover:bg-emerald-50 hover:border-emerald-400 text-slate-700 transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-envelope text-emerald-600"></i> Email
+            </a>
+            <button onclick="copyShareLink('${shareUrl}')" class="p-2.5 rounded-xl border border-slate-200 hover:bg-emerald-50 hover:border-emerald-400 text-slate-700 transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-link text-emerald-600"></i> Copy URL
+            </button>
+            <a href="${sourceUrl || '#'}" target="_blank" class="p-2.5 rounded-xl border border-slate-200 hover:bg-emerald-50 hover:border-emerald-400 text-slate-700 transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-arrow-up-right-from-square text-emerald-600"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  modal.classList.remove('opacity-0', 'pointer-events-none');
+  document.getElementById('share-card').classList.remove('scale-95');
+}
+
+function closeShareModal() {
+  const modal = document.getElementById('share-modal');
+  if (modal) modal.classList.add('opacity-0', 'pointer-events-none');
+}
+
+function copyShareLink(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('Research direct link copied to clipboard!', 'Link Copied', 'success');
+  }).catch(() => {
+    showToast(`Link copied: ${url}`, 'Link Ready', 'info');
+  });
+}
+
+function copyCitation(citation, doi) {
+  const text = `${citation}. DOI: ${doi || '10.1038/s41587-026-01928-3'}`;
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('APA publication citation copied to clipboard!', 'Citation Copied', 'success');
+  });
 }
 
 // --- CROWDFUNDING DONATION MODAL ---
