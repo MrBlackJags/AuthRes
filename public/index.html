@@ -53,186 +53,276 @@
         }
       }
     };
-    if (localStorage.getItem('biotrack_theme') === 'dark' || (!('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (localStorage.getItem('authros_theme') === 'dark' || localStorage.getItem('biotrack_theme') === 'dark' || (!('authros_theme' in localStorage) && !('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
-    } 
+    }
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+<body class="bg-background text-foreground font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white transition-colors duration-200">
 
   <!-- Header Placeholder -->
   <div id="header-root"></div>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-10">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16">
     
-    <!-- Hero Section -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-slate-950 via-emerald-950 to-slate-900 rounded-3xl text-white p-8 sm:p-12 lg:p-14 shadow-2xl border border-emerald-500/20">
+    <!-- Hero Section: Modern, Clean & Minimal with Scroll Animation -->
+    <div class="reveal relative overflow-hidden rounded-3xl bg-gradient-to-b from-emerald-950/20 via-background to-background border border-border p-8 sm:p-12 lg:p-14 text-center space-y-7 shadow-xs">
       
-      <div class="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
-      <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-green-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Subtle Glow Blur -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[320px] bg-emerald-500/10 dark:bg-emerald-500/15 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse-glow"></div>
 
-      <div class="relative z-10 grid lg:grid-cols-12 gap-8 items-center">
-        <div class="lg:col-span-7 space-y-6">
-          <div class="inline-flex items-center gap-2 bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-semibold px-3.5 py-1.5 rounded-full uppercase tracking-wider backdrop-blur-md">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>Centralized Biomedical Tracking & Crowdfunding</span>
-          </div>
+      <!-- Top Badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+        <span>Open Science Biomedical Network • 1,250+ Verified Protocols</span>
+      </div>
 
-          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-gradient-hero">
-            Connecting Public Support, <span class="text-gradient-emerald">Hospitals</span> & Researchers
-          </h1>
+      <!-- Headline -->
+      <div class="max-w-3xl mx-auto space-y-3.5">
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-[1.1]">
+          Accelerating <span class="text-emerald-600 dark:text-emerald-400">Open Biomedical</span> Research & Clinical Trials
+        </h1>
+        <p class="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          A centralized platform connecting public supporters with life-saving trials, hospitals with clinical cohorts, and researchers with cryptographic RBAC protocol management.
+        </p>
+      </div>
 
-          <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl">
-            Empowering the public to crowdfund clinical breakthroughs, enabling hospitals to share anonymized cohorts, and equipping research labs with strict hierarchical RBAC data controls.
-          </p>
+      <!-- Clean Search Bar with Keystroke Glow -->
+      <div class="max-w-xl mx-auto pt-2">
+        <form onsubmit="event.preventDefault(); handleHeroSearch();" class="relative flex items-center shadow-lg shadow-emerald-950/5">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 text-muted-foreground text-sm"></i>
+          <input 
+            type="text" 
+            id="hero-search-input" 
+            placeholder="Search by molecule, protocol, disease, or investigator..." 
+            class="w-full h-12 pl-11 pr-28 rounded-2xl border border-border bg-card text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 transition"
+          />
+          <button type="submit" class="absolute right-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition hover:scale-102">
+            Search
+          </button>
+        </form>
 
-          <!-- Interactive Search Bar -->
-          <div class="pt-2">
-            <form onsubmit="event.preventDefault(); handleHeroSearch();" class="relative max-w-lg">
-              <div class="relative flex items-center">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 text-emerald-400 text-sm"></i>
-                <input 
-                  type="text" 
-                  id="hero-search-input" 
-                  placeholder="Search molecules, clinical trials, or hospital cohorts..." 
-                  class="w-full bg-white/10 backdrop-blur-md border border-emerald-400/30 text-white placeholder-slate-400 pl-11 pr-28 py-3.5 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400/50 transition"
-                />
-                <button type="submit" class="absolute right-2 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow-md transition-all hover:scale-105">
-                  Search Hub
-                </button>
-              </div>
-            </form>
-
-            <div class="flex flex-wrap items-center gap-2 mt-3 text-xs text-slate-400">
-              <span class="font-medium text-slate-300"><i class="fa-solid fa-bolt text-emerald-400 mr-1"></i> Quick Topics:</span>
-              <button onclick="fillHeroSearch('mRNA')" class="bg-white/5 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/20 px-2.5 py-0.5 rounded-full transition">Targeted mRNA</button>
-              <button onclick="fillHeroSearch('CRISPR')" class="bg-white/5 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/20 px-2.5 py-0.5 rounded-full transition">CRISPR Editing</button>
-              <button onclick="fillHeroSearch('Hospital')" class="bg-white/5 hover:bg-sky-500/20 text-sky-300 border border-sky-500/20 px-2.5 py-0.5 rounded-full transition">Hospital Cohorts</button>
-            </div>
-          </div>
-
-          <div class="pt-2 flex flex-wrap gap-3.5">
-            <a href="public-portal.html" class="bg-gradient-to-r from-amber-500 to-emerald-500 text-slate-950 font-black px-6 py-3 rounded-2xl text-sm transition shadow-lg shadow-amber-500/20 hover:scale-105 flex items-center gap-2">
-              <i class="fa-solid fa-heart text-amber-900"></i> Public Donor Portal
-            </a>
-            <a href="hospital-portal.html" class="bg-gradient-to-r from-sky-600 to-teal-600 text-white font-bold px-6 py-3 rounded-2xl text-sm transition shadow-lg shadow-sky-600/20 hover:scale-105 flex items-center gap-2">
-              <i class="fa-solid fa-hospital"></i> Hospital Portal
-            </a>
-            <a href="researcher-portal.html" class="glass-dark border border-emerald-400/30 text-emerald-200 hover:text-white font-bold px-6 py-3 rounded-2xl text-sm transition flex items-center gap-2">
-              <i class="fa-solid fa-microscope"></i> Researcher Portal
-            </a>
-          </div>
+        <div class="flex flex-wrap items-center justify-center gap-1.5 mt-3 text-xs text-muted-foreground">
+          <span class="text-[11px] font-semibold text-foreground">Popular:</span>
+          <button onclick="fillHeroSearch('Oncology')" class="px-2.5 py-0.5 rounded-full border border-border hover:border-emerald-500/40 hover:bg-accent text-[11px] transition">Oncology</button>
+          <button onclick="fillHeroSearch('mRNA')" class="px-2.5 py-0.5 rounded-full border border-border hover:border-emerald-500/40 hover:bg-accent text-[11px] transition">Targeted mRNA</button>
+          <button onclick="fillHeroSearch('CRISPR')" class="px-2.5 py-0.5 rounded-full border border-border hover:border-emerald-500/40 hover:bg-accent text-[11px] transition">CRISPR</button>
+          <button onclick="fillHeroSearch('Immunology')" class="px-2.5 py-0.5 rounded-full border border-border hover:border-emerald-500/40 hover:bg-accent text-[11px] transition">Immunology</button>
         </div>
+      </div>
 
-        <!-- Right Side User Group Pathways -->
-        <div class="lg:col-span-5 hidden lg:flex flex-col gap-4">
-          <div class="glass-dark p-5 rounded-2xl border border-amber-400/20 shadow-xl space-y-2.5 animate-float" style="animation-delay: 0s;">
-            <div class="flex items-center justify-between text-xs">
-              <span class="bg-amber-400/20 text-amber-300 px-2.5 py-0.5 rounded-full font-bold border border-amber-400/30">
-                <i class="fa-solid fa-heart text-amber-400 mr-1"></i> Public Crowdfunding
-              </span>
-              <span class="text-amber-300 font-bold">$128,500 Raised Total</span>
-            </div>
-            <h4 class="font-bold text-white text-sm">Directly Support Medical Breakthroughs</h4>
-            <p class="text-xs text-slate-300">Donate directly to verified clinical trials with 100% open-science publication transparency.</p>
-          </div>
-
-          <div class="glass-dark p-5 rounded-2xl border border-sky-400/20 shadow-xl space-y-2.5 animate-float" style="animation-delay: 1.5s;">
-            <div class="flex items-center justify-between text-xs">
-              <span class="bg-sky-400/20 text-sky-300 px-2.5 py-0.5 rounded-full font-bold border border-sky-400/30">
-                <i class="fa-solid fa-hospital text-sky-400 mr-1"></i> Hospital Clinical Portal
-              </span>
-              <span class="text-sky-300 font-bold">45 Verified Centers</span>
-            </div>
-            <h4 class="font-bold text-white text-sm">Anonymized Patient Cohort Sharing</h4>
-            <p class="text-xs text-slate-300">Medical institutions upload HIPAA-compliant de-identified patient data to accelerate trial matching.</p>
-          </div>
-
-          <div class="glass-dark p-5 rounded-2xl border border-emerald-400/20 shadow-xl space-y-2.5 animate-float" style="animation-delay: 3s;">
-            <div class="flex items-center justify-between text-xs">
-              <span class="bg-emerald-400/20 text-emerald-300 px-2.5 py-0.5 rounded-full font-bold border border-emerald-400/30">
-                <i class="fa-solid fa-shield-halved text-emerald-400 mr-1"></i> Strict Lab RBAC
-              </span>
-              <span class="text-emerald-300 font-bold">PI to Lab Tech Permissions</span>
-            </div>
-            <h4 class="font-bold text-white text-sm">Granular Data Access Management</h4>
-            <p class="text-xs text-slate-300">Protects confidential preclinical datasets while enabling collaborators to log milestones.</p>
-          </div>
-        </div>
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
+        <a href="research.html" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition hover:scale-102 flex items-center gap-2">
+          <i class="fa-solid fa-book-medical text-xs"></i> Browse 1,250+ Studies
+        </a>
+        <a href="auth.html" class="px-5 py-2.5 rounded-xl border border-border hover:bg-accent text-foreground font-semibold text-xs transition flex items-center gap-2">
+          <i class="fa-regular fa-user text-xs"></i> Sign In / Create Account
+        </a>
       </div>
     </div>
 
-    <!-- Three Dedicated Portals Cards -->
-    <div class="space-y-4">
-      <div class="text-center max-w-2xl mx-auto space-y-1">
-        <h2 class="text-2xl font-black text-slate-900">Choose Your Ecosystem Portal</h2>
-        <p class="text-xs text-slate-500">Dedicated interfaces designed for each user community.</p>
+    <!-- 4 Clean Ecosystem Gateway Cards (Staggered Animation & Perfect Proportions) -->
+    <div class="space-y-6">
+      <div class="reveal-left flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-border pb-4">
+        <div>
+          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Access Portals</span>
+          <h2 class="text-2xl font-black text-foreground tracking-tight">Select Your Workspace Portal</h2>
+        </div>
+        <p class="text-xs text-muted-foreground">Dedicated environments tailored for each biomedical stakeholder</p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
         
-        <!-- Portal 1: Public -->
-        <a href="public-portal.html" class="interactive-card bg-white p-6 rounded-3xl border-2 border-amber-200 hover:border-amber-500 shadow-xs space-y-4 block group">
-          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xl">
-            <i class="fa-solid fa-heart"></i>
+        <!-- Portal 1: Public Donors -->
+        <a href="public-portal.html" class="reveal-scale delay-100 interactive-card bg-card p-5 sm:p-6 rounded-2xl border border-border hover:border-amber-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            <div>
+              <span class="text-[10px] font-extrabold text-amber-700 dark:text-amber-400 uppercase tracking-wider bg-amber-500/10 px-2 py-0.5 rounded-md">Supporters</span>
+              <h3 class="text-base font-bold text-foreground mt-1.5 group-hover:text-amber-600 transition">Public Donors</h3>
+            </div>
+            <p class="text-xs text-muted-foreground leading-relaxed">
+              Crowdfund verified preclinical pipelines and follow transparent open milestones.
+            </p>
           </div>
-          <div class="space-y-1">
-            <span class="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider bg-amber-50 px-2.5 py-0.5 rounded-full">Public Portal</span>
-            <h3 class="text-lg font-bold text-slate-900 group-hover:text-amber-600 transition">General Public & Donors</h3>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Explore open breakthroughs, donate directly to clinical pipelines, and receive verifiable milestone logs.
-          </p>
-          <div class="pt-2 text-xs font-bold text-amber-700 flex items-center gap-1 group-hover:translate-x-1 transition">
-            Launch Public Donors Portal →
-          </div>
-        </a>
-
-        <!-- Portal 2: Hospitals -->
-        <a href="hospital-portal.html" class="interactive-card bg-white p-6 rounded-3xl border-2 border-sky-200 hover:border-sky-500 shadow-xs space-y-4 block group">
-          <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xl">
-            <i class="fa-solid fa-hospital"></i>
-          </div>
-          <div class="space-y-1">
-            <span class="text-[10px] font-extrabold text-sky-700 uppercase tracking-wider bg-sky-50 px-2.5 py-0.5 rounded-full">Hospital Portal</span>
-            <h3 class="text-lg font-bold text-slate-900 group-hover:text-sky-600 transition">Hospitals & Clinical Sites</h3>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Access verified trial data, submit HIPAA-compliant anonymized patient cohorts, and initiate trial partnerships.
-          </p>
-          <div class="pt-2 text-xs font-bold text-sky-700 flex items-center gap-1 group-hover:translate-x-1 transition">
-            Launch Hospital Portal →
+          <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-amber-600 dark:text-amber-400 group-hover:translate-x-1 transition">
+            <span>Enter Portal</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
           </div>
         </a>
 
-        <!-- Portal 3: Researchers -->
-        <a href="researcher-portal.html" class="interactive-card bg-white p-6 rounded-3xl border-2 border-emerald-200 hover:border-emerald-500 shadow-xs space-y-4 block group">
-          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xl">
-            <i class="fa-solid fa-microscope"></i>
+        <!-- Portal 2: Hospital Network -->
+        <a href="hospital-portal.html" class="reveal-scale delay-150 interactive-card bg-card p-5 sm:p-6 rounded-2xl border border-border hover:border-sky-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-hospital"></i>
+            </div>
+            <div>
+              <span class="text-[10px] font-extrabold text-sky-700 dark:text-sky-400 uppercase tracking-wider bg-sky-500/10 px-2 py-0.5 rounded-md">Clinical Sites</span>
+              <h3 class="text-base font-bold text-foreground mt-1.5 group-hover:text-sky-600 transition">Hospital Network</h3>
+            </div>
+            <p class="text-xs text-muted-foreground leading-relaxed">
+              Submit HIPAA-compliant anonymized patient cohorts and match ongoing trials.
+            </p>
           </div>
-          <div class="space-y-1">
-            <span class="text-[10px] font-extrabold text-emerald-700 uppercase tracking-wider bg-emerald-50 px-2.5 py-0.5 rounded-full">Researcher Portal</span>
-            <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">Researchers & Labs</h3>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Manage preclinical data vaults with strict hierarchical RBAC—granting custom permissions from PIs to Lab Techs.
-          </p>
-          <div class="pt-2 text-xs font-bold text-emerald-700 flex items-center gap-1 group-hover:translate-x-1 transition">
-            Launch Researcher Portal →
+          <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-sky-600 dark:text-sky-400 group-hover:translate-x-1 transition">
+            <span>Enter Portal</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
           </div>
         </a>
 
+        <!-- Portal 3: Researcher RBAC -->
+        <a href="researcher-portal.html" class="reveal-scale delay-200 interactive-card bg-card p-5 sm:p-6 rounded-2xl border border-border hover:border-emerald-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-microscope"></i>
+            </div>
+            <div>
+              <span class="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded-md">Research Labs</span>
+              <h3 class="text-base font-bold text-foreground mt-1.5 group-hover:text-emerald-600 transition">Researcher RBAC</h3>
+            </div>
+            <p class="text-xs text-muted-foreground leading-relaxed">
+              Manage multi-tier lab permissions, register protocols, and upload FastQ datasets.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition">
+            <span>Enter Portal</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </div>
+        </a>
+
+        <!-- Portal 4: SaaS Workspace -->
+        <a href="dashboard.html" class="reveal-scale delay-250 interactive-card bg-card p-5 sm:p-6 rounded-2xl border border-border hover:border-emerald-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-slate-900 text-emerald-400 flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-gauge-high"></i>
+            </div>
+            <div>
+              <span class="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded-md">SaaS App</span>
+              <h3 class="text-base font-bold text-foreground mt-1.5 group-hover:text-emerald-600 transition">SaaS Workspace</h3>
+            </div>
+            <p class="text-xs text-muted-foreground leading-relaxed">
+              Clinical pipeline metrics, live protocol tracking, audit logs, and analytics.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition">
+            <span>Open Workspace</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Featured Research Catalog (Live Dynamic Cards) -->
+    <div class="space-y-6 pt-2">
+      <div class="reveal-left flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Live Library</span>
+          <h2 class="text-2xl font-black text-foreground tracking-tight">Featured Research Protocols</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="research.html" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs flex items-center gap-1.5">
+            <i class="fa-solid fa-book-open text-[11px]"></i> Full 1,250+ Catalog
+          </a>
+          <a href="research-domains.html" class="px-3.5 py-2 rounded-xl border border-border hover:bg-accent text-foreground font-semibold text-xs transition">
+            All Domains
+          </a>
+        </div>
+      </div>
+
+      <!-- Domain Filter Tabs -->
+      <div class="reveal flex items-center gap-1.5 overflow-x-auto pb-1" id="domain-pills">
+        <button onclick="filterHomeDomain('all', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition">
+          All (1,250+)
+        </button>
+        <button onclick="filterHomeDomain('oncology', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+          Oncology
+        </button>
+        <button onclick="filterHomeDomain('immunology', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+          Immunology
+        </button>
+        <button onclick="filterHomeDomain('neuroscience', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+          Neuroscience
+        </button>
+        <button onclick="filterHomeDomain('rare_disease', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+          Rare Disease
+        </button>
+        <button onclick="filterHomeDomain('genomics', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+          Genomics
+        </button>
+        <button onclick="filterHomeDomain('cardiology', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+          Cardiology
+        </button>
+      </div>
+
+      <!-- Dynamic Grid Container -->
+      <div id="home-featured-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Javascript fills real cards here -->
+      </div>
+    </div>
+
+    <!-- Platform Impact Summary -->
+    <div class="reveal bg-card rounded-3xl border border-border p-6 sm:p-8 space-y-6 shadow-xs">
+      <div class="text-center max-w-xl mx-auto space-y-1">
+        <h3 class="text-xl font-bold text-foreground">Global Open Science Impact</h3>
+        <p class="text-xs text-muted-foreground">Verifiable research milestones and decentralized biomedical collaboration</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-4 sm:p-5 rounded-2xl bg-muted/40 border border-border text-center space-y-1 hover:border-emerald-500/30 transition">
+          <div class="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">1,250+</div>
+          <div class="text-xs font-bold text-foreground">Verified Studies</div>
+          <div class="text-[10px] text-muted-foreground">Active in archive</div>
+        </div>
+
+        <div class="p-4 sm:p-5 rounded-2xl bg-muted/40 border border-border text-center space-y-1 hover:border-amber-500/30 transition">
+          <div class="text-2xl sm:text-3xl font-black text-amber-500">$128,500</div>
+          <div class="text-xs font-bold text-foreground">Crowdfunded</div>
+          <div class="text-[10px] text-muted-foreground">Public contributions</div>
+        </div>
+
+        <div class="p-4 sm:p-5 rounded-2xl bg-muted/40 border border-border text-center space-y-1 hover:border-sky-500/30 transition">
+          <div class="text-2xl sm:text-3xl font-black text-sky-500">45</div>
+          <div class="text-xs font-bold text-foreground">Hospital Sites</div>
+          <div class="text-[10px] text-muted-foreground">Clinical partners</div>
+        </div>
+
+        <div class="p-4 sm:p-5 rounded-2xl bg-muted/40 border border-border text-center space-y-1 hover:border-violet-500/30 transition">
+          <div class="text-2xl sm:text-3xl font-black text-violet-500">12+</div>
+          <div class="text-xs font-bold text-foreground">Nations</div>
+          <div class="text-[10px] text-muted-foreground">International reach</div>
+        </div>
       </div>
     </div>
 
   </main>
 
-  <footer class="bg-slate-950 border-t border-emerald-900/40 text-slate-400 text-xs py-8 mt-12 text-center">
-    <p>© 2026 AuthRos • Centralized Biomedical Research Tracking, Crowdfunding & Hospital Portal</p>
+  <!-- Clean Minimal Footer -->
+  <footer class="bg-card border-t border-border text-muted-foreground text-xs py-8 mt-12 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px]">
+          <i class="fa-solid fa-dna"></i>
+        </div>
+        <span class="font-extrabold text-foreground">Auth<span class="text-emerald-600">Ros</span></span>
+        <span>• Centralized Biomedical Research & Crowdfunding Network</span>
+      </div>
+      <div class="flex items-center gap-4 text-[11px] font-semibold">
+        <a href="public-portal.html" class="hover:text-foreground transition">Donors</a>
+        <a href="hospital-portal.html" class="hover:text-foreground transition">Hospitals</a>
+        <a href="researcher-portal.html" class="hover:text-foreground transition">Researchers</a>
+        <a href="dashboard.html" class="hover:text-foreground transition">Workspace</a>
+        <a href="research.html" class="hover:text-foreground transition">1,250+ Papers</a>
+      </div>
+    </div>
   </footer>
 
   <script src="js/app.js"></script>
@@ -248,6 +338,104 @@
       document.getElementById('hero-search-input').value = text;
       handleHeroSearch();
     }
+
+    // Dynamic Featured Papers
+    let allFeaturedPapers = [];
+    try {
+      allFeaturedPapers = (typeof AuthRosData !== 'undefined') ? AuthRosData.getPapers() : [];
+    } catch(e) {
+      allFeaturedPapers = [];
+    }
+
+    function renderFeaturedGrid(papersToRender) {
+      const grid = document.getElementById('home-featured-grid');
+      if (!grid) return;
+
+      if (!papersToRender || papersToRender.length === 0) {
+        grid.innerHTML = '<div class="col-span-3 text-center py-8 text-muted-foreground text-xs">No papers found for this domain.</div>';
+        return;
+      }
+
+      const slice = papersToRender.slice(0, 6);
+      grid.innerHTML = slice.map((p, idx) => {
+        const flag = (typeof getCountryFlagSvg !== 'undefined') ? getCountryFlagSvg(p.country_code || 'US') : '';
+        const stage = p.stage || 'preclinical';
+        const badgeClass = (typeof PipelineManager !== 'undefined') ? PipelineManager.getBadgeClass(stage) : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+        const stageLabel = (typeof PipelineManager !== 'undefined') ? PipelineManager.formatStage(stage) : stage;
+        const progressPct = p.progress_percent || (p.status === 'completed' ? 100 : 45);
+        const raised = p.crowdfunding_raised || 0;
+        const target = p.crowdfunding_target || 50000;
+        const safeTitle = (p.title || '').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+        const staggerClass = idx % 3 === 0 ? 'delay-100' : idx % 3 === 1 ? 'delay-200' : 'delay-300';
+
+        return `
+          <div class="reveal-scale ${staggerClass} interactive-card bg-card rounded-2xl border border-border p-5 space-y-3 flex flex-col justify-between hover:shadow-md hover:border-emerald-500/40 transition-all">
+            <div class="space-y-2">
+              <div class="flex items-start justify-between gap-2">
+                <div class="flex items-center gap-1.5">
+                  ${flag}
+                  <span class="text-[10px] font-mono text-muted-foreground font-semibold">${p.code || p.id}</span>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${badgeClass}">
+                  ${stageLabel}
+                </span>
+              </div>
+              <h3 class="text-sm font-bold text-foreground line-clamp-2 leading-snug">${p.title}</h3>
+              <p class="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">${p.lead_name || p.lead_investigator || 'Lead Investigator'}</p>
+              <p class="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">${p.summary || ''}</p>
+            </div>
+
+            <div class="space-y-2.5 pt-2 border-t border-border/60">
+              <div class="space-y-1">
+                <div class="flex justify-between text-[10px] font-semibold text-muted-foreground">
+                  <span>Progress</span>
+                  <span class="text-emerald-600 dark:text-emerald-400 font-bold">${progressPct}%</span>
+                </div>
+                <div class="w-full bg-muted rounded-full h-1.5">
+                  <div class="h-1.5 rounded-full bg-emerald-600 transition-all" style="width: ${progressPct}%"></div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-[10px] text-muted-foreground">
+                <span>Raised: <b>$${raised.toLocaleString()}</b></span>
+                <span class="px-2 py-0.5 rounded-md bg-accent font-bold text-foreground capitalize">${p.domain || 'Medical'}</span>
+              </div>
+
+              <div class="flex gap-2 pt-1">
+                <button onclick="openQuickViewModal('${p.id}')" class="px-2.5 py-1.5 rounded-lg border border-border text-[11px] font-semibold text-foreground hover:border-emerald-500 hover:text-emerald-600 transition" title="Quick Read Abstract">
+                  <i class="fa-regular fa-eye text-[10px]"></i>
+                </button>
+                <a href="study-detail.html?id=${p.id}" class="flex-1 text-center text-[11px] font-bold py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-xs">
+                  View Protocol
+                </a>
+                <button onclick="openShareModal('${safeTitle}','${p.code || ''}','${p.doi || ''}','${(p.journal_citation || '').replace(/'/g,"\\'")}','${p.source_url || ''}')" class="px-3 py-1.5 rounded-lg border border-border text-[11px] font-semibold text-foreground hover:bg-accent transition" title="Cite Protocol">
+                  <i class="fa-solid fa-quote-right text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (window.observeReveals) window.observeReveals();
+    }
+
+    function filterHomeDomain(domainKey, btn) {
+      document.querySelectorAll('.domain-pill').forEach(b => {
+        b.className = 'domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition';
+      });
+      btn.className = 'domain-pill px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition';
+
+      if (domainKey === 'all') {
+        renderFeaturedGrid(allFeaturedPapers);
+      } else {
+        const filtered = allFeaturedPapers.filter(p => (p.domain || '').toLowerCase().includes(domainKey));
+        renderFeaturedGrid(filtered);
+      }
+    }
+
+    // Initial render
+    renderFeaturedGrid(allFeaturedPapers);
   </script>
 </body>
 </html>

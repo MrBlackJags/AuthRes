@@ -11,7 +11,7 @@ const { validateBody, sanitize, parsePagination } = require('../middleware/valid
 function makeId(prefix) { return `${prefix}-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`; }
 
 // ─── GET /api/projects ──────────────────────────────────────────────────────
-router.get('/', optionalAuth, parsePagination(50, 365), async (req, res) => {
+router.get('/', optionalAuth, parsePagination(50, 2000), async (req, res) => {
   try {
     const { q, stage, status, visibility, domain, country, publisher, era } = req.query;
     const { limit, offset } = req.pagination;

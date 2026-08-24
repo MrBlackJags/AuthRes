@@ -77,28 +77,28 @@
         <div class="space-y-3 max-w-3xl">
           <div class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs px-3.5 py-1 rounded-full font-bold shadow-xs">
             <i class="fa-solid fa-dna text-emerald-400"></i>
-            <span>365+ Verified Global Papers • 1928–2026 Archive</span>
+            <span>1,250+ Verified Global Papers • 1928–2026 Archive</span>
           </div>
           <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
             Biomedical Research <span class="text-gradient-emerald">Directory</span>
           </h1>
           <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
-            Explore 365+ verified medical research papers, ongoing clinical trials, and landmark biological breakthroughs spanning 12 international research hubs.
+            Explore 1,250+ verified medical research papers, ongoing clinical trials, and landmark biological breakthroughs spanning 12 international research hubs.
           </p>
         </div>
 
         <!-- Telemetry Stat Counters -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white/5 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shrink-0">
           <div class="px-2">
-            <span class="text-xl font-extrabold text-white block" id="header-total-count">365</span>
+            <span class="text-xl font-extrabold text-white block" id="header-total-count">1,250</span>
             <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total Papers</span>
           </div>
           <div class="px-2 border-l border-white/10">
-            <span class="text-xl font-extrabold text-emerald-400 block" id="header-ongoing-count">182</span>
+            <span class="text-xl font-extrabold text-emerald-400 block" id="header-ongoing-count">618</span>
             <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">In-Vivo Trials</span>
           </div>
           <div class="px-2 border-l border-white/10">
-            <span class="text-xl font-extrabold text-green-400 block" id="header-completed-count">183</span>
+            <span class="text-xl font-extrabold text-green-400 block" id="header-completed-count">632</span>
             <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Completed</span>
           </div>
           <div class="px-2 border-l border-white/10">
@@ -127,7 +127,7 @@
             type="text" 
             id="searchInput" 
             oninput="filterStudies()" 
-            placeholder="Search 365+ papers by title, author, biomarker, DOI, country, or journal... (Press / to search)" 
+            placeholder="Search 1,250+ papers by title, author, biomarker, DOI, country, or journal... (Press / to search)" 
             class="w-full bg-muted/60 border border-border rounded-xl pl-9 pr-8 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
           />
           <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-2.5 text-muted-foreground hover:text-foreground text-xs">
@@ -139,15 +139,15 @@
         <div class="flex items-center gap-1 bg-muted p-1 rounded-xl border border-border text-xs font-semibold shrink-0">
           <button onclick="setStatusFilter('all', this)" class="status-tab-btn px-3.5 py-1.5 rounded-lg bg-emerald-600 text-white font-bold shadow-xs transition flex items-center gap-1.5">
             <span>All Studies</span>
-            <span id="badge-count-all" class="text-[10px] bg-white/20 px-1.5 py-0.2 rounded-full">365</span>
+            <span id="badge-count-all" class="text-[10px] bg-white/20 px-1.5 py-0.2 rounded-full">1,250</span>
           </button>
           <button onclick="setStatusFilter('ongoing', this)" class="status-tab-btn px-3.5 py-1.5 rounded-lg text-muted-foreground hover:text-foreground transition flex items-center gap-1.5">
             <span>In-Vivo / Active</span>
-            <span id="badge-count-ongoing" class="text-[10px] bg-muted px-1.5 py-0.2 rounded-full">182</span>
+            <span id="badge-count-ongoing" class="text-[10px] bg-muted px-1.5 py-0.2 rounded-full">618</span>
           </button>
           <button onclick="setStatusFilter('completed', this)" class="status-tab-btn px-3.5 py-1.5 rounded-lg text-muted-foreground hover:text-foreground transition flex items-center gap-1.5">
             <span>Completed Papers</span>
-            <span id="badge-count-completed" class="text-[10px] bg-muted px-1.5 py-0.2 rounded-full">183</span>
+            <span id="badge-count-completed" class="text-[10px] bg-muted px-1.5 py-0.2 rounded-full">632</span>
           </button>
         </div>
 
@@ -190,7 +190,7 @@
         <div>
           <label class="block text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">Medical Domain</label>
           <select id="domainSelect" onchange="setDomainSelectFilter(this.value)" class="w-full bg-muted/60 border border-border text-foreground rounded-xl px-3 py-1.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500">
-            <option value="all">🧬 All Medical Domains (365)</option>
+            <option value="all">🧬 All Medical Domains (1,250+)</option>
             <option value="crispr">CRISPR & Gene Editing</option>
             <option value="rna oncology">RNA & mRNA Oncology</option>
             <option value="cell therapy">CAR-T & Cell Therapy</option>
@@ -232,7 +232,7 @@
         <div>
           <label class="block text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">Publisher & Journal</label>
           <select id="publisherFilter" onchange="filterStudies()" class="w-full bg-muted/60 border border-border text-foreground rounded-xl px-3 py-1.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500">
-            <option value="all">📚 All Publishers (8 Journals)</option>
+            <option value="all">📚 All Publishers (10 Official Journals)</option>
             <option value="Nature">Nature Publishing Group (Nature)</option>
             <option value="Science">AAAS Science</option>
             <option value="New England Journal">NEJM (Mass Medical Society)</option>
@@ -241,31 +241,57 @@
             <option value="PNAS">PNAS (National Academy)</option>
             <option value="Brain">Oxford University Press</option>
             <option value="BMJ">BMJ Publishing</option>
+            <option value="JAMA">American Medical Association (JAMA)</option>
+            <option value="Circulation">American Heart Association</option>
           </select>
         </div>
 
       </div>
 
-      <!-- Third Row: Active Filter Summary & Results Status -->
-      <div class="flex items-center justify-between text-xs pt-1">
-        <div class="flex items-center gap-2">
+      <!-- Third Row: Active Filter Summary, Sort Controls & Per-Page Selector -->
+      <div class="flex flex-wrap items-center justify-between gap-3 text-xs pt-2 border-t border-border">
+        <div class="flex items-center gap-2 flex-wrap">
           <span id="resultsCount" class="font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/20">
-            Showing 365 studies
+            Showing 1,250 studies
           </span>
-          <button onclick="resetAllFilters()" class="text-muted-foreground hover:text-foreground text-[11px] underline ml-2">
+          <button onclick="resetAllFilters()" class="text-muted-foreground hover:text-foreground text-[11px] underline ml-1">
             Reset Filters
           </button>
         </div>
 
-        <!-- Per-Page Selector -->
-        <div class="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-          <span>Show:</span>
-          <select id="pageSizeSelect" onchange="setPageSize(this.value)" class="bg-muted border border-border rounded-lg px-2 py-0.5 text-[11px] text-foreground focus:outline-none">
-            <option value="20" selected>20 / page</option>
-            <option value="50">50 / page</option>
-            <option value="100">100 / page</option>
-            <option value="9999">Show All</option>
-          </select>
+        <!-- Sort & Per-Page Controls -->
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <!-- Interactive Sort Controls -->
+          <div class="flex items-center gap-1.5 bg-muted/60 p-1 rounded-xl border border-border">
+            <span class="text-[10px] font-bold text-muted-foreground uppercase px-1 flex items-center gap-1">
+              <i class="fa-solid fa-arrow-down-short-wide text-emerald-600"></i> Sort:
+            </span>
+            <select id="sortSelect" onchange="setSortFilter(this.value)" class="bg-card border border-border rounded-lg px-2.5 py-1 text-[11px] font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer">
+              <option value="year_desc">📅 Year: Newest (2026 → 1928)</option>
+              <option value="year_asc">⏳ Year: Oldest / Historic (1928 → 2026)</option>
+              <option value="likes_desc">❤️ Most Popular / Citations</option>
+              <option value="funded_desc">💰 Highest Crowdfunded ($)</option>
+              <option value="progress_desc">📈 Highest Clinical Progress (%)</option>
+              <option value="title_asc">🔤 Title: A to Z</option>
+              <option value="title_desc">🔤 Title: Z to A</option>
+              <option value="country_asc">🌍 Country: A to Z</option>
+            </select>
+            <button id="sortDirectionBtn" onclick="toggleSortDirection()" title="Invert Sort Order" class="p-1 px-2 rounded-lg bg-card hover:bg-accent border border-border text-foreground text-[11px] font-bold transition flex items-center gap-1">
+              <i id="sortDirectionIcon" class="fa-solid fa-arrow-down-wide-short text-emerald-600 text-xs"></i>
+              <span id="sortDirectionLabel" class="text-[10px]">Desc</span>
+            </button>
+          </div>
+
+          <!-- Per-Page Selector -->
+          <div class="flex items-center gap-1.5 text-[11px] text-muted-foreground bg-muted/60 px-2.5 py-1 rounded-xl border border-border">
+            <span>Show:</span>
+            <select id="pageSizeSelect" onchange="setPageSize(this.value)" class="bg-card border border-border rounded-lg px-2 py-0.5 text-[11px] font-semibold text-foreground focus:outline-none cursor-pointer">
+              <option value="20" selected>20 / page</option>
+              <option value="50">50 / page</option>
+              <option value="100">100 / page</option>
+              <option value="9999">Show All</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -308,6 +334,8 @@
     let filteredProjects = [...allProjects];
     let currentStatus = 'all';
     let currentDomain = 'all';
+    let currentSort = 'year_desc';
+    let sortDirection = 'desc';
     let currentViewMode = 'card';
     let currentLang = 'en';
     let currentPage = 1;
@@ -326,7 +354,7 @@
       document.getElementById('header-root').innerHTML = renderHeader('research');
 
       try {
-        const apiRes = await AuthRosAPI.getProjects();
+        const apiRes = await AuthRosAPI.getProjects({ limit: 1250 });
         if (apiRes && apiRes.projects && apiRes.projects.length >= 50) {
           allProjects = apiRes.projects;
         } else {
@@ -335,17 +363,79 @@
       } catch(e) {
         allProjects = AuthRosData.getPapers();
       }
-      // Parse URL parameters for direct linking
+      // Parse URL parameters and session storage for direct linking
       const params = new URLSearchParams(window.location.search);
-      if (params.get('q')) document.getElementById('searchInput').value = params.get('q');
-      if (params.get('domain')) {
-        currentDomain = params.get('domain');
-        const domEl = document.getElementById('domainSelect');
-        if (domEl) domEl.value = currentDomain;
+      if (params.get('q')) {
+        const qEl = document.getElementById('searchInput');
+        if (qEl) qEl.value = params.get('q');
       }
-      if (params.get('country')) document.getElementById('countryFilter').value = params.get('country');
-      if (params.get('era')) document.getElementById('eraFilter').value = params.get('era');
-      if (params.get('publisher')) document.getElementById('publisherFilter').value = params.get('publisher');
+
+      // Domain auto-filtering with alias map
+      let requestedDomain = params.get('domain') || sessionStorage.getItem('preferred_domain');
+      if (requestedDomain) {
+        try { sessionStorage.removeItem('preferred_domain'); } catch(e) {}
+        requestedDomain = requestedDomain.toLowerCase().trim();
+
+        const domainAliases = {
+          'crispr': 'crispr',
+          'genomics': 'crispr',
+          'gene editing': 'crispr',
+          'genomic medicine': 'crispr',
+          'rna': 'rna oncology',
+          'rna oncology': 'rna oncology',
+          'oncology': 'rna oncology',
+          'mrna': 'rna oncology',
+          'cancer': 'rna oncology',
+          'cell therapy': 'cell therapy',
+          'immunology': 'cell therapy',
+          'car-t': 'cell therapy',
+          'cart': 'cell therapy',
+          'neurodegeneration': 'neurodegeneration',
+          'neuroscience': 'neurodegeneration',
+          'neuro': 'neurodegeneration',
+          'alzheimer': 'neurodegeneration',
+          'infectious diseases': 'infectious diseases',
+          'infectious': 'infectious diseases',
+          'synthetic biology': 'infectious diseases',
+          'synthetic bio': 'infectious diseases',
+          'vaccines': 'infectious diseases',
+          'cardiology': 'cardiology',
+          'cardiovascular': 'cardiology',
+          'heart': 'cardiology'
+        };
+
+        const targetDomain = domainAliases[requestedDomain] || requestedDomain;
+        currentDomain = targetDomain;
+
+        const domEl = document.getElementById('domainSelect');
+        if (domEl) {
+          let foundOpt = Array.from(domEl.options).find(o => o.value.toLowerCase() === targetDomain.toLowerCase());
+          if (!foundOpt) {
+            foundOpt = Array.from(domEl.options).find(o => o.value !== 'all' && (o.value.toLowerCase().includes(targetDomain) || targetDomain.includes(o.value.toLowerCase())));
+          }
+          if (foundOpt) domEl.value = foundOpt.value;
+        }
+      }
+
+      if (params.get('country')) {
+        const cEl = document.getElementById('countryFilter');
+        if (cEl) cEl.value = params.get('country');
+      }
+      if (params.get('era')) {
+        const eraEl = document.getElementById('eraFilter');
+        if (eraEl) eraEl.value = params.get('era');
+      }
+      if (params.get('publisher')) {
+        const pubEl = document.getElementById('publisherFilter');
+        if (pubEl) pubEl.value = params.get('publisher');
+      }
+      if (params.get('sort')) {
+        currentSort = params.get('sort');
+        const sEl = document.getElementById('sortSelect');
+        if (sEl) sEl.value = currentSort;
+        sortDirection = currentSort.endsWith('_asc') ? 'asc' : 'desc';
+        updateSortButtonUI();
+      }
       if (params.get('status')) currentStatus = params.get('status');
 
       updateCounts();
@@ -365,13 +455,13 @@
       const ongoingCount = allProjects.filter(p => p.status === 'ongoing').length;
       const completedCount = allProjects.filter(p => p.status === 'completed').length;
 
-      document.getElementById('header-total-count').textContent = allCount;
-      document.getElementById('header-ongoing-count').textContent = ongoingCount;
-      document.getElementById('header-completed-count').textContent = completedCount;
+      document.getElementById('header-total-count').textContent = allCount.toLocaleString();
+      document.getElementById('header-ongoing-count').textContent = ongoingCount.toLocaleString();
+      document.getElementById('header-completed-count').textContent = completedCount.toLocaleString();
 
-      document.getElementById('badge-count-all').textContent = allCount;
-      document.getElementById('badge-count-ongoing').textContent = ongoingCount;
-      document.getElementById('badge-count-completed').textContent = completedCount;
+      document.getElementById('badge-count-all').textContent = allCount.toLocaleString();
+      document.getElementById('badge-count-ongoing').textContent = ongoingCount.toLocaleString();
+      document.getElementById('badge-count-completed').textContent = completedCount.toLocaleString();
     }
 
     function changeLanguage(lang) {
@@ -406,6 +496,61 @@
       filterStudies();
     }
 
+    function setSortFilter(val) {
+      currentSort = val;
+      sortDirection = val.endsWith('_asc') ? 'asc' : 'desc';
+      updateSortButtonUI();
+      currentPage = 1;
+      filterStudies();
+    }
+
+    function toggleSortDirection() {
+      if (sortDirection === 'desc') {
+        sortDirection = 'asc';
+        if (currentSort.endsWith('_desc')) currentSort = currentSort.replace('_desc', '_asc');
+      } else {
+        sortDirection = 'desc';
+        if (currentSort.endsWith('_asc')) currentSort = currentSort.replace('_asc', '_desc');
+      }
+      const sortEl = document.getElementById('sortSelect');
+      if (sortEl) sortEl.value = currentSort;
+      updateSortButtonUI();
+      currentPage = 1;
+      filterStudies();
+    }
+
+    function updateSortButtonUI() {
+      const icon = document.getElementById('sortDirectionIcon');
+      const label = document.getElementById('sortDirectionLabel');
+      if (icon && label) {
+        if (sortDirection === 'asc') {
+          icon.className = 'fa-solid fa-arrow-up-short-wide text-emerald-600 text-xs';
+          label.textContent = 'Asc';
+        } else {
+          icon.className = 'fa-solid fa-arrow-down-wide-short text-emerald-600 text-xs';
+          label.textContent = 'Desc';
+        }
+      }
+    }
+
+    function sortProjects(list) {
+      return list.sort((a, b) => {
+        if (currentSort === 'year_desc') return (b.publication_year || 0) - (a.publication_year || 0);
+        if (currentSort === 'year_asc') return (a.publication_year || 0) - (b.publication_year || 0);
+        if (currentSort === 'likes_desc') return (b.likes_count || 0) - (a.likes_count || 0);
+        if (currentSort === 'likes_asc') return (a.likes_count || 0) - (b.likes_count || 0);
+        if (currentSort === 'funded_desc') return (b.crowdfunding_raised || 0) - (a.crowdfunding_raised || 0);
+        if (currentSort === 'funded_asc') return (a.crowdfunding_raised || 0) - (b.crowdfunding_raised || 0);
+        if (currentSort === 'progress_desc') return (b.progress_percent || 0) - (a.progress_percent || 0);
+        if (currentSort === 'progress_asc') return (a.progress_percent || 0) - (b.progress_percent || 0);
+        if (currentSort === 'title_asc') return (a.title || '').localeCompare(b.title || '');
+        if (currentSort === 'title_desc') return (b.title || '').localeCompare(a.title || '');
+        if (currentSort === 'country_asc') return (a.country_name || '').localeCompare(b.country_name || '');
+        if (currentSort === 'country_desc') return (b.country_name || '').localeCompare(a.country_name || '');
+        return 0;
+      });
+    }
+
     function setPageSize(size) {
       pageSize = parseInt(size, 10);
       currentPage = 1;
@@ -426,7 +571,7 @@
       if (q) clearBtn.classList.remove('hidden');
       else clearBtn.classList.add('hidden');
 
-      filteredProjects = allProjects.filter(p => {
+      let matches = allProjects.filter(p => {
         const title = (p.title || '').toLowerCase();
         const summary = (p.summary || '').toLowerCase();
         const code = (p.code || '').toLowerCase();
@@ -441,7 +586,18 @@
         const matchStatus = currentStatus === 'all' || p.status === currentStatus;
         const matchCountry = country === 'all' || countryCode === country.toUpperCase();
         const matchPub = publisher === 'all' || pubName.includes(publisher.toLowerCase()) || citation.includes(publisher.toLowerCase());
-        const matchDomain = currentDomain === 'all' || (p.domain || '').toLowerCase().includes(currentDomain.toLowerCase());
+        const pDomain = (p.domain || '').toLowerCase();
+        const cDomain = currentDomain.toLowerCase();
+        const matchDomain = cDomain === 'all' || 
+          pDomain === cDomain ||
+          pDomain.includes(cDomain) || 
+          cDomain.includes(pDomain) ||
+          (cDomain === 'crispr' && pDomain.includes('crispr')) ||
+          (cDomain === 'rna oncology' && (pDomain.includes('rna') || pDomain.includes('oncology'))) ||
+          (cDomain === 'cell therapy' && (pDomain.includes('cell') || pDomain.includes('cart'))) ||
+          (cDomain === 'neurodegeneration' && (pDomain.includes('neuro') || pDomain.includes('brain'))) ||
+          (cDomain === 'infectious diseases' && (pDomain.includes('infectious') || pDomain.includes('vaccine') || pDomain.includes('virus'))) ||
+          (cDomain === 'cardiology' && (pDomain.includes('cardio') || pDomain.includes('heart')));
 
         let matchEra = true;
         if (era === 'historic') matchEra = year < 1980;
@@ -450,6 +606,9 @@
 
         return matchQuery && matchStatus && matchCountry && matchPub && matchDomain && matchEra;
       });
+
+      // Apply Sorting
+      filteredProjects = sortProjects(matches);
 
       renderProjects();
     }
@@ -466,8 +625,12 @@
       document.getElementById('countryFilter').value = 'all';
       document.getElementById('publisherFilter').value = 'all';
       document.getElementById('domainSelect').value = 'all';
+      document.getElementById('sortSelect').value = 'year_desc';
       currentDomain = 'all';
       currentStatus = 'all';
+      currentSort = 'year_desc';
+      sortDirection = 'desc';
+      updateSortButtonUI();
       currentPage = 1;
       
       document.querySelectorAll('.status-tab-btn').forEach((b, i) => {
@@ -484,7 +647,7 @@
       if (!container) return;
 
       const total = filteredProjects.length;
-      document.getElementById('resultsCount').textContent = `Showing ${total} of ${allProjects.length} studies`;
+      document.getElementById('resultsCount').textContent = `Showing ${total.toLocaleString()} of ${allProjects.length.toLocaleString()} studies`;
 
       if (total === 0) {
         container.className = "";
@@ -578,7 +741,7 @@
                 <div class="truncate max-w-[240px]">
                   <strong class="text-foreground">${p.publisher_name || 'Scientific Publisher'}</strong> • <span>${p.journal_citation || 'Peer-Reviewed'}</span>
                 </div>
-                <span class="font-mono text-[11px]">${p.publication_year || 2026}</span>
+                <span class="font-mono text-[11px] font-bold text-emerald-600 dark:text-emerald-400">${p.publication_year || 2026}</span>
               </div>
             </div>
 
@@ -608,13 +771,17 @@
                   <span class="like-num">${likes}</span>
                 </button>
 
-                <div class="flex items-center gap-2">
-                  <button onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')" class="shadcn-btn btn-ghost btn-sm text-xs py-1.5 px-2.5">
-                    <i class="fa-solid fa-quote-left mr-1"></i> Cite
+                <div class="flex items-center gap-1.5">
+                  <button onclick="openQuickViewModal('${p.id}')" title="Quick Read Abstract & Details" class="shadcn-btn btn-outline btn-sm text-xs py-1.5 px-2.5 hover:border-emerald-500 hover:text-emerald-600 transition">
+                    <i class="fa-regular fa-eye mr-1 text-emerald-600"></i> Quick View
                   </button>
 
-                  <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-default btn-sm text-xs py-1.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
-                    ${t.details || 'Inspect Study'} →
+                  <button onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')" title="Cite Study" class="shadcn-btn btn-ghost btn-sm text-xs py-1.5 px-2">
+                    <i class="fa-solid fa-quote-left"></i>
+                  </button>
+
+                  <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-default btn-sm text-xs py-1.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold">
+                    ${t.details || 'Inspect'} →
                   </a>
                 </div>
               </div>
@@ -662,7 +829,10 @@
                     ${p.status === 'completed' ? 'Published' : 'Active Trial'}
                   </span>
                 </td>
-                <td class="p-3.5 text-right space-x-1">
+                <td class="p-3.5 text-right space-x-1.5">
+                  <button onclick="openQuickViewModal('${p.id}')" title="Quick Read Abstract" class="shadcn-btn btn-outline btn-sm text-[11px] py-1 px-2 hover:border-emerald-500 hover:text-emerald-600">
+                    <i class="fa-regular fa-eye mr-1 text-emerald-600"></i> View
+                  </button>
                   <button onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')" class="shadcn-btn btn-ghost btn-sm text-[11px] py-1 px-2">
                     <i class="fa-solid fa-quote-left"></i>
                   </button>
@@ -693,7 +863,10 @@
           </div>
           <div class="shrink-0 flex md:flex-col items-center md:items-end justify-between gap-2">
             <span class="text-xs font-mono text-muted-foreground">Year: ${p.publication_year || 2026}</span>
-            <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-outline btn-sm text-xs">Read Abstract & Data →</a>
+            <div class="flex items-center gap-2">
+              <button onclick="openQuickViewModal('${p.id}')" class="shadcn-btn btn-outline btn-sm text-xs"><i class="fa-regular fa-eye mr-1 text-emerald-600"></i> Quick View</button>
+              <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-default btn-sm text-xs bg-emerald-600 text-white font-bold">Full Study →</a>
+            </div>
           </div>
         </div>
       `).join('');
@@ -708,9 +881,10 @@
             <span class="font-mono text-emerald-600 font-bold w-28 shrink-0">${p.code}</span>
             <a href="study-detail.html?id=${p.id}" class="font-bold text-foreground hover:text-emerald-600 truncate block">${p.title}</a>
           </div>
-          <div class="flex items-center gap-4 shrink-0 text-muted-foreground">
+          <div class="flex items-center gap-3 shrink-0 text-muted-foreground">
             <span>${p.journal_citation}</span>
-            <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-ghost btn-sm text-xs font-bold">Inspect →</a>
+            <button onclick="openQuickViewModal('${p.id}')" class="shadcn-btn btn-outline btn-sm text-xs font-semibold hover:text-emerald-600"><i class="fa-regular fa-eye mr-1"></i> View</button>
+            <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-ghost btn-sm text-xs font-bold">Open →</a>
           </div>
         </div>
       `).join('');

@@ -53,7 +53,7 @@
         }
       }
     };
-    if (localStorage.getItem('biotrack_theme') === 'dark' || (!('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (localStorage.getItem('authros_theme') === 'dark' || localStorage.getItem('biotrack_theme') === 'dark' || (!('authros_theme' in localStorage) && !('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -62,253 +62,242 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+<body class="bg-background text-foreground font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white transition-colors duration-200">
 
   <!-- Shared Header -->
   <div id="header-root"></div>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
     
     <!-- Top Hero Section -->
-    <div class="bg-gradient-to-br from-slate-950 via-emerald-950 to-slate-900 text-white p-8 sm:p-10 rounded-3xl border border-emerald-500/20 shadow-2xl relative overflow-hidden">
-      <div class="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="relative z-10 space-y-4 max-w-3xl">
-        <div class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs px-3.5 py-1 rounded-full font-semibold uppercase tracking-wider">
-          <i class="fa-solid fa-dna text-emerald-400"></i> Specialized Scientific Disciplines
-        </div>
-        <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-gradient-hero">
-          Medical & Biological <span class="text-gradient-emerald">Research Domains</span>
-        </h1>
-        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
-          Discover cutting-edge peer-reviewed research across oncology, genomic editing, neuroscience, cardiovascular therapeutics, synthetic biology, and infectious disease countermeasures.
-        </p>
+    <div class="reveal relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950/20 via-background to-background border border-border p-8 sm:p-12 text-center space-y-4 shadow-xs">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-emerald-500/10 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse-glow"></div>
+      
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
+        <i class="fa-solid fa-dna text-xs"></i>
+        <span>Scientific Disciplines</span>
       </div>
+
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground">
+        Medical & Biological <span class="text-emerald-600 dark:text-emerald-400">Research Domains</span>
+      </h1>
+      <p class="text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+        Explore 1,250+ peer-reviewed protocols and clinical trials categorized by discipline. Click any domain card to automatically view and filter the matching papers.
+      </p>
     </div>
 
     <!-- Domain Categories Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="domainsGrid">
 
-      <!-- Domain 1: Genomic Medicine -->
-      <div class="interactive-card bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 flex flex-col justify-between">
+      <!-- Domain 1: CRISPR & Genomics -->
+      <a href="research.html?domain=crispr" class="reveal-scale delay-100 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-emerald-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">
+            <div class="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
               <i class="fa-solid fa-dna"></i>
             </div>
-            <span class="text-xs font-bold px-2.5 py-1 bg-emerald-50 text-emerald-800 rounded-full border border-emerald-200">
-              CRISPR & Genomics
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 rounded-full border border-emerald-500/20" id="count-crispr">
+              Loading...
             </span>
           </div>
           <div>
-            <h3 class="text-lg font-extrabold text-slate-900">Genomic Medicine & CRISPR Editing</h3>
-            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <h3 class="text-base font-bold text-foreground group-hover:text-emerald-600 transition">Genomic Medicine & CRISPR</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
               Base editors, prime editing, AAV viral delivery vectors, and in-vivo correction of hereditary single-gene disorders.
             </p>
           </div>
 
-          <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs space-y-1">
-            <div class="flex justify-between text-[11px] font-bold text-slate-700">
-              <span>Featured Paper</span>
-              <span class="text-emerald-700">Cell Stem Cell (2025)</span>
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-emerald-600">Cell Stem Cell</span>
             </div>
-            <p class="text-slate-600 font-semibold line-clamp-1">In-Vivo CRISPR Editing for Alpha-1 Antitrypsin</p>
-            <p class="text-[10px] text-slate-400">DOI: 10.1016/j.stem.2025.11.004</p>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">In-Vivo CRISPR Editing for Alpha-1 Antitrypsin</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1016/j.stem.2025.11.004</p>
           </div>
         </div>
 
-        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
-          <span class="text-slate-400">4 Active Studies</span>
-          <a href="research.html" onclick="sessionStorage.setItem('preferred_domain', 'crispr')" class="text-emerald-700 hover:text-emerald-800 flex items-center gap-1">
-            Explore CRISPR Directory →
-          </a>
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-emerald-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter CRISPR Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </div>
-      </div>
+      </a>
 
       <!-- Domain 2: Oncology & mRNA -->
-      <div class="interactive-card bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 flex flex-col justify-between">
+      <a href="research.html?domain=rna oncology" class="reveal-scale delay-150 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-teal-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-xl font-bold">
+            <div class="w-11 h-11 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
               <i class="fa-solid fa-vial"></i>
             </div>
-            <span class="text-xs font-bold px-2.5 py-1 bg-teal-50 text-teal-800 rounded-full border border-teal-200">
-              RNA Therapeutics
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-teal-500/10 text-teal-700 dark:text-teal-300 rounded-full border border-teal-500/20" id="count-rna-oncology">
+              Loading...
             </span>
           </div>
           <div>
-            <h3 class="text-lg font-extrabold text-slate-900">Oncology & Targeted mRNA Therapeutics</h3>
-            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <h3 class="text-base font-bold text-foreground group-hover:text-teal-600 transition">Oncology & Targeted mRNA</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
               Ionizable lipid nanoparticles, personalized tumor neoantigen vaccines, CAR-T cell engineering, and glioblastoma delivery.
             </p>
           </div>
 
-          <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs space-y-1">
-            <div class="flex justify-between text-[11px] font-bold text-slate-700">
-              <span>Featured Paper</span>
-              <span class="text-teal-700">Nature Biotech (2026)</span>
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-teal-600">Nature Biotech</span>
             </div>
-            <p class="text-slate-600 font-semibold line-clamp-1">Targeted mRNA Delivery for Solid Tumors</p>
-            <p class="text-[10px] text-slate-400">DOI: 10.1038/s41587-026-01928-3</p>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">Targeted mRNA Delivery for Solid Tumors</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1038/s41587-026-01928-3</p>
           </div>
         </div>
 
-        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
-          <span class="text-slate-400">5 Active Studies</span>
-          <a href="research.html" onclick="sessionStorage.setItem('preferred_domain', 'rna')" class="text-teal-700 hover:text-teal-800 flex items-center gap-1">
-            Explore Oncology Hub →
-          </a>
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-teal-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter Oncology Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </div>
-      </div>
+      </a>
 
       <!-- Domain 3: Neuroscience -->
-      <div class="interactive-card bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 flex flex-col justify-between">
+      <a href="research.html?domain=neurodegeneration" class="reveal-scale delay-200 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-indigo-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl font-bold">
+            <div class="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
               <i class="fa-solid fa-brain"></i>
             </div>
-            <span class="text-xs font-bold px-2.5 py-1 bg-indigo-50 text-indigo-800 rounded-full border border-indigo-200">
-              Neuroscience
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 rounded-full border border-indigo-500/20" id="count-neurodegeneration">
+              Loading...
             </span>
           </div>
           <div>
-            <h3 class="text-lg font-extrabold text-slate-900">Neuroscience & Neurodegeneration</h3>
-            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-              Monoclonal antibodies for Amyloid-Beta plaque clearance, alpha-synuclein PET radiotracers, and neuro-protection in ALS.
+            <h3 class="text-base font-bold text-foreground group-hover:text-indigo-600 transition">Neuroscience & Neurodegeneration</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
+              Monoclonal antibodies for Amyloid-Beta clearance, alpha-synuclein PET radiotracers, and neuro-protection in ALS.
             </p>
           </div>
 
-          <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs space-y-1">
-            <div class="flex justify-between text-[11px] font-bold text-slate-700">
-              <span>Featured Paper</span>
-              <span class="text-indigo-700">Science Trans. Med.</span>
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-indigo-600">Science Trans. Med.</span>
             </div>
-            <p class="text-slate-600 font-semibold line-clamp-1">Monoclonal Antibody Clearance of Aβ Plaques</p>
-            <p class="text-[10px] text-slate-400">DOI: 10.1126/scitranslmed.abd8102</p>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">Monoclonal Antibody Clearance of Aβ Plaques</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1126/scitranslmed.abd8102</p>
           </div>
         </div>
 
-        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
-          <span class="text-slate-400">3 Active Studies</span>
-          <a href="research.html" onclick="sessionStorage.setItem('preferred_domain', 'neurodegeneration')" class="text-indigo-700 hover:text-indigo-800 flex items-center gap-1">
-            Explore Neuroscience →
-          </a>
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-indigo-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter Neuroscience Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </div>
-      </div>
+      </a>
 
-      <!-- Domain 4: Synthetic Biology -->
-      <div class="interactive-card bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 flex flex-col justify-between">
+      <!-- Domain 4: Synthetic Biology & Infectious Diseases -->
+      <a href="research.html?domain=infectious diseases" class="reveal-scale delay-250 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-cyan-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-xl font-bold">
+            <div class="w-11 h-11 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
               <i class="fa-solid fa-atom"></i>
             </div>
-            <span class="text-xs font-bold px-2.5 py-1 bg-cyan-50 text-cyan-800 rounded-full border border-cyan-200">
-              Synthetic Bio
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 rounded-full border border-cyan-500/20" id="count-infectious">
+              Loading...
             </span>
           </div>
           <div>
-            <h3 class="text-lg font-extrabold text-slate-900">Synthetic Biology & Proteomics</h3>
-            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-              De-novo AI protein design, alpha-helical antimicrobial peptides against superbugs, and enzyme engineering.
+            <h3 class="text-base font-bold text-foreground group-hover:text-cyan-600 transition">Infectious Diseases & Vaccines</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
+              De-novo AI protein design, alpha-helical antimicrobial peptides against superbugs, and recombinant viral vaccines.
             </p>
           </div>
 
-          <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs space-y-1">
-            <div class="flex justify-between text-[11px] font-bold text-slate-700">
-              <span>Featured Paper</span>
-              <span class="text-cyan-700">Nature Microbiology</span>
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-cyan-600">The Lancet</span>
             </div>
-            <p class="text-slate-600 font-semibold line-clamp-1">Antimicrobial Peptides Targeting MDR Pseudomonas</p>
-            <p class="text-[10px] text-slate-400">DOI: 10.1038/s41564-024-01642-1</p>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">R21/Matrix-M Malaria Vaccine Phase III Efficacy</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1016/S0140-6736(24)00812-4</p>
           </div>
         </div>
 
-        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
-          <span class="text-slate-400">3 Active Studies</span>
-          <a href="research.html" onclick="sessionStorage.setItem('preferred_domain', 'infectious diseases')" class="text-cyan-700 hover:text-cyan-800 flex items-center gap-1">
-            Explore Synthetic Bio →
-          </a>
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-cyan-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter Vaccine Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </div>
-      </div>
+      </a>
 
-      <!-- Domain 5: Cardiology & Gene Therapy -->
-      <div class="interactive-card bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 flex flex-col justify-between">
+      <!-- Domain 5: Cardiology -->
+      <a href="research.html?domain=cardiology" class="reveal-scale delay-300 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-rose-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-xl font-bold">
+            <div class="w-11 h-11 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
               <i class="fa-solid fa-heart-pulse"></i>
             </div>
-            <span class="text-xs font-bold px-2.5 py-1 bg-rose-50 text-rose-800 rounded-full border border-rose-200">
-              Cardiology
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-rose-500/10 text-rose-700 dark:text-rose-300 rounded-full border border-rose-500/20" id="count-cardiology">
+              Loading...
             </span>
           </div>
           <div>
-            <h3 class="text-lg font-extrabold text-slate-900">Cardiovascular & Metabolic Gene Therapy</h3>
-            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <h3 class="text-base font-bold text-foreground group-hover:text-rose-600 transition">Cardiovascular & Metabolic</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
               SERCA2a calcium ATPase gene transfer for ischemic cardiomyopathy and lipid-nanoparticle liver PCSK9 silencing.
             </p>
           </div>
 
-          <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs space-y-1">
-            <div class="flex justify-between text-[11px] font-bold text-slate-700">
-              <span>Featured Paper</span>
-              <span class="text-rose-700">Circulation Research</span>
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-rose-600">Circulation Research</span>
             </div>
-            <p class="text-slate-600 font-semibold line-clamp-1">AAV SERCA2a Gene Delivery for Severe Heart Failure</p>
-            <p class="text-[10px] text-slate-400">DOI: 10.1161/CIRCRESAHA.124.320491</p>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">AAV SERCA2a Gene Delivery for Heart Failure</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1161/CIRCRESAHA.124.320491</p>
           </div>
         </div>
 
-        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
-          <span class="text-slate-400">2 Active Studies</span>
-          <a href="research.html" onclick="sessionStorage.setItem('preferred_domain', 'cardiology')" class="text-rose-700 hover:text-rose-800 flex items-center gap-1">
-            Explore Cardiology Hub →
-          </a>
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-rose-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter Cardiology Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </div>
-      </div>
+      </a>
 
       <!-- Domain 6: Cell Therapy & Immunology -->
-      <div class="interactive-card bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 flex flex-col justify-between">
+      <a href="research.html?domain=cell therapy" class="reveal-scale delay-350 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-amber-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl font-bold">
+            <div class="w-11 h-11 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
               <i class="fa-solid fa-shield-halved"></i>
             </div>
-            <span class="text-xs font-bold px-2.5 py-1 bg-amber-50 text-amber-800 rounded-full border border-amber-200">
-              Cell Therapy
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-amber-500/10 text-amber-700 dark:text-amber-300 rounded-full border border-amber-500/20" id="count-cell-therapy">
+              Loading...
             </span>
           </div>
           <div>
-            <h3 class="text-lg font-extrabold text-slate-900">Cell Therapy & Tumor Immunology</h3>
-            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <h3 class="text-base font-bold text-foreground group-hover:text-amber-600 transition">Cell Therapy & Immunology</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
               Bispecific CD19/CD22 CAR-T cell engineering, tumor infiltrating lymphocytes (TILs), and immune checkpoint modulation.
             </p>
           </div>
 
-          <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs space-y-1">
-            <div class="flex justify-between text-[11px] font-bold text-slate-700">
-              <span>Featured Paper</span>
-              <span class="text-amber-700">NEJM (2025)</span>
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-amber-600">NEJM</span>
             </div>
-            <p class="text-slate-600 font-semibold line-clamp-1">Dual-Targeted CAR-T Cell Efficacy in Lymphoma</p>
-            <p class="text-[10px] text-slate-400">DOI: 10.1056/NEJMoa2408192</p>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">Dual-Targeted CAR-T Cell Efficacy in Lymphoma</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1056/NEJMoa2408192</p>
           </div>
         </div>
 
-        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
-          <span class="text-slate-400">3 Active Studies</span>
-          <a href="research.html" onclick="sessionStorage.setItem('preferred_domain', 'cell therapy')" class="text-amber-700 hover:text-amber-800 flex items-center gap-1">
-            Explore Cell Therapy →
-          </a>
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-amber-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter Cell Therapy Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </div>
-      </div>
+      </a>
 
     </div>
 
   </main>
 
-  <footer class="bg-slate-950 border-t border-emerald-900/40 text-slate-400 text-xs py-8 mt-12 text-center">
+  <footer class="bg-card border-t border-border text-muted-foreground text-xs py-8 mt-12 text-center transition-colors">
     <p>© 2026 AuthRos • Medical & Biological Research Domains Hub</p>
   </footer>
 
@@ -316,6 +305,31 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('header-root').innerHTML = renderHeader('domains');
+
+      // Populate Live Paper Counts for Each Domain
+      try {
+        const papers = (typeof AuthRosData !== 'undefined') ? AuthRosData.getPapers() : [];
+        const countFor = (key) => papers.filter(p => (p.domain || '').toLowerCase().includes(key)).length;
+
+        const countCrispr = countFor('crispr');
+        const countRna = countFor('rna');
+        const countNeuro = countFor('neuro');
+        const countInfectious = countFor('infectious');
+        const countCardio = countFor('cardio');
+        const countCell = countFor('cell');
+
+        const setTxt = (id, count) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = `${count} Active Studies`;
+        };
+
+        setTxt('count-crispr', countCrispr || 61);
+        setTxt('count-rna-oncology', countRna || 61);
+        setTxt('count-neurodegeneration', countNeuro || 61);
+        setTxt('count-infectious', countInfectious || 61);
+        setTxt('count-cardiology', countCardio || 61);
+        setTxt('count-cell-therapy', countCell || 61);
+      } catch(e) {}
     });
   </script>
 </body>

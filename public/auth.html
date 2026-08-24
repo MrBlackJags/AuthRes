@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuthRos | SaaS Authentication & Multi-Role Sign In</title>
+  <title>AuthRos | Sign In & Account Access</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -61,52 +61,64 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .shake-error {
+      animation: shake 0.4s ease-in-out;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-900 text-slate-800 font-sans antialiased min-h-screen flex items-center justify-center p-4 selection:bg-emerald-500 selection:text-white">
+<body class="bg-background text-foreground font-sans antialiased min-h-screen flex items-center justify-center p-4 selection:bg-emerald-500 selection:text-white transition-colors duration-200">
 
-  <!-- Container Box -->
-  <div class="bg-card text-card-foreground rounded-3xl border border-emerald-500/30 shadow-2xl max-w-4xl w-full overflow-hidden grid lg:grid-cols-12 relative z-10">
+  <!-- Main Auth Card -->
+  <div class="bg-card text-card-foreground rounded-3xl border border-border shadow-2xl max-w-4xl w-full overflow-hidden grid lg:grid-cols-12 relative z-10">
     
     <!-- Left Hero Column -->
-    <div class="lg:col-span-5 bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-900 text-white p-8 lg:p-10 flex flex-col justify-between hidden lg:flex border-r border-emerald-500/20">
+    <div class="lg:col-span-5 bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-950 text-white p-8 lg:p-10 flex flex-col justify-between hidden lg:flex border-r border-emerald-500/20">
       <div class="space-y-6">
-        <a href="index.html" class="inline-flex items-center gap-2.5">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-green-400 text-slate-950 flex items-center justify-center font-bold text-lg shadow-md">
+        <a href="index.html" class="inline-flex items-center gap-2.5 group">
+          <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-base shadow-sm group-hover:scale-105 transition-transform">
             <i class="fa-solid fa-dna"></i>
           </div>
-          <span class="font-extrabold text-2xl tracking-tight text-white">
+          <span class="font-extrabold text-xl tracking-tight text-white">
             Auth<span class="text-emerald-400">Ros</span>
           </span>
         </a>
 
         <div class="space-y-3">
-          <span class="shadcn-badge badge-emerald text-[10px] uppercase font-bold tracking-wider">Enterprise Cloud</span>
-          <h2 class="text-2xl font-extrabold text-gradient-hero leading-tight">
-            Unified Biomedical SaaS & RBAC Security
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[10px] uppercase font-bold tracking-wider">
+            Biomedical Workspace
+          </span>
+          <h2 class="text-2xl font-black text-white leading-tight">
+            Secure Role-Based Access for Clinical Research
           </h2>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Connected to Neon Serverless PostgreSQL with cryptographic audit logs, FastQ data vault, and multi-institutional role governance.
+            Encrypted protocol records, HIPAA-compliant patient cohort matching, and verified multi-tier lab permissions.
           </p>
         </div>
       </div>
 
-      <!-- Demo Credentials Quick Selector -->
-      <div class="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 space-y-2.5 text-xs">
+      <!-- Quick Fill Role Chips -->
+      <div class="p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 space-y-2.5 text-xs">
         <div class="text-[10px] uppercase font-bold text-emerald-300 tracking-wider flex items-center justify-between">
-          <span>Fast Demo Logins:</span>
+          <span>Quick Demo Roles:</span>
           <i class="fa-solid fa-bolt text-amber-400"></i>
         </div>
         <div class="grid grid-cols-2 gap-1.5 text-[11px]">
-          <button onclick="fillDemoCredentials('pi')" class="px-2 py-1.5 bg-white/15 hover:bg-emerald-500 hover:text-slate-950 font-bold rounded-lg text-left transition truncate">
+          <button onclick="fillDemoRole('pi')" class="px-2 py-1.5 bg-white/10 hover:bg-emerald-500 hover:text-slate-950 font-bold rounded-lg text-left transition truncate">
             👨‍🔬 Principal Inv.
           </button>
-          <button onclick="fillDemoCredentials('scientist')" class="px-2 py-1.5 bg-white/15 hover:bg-emerald-500 hover:text-slate-950 font-bold rounded-lg text-left transition truncate">
+          <button onclick="fillDemoRole('scientist')" class="px-2 py-1.5 bg-white/10 hover:bg-emerald-500 hover:text-slate-950 font-bold rounded-lg text-left transition truncate">
             🔬 Senior Scientist
           </button>
-          <button onclick="fillDemoCredentials('hospital')" class="px-2 py-1.5 bg-white/15 hover:bg-sky-500 hover:text-white font-bold rounded-lg text-left transition truncate">
+          <button onclick="fillDemoRole('hospital')" class="px-2 py-1.5 bg-white/10 hover:bg-sky-500 hover:text-white font-bold rounded-lg text-left transition truncate">
             🏥 Hospital Site
           </button>
-          <button onclick="fillDemoCredentials('public')" class="px-2 py-1.5 bg-white/15 hover:bg-amber-500 hover:text-slate-950 font-bold rounded-lg text-left transition truncate">
+          <button onclick="fillDemoRole('public')" class="px-2 py-1.5 bg-white/10 hover:bg-amber-500 hover:text-slate-950 font-bold rounded-lg text-left transition truncate">
             ❤️ Public Supporter
           </button>
         </div>
@@ -117,8 +129,8 @@
     <div class="lg:col-span-7 p-6 sm:p-10 space-y-6 bg-card flex flex-col justify-center relative">
       
       <div class="flex items-center justify-between">
-        <!-- Auth Tabs: Sign In / Register -->
-        <div class="flex items-center gap-2 bg-muted p-1 rounded-xl border border-border text-xs font-bold">
+        <!-- Auth Tabs: Sign In / Create Account -->
+        <div class="flex items-center gap-1 bg-muted p-1 rounded-xl border border-border text-xs font-bold">
           <button onclick="switchAuthTab('login', this)" id="tab-btn-login" class="px-4 py-1.5 rounded-lg bg-emerald-600 text-white shadow-xs transition">
             Sign In
           </button>
@@ -127,32 +139,64 @@
           </button>
         </div>
 
-        <button onclick="ThemeManager.toggle()" title="Toggle Theme" class="theme-toggle-btn p-2 rounded-xl border border-border text-muted-foreground hover:text-foreground transition">
-          <i class="fa-solid fa-moon theme-toggle-icon text-sm"></i>
+        <!-- Theme Toggle -->
+        <button onclick="ThemeManager.toggle()" title="Toggle Theme" class="theme-toggle-btn w-8 h-8 rounded-lg border border-border text-muted-foreground hover:text-foreground flex items-center justify-center transition">
+          <i class="fa-solid fa-moon theme-toggle-icon text-xs"></i>
         </button>
+      </div>
+
+      <!-- Error Alert Box -->
+      <div id="authErrorAlert" class="hidden p-3 rounded-xl bg-destructive/10 border border-destructive/30 text-destructive text-xs font-semibold flex items-center gap-2">
+        <i class="fa-solid fa-circle-exclamation text-sm shrink-0"></i>
+        <span id="authErrorMsg">Invalid credentials. Please try again.</span>
       </div>
 
       <!-- FORM 1: SIGN IN -->
       <form id="loginForm" onsubmit="event.preventDefault(); handleLoginSubmit();" class="space-y-4 text-xs">
         <div class="space-y-1">
-          <h3 class="text-xl font-extrabold text-foreground">Sign In to AuthRos Workspace</h3>
-          <p class="text-xs text-muted-foreground">Access your clinical protocols, hospital cohorts, and RBAC matrix.</p>
+          <h3 class="text-xl font-extrabold text-foreground">Sign In to AuthRos</h3>
+          <p class="text-xs text-muted-foreground">Enter your credentials to access your clinical workspace.</p>
         </div>
 
         <div>
-          <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">Work / Institutional Email</label>
-          <input type="email" id="loginEmail" required value="dr.raman@genvault.org" class="shadcn-input h-10 text-xs" />
+          <label class="block font-bold text-foreground text-[11px] mb-1">Email Address *</label>
+          <input 
+            type="email" 
+            id="loginEmail" 
+            required 
+            value="dr.raman@genvault.org" 
+            placeholder="name@institution.org"
+            class="shadcn-input h-10 text-xs" 
+          />
         </div>
 
         <div>
           <div class="flex justify-between items-center mb-1">
-            <label class="block font-bold text-foreground uppercase tracking-wider text-[11px]">Password</label>
-            <a href="#" onclick="showToast('Password reset link sent to registered email.', 'Reset Initiated', 'info')" class="text-[11px] text-emerald-600 hover:underline">Forgot password?</a>
+            <label class="block font-bold text-foreground text-[11px]">Password *</label>
+            <a href="#" onclick="showToast('Password reset link sent to email.', 'Reset Sent', 'info')" class="text-[11px] text-emerald-600 hover:underline">Forgot password?</a>
           </div>
-          <input type="password" id="loginPassword" required value="password123" class="shadcn-input h-10 text-xs" />
+          <div class="relative flex items-center">
+            <input 
+              type="password" 
+              id="loginPassword" 
+              required 
+              value="password123" 
+              placeholder="••••••••••••"
+              class="shadcn-input h-10 pr-10 text-xs" 
+            />
+            <button type="button" onclick="togglePasswordVisibility('loginPassword', this)" class="absolute right-3 text-muted-foreground hover:text-foreground text-xs">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
         </div>
 
-        <button type="submit" id="loginSubmitBtn" class="shadcn-btn btn-default w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl font-bold text-xs shadow-md">
+        <!-- Remember Me Checkbox -->
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="rememberMe" checked class="w-3.5 h-3.5 rounded border-border text-emerald-600 focus:ring-emerald-500" />
+          <label for="rememberMe" class="text-xs text-muted-foreground cursor-pointer">Remember my session on this device</label>
+        </div>
+
+        <button type="submit" id="loginSubmitBtn" class="shadcn-btn btn-default w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-md transition">
           Sign In to Workspace →
         </button>
       </form>
@@ -161,26 +205,26 @@
       <form id="registerForm" onsubmit="event.preventDefault(); handleRegisterSubmit();" class="hidden space-y-3.5 text-xs">
         <div class="space-y-1">
           <h3 class="text-xl font-extrabold text-foreground">Create Laboratory Account</h3>
-          <p class="text-xs text-muted-foreground">Provision a new multi-tenant biomedical tenant.</p>
+          <p class="text-xs text-muted-foreground">Provision a new multi-tenant biomedical profile.</p>
         </div>
 
         <div>
-          <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">Full Name & Title *</label>
+          <label class="block font-bold text-foreground text-[11px] mb-1">Full Name & Title *</label>
           <input type="text" id="regName" required placeholder="e.g. Dr. Alex Vance, MD" class="shadcn-input h-9 text-xs" />
         </div>
 
         <div>
-          <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">Institutional Email *</label>
+          <label class="block font-bold text-foreground text-[11px] mb-1">Institutional Email *</label>
           <input type="email" id="regEmail" required placeholder="name@institution.org" class="shadcn-input h-9 text-xs" />
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">Organization / Lab</label>
+            <label class="block font-bold text-foreground text-[11px] mb-1">Organization / Lab</label>
             <input type="text" id="regOrg" placeholder="e.g. Harvard BioLab" class="shadcn-input h-9 text-xs" />
           </div>
           <div>
-            <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">RBAC Role Level</label>
+            <label class="block font-bold text-foreground text-[11px] mb-1">Role Level *</label>
             <select id="regRole" class="shadcn-input h-9 text-xs font-semibold">
               <option value="pi">Principal Investigator (PI)</option>
               <option value="scientist" selected>Senior Scientist</option>
@@ -192,17 +236,25 @@
         </div>
 
         <div>
-          <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">Password *</label>
-          <input type="password" id="regPassword" required placeholder="••••••••••••" class="shadcn-input h-9 text-xs" />
+          <label class="block font-bold text-foreground text-[11px] mb-1">Password *</label>
+          <div class="relative flex items-center">
+            <input type="password" id="regPassword" required placeholder="At least 6 characters" class="shadcn-input h-9 pr-10 text-xs" />
+            <button type="button" onclick="togglePasswordVisibility('regPassword', this)" class="absolute right-3 text-muted-foreground hover:text-foreground text-xs">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
         </div>
 
-        <button type="submit" class="shadcn-btn btn-default w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl font-bold text-xs shadow-md">
-          Create Account & Provision Workspace →
+        <button type="submit" id="regSubmitBtn" class="shadcn-btn btn-default w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-md transition">
+          Create Account & Access Workspace →
         </button>
       </form>
 
+      <!-- Back to Landing -->
       <div class="text-center pt-2">
-        <a href="index.html" class="text-xs font-semibold text-muted-foreground hover:text-foreground">← Return to Landing Overview</a>
+        <a href="index.html" class="text-xs font-semibold text-muted-foreground hover:text-foreground flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-arrow-left text-[10px]"></i> Return to Landing Overview
+        </a>
       </div>
 
     </div>
@@ -215,6 +267,7 @@
       const registerForm = document.getElementById('registerForm');
       const tabLogin = document.getElementById('tab-btn-login');
       const tabRegister = document.getElementById('tab-btn-register');
+      hideError();
 
       if (tab === 'login') {
         loginForm.classList.remove('hidden');
@@ -229,8 +282,37 @@
       }
     }
 
-    function fillDemoCredentials(role) {
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector('i');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-regular fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-regular fa-eye';
+      }
+    }
+
+    function showError(msg) {
+      const alert = document.getElementById('authErrorAlert');
+      const text = document.getElementById('authErrorMsg');
+      if (alert && text) {
+        text.textContent = msg;
+        alert.classList.remove('hidden');
+        alert.classList.add('shake-error');
+        setTimeout(() => alert.classList.remove('shake-error'), 500);
+      }
+    }
+
+    function hideError() {
+      const alert = document.getElementById('authErrorAlert');
+      if (alert) alert.classList.add('hidden');
+    }
+
+    function fillDemoRole(role) {
       switchAuthTab('login');
+      hideError();
       const creds = {
         pi: { email: 'dr.raman@genvault.org', pass: 'password123' },
         scientist: { email: 'm.vance@synthego.com', pass: 'password123' },
@@ -242,45 +324,71 @@
       if (creds[role]) {
         document.getElementById('loginEmail').value = creds[role].email;
         document.getElementById('loginPassword').value = creds[role].pass;
-        showToast(`Auto-filled demo credentials for ${role.toUpperCase()}`, 'Credentials Selected', 'info');
+        showToast(`Auto-filled credentials for ${role.toUpperCase()}`, 'Demo Selected', 'info');
       }
     }
 
     async function handleLoginSubmit() {
-      const email = document.getElementById('loginEmail').value;
+      hideError();
+      const email = document.getElementById('loginEmail').value.trim();
       const pass = document.getElementById('loginPassword').value;
       const btn = document.getElementById('loginSubmitBtn');
+
+      if (!email || !pass) {
+        showError('Please enter both email and password.');
+        return;
+      }
+
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Authenticating...';
+      btn.disabled = true;
 
       try {
         const res = await AuthManager.login(email, pass);
-        showToast(`Welcome back, ${res.user.full_name}! Redirecting to SaaS Workspace...`, 'Authentication Success', 'success');
-        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+        showToast(`Welcome back, ${res.user?.full_name || 'User'}! Loading Workspace...`, 'Authentication Success', 'success');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
       } catch (err) {
-        showToast(err.message, 'Login Failed', 'destructive');
+        showError(err.message || 'Login failed. Check your email and password.');
         btn.innerHTML = 'Sign In to Workspace →';
+        btn.disabled = false;
       }
     }
 
     async function handleRegisterSubmit() {
-      const name = document.getElementById('regName').value;
-      const email = document.getElementById('regEmail').value;
-      const org = document.getElementById('regOrg').value;
+      hideError();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const org = document.getElementById('regOrg').value.trim();
       const role = document.getElementById('regRole').value;
       const pass = document.getElementById('regPassword').value;
+      const btn = document.getElementById('regSubmitBtn');
+
+      if (!name || !email || !pass) {
+        showError('Please fill out all required fields.');
+        return;
+      }
+
+      if (pass.length < 6) {
+        showError('Password must be at least 6 characters.');
+        return;
+      }
+
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Provisioning Account...';
+      btn.disabled = true;
 
       try {
         const res = await AuthManager.register({
           full_name: name,
           email,
-          organization_name: org,
+          organization_name: org || 'Independent Lab',
           role,
           password: pass
         });
-        showToast('Account registered successfully! Redirecting to Workspace...', 'Account Created', 'success');
-        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+        showToast('Account registered successfully! Redirecting...', 'Account Created', 'success');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
       } catch (err) {
-        showToast(err.message, 'Registration Error', 'destructive');
+        showError(err.message || 'Registration error. Email may already be in use.');
+        btn.innerHTML = 'Create Account & Access Workspace →';
+        btn.disabled = false;
       }
     }
   </script>
