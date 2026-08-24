@@ -5,15 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AuthRos | My Saved Research & Bookmarked Publications</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="css/styles.css" />
   <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            popover: {
+              DEFAULT: 'hsl(var(--popover))',
+              foreground: 'hsl(var(--popover-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          }
+        }
+      }
+    };
     if (localStorage.getItem('biotrack_theme') === 'dark' || (!('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
 
@@ -91,65 +138,7 @@
     }
 
     function getAllLibraryProjects() {
-      // Aggregate fallback and local state items
-      return [
-        {
-          id: 'proj-1', title: 'Targeted mRNA Delivery for Solid Tumors', code: 'BT-402-ONC',
-          summary: 'Investigating ionizable lipid nanoparticle formulations to facilitate targeted tissue accumulation and mRNA translation inside glioblastoma multiforme microenvironments.',
-          status: 'ongoing', stage: 'phase_2', visibility: 'public', domain: 'rna oncology',
-          journal_citation: 'Nature Biotechnology (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38910245/', doi: '10.1038/s41587-026-01928-3',
-          likes_count: 342, crowdfunding_raised: 32500, crowdfunding_target: 50000, lead_name: 'Dr. Sarah Raman, PhD'
-        },
-        {
-          id: 'proj-2', title: 'CRISPR Editing for Alpha-1 Antitrypsin Deficiency', code: 'AAT-901-GEN',
-          summary: 'In-vivo gene editing therapeutic targeting AATD liver expression through high-precision AAV9 vector delivery.',
-          status: 'ongoing', stage: 'preclinical', visibility: 'public', domain: 'crispr',
-          journal_citation: 'Cell Stem Cell (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/37628109/', doi: '10.1016/j.stem.2025.11.004',
-          likes_count: 219, crowdfunding_raised: 18200, crowdfunding_target: 40000, lead_name: 'Dr. M. Vance, PhD'
-        },
-        {
-          id: 'proj-3', title: 'Small Molecule Kinase Inhibitor (Project Orion)', code: 'ORION-KIN-09',
-          summary: 'High-throughput screening of selective kinase compounds targeting mutated EGFR resistant pathways.',
-          status: 'ongoing', stage: 'discovery', visibility: 'private', domain: 'kinase oncology',
-          journal_citation: 'Journal of Medicinal Chemistry (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/39102847/', doi: '10.1021/acs.jmedchem.5b02194',
-          likes_count: 185, crowdfunding_raised: 0, crowdfunding_target: 100000, lead_name: 'Dr. Sarah Raman, PhD'
-        },
-        {
-          id: 'proj-4', title: 'Personalized Neoantigen Peptide Vaccine', code: 'NEO-VAX-77',
-          summary: 'Machine learning selection of patient tumor neoepitopes formulated with adjuvant alum for T-cell priming.',
-          status: 'ongoing', stage: 'phase_1', visibility: 'public', domain: 'rna oncology',
-          journal_citation: 'Lancet Oncology (2026)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38491024/', doi: '10.1016/S1470-2045(25)00412-X',
-          likes_count: 512, crowdfunding_raised: 24000, crowdfunding_target: 60000, lead_name: 'Dr. M. Vance, PhD'
-        },
-        {
-          id: 'proj-5', title: 'Dual-Targeted CAR-T Cell Efficacy in Refractory B-Cell Lymphoma', code: 'CAR-LYM-100',
-          summary: 'Multi-center clinical trial demonstrating 82% complete remission rate in patients receiving CD19/CD22 targeted CAR-T therapy.',
-          status: 'completed', stage: 'completed', visibility: 'public', domain: 'cell therapy',
-          journal_citation: 'New England Journal of Medicine (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38201948/', doi: '10.1056/NEJMoa2408192',
-          likes_count: 890, crowdfunding_raised: 75000, crowdfunding_target: 75000, lead_name: 'Dr. Sarah Raman, PhD'
-        },
-        {
-          id: 'proj-6', title: 'Monoclonal Antibody Clearance of Amyloid-Beta Plaques in Early Alzheimer’s', code: 'ALZ-NEURO-55',
-          summary: 'Pivotal study proving 38% slowing of cognitive decline over 18 months following bi-weekly monoclonal antibody infusions.',
-          status: 'completed', stage: 'completed', visibility: 'public', domain: 'neurodegeneration',
-          journal_citation: 'Science Translational Medicine (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/37910284/', doi: '10.1126/scitranslmed.abd8102',
-          likes_count: 640, crowdfunding_raised: 90000, crowdfunding_target: 90000, lead_name: 'Dr. M. Vance, PhD'
-        },
-        {
-          id: 'proj-7', title: 'Synthetic Antimicrobial Peptides Targeting MDR Pseudomonas aeruginosa', code: 'AMP-MDR-03',
-          summary: 'Design and structural characterization of helical cationic peptides exhibiting rapid membrane disruption against superbugs.',
-          status: 'completed', stage: 'completed', visibility: 'public', domain: 'infectious diseases',
-          journal_citation: 'Nature Microbiology (2024)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38102941/', doi: '10.1038/s41564-024-01642-1',
-          likes_count: 425, crowdfunding_raised: 45000, crowdfunding_target: 45000, lead_name: 'Dr. M. Vance, PhD'
-        },
-        {
-          id: 'proj-8', title: 'AAV-Mediated Cardiac Gene Delivery of SERCA2a for Severe Heart Failure', code: 'CARDIO-GEN-12',
-          summary: 'Long-term 36-month cohort evaluation of sarcoplasmic reticulum calcium ATPase gene transfer restoring cardiac contractility.',
-          status: 'completed', stage: 'completed', visibility: 'public', domain: 'cardiology',
-          journal_citation: 'Circulation Research (2025)', source_url: 'https://pubmed.ncbi.nlm.nih.gov/38302194/', doi: '10.1161/CIRCRESAHA.124.320491',
-          likes_count: 310, crowdfunding_raised: 60000, crowdfunding_target: 60000, lead_name: 'Dr. E. Zhang, MD'
-        }
-      ];
+      return AuthRosData.getPapers();
     }
 
     function renderSavedCards() {

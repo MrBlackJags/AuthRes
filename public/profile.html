@@ -5,15 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AuthRos | User & Lab Profile</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="css/styles.css" />
   <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            popover: {
+              DEFAULT: 'hsl(var(--popover))',
+              foreground: 'hsl(var(--popover-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          }
+        }
+      }
+    };
     if (localStorage.getItem('biotrack_theme') === 'dark' || (!('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
 
@@ -32,26 +79,34 @@
             SR
           </div>
           <div class="space-y-1">
-            <h1 class="text-2xl font-extrabold text-slate-900">Dr. Sarah Raman, PhD</h1>
-            <p class="text-xs text-slate-600">Principal Investigator • <span class="text-emerald-700 font-bold">GenVault Therapeutics</span></p>
+            <h1 class="text-2xl font-extrabold text-slate-900" id="profName">Dr. Sarah Raman, PhD</h1>
+            <p class="text-xs text-slate-600"><span id="profTitle">Principal Investigator</span> • <span class="text-emerald-700 font-bold" id="profOrg">GenVault Therapeutics</span></p>
           </div>
         </div>
 
-        <a href="publish.html" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl text-xs font-bold shadow-md">
-          + Start New Protocol
-        </a>
+        <div class="flex items-center gap-2">
+          <a href="dashboard.html" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold shadow-md hover:bg-emerald-600 transition">
+            <i class="fa-solid fa-gauge-high mr-1"></i> SaaS Workspace
+          </a>
+          <a href="publish.html" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl text-xs font-bold shadow-md">
+            + Start New Protocol
+          </a>
+        </div>
       </div>
     </div>
 
     <!-- Managed Studies -->
     <div class="bg-white rounded-3xl border border-slate-200/80 p-6 space-y-4">
-      <h2 class="text-lg font-bold text-slate-900">Managed Protocols</h2>
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-bold text-slate-900">Managed Protocols & Active Pipelines</h2>
+        <a href="dashboard.html" class="text-xs font-bold text-emerald-600 hover:underline">Manage All in SaaS Dashboard →</a>
+      </div>
       <div class="interactive-card p-5 rounded-2xl border border-slate-200 bg-slate-50 flex items-center justify-between">
         <div>
-          <span class="font-bold text-slate-900 block text-sm">Project BT-402 (Targeted mRNA Delivery)</span>
-          <span class="text-xs text-slate-500">Status: Phase II Clinical • $32,500 Crowdfunded</span>
+          <span class="font-bold text-slate-900 block text-sm">Project BT-402-ONC (Targeted mRNA Delivery)</span>
+          <span class="text-xs text-slate-500">Status: Phase II Clinical • $32,500 Crowdfunded • 45 Hospital Cohorts Linked</span>
         </div>
-        <a href="study-detail.html" class="px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-700">
+        <a href="study-detail.html?id=proj-1" class="px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-700 hover:bg-emerald-600 hover:text-white transition">
           Manage RBAC & Protocol →
         </a>
       </div>
@@ -66,6 +121,16 @@
   <script src="js/app.js"></script>
   <script>
     document.getElementById('header-root').innerHTML = renderHeader('profile');
+    
+    function initProfile() {
+      const user = AuthManager.getUser();
+      if (user) {
+        document.getElementById('profName').textContent = user.full_name;
+        document.getElementById('profTitle').textContent = user.title || user.role.toUpperCase();
+        if (user.org_name) document.getElementById('profOrg').textContent = user.org_name;
+      }
+    }
+    initProfile();
   </script>
 </body>
 </html>

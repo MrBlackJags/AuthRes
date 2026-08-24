@@ -3,17 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuthRos | Study Protocol & Access Control (BT-402)</title>
+  <title>AuthRos | Protocol Details & Milestone Tracking</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="css/styles.css" />
   <script>
-    if (localStorage.getItem('biotrack_theme') === 'dark' || (!('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            popover: {
+              DEFAULT: 'hsl(var(--popover))',
+              foreground: 'hsl(var(--popover-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          }
+        }
+      }
+    };
+    if (localStorage.getItem('authros_theme') === 'dark' || localStorage.getItem('biotrack_theme') === 'dark' || (!('authros_theme' in localStorage) && !('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
 
@@ -28,7 +75,7 @@
         <i class="fa-solid fa-arrow-left"></i> Back to Research Directory
       </a>
       <div class="flex items-center gap-2 text-slate-400">
-        <span>Protocol Directory</span> / <span class="text-emerald-700 font-bold">BT-402-ONC</span>
+        <span>Protocol Directory</span> / <span class="text-emerald-700 font-bold" id="studyBreadcrumbId">BT-402-ONC</span>
       </div>
     </div>
 
@@ -38,24 +85,41 @@
       
       <div class="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
         <div class="flex flex-wrap items-center gap-2">
-          <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Phase II Clinical</span>
-          <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
+          <span id="studyStageBadge" class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Phase II Clinical</span>
+          <span id="studyAccessBadge" class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
             <i class="fa-solid fa-globe text-[10px]"></i> Public Open Science
           </span>
           <span class="bg-sky-50 text-sky-700 border border-sky-200 text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
             <i class="fa-solid fa-hospital text-[10px]"></i> Hospital Partner Enabled
           </span>
         </div>
-        <span class="text-xs text-slate-400 font-mono">ID: BT-402-ONC • Created Aug 2025</span>
+        <span id="studyMetaId" class="text-xs text-slate-400 font-mono">ID: BT-402-ONC • Created Aug 2025</span>
       </div>
 
       <div class="relative z-10 space-y-2">
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+        <h1 id="studyTitle" class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
           Targeted mRNA Delivery for Solid Tumors
         </h1>
-        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-3xl">
+        <p id="studySummary" class="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-3xl">
           Investigating ionizable lipid nanoparticle formulations to facilitate targeted tissue accumulation and mRNA translation inside glioblastoma multiforme microenvironments.
         </p>
+      </div>
+
+      <!-- Journal Citation & Links -->
+      <div id="studyCiteSection" class="relative z-10 p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2 font-medium text-slate-700">
+          <i class="fa-solid fa-building-columns text-emerald-600"></i>
+          <span id="studyPublisherName" class="font-bold">Nature Publishing Group</span> •
+          <span id="studyCitation">Nature Biotechnology (2026)</span>
+        </div>
+        <div class="flex items-center gap-3 text-[11px]" id="studyExternalLinks">
+          <a href="#" id="studyDoiLink" target="_blank" class="text-emerald-700 font-bold hover:underline">
+            <i class="fa-solid fa-link mr-1"></i> DOI Document
+          </a>
+          <a href="#" id="studyPubmedLink" target="_blank" class="text-sky-700 font-bold hover:underline">
+            <i class="fa-solid fa-book-medical mr-1"></i> PubMed Record
+          </a>
+        </div>
       </div>
 
       <!-- Actions & Crowdfunding Goal -->
@@ -64,25 +128,25 @@
         <div class="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-100 flex-1 min-w-[280px] space-y-1.5">
           <div class="flex justify-between text-xs font-bold text-slate-800">
             <span class="flex items-center gap-1"><i class="fa-solid fa-heart text-emerald-600"></i> Public Crowdfunding Goal</span>
-            <span class="text-emerald-700">$32,500 of $50,000</span>
+            <span class="text-emerald-700" id="studyFundText">$32,500 of $50,000</span>
           </div>
           <div class="w-full bg-slate-200 rounded-full h-2">
-            <div class="bg-gradient-to-r from-emerald-600 to-green-500 h-2 rounded-full" style="width: 65%"></div>
+            <div id="studyFundBar" class="bg-gradient-to-r from-emerald-600 to-green-500 h-2 rounded-full" style="width: 65%"></div>
           </div>
           <div class="flex items-center justify-between text-[11px] text-slate-500">
-            <span>142 Public Backers</span>
-            <button onclick="openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1')" class="text-emerald-700 font-bold hover:underline">
+            <span id="studyBackersCount">142 Public Backers</span>
+            <button id="studyDonateInlineBtn" onclick="triggerCurrentDonate()" class="text-emerald-700 font-bold hover:underline">
               + Donate to Fund Pipeline
             </button>
           </div>
         </div>
 
         <div class="flex items-center gap-2">
-          <button onclick="openHospitalCohortModal('BT-402 Trial')" class="px-4 py-2.5 bg-sky-50 border border-sky-300 text-sky-800 hover:bg-sky-600 hover:text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-2xs">
+          <button id="studyCohortBtn" onclick="triggerCurrentCohort()" class="px-4 py-2.5 bg-sky-50 border border-sky-300 text-sky-800 hover:bg-sky-600 hover:text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-2xs">
             <i class="fa-solid fa-hospital"></i> Submit Hospital Cohort
           </button>
 
-          <button onclick="openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1')" class="px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center gap-1.5">
+          <button id="studyDonateBtn" onclick="triggerCurrentDonate()" class="px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center gap-1.5">
             <i class="fa-solid fa-heart"></i> Donate Funds
           </button>
         </div>
@@ -111,20 +175,17 @@
           <div class="bg-emerald-50/60 p-4 sm:p-5 rounded-2xl border border-emerald-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h3 class="text-sm font-bold text-slate-900">Overall Pipeline Completion</h3>
-              <p class="text-xs text-slate-500">Toggle milestone checkpoints to recalculate trial completion metrics.</p>
+              <p class="text-xs text-slate-500">Milestone checkpoint verification backed by lab technician FastQ uploads.</p>
             </div>
             <div class="flex items-center gap-3">
-              <div class="text-right">
-                <span id="overallPct" class="text-2xl font-black text-emerald-700">65%</span>
-                <span class="text-[10px] text-slate-400 block uppercase font-bold">2 of 3 Stages Done</span>
+              <div class="w-28 sm:w-40 bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                <div id="overallBar" class="bg-emerald-600 h-2.5 rounded-full transition-all duration-500" style="width: 75%"></div>
               </div>
-              <div class="w-32 bg-slate-200 rounded-full h-3 p-0.5">
-                <div id="overallBar" class="bg-gradient-to-r from-emerald-600 to-green-500 h-2 rounded-full transition-all duration-500" style="width: 65%"></div>
-              </div>
+              <span id="overallPct" class="text-sm font-extrabold text-emerald-700">75%</span>
             </div>
           </div>
 
-          <div class="space-y-4">
+          <div class="space-y-4" id="milestonesListContainer">
             <div class="flex items-start gap-4 p-4 rounded-2xl border border-emerald-200 bg-emerald-50/30">
               <input type="checkbox" checked onchange="recalculateProgress()" class="milestone-check mt-1 w-5 h-5 accent-emerald-600 rounded cursor-pointer" />
               <div class="flex-1">
@@ -132,7 +193,7 @@
                   <h4 class="text-sm font-bold text-slate-900">Stage 1: Formulation & In-Vitro Transfection</h4>
                   <span class="text-[11px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Completed</span>
                 </div>
-                <p class="text-xs text-slate-500 mt-1">Target cell uptake confirmed >85% in murine cell line assays (Oct 2025).</p>
+                <p class="text-xs text-slate-500 mt-1">Target cell uptake confirmed >85% in murine cell line assays.</p>
               </div>
             </div>
 
@@ -140,13 +201,21 @@
               <input type="checkbox" checked onchange="recalculateProgress()" class="milestone-check mt-1 w-5 h-5 accent-emerald-600 rounded cursor-pointer" />
               <div class="flex-1">
                 <div class="flex items-center justify-between">
-                  <h4 class="text-sm font-bold text-slate-900">Stage 2: Preclinical Animal Cohort Testing (Current)</h4>
+                  <h4 class="text-sm font-bold text-slate-900">Stage 2: Preclinical Animal Cohort Testing</h4>
                   <span class="text-[11px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">Active In-Vivo</span>
                 </div>
                 <p class="text-xs text-slate-500 mt-1">Tracking biodistribution and systemic toxicity profiles over a 16-week window.</p>
-                <div class="mt-2.5 w-full bg-slate-100 rounded-full h-2">
-                  <div class="bg-emerald-600 h-2 rounded-full" style="width: 65%"></div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-4 rounded-2xl border border-slate-200 bg-white shadow-xs">
+              <input type="checkbox" onchange="recalculateProgress()" class="milestone-check mt-1 w-5 h-5 accent-emerald-600 rounded cursor-pointer" />
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-sm font-bold text-slate-900">Stage 3: Clinical Cohort Scaling & IND Submission</h4>
+                  <span class="text-[11px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded">Upcoming</span>
                 </div>
+                <p class="text-xs text-slate-500 mt-1">Preparation of regulatory safety dossier and hospital multi-site onboarding.</p>
               </div>
             </div>
           </div>
@@ -165,7 +234,7 @@
               <div class="col-span-4 flex items-center gap-2.5">
                 <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">SR</div>
                 <div>
-                  <strong class="text-slate-900 block font-bold">Dr. Sarah Raman, PhD</strong>
+                  <strong class="text-slate-900 block font-bold" id="rbacPiName">Dr. Sarah Raman, PhD</strong>
                   <span class="text-slate-400 text-[10px]">Principal Investigator</span>
                 </div>
               </div>
@@ -186,6 +255,14 @@
             </div>
             <span class="bg-sky-100 text-sky-800 font-bold px-2.5 py-0.5 rounded-full">HIPAA Verified</span>
           </div>
+
+          <div class="p-3.5 bg-sky-50/50 rounded-2xl border border-sky-100 flex items-center justify-between">
+            <div>
+              <strong class="text-slate-900 block font-bold">Mayo Clinic Clinical Oncology — Cohort #88</strong>
+              <span class="text-slate-500">30 Patients • Glioblastoma Microenvironment</span>
+            </div>
+            <span class="bg-sky-100 text-sky-800 font-bold px-2.5 py-0.5 rounded-full">HIPAA Verified</span>
+          </div>
         </div>
 
       </div>
@@ -200,6 +277,7 @@
   <script src="js/app.js"></script>
   <script>
     document.getElementById('header-root').innerHTML = renderHeader('research');
+    let currentStudy = null;
 
     function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
@@ -214,11 +292,105 @@
       const checks = document.querySelectorAll('.milestone-check');
       let checkedCount = 0;
       checks.forEach(c => { if(c.checked) checkedCount++; });
-      const pct = Math.round((checkedCount / checks.length) * 100);
+      const pct = checks.length > 0 ? Math.round((checkedCount / checks.length) * 100) : 100;
       document.getElementById('overallPct').textContent = `${pct}%`;
       document.getElementById('overallBar').style.width = `${pct}%`;
       showToast(`Pipeline completion recalculated to ${pct}%.`, 'Progress Updated', 'success');
     }
+
+    function triggerCurrentDonate() {
+      if (!currentStudy) return openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1');
+      const raised = `$${(currentStudy.crowdfunding_raised || 0).toLocaleString()}`;
+      const target = `$${(currentStudy.crowdfunding_target || 50000).toLocaleString()}`;
+      openDonateModal(currentStudy.title, raised, target, currentStudy.id);
+    }
+
+    function triggerCurrentCohort() {
+      const title = currentStudy ? currentStudy.title : 'Targeted mRNA Delivery';
+      openHospitalCohortModal(title);
+    }
+
+    async function loadStudyDetails() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const studyId = urlParams.get('id') || 'proj-1';
+
+      try {
+        let p = null;
+        const data = await AuthRosAPI.getProjectById(studyId);
+        if (data && data.project) {
+          p = data.project;
+        }
+
+        // If not from API, find from fallback projects catalog
+        if (!p) {
+          p = findFallbackProjectById(studyId);
+        }
+
+        if (p) {
+          currentStudy = p;
+          document.getElementById('studyTitle').textContent = p.title;
+          document.getElementById('studySummary').textContent = p.abstract || p.summary;
+          document.getElementById('studyBreadcrumbId').textContent = p.code || 'PROTOCOL';
+          document.getElementById('studyMetaId').textContent = `ID: ${p.code} • Year: ${p.publication_year || 2026} • Country: ${p.country_name || 'Global'}`;
+          
+          if (p.stage) document.getElementById('studyStageBadge').textContent = p.stage.toUpperCase();
+          if (p.visibility) document.getElementById('studyAccessBadge').innerHTML = `<i class="fa-solid fa-globe text-[10px]"></i> ${p.visibility.toUpperCase()} Science`;
+          if (p.publisher_name) document.getElementById('studyPublisherName').textContent = p.publisher_name;
+          if (p.journal_citation) document.getElementById('studyCitation').textContent = p.journal_citation;
+          if (p.lead_name) document.getElementById('rbacPiName').textContent = p.lead_name;
+
+          if (p.doi) {
+            document.getElementById('studyDoiLink').href = `https://doi.org/${p.doi}`;
+            document.getElementById('studyDoiLink').textContent = `DOI: ${p.doi}`;
+          }
+          if (p.source_url) {
+            document.getElementById('studyPubmedLink').href = p.source_url;
+          }
+
+          const raised = p.crowdfunding_raised || 0;
+          const target = p.crowdfunding_target || 50000;
+          const pct = target > 0 ? Math.min(100, Math.round((raised / target) * 100)) : 100;
+          
+          document.getElementById('studyFundText').textContent = `$${raised.toLocaleString()} of $${target.toLocaleString()} Goal`;
+          document.getElementById('studyFundBar').style.width = `${pct}%`;
+          document.getElementById('overallPct').textContent = `${p.progress_percent || pct}%`;
+          document.getElementById('overallBar').style.width = `${p.progress_percent || pct}%`;
+        }
+      } catch (e) {
+        console.warn('Study loading error:', e);
+      }
+    }
+
+    function findFallbackProjectById(id) {
+      if (typeof AuthRosData !== 'undefined') {
+        const papers = AuthRosData.getPapers();
+        const found = papers.find(x => x.id === id || x.code === id);
+        if (found) return found;
+      }
+
+      // Dynamic fallback
+      return {
+        id,
+        title: `Biomedical Research Protocol (${id.toUpperCase()})`,
+        code: id.toUpperCase(),
+        summary: 'Comprehensive scientific study investigating novel molecular mechanisms and verified clinical cohort responses.',
+        abstract: 'This research protocol evaluates target engagement, pharmacokinetics, and clinical endpoint tolerances using high-throughput molecular screening and verified cohort data.',
+        stage: 'phase_2',
+        visibility: 'public',
+        domain: 'biomedical research',
+        journal_citation: 'Nature Medicine (2026)',
+        publisher_name: 'Nature Publishing Group',
+        country_name: 'Global Consortium',
+        country_code: 'GL',
+        publication_year: 2026,
+        progress_percent: 75,
+        crowdfunding_raised: 35000,
+        crowdfunding_target: 50000,
+        lead_name: 'Dr. Lead Researcher'
+      };
+    }
+
+    loadStudyDetails();
   </script>
 </body>
 </html>

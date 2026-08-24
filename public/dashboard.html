@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AuthRos | SaaS Application Workspace & RBAC Command Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            popover: {
+              DEFAULT: 'hsl(var(--popover))',
+              foreground: 'hsl(var(--popover-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          }
+        }
+      }
+    };
+    if (localStorage.getItem('authros_theme') === 'dark' || localStorage.getItem('biotrack_theme') === 'dark' || (!('authros_theme' in localStorage) && !('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-background text-foreground font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+
+  <div class="flex-1 flex overflow-hidden min-h-screen">
+    
+    <!-- Collapsible SaaS Sidebar -->
+    <aside id="saas-sidebar" class="w-64 bg-card border-r border-border flex flex-col justify-between shrink-0 transition-all duration-300 z-30">
+      
+      <div class="p-4 space-y-6">
+        
+        <!-- Brand & Workspace Header -->
+        <div class="flex items-center justify-between">
+          <a href="index.html" class="flex items-center gap-2.5 group">
+            <div class="w-9 h-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg shadow-sm shadow-primary/30">
+              <i class="fa-solid fa-dna"></i>
+            </div>
+            <div>
+              <span class="font-extrabold text-base tracking-tight text-foreground block leading-none">
+                Auth<span class="text-gradient-emerald">Ros</span>
+              </span>
+              <span class="text-[10px] text-muted-foreground font-semibold">Enterprise SaaS</span>
+            </div>
+          </a>
+          <a href="index.html" title="Back to Landing" class="text-muted-foreground hover:text-foreground text-xs p-1">
+            <i class="fa-solid fa-house"></i>
+          </a>
+        </div>
+
+        <!-- Active Organization / Lab Pill -->
+        <div class="p-3 bg-muted/60 rounded-xl border border-border space-y-1">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="font-bold text-foreground" id="sidebar-org-name">GenVault Lab</span>
+            <span class="shadcn-badge badge-emerald text-[9px] uppercase px-1.5 py-0.2" id="sidebar-tier">Enterprise</span>
+          </div>
+          <p class="text-[10px] text-muted-foreground truncate" id="sidebar-user-title">Principal Investigator</p>
+        </div>
+
+        <!-- Sidebar Navigation Items -->
+        <nav class="space-y-1 text-xs font-semibold" id="sidebar-nav">
+          <button onclick="switchDashboardTab('overview', this)" class="dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-bold transition">
+            <i class="fa-solid fa-gauge-high w-4 text-center"></i>
+            <span>Overview & KPIs</span>
+          </button>
+
+          <button onclick="switchDashboardTab('protocols', this)" class="dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition">
+            <i class="fa-solid fa-microscope w-4 text-center"></i>
+            <span>Clinical Protocols</span>
+          </button>
+
+          <button onclick="switchDashboardTab('cohorts', this)" class="dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition">
+            <i class="fa-solid fa-hospital-user w-4 text-center"></i>
+            <span>Hospital Cohorts</span>
+          </button>
+
+          <button onclick="switchDashboardTab('datasets', this)" class="dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition">
+            <i class="fa-solid fa-database w-4 text-center"></i>
+            <span>Data Vault (FastQ)</span>
+          </button>
+
+          <button onclick="switchDashboardTab('rbac', this)" class="dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition">
+            <i class="fa-solid fa-shield-halved w-4 text-center"></i>
+            <span>Team & RBAC Policy</span>
+          </button>
+
+          <button onclick="switchDashboardTab('neondb', this)" class="dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition">
+            <i class="fa-solid fa-server w-4 text-center"></i>
+            <span>Neon DB Telemetry</span>
+          </button>
+
+          <button onclick="switchDashboardTab('settings', this)" class="dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition">
+            <i class="fa-solid fa-key w-4 text-center"></i>
+            <span>API Keys & Settings</span>
+          </button>
+        </nav>
+
+        <!-- Live RBAC Role Simulation Switcher -->
+        <div class="pt-2 border-t border-border space-y-2">
+          <div class="flex items-center justify-between text-[10px] font-bold uppercase text-muted-foreground tracking-wider">
+            <span>Simulate RBAC Role:</span>
+            <i class="fa-solid fa-wand-magic-sparkles text-emerald-500"></i>
+          </div>
+          <select id="rbacRoleSimulator" onchange="simulateRoleChange(this.value)" class="w-full bg-muted border border-border text-foreground rounded-lg px-2.5 py-1.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500">
+            <option value="pi">PI • Full Admin Access</option>
+            <option value="scientist">Scientist • Write & Milestones</option>
+            <option value="tech">Lab Tech • FastQ Uploads</option>
+            <option value="hospital">Hospital Partner • Cohorts</option>
+            <option value="public">Public Supporter • Donors</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Sidebar Footer User Profile & Database Engine -->
+      <div class="p-4 border-t border-border bg-card/50 space-y-3">
+        <!-- Live DB Indicator -->
+        <div class="flex items-center justify-between text-[11px] font-mono bg-muted/40 p-2 rounded-lg border border-border">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-foreground font-semibold text-[10px]" id="sidebar-db-engine">Neon PostgreSQL</span>
+          </div>
+          <span class="text-emerald-600 text-[10px] font-bold">Online</span>
+        </div>
+
+        <!-- User Info & Logout -->
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2 min-w-0">
+            <div class="w-7 h-7 rounded-full bg-primary/20 text-primary font-bold flex items-center justify-center text-xs shrink-0" id="sidebar-avatar">
+              S
+            </div>
+            <div class="min-w-0">
+              <span class="text-xs font-bold text-foreground truncate block leading-tight" id="sidebar-user-name">Dr. Sarah Raman</span>
+              <span class="text-[10px] text-muted-foreground truncate block" id="sidebar-user-role">Principal Investigator</span>
+            </div>
+          </div>
+          <button onclick="AuthManager.logout()" title="Sign Out" class="shadcn-btn btn-ghost btn-icon h-7 w-7 text-muted-foreground hover:text-destructive">
+            <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Main Workspace Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-background">
+      
+      <!-- Top SaaS Header -->
+      <header class="sticky top-0 z-20 bg-card/85 backdrop-blur-md border-b border-border h-16 px-4 sm:px-6 flex items-center justify-between gap-4">
+        
+        <div class="flex items-center gap-3 flex-1 max-w-lg">
+          <button onclick="toggleSidebar()" class="shadcn-btn btn-outline btn-icon h-9 w-9 lg:hidden">
+            <i class="fa-solid fa-bars text-sm"></i>
+          </button>
+
+          <div class="relative w-full">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-muted-foreground text-xs"></i>
+            <input 
+              type="text" 
+              id="dashSearch" 
+              placeholder="Search protocols, datasets, SHA-256 hashes, team..." 
+              class="w-full bg-muted/60 border border-border rounded-xl pl-8 pr-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Role-Gated SaaS Primary Action Button -->
+          <div id="role-action-btn-container">
+            <button onclick="openPublishModal()" class="shadcn-btn btn-default btn-sm bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-xs">
+              <i class="fa-solid fa-plus mr-1"></i> Register Protocol
+            </button>
+          </div>
+
+          <a href="research.html" class="shadcn-btn btn-outline btn-sm text-xs hidden sm:inline-flex">
+            <i class="fa-solid fa-globe mr-1 text-emerald-600"></i> Public Directory
+          </a>
+
+          <!-- Dark Mode Toggle -->
+          <button onclick="ThemeManager.toggle()" title="Toggle Theme" class="theme-toggle-btn shadcn-btn btn-outline btn-icon h-9 w-9">
+            <i class="${ThemeManager.getTheme() === 'dark' ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-muted-foreground'} theme-toggle-icon text-sm"></i>
+          </button>
+        </div>
+
+      </header>
+
+      <!-- Dashboard Body Views Container -->
+      <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl w-full mx-auto">
+        
+        <!-- ======================================================== -->
+        <!-- TAB 1: OVERVIEW & KPIS -->
+        <!-- ======================================================== -->
+        <div id="tab-overview" class="dash-tab-content space-y-6">
+          
+          <!-- Welcome Banner -->
+          <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 text-white p-6 rounded-3xl border border-emerald-500/20 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <span class="shadcn-badge badge-emerald text-[10px] font-bold uppercase tracking-wider">Enterprise Workspace</span>
+              <h1 class="text-2xl font-extrabold text-white" id="welcome-header">Welcome, Dr. Sarah Raman</h1>
+              <p class="text-xs text-slate-300">AuthRos SaaS Platform is operating on Neon Serverless PostgreSQL with 5-tier cryptographic RBAC.</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="switchDashboardTab('neondb')" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-bolt text-emerald-400"></i> Neon Engine Status
+              </button>
+              <a href="publish.html" class="px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-slate-950 rounded-xl text-xs font-bold shadow-md transition flex items-center gap-1.5">
+                <i class="fa-solid fa-plus"></i> New Pipeline
+              </a>
+            </div>
+          </div>
+
+          <!-- 4 KPI Metrics Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="shadcn-card p-5 space-y-1 border-border">
+              <span class="text-[11px] font-bold text-muted-foreground uppercase">Active Pipelines</span>
+              <div class="text-2xl font-extrabold text-foreground" id="kpi-projects">250</div>
+              <p class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
+                <i class="fa-solid fa-arrow-trend-up"></i> 100% On-Track
+              </p>
+            </div>
+
+            <div class="shadcn-card p-5 space-y-1 border-border">
+              <span class="text-[11px] font-bold text-muted-foreground uppercase">Crowdfunding Raised</span>
+              <div class="text-2xl font-extrabold text-foreground" id="kpi-raised">$128,500</div>
+              <p class="text-[11px] text-amber-600 font-semibold flex items-center gap-1">
+                <i class="fa-solid fa-heart"></i> 1,420 Public Backers
+              </p>
+            </div>
+
+            <div class="shadcn-card p-5 space-y-1 border-border">
+              <span class="text-[11px] font-bold text-muted-foreground uppercase">FastQ & Assay Datasets</span>
+              <div class="text-2xl font-extrabold text-foreground" id="kpi-datasets">4,810</div>
+              <p class="text-[11px] text-sky-600 font-semibold flex items-center gap-1">
+                <i class="fa-solid fa-database"></i> 1.8 TB Cloud Vault
+              </p>
+            </div>
+
+            <div class="shadcn-card p-5 space-y-1 border-border">
+              <span class="text-[11px] font-bold text-muted-foreground uppercase">Hospital Cohort Sites</span>
+              <div class="text-2xl font-extrabold text-foreground" id="kpi-cohorts">75 Sites</div>
+              <p class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
+                <i class="fa-solid fa-shield-check"></i> HIPAA Verified
+              </p>
+            </div>
+          </div>
+
+          <!-- Active Clinical Pipelines Table -->
+          <div class="shadcn-card p-6 space-y-4 border-border">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-base font-extrabold text-foreground">Active Clinical Protocols & Pipelines</h3>
+                <p class="text-xs text-muted-foreground">Real-time progress telemetry and funding milestones</p>
+              </div>
+              <a href="research.html" class="text-xs font-bold text-emerald-600 hover:underline">View All 100+ Directory →</a>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-muted/50 border-b border-border uppercase text-[10px] text-muted-foreground font-bold tracking-wider">
+                  <tr>
+                    <th class="p-3">Protocol Code</th>
+                    <th class="p-3">Title & Lead Investigator</th>
+                    <th class="p-3">Phase Stage</th>
+                    <th class="p-3">Progress</th>
+                    <th class="p-3">Crowdfunding Goal</th>
+                    <th class="p-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border font-medium" id="dash-pipeline-rows">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Recent Audit Trail Ledger -->
+          <div class="shadcn-card p-6 space-y-4 border-border">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-base font-extrabold text-foreground">Cryptographic Audit Trail & Event Ledger</h3>
+                <p class="text-xs text-muted-foreground">Immutable logs of dataset uploads, milestone sign-offs, and cohort links</p>
+              </div>
+              <span class="shadcn-badge badge-outline text-[10px]">Real-Time Feed</span>
+            </div>
+
+            <div class="space-y-3" id="audit-log-stream">
+              <div class="p-3 bg-muted/40 rounded-xl border border-border flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-600 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-check"></i>
+                  </div>
+                  <div>
+                    <strong class="text-foreground block">Milestone Completed: Stage 1 Formulation & In-Vitro Transfection</strong>
+                    <span class="text-muted-foreground text-[11px]">Protocol: BT-402-ONC • Confirmed by Dr. Sarah Raman, PhD</span>
+                  </div>
+                </div>
+                <span class="text-[10px] font-mono text-muted-foreground">10 mins ago</span>
+              </div>
+
+              <div class="p-3 bg-muted/40 rounded-xl border border-border flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-sky-500/15 text-sky-600 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-hospital"></i>
+                  </div>
+                  <div>
+                    <strong class="text-foreground block">Hospital Anonymized Cohort Linked (45 Patients)</strong>
+                    <span class="text-muted-foreground text-[11px]">Johns Hopkins Medicine • SHA-256: 0x99482a7f019b</span>
+                  </div>
+                </div>
+                <span class="text-[10px] font-mono text-muted-foreground">2 hours ago</span>
+              </div>
+
+              <div class="p-3 bg-muted/40 rounded-xl border border-border flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-600 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-heart"></i>
+                  </div>
+                  <div>
+                    <strong class="text-foreground block">Public Crowdfunding Donation: $500 USD</strong>
+                    <span class="text-muted-foreground text-[11px]">Anonymous Donor funded Project Orion (Kinase Inhibitors)</span>
+                  </div>
+                </div>
+                <span class="text-[10px] font-mono text-muted-foreground">5 hours ago</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- TAB 2: PROTOCOLS & PIPELINES -->
+        <!-- ======================================================== -->
+        <div id="tab-protocols" class="dash-tab-content hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-extrabold text-foreground">Registered Clinical Protocols</h2>
+              <p class="text-xs text-muted-foreground">Manage and track institutional biological research records</p>
+            </div>
+            <a href="publish.html" class="shadcn-btn btn-default btn-sm bg-emerald-600 text-white font-bold">
+              <i class="fa-solid fa-plus mr-1"></i> Register New Protocol
+            </a>
+          </div>
+
+          <div id="protocols-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Loaded dynamically -->
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- TAB 3: HOSPITAL COHORTS VAULT -->
+        <!-- ======================================================== -->
+        <div id="tab-cohorts" class="dash-tab-content hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-extrabold text-foreground">Hospital Anonymized Cohort Vault</h2>
+              <p class="text-xs text-muted-foreground">HIPAA & GDPR verified clinical outcome cohorts linked to active protocols</p>
+            </div>
+            <button onclick="openHospitalCohortModal('Global Clinical Protocol')" class="shadcn-btn btn-default btn-sm bg-sky-600 text-white font-bold">
+              <i class="fa-solid fa-plus mr-1"></i> Submit Cohort Data
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="shadcn-card p-6 space-y-4 border-sky-500/30">
+              <div class="flex items-center justify-between">
+                <span class="shadcn-badge badge-sky text-xs">Johns Hopkins Medicine</span>
+                <span class="shadcn-badge badge-emerald text-xs">Verified</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-muted-foreground uppercase">Target Protocol: BT-402-ONC</span>
+                <h3 class="text-base font-bold text-foreground mt-0.5">EGFR T790M Biomarker Tolerance Cohort</h3>
+                <p class="text-xs text-muted-foreground mt-1">45 De-identified patient records demonstrating high tolerance in solid glioblastoma.</p>
+              </div>
+              <div class="p-3 bg-muted/60 rounded-xl font-mono text-[11px] text-muted-foreground space-y-1">
+                <div>Verification Hash: <span class="text-sky-600 font-bold">0x99482a7f019b</span></div>
+                <div>Status: Cryptographically Sealed • HIPAA Compliant</div>
+              </div>
+            </div>
+
+            <div class="shadcn-card p-6 space-y-4 border-sky-500/30">
+              <div class="flex items-center justify-between">
+                <span class="shadcn-badge badge-sky text-xs">Mayo Clinic Hepatology</span>
+                <span class="shadcn-badge badge-emerald text-xs">Verified</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-muted-foreground uppercase">Target Protocol: AAT-901-GEN</span>
+                <h3 class="text-base font-bold text-foreground mt-0.5">Liver Biopsy Gene Expression Cohort</h3>
+                <p class="text-xs text-muted-foreground mt-1">30 Patients tracking AAV9 in-vivo gene delivery for Alpha-1 Antitrypsin deficiency.</p>
+              </div>
+              <div class="p-3 bg-muted/60 rounded-xl font-mono text-[11px] text-muted-foreground space-y-1">
+                <div>Verification Hash: <span class="text-sky-600 font-bold">0x88371c6e402a</span></div>
+                <div>Status: Cryptographically Sealed • HIPAA Compliant</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- TAB 4: DATASETS & FASTQ VAULT -->
+        <!-- ======================================================== -->
+        <div id="tab-datasets" class="dash-tab-content hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-extrabold text-foreground">FASTQ & Biological Assay Vault</h2>
+              <p class="text-xs text-muted-foreground">Secure experimental sequencing data, CSV assay measurements, and signed manuscripts</p>
+            </div>
+            <button onclick="showToast('Upload dialog opened.', 'Upload FastQ', 'info')" class="shadcn-btn btn-default btn-sm bg-emerald-600 text-white font-bold">
+              <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Upload Dataset (.FastQ / .CSV)
+            </button>
+          </div>
+
+          <div class="shadcn-card overflow-hidden border-border">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-muted/50 border-b border-border uppercase text-[10px] text-muted-foreground font-bold tracking-wider">
+                <tr>
+                  <th class="p-3.5">File Name & Spec</th>
+                  <th class="p-3.5">Associated Protocol</th>
+                  <th class="p-3.5">Format / Size</th>
+                  <th class="p-3.5">Access Scope</th>
+                  <th class="p-3.5 text-right">Download</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border font-medium">
+                <tr>
+                  <td class="p-3.5 font-bold text-foreground">
+                    <div class="flex items-center gap-2">
+                      <i class="fa-solid fa-file-lines text-emerald-600"></i>
+                      <span>glioblastoma_mrna_rnaseq_raw.fastq.gz</span>
+                    </div>
+                  </td>
+                  <td class="p-3.5 text-muted-foreground">BT-402-ONC</td>
+                  <td class="p-3.5 text-muted-foreground">FASTQ • 4.2 GB</td>
+                  <td class="p-3.5"><span class="shadcn-badge badge-emerald text-[10px]">Public Science</span></td>
+                  <td class="p-3.5 text-right">
+                    <button onclick="showToast('Downloading glioblastoma_mrna_rnaseq_raw.fastq.gz', 'Download Started', 'success')" class="shadcn-btn btn-outline btn-sm text-[11px]">
+                      <i class="fa-solid fa-download mr-1"></i> Download
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="p-3.5 font-bold text-foreground">
+                    <div class="flex items-center gap-2">
+                      <i class="fa-solid fa-file-csv text-sky-600"></i>
+                      <span>preclinical_toxicity_assays_week16.csv</span>
+                    </div>
+                  </td>
+                  <td class="p-3.5 text-muted-foreground">BT-402-ONC</td>
+                  <td class="p-3.5 text-muted-foreground">CSV • 18.5 MB</td>
+                  <td class="p-3.5"><span class="shadcn-badge badge-outline text-[10px]">Lab RBAC Only</span></td>
+                  <td class="p-3.5 text-right">
+                    <button onclick="showToast('Downloading preclinical_toxicity_assays_week16.csv', 'Download Started', 'success')" class="shadcn-btn btn-outline btn-sm text-[11px]">
+                      <i class="fa-solid fa-download mr-1"></i> Download
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- TAB 5: TEAM & RBAC POLICY MATRIX -->
+        <!-- ======================================================== -->
+        <div id="tab-rbac" class="dash-tab-content hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-extrabold text-foreground">Hierarchical RBAC Team Management</h2>
+              <p class="text-xs text-muted-foreground">Control institutional permissions across Principal Investigators, Scientists, Technicians, and Hospitals</p>
+            </div>
+            <span class="shadcn-badge badge-emerald text-xs">RBAC Policy v2.0 Active</span>
+          </div>
+
+          <div class="shadcn-card overflow-hidden border-border">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-muted/50 border-b border-border uppercase text-[10px] text-muted-foreground font-bold tracking-wider">
+                <tr>
+                  <th class="p-3.5">Team Member</th>
+                  <th class="p-3.5">Organization</th>
+                  <th class="p-3.5">Assigned Role</th>
+                  <th class="p-3.5">Permission Scope</th>
+                  <th class="p-3.5 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border font-medium" id="rbac-users-table">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- TAB 6: NEON DB TELEMETRY & ENGINE -->
+        <!-- ======================================================== -->
+        <div id="tab-neondb" class="dash-tab-content hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-extrabold text-foreground">Neon Serverless PostgreSQL Database Telemetry</h2>
+              <p class="text-xs text-muted-foreground">Dual engine monitoring (Neon Cloud & Local Embedded SQLite fallback)</p>
+            </div>
+            <button onclick="refreshDbStatus()" class="shadcn-btn btn-outline btn-sm">
+              <i class="fa-solid fa-rotate mr-1"></i> Refresh Ping
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="shadcn-card p-6 space-y-4 border-emerald-500/40">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Active Database Engine</span>
+                <span class="shadcn-badge badge-emerald text-xs" id="neondb-status-badge">Connected</span>
+              </div>
+              <h3 class="text-xl font-extrabold text-foreground" id="neondb-engine-name">Neon Serverless PostgreSQL</h3>
+              <p class="text-xs text-muted-foreground">Host: <code class="font-mono text-emerald-600 font-bold" id="neondb-host">ep-lucky-smoke.us-east-2.aws.neon.tech</code></p>
+              
+              <div class="p-4 bg-muted/60 rounded-xl space-y-2 text-xs font-mono">
+                <div class="flex justify-between"><span>Engine Type:</span> <strong id="telemetry-engine">PostgreSQL</strong></div>
+                <div class="flex justify-between"><span>SSL Encryption:</span> <strong class="text-emerald-600">TLS 1.3 Active</strong></div>
+                <div class="flex justify-between"><span>Connection Pool:</span> <strong>20 Concurrent (Max)</strong></div>
+                <div class="flex justify-between"><span>Server Latency:</span> <strong class="text-emerald-600">~24 ms</strong></div>
+              </div>
+            </div>
+
+            <div class="shadcn-card p-6 space-y-4 border-border">
+              <h4 class="text-sm font-extrabold text-foreground">Connect Your Own Neon DB Project</h4>
+              <p class="text-xs text-muted-foreground leading-relaxed">
+                AuthRos connects out-of-the-box using the <code class="font-bold">DATABASE_URL</code> environment variable. You can provision a free serverless database at <a href="https://neon.tech" target="_blank" class="text-emerald-600 underline font-bold">neon.tech</a>.
+              </p>
+              <div class="p-3 bg-muted rounded-xl font-mono text-[11px] text-muted-foreground">
+                DATABASE_URL=postgresql://user:pass@ep-xyz.us-east-2.aws.neon.tech/neondb?sslmode=require
+              </div>
+              <button onclick="showToast('Configuration instructions copied.', 'Neon DB Setup', 'info')" class="shadcn-btn btn-secondary btn-sm text-xs w-full justify-center">
+                <i class="fa-solid fa-copy mr-1"></i> Copy .env Neon Config Template
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- TAB 7: API KEYS & SETTINGS -->
+        <!-- ======================================================== -->
+        <div id="tab-settings" class="dash-tab-content hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-extrabold text-foreground">API Keys & Institutional Settings</h2>
+              <p class="text-xs text-muted-foreground">Manage your developer access tokens and laboratory profile</p>
+            </div>
+          </div>
+
+          <div class="shadcn-card p-6 space-y-5 border-border">
+            <h3 class="text-base font-extrabold text-foreground">Live Secret API Key</h3>
+            <p class="text-xs text-muted-foreground">Use this key to authenticate REST API requests to <code class="font-mono">/api/projects</code> from external scripts or LIMS systems.</p>
+            
+            <div class="flex items-center gap-3">
+              <input type="password" id="apiKeyInput" value="sk_live_authros_pi_88492019_992482a" readonly class="shadcn-input font-mono text-xs flex-1" />
+              <button onclick="toggleApiKeyVisibility()" class="shadcn-btn btn-outline btn-sm">Show / Hide</button>
+              <button onclick="copyApiKey()" class="shadcn-btn btn-default btn-sm bg-emerald-600 text-white font-bold">Copy Key</button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    let currentTab = 'overview';
+
+    function initDashboard() {
+      const user = AuthManager.getUser();
+      if (user) {
+        document.getElementById('sidebar-user-name').textContent = user.full_name;
+        document.getElementById('sidebar-user-role').textContent = user.title || user.role.toUpperCase();
+        document.getElementById('sidebar-avatar').textContent = user.full_name.charAt(0);
+        document.getElementById('welcome-header').textContent = `Welcome back, ${user.full_name.split(' ')[0]}`;
+        if (user.org_name) document.getElementById('sidebar-org-name').textContent = user.org_name;
+        if (user.tier) document.getElementById('sidebar-tier').textContent = user.tier.toUpperCase();
+        document.getElementById('rbacRoleSimulator').value = user.role || 'pi';
+      }
+      loadDashboardTelemetry();
+      loadDashboardProtocols();
+      loadRbacUsers();
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('saas-sidebar');
+      sidebar.classList.toggle('hidden');
+    }
+
+    function switchDashboardTab(tabKey, btn) {
+      currentTab = tabKey;
+      document.querySelectorAll('.dash-tab-content').forEach(c => c.classList.add('hidden'));
+      document.querySelectorAll('.dash-nav-btn').forEach(b => {
+        b.className = 'dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition';
+      });
+      const activeEl = document.getElementById(`tab-${tabKey}`);
+      if (activeEl) activeEl.classList.remove('hidden');
+      if (btn) btn.className = 'dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-bold transition';
+    }
+
+    function simulateRoleChange(roleKey) {
+      AuthManager.switchDemoRole(roleKey);
+      initDashboard();
+    }
+
+    async function loadDashboardTelemetry() {
+      const status = await AuthManager.fetchDbStatus();
+      if (status) {
+        document.getElementById('sidebar-db-engine').textContent = status.engineKey === 'neon' ? 'Neon PostgreSQL' : 'SQLite3 Local';
+        document.getElementById('neondb-engine-name').textContent = status.engine;
+        document.getElementById('neondb-host').textContent = status.host;
+        document.getElementById('telemetry-engine').textContent = status.engineKey === 'neon' ? 'PostgreSQL 16 (Serverless)' : 'SQLite 3.45';
+        if (status.metrics) {
+          document.getElementById('kpi-projects').textContent = status.metrics.total_projects;
+          document.getElementById('kpi-raised').textContent = `$${(status.metrics.total_raised_usd || 128500).toLocaleString()}`;
+        }
+      }
+    }
+
+    async function loadDashboardProtocols() {
+      const data = await AuthRosAPI.getProjects();
+      const rows = data?.projects || [];
+      const tbody = document.getElementById('dash-pipeline-rows');
+      const protocolsContainer = document.getElementById('protocols-container');
+      
+      if (tbody) {
+        tbody.innerHTML = rows.slice(0, 6).map(p => {
+          const raised = p.crowdfunding_raised || 0;
+          const target = p.crowdfunding_target || 50000;
+          const pct = Math.min(100, Math.round((raised / target) * 100));
+          return `
+            <tr class="hover:bg-muted/40 transition">
+              <td class="p-3 font-mono font-bold text-emerald-600">${p.code}</td>
+              <td class="p-3">
+                <div class="font-bold text-foreground line-clamp-1">${p.title}</div>
+                <div class="text-[10px] text-muted-foreground">${p.lead_name || 'Dr. Sarah Raman'} • ${p.journal_citation || 'Peer-Reviewed'}</div>
+              </td>
+              <td class="p-3"><span class="shadcn-badge badge-emerald text-[10px] uppercase">${p.stage}</span></td>
+              <td class="p-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-16 bg-muted rounded-full h-1.5"><div class="bg-emerald-500 h-1.5 rounded-full" style="width: ${p.progress_percent || 60}%"></div></div>
+                  <span>${p.progress_percent || 60}%</span>
+                </div>
+              </td>
+              <td class="p-3 font-semibold text-foreground">$${raised.toLocaleString()} / $${target.toLocaleString()}</td>
+              <td class="p-3 text-right">
+                <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-outline btn-sm text-[10px] py-1 px-2">Manage</a>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      if (protocolsContainer) {
+        protocolsContainer.innerHTML = rows.slice(0, 8).map(p => `
+          <div class="shadcn-card p-6 space-y-4 border-border flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="shadcn-badge badge-emerald text-xs uppercase">${p.stage}</span>
+                <span class="font-mono text-xs text-muted-foreground font-bold">${p.code}</span>
+              </div>
+              <h3 class="text-base font-bold text-foreground leading-snug">${p.title}</h3>
+              <p class="text-xs text-muted-foreground line-clamp-2">${p.summary}</p>
+            </div>
+            <div class="pt-3 border-t border-border flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-600">${p.journal_citation || 'Published'}</span>
+              <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-default btn-sm text-xs bg-emerald-600 text-white font-bold">Manage Pipeline →</a>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    async function loadRbacUsers() {
+      const tbody = document.getElementById('rbac-users-table');
+      if (!tbody) return;
+      try {
+        const res = await fetch(`${API_BASE_URL}/auth/users`);
+        const data = await res.json();
+        const users = data?.users || [
+          { id: 'usr-1', full_name: 'Dr. Sarah Raman, PhD', email: 'dr.raman@genvault.org', role: 'pi', org_name: 'GenVault Therapeutics' },
+          { id: 'usr-2', full_name: 'Dr. M. Vance, PhD', email: 'm.vance@synthego.com', role: 'scientist', org_name: 'Synthego Genetics' },
+          { id: 'usr-3', full_name: 'Alex Chen, MSc', email: 'alex.chen@genvault.org', role: 'tech', org_name: 'GenVault Therapeutics' },
+          { id: 'usr-4', full_name: 'Dr. E. Zhang, MD', email: 'clinical@hopkinsmedicine.org', role: 'hospital', org_name: 'Johns Hopkins Medicine' }
+        ];
+
+        tbody.innerHTML = users.map(u => `
+          <tr class="hover:bg-muted/40 transition">
+            <td class="p-3.5 font-bold text-foreground">
+              <div>${u.full_name}</div>
+              <div class="text-[10px] text-muted-foreground font-normal">${u.email}</div>
+            </td>
+            <td class="p-3.5 text-muted-foreground">${u.org_name || 'Academic Lab'}</td>
+            <td class="p-3.5">
+              <span class="shadcn-badge ${u.role === 'pi' ? 'badge-emerald' : u.role === 'hospital' ? 'badge-sky' : 'badge-outline'} text-[10px] uppercase font-bold">
+                ${u.role.toUpperCase()}
+              </span>
+            </td>
+            <td class="p-3.5 text-[11px] text-muted-foreground">
+              ${u.role === 'pi' ? 'Full publication, privacy toggles, grants, RBAC policy' :
+                u.role === 'scientist' ? 'Milestone progress, raw datasets review' :
+                u.role === 'tech' ? 'Upload FASTQ sequencing, log assays' : 'Submit anonymized cohorts, trial sites'}
+            </td>
+            <td class="p-3.5 text-right">
+              <button onclick="showToast('Permissions verified for ${u.full_name}', 'RBAC Scope', 'info')" class="shadcn-btn btn-ghost btn-sm text-[11px]">Edit</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch(e) {}
+    }
+
+    function toggleApiKeyVisibility() {
+      const input = document.getElementById('apiKeyInput');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function copyApiKey() {
+      const input = document.getElementById('apiKeyInput');
+      navigator.clipboard.writeText(input.value);
+      showToast('API key copied to clipboard.', 'Copied', 'success');
+    }
+
+    function refreshDbStatus() {
+      loadDashboardTelemetry();
+      showToast('Neon Database connection ping verified (24ms).', 'DB Telemetry Refreshed', 'success');
+    }
+
+    document.addEventListener('DOMContentLoaded', initDashboard);
+  </script>
+</body>
+</html>

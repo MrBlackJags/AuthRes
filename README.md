@@ -1,14 +1,14 @@
-# 🧬 BioTrack — Centralized Biomedical Research & Crowdfunding Platform
+# AuthRos — Centralized Biomedical Research & Crowdfunding Platform
 
-**BioTrack** is a centralized biomedical research tracking, crowdfunding, and hospital clinical portal. It provides a transparent, verifiable ecosystem connecting three primary user groups: **the General Public**, **Hospitals**, and **Scientific Research Institutions**.
+**AuthRos** is a centralized biomedical research tracking, crowdfunding, and hospital clinical portal. It provides a transparent, verifiable ecosystem connecting three primary user groups: **the General Public**, **Hospitals**, and **Scientific Research Institutions**.
 
 ---
 
-## 🌟 Key Platform Features & Ecosystem Architecture
+## Key Platform Features & Ecosystem Architecture
 
 ```
                        +-----------------------------------+
-                       |    BioTrack Unified Platform      |
+                       |    AuthRos Unified Platform       |
                        +-----------------------------------+
                                          |
      +-----------------------------------+-----------------------------------+
@@ -25,7 +25,7 @@
 
 ---
 
-## 👥 Three Primary User Group Pathways
+## Three Primary User Group Pathways
 
 ### 1. General Public & Donors
 - **Open-Science Discovery**: Explore active preclinical pipelines and clinical trial breakthroughs.
@@ -47,71 +47,88 @@
 
 ---
 
-## 🗄️ Database Architecture & Schema
+## Database Architecture & Dual Engine (Neon DB + SQLite)
 
-BioTrack uses an SQL engine (SQLite3 embedded out-of-the-box, with full PostgreSQL/Supabase migration scripts in [`Database/schema.sql`](Database/schema.sql)).
+AuthRos features an adaptive dual database engine:
+- **Neon Serverless PostgreSQL** (Cloud): Configurable via `DATABASE_URL` or `NEON_DATABASE_URL` in `.env` with automated pooling and TLS encryption.
+- **Embedded SQLite3** (Edge/Local): Runs locally with zero configuration out-of-the-box (`Database/authros.db`).
 
 ### Entity Relationship Structure
 - **`organizations`**: Academic labs, biotech firms, and partner hospital centers.
-- **`users`**: Platform users mapped to organizational IDs and RBAC roles (`pi`, `scientist`, `tech`, `hospital`, `public`).
+- **`users`**: Platform users with password hashes, API keys, subscription tiers, and RBAC roles (`pi`, `scientist`, `tech`, `hospital`, `public`).
 - **`research_projects`**: Clinical protocols containing stage, visibility, progress %, crowdfunding targets, and raised totals.
 - **`milestones`**: Sequenced trial checkpoints linked to projects.
 - **`datasets`**: FastQ sequencing outputs, CSV assay measurements, and signed pathology reports.
 - **`donations`**: Public crowdfunding donation transactions ledger.
-- **`hospital_cohorts`**: De-identified patient cohort submissions with verification hashes.
+- **`hospital_cohorts`**: De-identified patient cohort submissions with SHA-256 verification hashes.
 - **`project_members`**: Hierarchical RBAC mappings governing per-project user capabilities.
-- **`audit_logs`**: Immutable activity trail.
+- **`audit_logs`**: Immutable cryptographic activity trail.
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
-- **Frontend**: HTML5, Tailwind CSS CDN (Custom Modern Green Aesthetic), FontAwesome 6, Vanilla ES6 JavaScript (`app.js`).
+- **Frontend**: HTML5, Tailwind CSS CDN (Custom shadcn Modern Theme), FontAwesome 6, Vanilla ES6 JavaScript (`app.js`).
 - **Backend API**: Node.js & Express.js ([`server.js`](server.js)).
-- **Database Engine**: SQLite3 ([`Database/biotrack.db`](Database/biotrack.db)) + PostgreSQL/Supabase schema ([`Database/schema.sql`](Database/schema.sql)).
+- **Database Engine**: Neon Serverless PostgreSQL (`pg`, `@neondatabase/serverless`) + Embedded SQLite3 fallback ([`Database/db.js`](Database/db.js)).
+- **Authentication**: JSON Web Tokens (`jsonwebtoken`) & password encryption (`bcryptjs`).
 - **Data Transport**: RESTful JSON API over HTTP/CORS.
 
 ---
 
-## ⚡ Quickstart & Installation Guide
+## Quickstart & Installation Guide
 
 ### Prerequisites
 - **Node.js**: v18.0.0 or higher
 
-### 1. Initialize Database & Seed Mock Data
-Run the database seeder to create `Database/biotrack.db` and populate initial protocols:
+### 1. Configure Environment (Optional Neon Database)
+Copy `.env.example` to `.env` and provide your Neon PostgreSQL connection string:
+```bash
+cp .env.example .env
+```
+*(If left empty, AuthRos will automatically use the embedded local SQLite database).*
+
+### 2. Initialize Database & Seed Mock Data
+Run the database seeder to populate initial protocols and demo accounts:
 ```bash
 npm run seed
 ```
 
-### 2. Start the REST API Backend & Web Server
+### 3. Start the REST API Backend & Web Server
 Launch the Express backend server on port 5000:
 ```bash
 npm start
 ```
 
-Once running, access the platform in your browser at:
-👉 **`http://localhost:5000/index.html`**
+### Application URLs:
+- **SaaS Marketing Landing**: `http://localhost:5000/index.html`
+- **SaaS App Dashboard**: `http://localhost:5000/dashboard.html`
+- **Authentication & Sign In**: `http://localhost:5000/auth.html`
+- **Public Research Directory**: `http://localhost:5000/research.html`
 
 ---
 
-## 📡 REST API Reference
+## REST API Reference
 
 | Endpoint | Method | Description |
 |---|---|---|
 | `/api/health` | `GET` | System health check & API status |
+| `/api/db/status` | `GET` | Live Neon DB / SQLite telemetry & engine ping |
+| `/api/auth/register` | `POST` | Register new user account with role & lab |
+| `/api/auth/login` | `POST` | Sign in with email & password, returns JWT token |
+| `/api/auth/me` | `GET` | Verify session from Bearer token |
+| `/api/auth/users` | `GET` | List organization team members for RBAC |
+| `/api/auth/users/:id/role` | `PATCH` | Update user RBAC role policy |
 | `/api/stats` | `GET` | Ecosystem aggregate metrics (Studies, Datasets, Raised Funds) |
-| `/api/projects` | `GET` | Filter projects by `q`, `stage`, `visibility`, `domain` |
+| `/api/projects` | `GET` | Filter projects by `q`, `stage`, `visibility`, `domain`, `country` |
 | `/api/projects/:id` | `GET` | Fetch protocol details with milestones, datasets, cohorts, & RBAC |
 | `/api/projects` | `POST` | Register a new research protocol |
-| `/api/projects/:id/milestones/:mId` | `PATCH` | Update milestone completion & recalculate progress % |
 | `/api/projects/:id/donate` | `POST` | Process public crowdfunding donation |
 | `/api/projects/:id/cohorts` | `POST` | Submit anonymized hospital patient cohort record |
-| `/api/auth/login` | `POST` | User authentication endpoint |
 
 ---
 
-## 📁 Repository Directory Structure
+## Repository Directory Structure
 
 ```
 AuthRos/

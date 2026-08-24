@@ -1,278 +1,217 @@
 /**
- * AuthRos REST API & Web Application Server
- * Framework: Express.js + SQLite3
+ * AuthRos — Main Application Server
+ * Express.js REST API + Static SaaS Web Application
+ * Database: Neon Serverless PostgreSQL (prod) / SQLite3 (local)
+ * Auth: JWT Bearer Tokens + RBAC Role Guards
  */
+
+'use strict';
 
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
-const sqlite3 = require('sqlite3').verbose();
 require('dotenv').config();
+
+const { dbQuery, dbRun, getDbInfo, dbEngine } = require('./Database/db');
+const { rateLimiter, optionalAuth } = require('./middleware/auth');
+const { sanitize } = require('./middleware/validate');
+
+// ─── Route Modules ─────────────────────────────────────────────────────────
+const authRoutes = require('./routes/auth');
+const projectRoutes = require('./routes/projects');
+const pipelineRoutes = require('./routes/pipeline');
+const analyticsRoutes = require('./routes/analytics');
+const datasetRoutes = require('./routes/datasets');
+const auditRoutes = require('./routes/audit');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// ─── Global Middleware ──────────────────────────────────────────────────────
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key']
+}));
 
-// Serve Public Static Files cleanly
-app.use(express.static(path.join(__dirname, 'public')));
-
-// SQLite Database Setup (AuthRos primary db)
-let dbPath = path.join(__dirname, 'Database', 'authros.db');
-if (!fs.existsSync(dbPath) && fs.existsSync(path.join(__dirname, 'Database', 'biotrack.db'))) {
-  dbPath = path.join(__dirname, 'Database', 'biotrack.db');
-}
-
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('Failed to open Database file. Run "npm run seed" first.', err.message);
-  } else {
-    console.log('AuthRos API connected to SQLite Database:', dbPath);
-  }
+// Security Headers (Helmet-style, no extra dependency)
+app.use((req, res, next) => {
+  res.set('X-Content-Type-Options', 'nosniff');
+  res.set('X-Frame-Options', 'SAMEORIGIN');
+  res.set('X-XSS-Protection', '1; mode=block');
+  res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.set('X-Powered-By', 'AuthRos Biomedical Platform');
+  next();
 });
 
-// Helper Query Wrappers
-const dbQuery = (sql, params = []) => {
-  return new Promise((resolve, reject) => {
-    db.all(sql, params, (err, rows) => {
-      if (err) reject(err);
-      else resolve(rows);
-    });
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Request Logger (Morgan-style, no extra dependency)
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const ms = Date.now() - start;
+    const color = res.statusCode >= 500 ? '\x1b[31m' : res.statusCode >= 400 ? '\x1b[33m' : '\x1b[32m';
+    console.log(`${color}[${new Date().toISOString()}] ${req.method} ${req.path} ${res.statusCode} +${ms}ms\x1b[0m`);
   });
-};
+  next();
+});
 
-const dbRun = (sql, params = []) => {
-  return new Promise((resolve, reject) => {
-    db.run(sql, params, function (err) {
-      if (err) reject(err);
-      else resolve(this);
-    });
-  });
-};
+// Apply rate limiting to all /api routes
+app.use('/api', rateLimiter);
 
-// --- REST API ENDPOINTS ---
+// Apply body sanitization to all POST/PATCH routes
+app.use(sanitize);
 
-// 1. Health Check
+// ─── Static Files ──────────────────────────────────────────────────────────
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ─── API Routes ────────────────────────────────────────────────────────────
+app.use('/api/auth',      authRoutes);
+app.use('/api/projects',  projectRoutes);
+app.use('/api/pipeline',  pipelineRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/datasets',  datasetRoutes);
+app.use('/api/audit',     auditRoutes);
+app.use('/api/admin',     adminRoutes);
+
+// ─── Core Platform Endpoints ────────────────────────────────────────────────
+
+// Health Check
 app.get('/api/health', (req, res) => {
   res.json({
+    success: true,
     status: 'online',
-    platform: 'AuthRos Biomedical Network',
-    version: '2.0.0',
-    portals: ['Public Donors', 'Hospitals', 'Researchers'],
+    platform: 'AuthRos Biomedical Research Network',
+    version: '3.0.0',
+    database_engine: dbEngine === 'neon' ? 'Neon PostgreSQL' : 'Embedded SQLite3',
+    uptime_seconds: Math.floor(process.uptime()),
+    memory_mb: Math.round(process.memoryUsage().rss / 1024 / 1024),
+    portals: ['Public Donors', 'Hospital Network', 'Research Labs', 'SaaS Dashboard'],
+    api_routes: [
+      '/api/auth', '/api/projects', '/api/pipeline',
+      '/api/analytics', '/api/datasets', '/api/audit', '/api/admin'
+    ],
     timestamp: new Date().toISOString()
   });
 });
 
-// 2. Stats
-app.get('/api/stats', async (req, res) => {
+// Database Status & Telemetry
+app.get('/api/db/status', async (req, res) => {
   try {
-    const projects = await dbQuery('SELECT COUNT(*) as count FROM research_projects');
-    const datasets = await dbQuery('SELECT COUNT(*) as count FROM datasets');
-    const donations = await dbQuery('SELECT SUM(crowdfunding_raised) as total_raised FROM research_projects');
-    const cohorts = await dbQuery('SELECT COUNT(*) as count FROM hospital_cohorts');
+    const dbInfo = getDbInfo();
+    const [pc] = await dbQuery('SELECT COUNT(*) as count FROM research_projects');
+    const [uc] = await dbQuery('SELECT COUNT(*) as count FROM users');
+    const [dc] = await dbQuery('SELECT COUNT(*) as count FROM datasets');
+    const [ds] = await dbQuery('SELECT SUM(crowdfunding_raised) as sum FROM research_projects');
+    const [ms] = await dbQuery('SELECT COUNT(*) as count FROM milestones');
+    const [hc] = await dbQuery('SELECT COUNT(*) as count FROM hospital_cohorts');
 
     res.json({
-      active_studies: projects[0]?.count || 1248,
-      public_datasets: datasets[0]?.count || 4810,
-      crowdfunding_raised: donations[0]?.total_raised || 128500,
-      hospital_cohorts: cohorts[0]?.count || 75
+      success: true,
+      ...dbInfo,
+      metrics: {
+        total_projects: pc?.count || 0,
+        total_users: uc?.count || 0,
+        total_datasets: dc?.count || 0,
+        total_milestones: ms?.count || 0,
+        total_cohorts: hc?.count || 0,
+        total_raised_usd: ds?.sum || 0
+      },
+      server_timestamp: new Date().toISOString()
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// 3. Projects
-app.get('/api/projects', async (req, res) => {
+// Platform Stats
+app.get('/api/stats', async (req, res) => {
   try {
-    const { q, stage, status, visibility, domain, country, publisher, era } = req.query;
-    let sql = `
-      SELECT p.*, u.full_name as lead_name, o.name as org_name 
-      FROM research_projects p
-      LEFT JOIN users u ON p.lead_investigator_id = u.id
-      LEFT JOIN organizations o ON p.organization_id = o.id
-      WHERE 1=1
-    `;
-    const params = [];
+    const [proj] = await dbQuery('SELECT COUNT(*) as count FROM research_projects');
+    const [ds] = await dbQuery('SELECT COUNT(*) as count FROM datasets');
+    const [don] = await dbQuery('SELECT SUM(crowdfunding_raised) as total FROM research_projects');
+    const [hc] = await dbQuery('SELECT COUNT(*) as count FROM hospital_cohorts');
+    const [ongoing] = await dbQuery("SELECT COUNT(*) as count FROM research_projects WHERE status='ongoing'");
+    const [completed] = await dbQuery("SELECT COUNT(*) as count FROM research_projects WHERE status='completed'");
 
-    if (q) {
-      sql += ` AND (LOWER(p.title) LIKE ? OR LOWER(p.summary) LIKE ? OR LOWER(p.code) LIKE ? OR LOWER(u.full_name) LIKE ? OR LOWER(p.journal_citation) LIKE ? OR LOWER(p.country_name) LIKE ? OR LOWER(p.publisher_name) LIKE ?)`;
-      const term = `%${q.toLowerCase()}%`;
-      params.push(term, term, term, term, term, term, term);
-    }
-
-    if (status && status !== 'all') {
-      sql += ` AND p.status = ?`;
-      params.push(status);
-    }
-
-    if (country && country !== 'all') {
-      sql += ` AND (p.country_code = ? OR LOWER(p.country_name) = ?)`;
-      params.push(country.toUpperCase(), country.toLowerCase());
-    }
-
-    if (publisher && publisher !== 'all') {
-      sql += ` AND LOWER(p.publisher_name) LIKE ?`;
-      params.push(`%${publisher.toLowerCase()}%`);
-    }
-
-    if (era && era !== 'all') {
-      if (era === 'historic') sql += ` AND p.publication_year < 1980`;
-      else if (era === 'modern') sql += ` AND p.publication_year BETWEEN 1980 AND 2015`;
-      else if (era === 'contemporary') sql += ` AND p.publication_year >= 2016`;
-    }
-
-    if (stage && stage !== 'all') {
-      sql += ` AND p.stage = ?`;
-      params.push(stage);
-    }
-
-    if (visibility && visibility !== 'all') {
-      sql += ` AND p.visibility = ?`;
-      params.push(visibility);
-    }
-
-    if (domain && domain !== 'all') {
-      sql += ` AND LOWER(p.domain) LIKE ?`;
-      params.push(`%${domain.toLowerCase()}%`);
-    }
-
-    sql += ` ORDER BY p.publication_year DESC, p.created_at DESC`;
-
-    const rows = await dbQuery(sql, params);
-    res.json({ count: rows.length, projects: rows });
+    res.json({
+      success: true,
+      data: {
+        active_studies: proj?.count || 365,
+        ongoing_trials: ongoing?.count || 182,
+        completed_papers: completed?.count || 183,
+        public_datasets: ds?.count || 0,
+        crowdfunding_raised_usd: don?.total || 0,
+        hospital_cohorts: hc?.count || 0
+      }
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// Like Research Project Endpoint
-app.post('/api/projects/:id/like', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { action } = req.body; // 'like' or 'unlike'
-    const delta = action === 'unlike' ? -1 : 1;
+// ─── Legacy Compat Endpoints (backwards compatibility) ─────────────────────
 
-    await dbRun('UPDATE research_projects SET likes_count = MAX(0, likes_count + ?) WHERE id = ?', [delta, id]);
-    const updated = await dbQuery('SELECT likes_count FROM research_projects WHERE id = ?', [id]);
+// Legacy: GET /api/projects (handled by route module, so only add fallback here)
+// Legacy: POST /api/projects/:id/donate — redirect handled by route module
+// Legacy: POST /api/projects/:id/cohorts — handled by route module
 
-    res.json({ message: 'Like count updated successfully', likes_count: updated[0]?.likes_count || 0 });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+// ─── Global Error Handler ──────────────────────────────────────────────────
+app.use((err, req, res, next) => {
+  console.error('\x1b[31m[ERROR]\x1b[0m', err.message);
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ success: false, error: 'Invalid JSON body.' });
   }
+  res.status(err.status || 500).json({
+    success: false,
+    error: process.env.NODE_ENV === 'production' ? 'An internal server error occurred.' : err.message
+  });
 });
 
-// 4. Single Project Details
-app.get('/api/projects/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const projects = await dbQuery(`
-      SELECT p.*, u.full_name as lead_name, u.email as lead_email, o.name as org_name 
-      FROM research_projects p
-      LEFT JOIN users u ON p.lead_investigator_id = u.id
-      LEFT JOIN organizations o ON p.organization_id = o.id
-      WHERE p.id = ?
-    `, [id]);
-
-    if (projects.length === 0) {
-      return res.status(404).json({ error: 'Research project not found.' });
-    }
-
-    const project = projects[0];
-    const milestones = await dbQuery('SELECT * FROM milestones WHERE project_id = ? ORDER BY order_index ASC', [id]);
-    const datasets = await dbQuery('SELECT * FROM datasets WHERE project_id = ? ORDER BY created_at DESC', [id]);
-    const donations = await dbQuery('SELECT * FROM donations WHERE project_id = ? ORDER BY created_at DESC', [id]);
-    const cohorts = await dbQuery('SELECT * FROM hospital_cohorts WHERE project_id = ? ORDER BY created_at DESC', [id]);
-    const rbacMembers = await dbQuery(`
-      SELECT pm.*, u.full_name, u.email, u.title
-      FROM project_members pm
-      JOIN users u ON pm.user_id = u.id
-      WHERE pm.project_id = ?
-    `, [id]);
-
-    res.json({ project, milestones, datasets, donations, cohorts, rbacMembers });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+// ─── 404 Handler for unknown /api routes ──────────────────────────────────
+app.use('/api/*', (req, res) => {
+  res.status(404).json({
+    success: false,
+    error: `API endpoint not found: ${req.method} ${req.path}`,
+    hint: 'Check /api/health for available routes.'
+  });
 });
 
-// 5. Create Protocol
-app.post('/api/projects', async (req, res) => {
-  try {
-    const { title, summary, stage, visibility, domain, lead_investigator_id, crowdfunding_target } = req.body;
-    if (!title || !summary) return res.status(400).json({ error: 'Title and Summary are required.' });
-
-    const id = 'proj-' + Date.now();
-    const code = 'BT-' + Math.floor(100 + Math.random() * 900);
-
-    await dbRun(`
-      INSERT INTO research_projects 
-      (id, title, code, summary, stage, visibility, domain, progress_percent, crowdfunding_raised, crowdfunding_target, lead_investigator_id, organization_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?, 10, 0, ?, ?, 'org-1')
-    `, [id, title, code, summary, stage || 'preclinical', visibility || 'public', domain || 'oncology', crowdfunding_target || 50000, lead_investigator_id || 'usr-1']);
-
-    res.status(201).json({ message: 'Protocol registered successfully!', id, code });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// 6. Public Crowdfunding Donation Endpoint
-app.post('/api/projects/:id/donate', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { donor_name, amount } = req.body;
-    if (!amount || amount <= 0) return res.status(400).json({ error: 'Valid donation amount is required.' });
-
-    const donId = 'don-' + Date.now();
-    await dbRun('INSERT INTO donations (id, project_id, donor_name, amount) VALUES (?, ?, ?, ?)', [donId, id, donor_name || 'Anonymous Supporter', amount]);
-    await dbRun('UPDATE research_projects SET crowdfunding_raised = crowdfunding_raised + ? WHERE id = ?', [amount, id]);
-
-    res.json({ message: 'Donation received successfully!', donId });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// 7. Hospital Anonymized Cohort Submission
-app.post('/api/projects/:id/cohorts', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { hospital_name, patient_count, biomarker_target, deidentified_summary } = req.body;
-    if (!hospital_name || !patient_count) return res.status(400).json({ error: 'Hospital name and patient count are required.' });
-
-    const hcId = 'hc-' + Date.now();
-    const hash = '0x' + Math.random().toString(16).substring(2, 14);
-
-    await dbRun(`
-      INSERT INTO hospital_cohorts 
-      (id, project_id, hospital_name, patient_count, biomarker_target, deidentified_summary, verification_hash)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `, [hcId, id, hospital_name, patient_count, biomarker_target || 'Biomarker Target', deidentified_summary || '', hash]);
-
-    res.json({ message: 'Hospital anonymized cohort record submitted successfully!', hcId, hash });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Catch-all route to serve public/index.html
+// ─── Catch-All: Serve SaaS Frontend ───────────────────────────────────────
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Start Server
+// ─── Start Server ──────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`=================================================`);
-  console.log(` AuthRos Web App & API Server running on port ${PORT}`);
-  console.log(` Main Website:     http://localhost:${PORT}/`);
-  console.log(` Public Portal:    http://localhost:${PORT}/public-portal.html`);
-  console.log(` Hospital Portal:  http://localhost:${PORT}/hospital-portal.html`);
-  console.log(` Researcher Portal:http://localhost:${PORT}/researcher-portal.html`);
-  console.log(` REST API Health:  http://localhost:${PORT}/api/health`);
-  console.log(`=================================================`);
+  const dbInfo = getDbInfo();
+  console.log('\n\x1b[32m╔══════════════════════════════════════════════════════════╗\x1b[0m');
+  console.log('\x1b[32m║         AuthRos Biomedical SaaS Platform v3.0            ║\x1b[0m');
+  console.log('\x1b[32m╠══════════════════════════════════════════════════════════╣\x1b[0m');
+  console.log(`\x1b[32m║\x1b[0m  Port:         \x1b[36mhttp://localhost:${PORT}\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m  Database:     \x1b[36m${dbInfo.engine}\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m  Host:         \x1b[36m${dbInfo.host}\x1b[0m`);
+  console.log('\x1b[32m╠══════════════════════════════════════════════════════════╣\x1b[0m');
+  console.log('\x1b[32m║\x1b[0m  Frontend:');
+  console.log(`\x1b[32m║\x1b[0m    Landing:    \x1b[33mhttp://localhost:${PORT}/index.html\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    Dashboard:  \x1b[33mhttp://localhost:${PORT}/dashboard.html\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    Auth:       \x1b[33mhttp://localhost:${PORT}/auth.html\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    Research:   \x1b[33mhttp://localhost:${PORT}/research.html\x1b[0m`);
+  console.log('\x1b[32m╠══════════════════════════════════════════════════════════╣\x1b[0m');
+  console.log('\x1b[32m║\x1b[0m  REST API Endpoints:');
+  console.log(`\x1b[32m║\x1b[0m    Health:     \x1b[35mGET  /api/health\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    Auth:       \x1b[35mPOST /api/auth/login|register\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    Projects:   \x1b[35mGET  /api/projects\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    Pipeline:   \x1b[35mGET  /api/pipeline\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    Analytics:  \x1b[35mGET  /api/analytics/overview\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    Datasets:   \x1b[35mGET  /api/datasets\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    Audit:      \x1b[35mGET  /api/audit\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    Admin:      \x1b[35mGET  /api/admin/stats\x1b[0m`);
+  console.log(`\x1b[32m║\x1b[0m    DB Status:  \x1b[35mGET  /api/db/status\x1b[0m`);
+  console.log('\x1b[32m╚══════════════════════════════════════════════════════════╝\x1b[0m\n');
 });
+
+module.exports = app;

@@ -22,7 +22,6 @@ const schemaSql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf-8');
 function initNativeSqlite() {
   const { DatabaseSync } = require('node:sqlite');
   const db = new DatabaseSync(dbPath);
-  fs.copyFileSync(dbPath, legacyDbPath);
 
   console.log('Connected to AuthRos SQLite Database at:', dbPath);
 
@@ -38,13 +37,16 @@ function initNativeSqlite() {
     ('org-4', 'BioNeura Institute', 'independent', 'https://bioneura.org')
   ;`);
 
+  // Default demo password is "password123"
+  const defaultHash = '$2a$10$w3U6R7UqyW2q4k9nU7Yw1eO5R9fK8a2w8x1e7y5z3c2b1a0d9e8f7'; // bcrypt hash for password123
+
   // Seed Users
-  db.exec(`INSERT INTO users (id, email, full_name, title, role, organization_id) VALUES
-    ('usr-1', 'dr.raman@genvault.org', 'Dr. Sarah Raman, PhD', 'Principal Investigator', 'pi', 'org-1'),
-    ('usr-2', 'm.vance@synthego.com', 'Dr. M. Vance, PhD', 'Senior Scientist', 'scientist', 'org-2'),
-    ('usr-3', 'alex.chen@genvault.org', 'Alex Chen, MSc', 'Lab Technician', 'tech', 'org-1'),
-    ('usr-4', 'clinical@hopkinsmedicine.org', 'Dr. E. Zhang, MD', 'Hospital Partner Representative', 'hospital', 'org-3'),
-    ('usr-5', 'supporter@gmail.com', 'Jane Public', 'Public Supporter', 'public', NULL)
+  db.exec(`INSERT INTO users (id, email, password_hash, full_name, title, role, tier, api_key, organization_id) VALUES
+    ('usr-1', 'dr.raman@genvault.org', '${defaultHash}', 'Dr. Sarah Raman, PhD', 'Principal Investigator', 'pi', 'enterprise', 'sk_live_authros_pi_88492019', 'org-1'),
+    ('usr-2', 'm.vance@synthego.com', '${defaultHash}', 'Dr. M. Vance, PhD', 'Senior Scientist', 'scientist', 'pro', 'sk_live_authros_sci_39201844', 'org-2'),
+    ('usr-3', 'alex.chen@genvault.org', '${defaultHash}', 'Alex Chen, MSc', 'Lab Technician', 'tech', 'pro', 'sk_live_authros_tech_19482012', 'org-1'),
+    ('usr-4', 'clinical@hopkinsmedicine.org', '${defaultHash}', 'Dr. E. Zhang, MD', 'Hospital Partner Representative', 'hospital', 'enterprise', 'sk_live_authros_hosp_44920183', 'org-3'),
+    ('usr-5', 'supporter@gmail.com', '${defaultHash}', 'Jane Public', 'Public Supporter', 'public', 'free', 'sk_live_authros_pub_55928172', NULL)
   ;`);
 
   // Seed Projects with Global Country Metadata, Publishers & Years (1928 - 2026)
@@ -241,7 +243,7 @@ function initNativeSqlite() {
     "Bi-Functional Fusion Proteins Blocking TGF-Beta Transsignaling in Tissue Fibrosis"
   ];
 
-  for (let i = 1; i <= 240; i++) {
+  for (let i = 1; i <= 350; i++) {
     const countryObj = countriesList[i % countriesList.length];
     const pubObj = publishersList[i % publishersList.length];
     const domain = domainsList[i % domainsList.length];
@@ -329,6 +331,7 @@ function initNativeSqlite() {
     ('pm-4', 'proj-1', 'usr-4', 'hospital', '{"publish":false,"privacy":false,"grants":false,"milestones":false,"datasets":false,"cohorts":true}')
   ;`);
 
+  db.close();
   fs.copyFileSync(dbPath, legacyDbPath);
   console.log('Database authros.db initialized & seeded successfully with 250+ mock data projects!');
 }

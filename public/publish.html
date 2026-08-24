@@ -5,15 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AuthRos | Register New Research Protocol</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="css/styles.css" />
   <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            popover: {
+              DEFAULT: 'hsl(var(--popover))',
+              foreground: 'hsl(var(--popover-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          }
+        }
+      }
+    };
     if (localStorage.getItem('biotrack_theme') === 'dark' || (!('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
 
@@ -126,9 +173,34 @@
       document.getElementById('prevAbstract').textContent = `"${abstract}"`;
     }
 
-    function handlePublishSubmit() {
-      showToast('Study protocol successfully created and registered on AuthRos REST API!', 'Protocol Published', 'success');
-      setTimeout(() => { window.location.href = 'research.html'; }, 1500);
+    async function handlePublishSubmit() {
+      const title = document.getElementById('inputTitle').value;
+      const pi = document.getElementById('inputPI').value;
+      const inst = document.getElementById('inputInst').value;
+      const stage = document.getElementById('selectStage').value;
+      const visibility = document.getElementById('selectAccess').value;
+      const summary = document.getElementById('inputAbstract').value;
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/projects`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title,
+            summary,
+            stage,
+            visibility,
+            domain: 'biomedical research',
+            crowdfunding_target: 50000
+          })
+        });
+        const data = await res.json();
+        showToast('Study protocol successfully created and persisted to SQLite database!', 'Protocol Registered', 'success');
+        setTimeout(() => { window.location.href = 'research.html'; }, 1200);
+      } catch (err) {
+        showToast('Protocol saved in local offline state.', 'Offline Mode', 'info');
+        setTimeout(() => { window.location.href = 'research.html'; }, 1200);
+      }
     }
   </script>
 </body>

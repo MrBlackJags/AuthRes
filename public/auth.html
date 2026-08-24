@@ -3,22 +3,69 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuthRos | Sign In / Register Account</title>
+  <title>AuthRos | SaaS Authentication & Multi-Role Sign In</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="css/styles.css" />
   <script>
-    if (localStorage.getItem('biotrack_theme') === 'dark' || (!('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            popover: {
+              DEFAULT: 'hsl(var(--popover))',
+              foreground: 'hsl(var(--popover-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          }
+        }
+      }
+    };
+    if (localStorage.getItem('authros_theme') === 'dark' || localStorage.getItem('biotrack_theme') === 'dark' || (!('authros_theme' in localStorage) && !('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-900 text-slate-800 font-sans antialiased min-h-screen flex items-center justify-center p-4 selection:bg-emerald-500 selection:text-white">
 
   <!-- Container Box -->
-  <div class="bg-white rounded-3xl border border-emerald-500/20 shadow-2xl max-w-4xl w-full overflow-hidden grid lg:grid-cols-12 relative z-10">
+  <div class="bg-card text-card-foreground rounded-3xl border border-emerald-500/30 shadow-2xl max-w-4xl w-full overflow-hidden grid lg:grid-cols-12 relative z-10">
     
     <!-- Left Hero Column -->
     <div class="lg:col-span-5 bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-900 text-white p-8 lg:p-10 flex flex-col justify-between hidden lg:flex border-r border-emerald-500/20">
@@ -33,55 +80,208 @@
         </a>
 
         <div class="space-y-3">
+          <span class="shadcn-badge badge-emerald text-[10px] uppercase font-bold tracking-wider">Enterprise Cloud</span>
           <h2 class="text-2xl font-extrabold text-gradient-hero leading-tight">
-            Unified Ecosystem Authentication
+            Unified Biomedical SaaS & RBAC Security
           </h2>
-          <p class="text-xs text-slate-300">
-            Connecting Public Donors, Hospital Clinical Partners, and Institutional Researchers.
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Connected to Neon Serverless PostgreSQL with cryptographic audit logs, FastQ data vault, and multi-institutional role governance.
           </p>
+        </div>
+      </div>
+
+      <!-- Demo Credentials Quick Selector -->
+      <div class="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 space-y-2.5 text-xs">
+        <div class="text-[10px] uppercase font-bold text-emerald-300 tracking-wider flex items-center justify-between">
+          <span>Fast Demo Logins:</span>
+          <i class="fa-solid fa-bolt text-amber-400"></i>
+        </div>
+        <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+          <button onclick="fillDemoCredentials('pi')" class="px-2 py-1.5 bg-white/15 hover:bg-emerald-500 hover:text-slate-950 font-bold rounded-lg text-left transition truncate">
+            👨‍🔬 Principal Inv.
+          </button>
+          <button onclick="fillDemoCredentials('scientist')" class="px-2 py-1.5 bg-white/15 hover:bg-emerald-500 hover:text-slate-950 font-bold rounded-lg text-left transition truncate">
+            🔬 Senior Scientist
+          </button>
+          <button onclick="fillDemoCredentials('hospital')" class="px-2 py-1.5 bg-white/15 hover:bg-sky-500 hover:text-white font-bold rounded-lg text-left transition truncate">
+            🏥 Hospital Site
+          </button>
+          <button onclick="fillDemoCredentials('public')" class="px-2 py-1.5 bg-white/15 hover:bg-amber-500 hover:text-slate-950 font-bold rounded-lg text-left transition truncate">
+            ❤️ Public Supporter
+          </button>
         </div>
       </div>
     </div>
 
     <!-- Right Form Column -->
-    <div class="lg:col-span-7 p-6 sm:p-10 space-y-6 bg-white flex flex-col justify-center relative">
+    <div class="lg:col-span-7 p-6 sm:p-10 space-y-6 bg-card flex flex-col justify-center relative">
+      
       <div class="flex items-center justify-between">
-        <div class="space-y-1">
-          <h3 class="text-2xl font-extrabold text-slate-900">Sign In to AuthRos</h3>
-          <p class="text-xs text-slate-500">Access your role-based dashboard & protocols.</p>
+        <!-- Auth Tabs: Sign In / Register -->
+        <div class="flex items-center gap-2 bg-muted p-1 rounded-xl border border-border text-xs font-bold">
+          <button onclick="switchAuthTab('login', this)" id="tab-btn-login" class="px-4 py-1.5 rounded-lg bg-emerald-600 text-white shadow-xs transition">
+            Sign In
+          </button>
+          <button onclick="switchAuthTab('register', this)" id="tab-btn-register" class="px-4 py-1.5 rounded-lg text-muted-foreground hover:text-foreground transition">
+            Create Account
+          </button>
         </div>
-        <button onclick="ThemeManager.toggle()" title="Toggle Dark / Light Mode" class="theme-toggle-btn p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-emerald-600 transition flex items-center justify-center">
-          <i class="fa-solid fa-moon text-slate-600 theme-toggle-icon text-sm"></i>
+
+        <button onclick="ThemeManager.toggle()" title="Toggle Theme" class="theme-toggle-btn p-2 rounded-xl border border-border text-muted-foreground hover:text-foreground transition">
+          <i class="fa-solid fa-moon theme-toggle-icon text-sm"></i>
         </button>
       </div>
 
-      <form onsubmit="event.preventDefault(); handleLogin();" class="space-y-4 text-xs">
-        <div>
-          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Work / Institutional Email</label>
-          <input type="email" id="login-email" required value="dr.raman@genvault.org" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-emerald-500 text-sm bg-slate-50" />
+      <!-- FORM 1: SIGN IN -->
+      <form id="loginForm" onsubmit="event.preventDefault(); handleLoginSubmit();" class="space-y-4 text-xs">
+        <div class="space-y-1">
+          <h3 class="text-xl font-extrabold text-foreground">Sign In to AuthRos Workspace</h3>
+          <p class="text-xs text-muted-foreground">Access your clinical protocols, hospital cohorts, and RBAC matrix.</p>
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Password</label>
-          <input type="password" required value="••••••••" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-emerald-500 text-sm bg-slate-50" />
+          <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">Work / Institutional Email</label>
+          <input type="email" id="loginEmail" required value="dr.raman@genvault.org" class="shadcn-input h-10 text-xs" />
         </div>
 
-        <button type="submit" class="w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white rounded-xl font-bold text-sm shadow-md transition">
-          Sign In to AuthRos →
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="block font-bold text-foreground uppercase tracking-wider text-[11px]">Password</label>
+            <a href="#" onclick="showToast('Password reset link sent to registered email.', 'Reset Initiated', 'info')" class="text-[11px] text-emerald-600 hover:underline">Forgot password?</a>
+          </div>
+          <input type="password" id="loginPassword" required value="password123" class="shadcn-input h-10 text-xs" />
+        </div>
+
+        <button type="submit" id="loginSubmitBtn" class="shadcn-btn btn-default w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl font-bold text-xs shadow-md">
+          Sign In to Workspace →
+        </button>
+      </form>
+
+      <!-- FORM 2: REGISTER -->
+      <form id="registerForm" onsubmit="event.preventDefault(); handleRegisterSubmit();" class="hidden space-y-3.5 text-xs">
+        <div class="space-y-1">
+          <h3 class="text-xl font-extrabold text-foreground">Create Laboratory Account</h3>
+          <p class="text-xs text-muted-foreground">Provision a new multi-tenant biomedical tenant.</p>
+        </div>
+
+        <div>
+          <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">Full Name & Title *</label>
+          <input type="text" id="regName" required placeholder="e.g. Dr. Alex Vance, MD" class="shadcn-input h-9 text-xs" />
+        </div>
+
+        <div>
+          <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">Institutional Email *</label>
+          <input type="email" id="regEmail" required placeholder="name@institution.org" class="shadcn-input h-9 text-xs" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">Organization / Lab</label>
+            <input type="text" id="regOrg" placeholder="e.g. Harvard BioLab" class="shadcn-input h-9 text-xs" />
+          </div>
+          <div>
+            <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">RBAC Role Level</label>
+            <select id="regRole" class="shadcn-input h-9 text-xs font-semibold">
+              <option value="pi">Principal Investigator (PI)</option>
+              <option value="scientist" selected>Senior Scientist</option>
+              <option value="tech">Lab Technician</option>
+              <option value="hospital">Hospital Partner</option>
+              <option value="public">Public Supporter</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-foreground uppercase tracking-wider text-[11px] mb-1">Password *</label>
+          <input type="password" id="regPassword" required placeholder="••••••••••••" class="shadcn-input h-9 text-xs" />
+        </div>
+
+        <button type="submit" class="shadcn-btn btn-default w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl font-bold text-xs shadow-md">
+          Create Account & Provision Workspace →
         </button>
       </form>
 
       <div class="text-center pt-2">
-        <a href="index.html" class="text-xs font-semibold text-slate-400 hover:text-slate-600">← Return to Home Page</a>
+        <a href="index.html" class="text-xs font-semibold text-muted-foreground hover:text-foreground">← Return to Landing Overview</a>
       </div>
+
     </div>
   </div>
 
   <script src="js/app.js"></script>
   <script>
-    function handleLogin() {
-      showToast('Authenticated successfully! Redirecting...', 'Success', 'success');
-      setTimeout(() => { window.location.href = 'profile.html'; }, 1000);
+    function switchAuthTab(tab, btn) {
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const tabLogin = document.getElementById('tab-btn-login');
+      const tabRegister = document.getElementById('tab-btn-register');
+
+      if (tab === 'login') {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        tabLogin.className = 'px-4 py-1.5 rounded-lg bg-emerald-600 text-white shadow-xs font-bold transition';
+        tabRegister.className = 'px-4 py-1.5 rounded-lg text-muted-foreground hover:text-foreground transition';
+      } else {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        tabRegister.className = 'px-4 py-1.5 rounded-lg bg-emerald-600 text-white shadow-xs font-bold transition';
+        tabLogin.className = 'px-4 py-1.5 rounded-lg text-muted-foreground hover:text-foreground transition';
+      }
+    }
+
+    function fillDemoCredentials(role) {
+      switchAuthTab('login');
+      const creds = {
+        pi: { email: 'dr.raman@genvault.org', pass: 'password123' },
+        scientist: { email: 'm.vance@synthego.com', pass: 'password123' },
+        tech: { email: 'alex.chen@genvault.org', pass: 'password123' },
+        hospital: { email: 'clinical@hopkinsmedicine.org', pass: 'password123' },
+        public: { email: 'supporter@gmail.com', pass: 'password123' }
+      };
+
+      if (creds[role]) {
+        document.getElementById('loginEmail').value = creds[role].email;
+        document.getElementById('loginPassword').value = creds[role].pass;
+        showToast(`Auto-filled demo credentials for ${role.toUpperCase()}`, 'Credentials Selected', 'info');
+      }
+    }
+
+    async function handleLoginSubmit() {
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('loginSubmitBtn');
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Authenticating...';
+
+      try {
+        const res = await AuthManager.login(email, pass);
+        showToast(`Welcome back, ${res.user.full_name}! Redirecting to SaaS Workspace...`, 'Authentication Success', 'success');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+      } catch (err) {
+        showToast(err.message, 'Login Failed', 'destructive');
+        btn.innerHTML = 'Sign In to Workspace →';
+      }
+    }
+
+    async function handleRegisterSubmit() {
+      const name = document.getElementById('regName').value;
+      const email = document.getElementById('regEmail').value;
+      const org = document.getElementById('regOrg').value;
+      const role = document.getElementById('regRole').value;
+      const pass = document.getElementById('regPassword').value;
+
+      try {
+        const res = await AuthManager.register({
+          full_name: name,
+          email,
+          organization_name: org,
+          role,
+          password: pass
+        });
+        showToast('Account registered successfully! Redirecting to Workspace...', 'Account Created', 'success');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+      } catch (err) {
+        showToast(err.message, 'Registration Error', 'destructive');
+      }
     }
   </script>
 </body>

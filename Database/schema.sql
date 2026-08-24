@@ -10,13 +10,16 @@ CREATE TABLE IF NOT EXISTS organizations (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. Users Table (with RBAC Role mapping)
+-- 2. Users Table (with RBAC Role mapping & Authentication)
 CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
+    password_hash TEXT,
     full_name TEXT NOT NULL,
     title TEXT, -- e.g. Principal Investigator, Research Fellow, Hospital Representative
     role TEXT NOT NULL DEFAULT 'scientist' CHECK (role IN ('pi', 'scientist', 'tech', 'hospital', 'public')),
+    tier TEXT NOT NULL DEFAULT 'pro' CHECK (tier IN ('free', 'pro', 'enterprise')),
+    api_key TEXT,
     organization_id TEXT REFERENCES organizations(id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
