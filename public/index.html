@@ -69,189 +69,154 @@
   <!-- Shared Header Navigation -->
   <div id="header-root"></div>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-16">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-20">
     
-    <!-- TOP LANDING SLIDE: Huge AuthRos Title + Immediate 4-Portal Entrance -->
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border border-emerald-500/25 p-8 sm:p-14 lg:p-20 shadow-2xl text-white text-center flex flex-col items-center justify-center min-h-[500px] sm:min-h-[580px] space-y-8">
+    <!-- START: Only Huge AuthRos Title + 4 Portal Choices (Clean & Unboxed) -->
+    <section class="min-h-[60vh] sm:min-h-[70vh] flex flex-col items-center justify-center text-center space-y-10 py-8">
       
-      <!-- Subtle Ambient Emerald Glows -->
-      <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-teal-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Huge Title: AuthRos -->
+      <h1 class="text-7xl sm:text-9xl md:text-[11rem] lg:text-[13rem] font-black tracking-tighter text-foreground select-none leading-none drop-shadow-sm">
+        Auth<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500">Ros</span>
+      </h1>
 
-      <!-- Live Network Badge -->
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-400/30 bg-emerald-950/60 backdrop-blur-md text-emerald-300 text-xs font-semibold">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span>AuthRos • Decentralized Open Biomedical Network</span>
-      </div>
-
-      <!-- HUGE Title: AuthRos -->
-      <div class="space-y-3">
-        <h1 class="text-7xl sm:text-9xl lg:text-[11rem] font-black tracking-tighter text-white drop-shadow-2xl select-none leading-none">
-          Auth<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Ros</span>
-        </h1>
-        <p class="text-xs sm:text-sm md:text-base font-semibold text-emerald-200/80 max-w-xl mx-auto tracking-wide">
-          Select your portal to enter the clinical & research ecosystem
-        </p>
-      </div>
-
-      <!-- 4 Core Entrance Options: Hospital, Research, User, SaaS -->
-      <div class="w-full max-w-5xl pt-2">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 text-left">
-          
-          <!-- 1. Hospital -->
-          <a href="hospital-portal.html" class="group bg-slate-900/90 hover:bg-slate-800/90 border border-purple-500/30 hover:border-purple-400 p-5 rounded-2xl shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-104 flex flex-col justify-between space-y-3">
-            <div class="flex items-center justify-between">
-              <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-hospital"></i>
-              </div>
-              <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-300">Clinical Sites</span>
-            </div>
-            <div>
-              <h2 class="text-lg font-black text-white group-hover:text-purple-300 transition">Hospital</h2>
-              <p class="text-[11px] text-slate-300/80 leading-snug">De-identified patient cohort vault & trial recruitment.</p>
-            </div>
-            <div class="text-xs font-bold text-purple-400 flex items-center gap-1.5 group-hover:translate-x-1 transition pt-1">
-              <span>Enter Portal</span>
-              <i class="fa-solid fa-arrow-right text-[11px]"></i>
-            </div>
-          </a>
-
-          <!-- 2. Research -->
-          <a href="researcher-portal.html" class="group bg-slate-900/90 hover:bg-slate-800/90 border border-orange-500/30 hover:border-orange-400 p-5 rounded-2xl shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-104 flex flex-col justify-between space-y-3">
-            <div class="flex items-center justify-between">
-              <div class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-microscope"></i>
-              </div>
-              <span class="text-[10px] font-extrabold uppercase tracking-wider text-orange-300">Investigators</span>
-            </div>
-            <div>
-              <h2 class="text-lg font-black text-white group-hover:text-orange-300 transition">Research</h2>
-              <p class="text-[11px] text-slate-300/80 leading-snug">Register protocols, FastQ raw datasets & RBAC policies.</p>
-            </div>
-            <div class="text-xs font-bold text-orange-400 flex items-center gap-1.5 group-hover:translate-x-1 transition pt-1">
-              <span>Enter Portal</span>
-              <i class="fa-solid fa-arrow-right text-[11px]"></i>
-            </div>
-          </a>
-
-          <!-- 3. User / Public -->
-          <a href="public-portal.html" class="group bg-slate-900/90 hover:bg-slate-800/90 border border-emerald-500/30 hover:border-emerald-400 p-5 rounded-2xl shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-104 flex flex-col justify-between space-y-3">
-            <div class="flex items-center justify-between">
-              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-heart"></i>
-              </div>
-              <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-300">Supporters</span>
-            </div>
-            <div>
-              <h2 class="text-lg font-black text-white group-hover:text-emerald-300 transition">User</h2>
-              <p class="text-[11px] text-slate-300/80 leading-snug">Crowdfund life-saving trials & follow open milestones.</p>
-            </div>
-            <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5 group-hover:translate-x-1 transition pt-1">
-              <span>Enter Portal</span>
-              <i class="fa-solid fa-arrow-right text-[11px]"></i>
-            </div>
-          </a>
-
-          <!-- 4. SaaS -->
-          <a href="dashboard.html" class="group bg-slate-900/90 hover:bg-slate-800/90 border border-cyan-500/30 hover:border-cyan-400 p-5 rounded-2xl shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-104 flex flex-col justify-between space-y-3">
-            <div class="flex items-center justify-between">
-              <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-gauge-high"></i>
-              </div>
-              <span class="text-[10px] font-extrabold uppercase tracking-wider text-cyan-300">SaaS App</span>
-            </div>
-            <div>
-              <h2 class="text-lg font-black text-white group-hover:text-cyan-300 transition">SaaS</h2>
-              <p class="text-[11px] text-slate-300/80 leading-snug">Pipeline telemetry, milestone analytics & admin console.</p>
-            </div>
-            <div class="text-xs font-bold text-cyan-400 flex items-center gap-1.5 group-hover:translate-x-1 transition pt-1">
-              <span>Open Workspace</span>
-              <i class="fa-solid fa-arrow-right text-[11px]"></i>
-            </div>
-          </a>
-
-        </div>
-      </div>
-
-      <!-- Subtle Scroll Down Prompt -->
-      <div class="pt-2 text-[11px] text-emerald-400/80 font-mono flex items-center gap-2 animate-bounce">
-        <span>Scroll down to explore 3D Bio-Models</span>
-        <i class="fa-solid fa-chevron-down text-xs"></i>
-      </div>
-
-    </div>
-
-    <!-- SCROLL-DOWN SECTION: 3D INTERACTIVE BIOMEDICAL PLAYGROUND (FIDDLE WITH 3D MODELS) -->
-    <div class="relative overflow-hidden rounded-3xl bg-slate-950 border border-emerald-500/30 shadow-2xl p-6 sm:p-8 space-y-4 text-white">
-      
-      <!-- Top Title Bar -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm font-bold">
-            <i class="fa-solid fa-dna"></i>
+      <!-- 4 Portal Options: Hospital, Research, User, SaaS -->
+      <div class="w-full max-w-4xl grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        
+        <!-- 1. Hospital -->
+        <a href="hospital-portal.html" class="p-4 sm:p-5 rounded-2xl bg-card hover:bg-accent/40 border border-purple-500/30 hover:border-purple-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-hospital"></i>
           </div>
+          <span class="text-sm font-extrabold text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition">Hospital</span>
+          <span class="text-[11px] text-muted-foreground">Clinical site cohort vault</span>
+        </a>
+
+        <!-- 2. Research -->
+        <a href="researcher-portal.html" class="p-4 sm:p-5 rounded-2xl bg-card hover:bg-accent/40 border border-orange-500/30 hover:border-orange-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
+          <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-microscope"></i>
+          </div>
+          <span class="text-sm font-extrabold text-foreground group-hover:text-orange-600 dark:group-hover:text-orange-400 transition">Research</span>
+          <span class="text-[11px] text-muted-foreground">Protocols & raw FastQ assays</span>
+        </a>
+
+        <!-- 3. User / Public -->
+        <a href="public-portal.html" class="p-4 sm:p-5 rounded-2xl bg-card hover:bg-accent/40 border border-emerald-500/30 hover:border-emerald-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          <span class="text-sm font-extrabold text-foreground group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">User</span>
+          <span class="text-[11px] text-muted-foreground">Public trial crowdfunding</span>
+        </a>
+
+        <!-- 4. SaaS -->
+        <a href="dashboard.html" class="p-4 sm:p-5 rounded-2xl bg-card hover:bg-accent/40 border border-cyan-500/30 hover:border-cyan-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-gauge-high"></i>
+          </div>
+          <span class="text-sm font-extrabold text-foreground group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition">SaaS</span>
+          <span class="text-[11px] text-muted-foreground">Analytics & RBAC console</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: Organic Section with Individually Interactive 3D Protein Sphere (Left) & Domain Filters (Right) -->
+    <section class="grid lg:grid-cols-12 gap-8 items-center">
+      
+      <!-- Individually Interactive 3D Model: Protein Capsid (Frameless) -->
+      <div class="lg:col-span-4 flex items-center justify-center">
+        <canvas id="protein-canvas" class="w-full max-w-[320px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
+      </div>
+
+      <!-- Domain Navigation & Protocols Headline -->
+      <div class="lg:col-span-8 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
           <div>
-            <h2 class="text-base font-black text-white">Interactive 3D Biomolecular Models</h2>
-            <p class="text-[11px] text-emerald-300/80">DNA Helix • Viral Protein Capsid • Molecular Fullerenes</p>
+            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Indexed Bio-Grid</span>
+            <h2 class="text-2xl font-black text-foreground tracking-tight">Verified Research Protocols (10,500+)</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="research.html" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs flex items-center gap-1.5">
+              <i class="fa-solid fa-book-open text-xs"></i> Full Catalog
+            </a>
+            <a href="research-domains.html" class="px-3.5 py-2 rounded-xl border border-border hover:bg-accent text-foreground font-semibold text-xs transition">
+              All Domains
+            </a>
           </div>
         </div>
-        <div class="text-[11px] font-mono text-slate-400 flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Click & drag to rotate 3D models freely</span>
+
+        <!-- Domain Filter Pills -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1" id="domain-pills">
+          <button onclick="filterHomeDomain('all', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition">
+            All (10,500+)
+          </button>
+          <button onclick="filterHomeDomain('oncology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+            Oncology
+          </button>
+          <button onclick="filterHomeDomain('immunology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+            Immunology
+          </button>
+          <button onclick="filterHomeDomain('neuroscience', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+            Neuroscience
+          </button>
+          <button onclick="filterHomeDomain('genomics', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+            Genomics & CRISPR
+          </button>
+          <button onclick="filterHomeDomain('cardiology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+            Cardiology
+          </button>
         </div>
       </div>
 
-      <!-- 3D WebGL Multi-Model Canvas -->
-      <div class="relative w-full h-[450px] sm:h-[540px] rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
-        <canvas id="multi-model-canvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
-      </div>
+    </section>
 
-    </div>
-
-    <!-- VERIFIED PROTOCOLS EXPLORER (10,500+ Studies) -->
-    <div class="space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
-        <div>
-          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Live Repository</span>
-          <h2 class="text-2xl font-black text-foreground tracking-tight">Verified Research Protocols (10,500+)</h2>
-        </div>
-        <div class="flex items-center gap-2">
-          <a href="research.html" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs flex items-center gap-1.5">
-            <i class="fa-solid fa-book-open text-xs"></i> Full 10,500+ Catalog
-          </a>
-          <a href="research-domains.html" class="px-3.5 py-2 rounded-xl border border-border hover:bg-accent text-foreground font-semibold text-xs transition">
-            All Domains
-          </a>
+    <!-- SECTION 3: Dynamic Research Cards Grid + Individually Interactive 3D DNA Double Helix (Right) -->
+    <section class="grid lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Dynamic Protocols Grid -->
+      <div class="lg:col-span-9">
+        <div id="home-featured-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Filled dynamically by JavaScript -->
         </div>
       </div>
 
-      <!-- Domain Filter Tabs -->
-      <div class="flex items-center gap-1.5 overflow-x-auto pb-1" id="domain-pills">
-        <button onclick="filterHomeDomain('all', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition">
-          All (10,500+)
-        </button>
-        <button onclick="filterHomeDomain('oncology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
-          Oncology
-        </button>
-        <button onclick="filterHomeDomain('immunology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
-          Immunology
-        </button>
-        <button onclick="filterHomeDomain('neuroscience', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
-          Neuroscience
-        </button>
-        <button onclick="filterHomeDomain('genomics', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
-          Genomics & CRISPR
-        </button>
-        <button onclick="filterHomeDomain('cardiology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
-          Cardiology
-        </button>
+      <!-- Individually Interactive 3D Model: DNA Double Helix (Frameless, floating on the right) -->
+      <div class="lg:col-span-3 flex items-center justify-center sticky top-24">
+        <canvas id="dna-canvas" class="w-full max-w-[280px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
       </div>
 
-      <!-- Dynamic Grid Container -->
-      <div id="home-featured-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- Filled dynamically by JavaScript -->
+    </section>
+
+    <!-- SECTION 4: Bottom Impact Bar + Individually Interactive 3D Fullerene Torus Ring (Floating) -->
+    <section class="grid lg:grid-cols-12 gap-6 items-center border-t border-border pt-10">
+      
+      <!-- Individually Interactive 3D Model: Fullerene Torus Molecule (Frameless) -->
+      <div class="lg:col-span-3 flex items-center justify-center">
+        <canvas id="torus-canvas" class="w-full max-w-[240px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
       </div>
-    </div>
+
+      <!-- Live Global Metrics Summary -->
+      <div class="lg:col-span-9 grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-2xl bg-card border border-border">
+          <div class="text-2xl font-black text-emerald-600 dark:text-emerald-400">10,500+</div>
+          <div class="text-xs font-bold text-foreground">Verified Studies</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-card border border-border">
+          <div class="text-2xl font-black text-orange-500">$128,500</div>
+          <div class="text-xs font-bold text-foreground">Milestone Grants</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-card border border-border">
+          <div class="text-2xl font-black text-purple-600 dark:text-purple-400">45 Sites</div>
+          <div class="text-xs font-bold text-foreground">Hospital Partners</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-card border border-border">
+          <div class="text-2xl font-black text-cyan-600 dark:text-cyan-400">40+ Nations</div>
+          <div class="text-xs font-bold text-foreground">Global Jurisdictions</div>
+        </div>
+      </div>
+
+    </section>
 
   </main>
 
@@ -390,128 +355,48 @@
     renderFeaturedGrid(allFeaturedPapers);
 
     // =========================================================================
-    // THREE.JS 3D INTERACTIVE MULTI-BIOMODEL CANVAS SIMULATION
-    // Features: DNA Double Helix, Protein Crystal Lattice, Molecular Fullerene
-    // Users can click and drag anywhere on the canvas to freely rotate in 3D
+    // HELPER: SETUP INDEPENDENT INTERACTIVE 3D MODEL
+    // Attaches custom scene, mesh, lighting, and mouse orbit drag handlers
     // =========================================================================
-    (function init3DMultiModelViewer() {
-      const canvas = document.getElementById('multi-model-canvas');
+    function makeInteractive3DViewer(canvasId, buildMeshFn, cameraZ = 24) {
+      const canvas = document.getElementById(canvasId);
       if (!canvas || typeof THREE === 'undefined') return;
 
       const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-      camera.position.z = 38;
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+      camera.position.z = cameraZ;
 
-      // Resize Handler
       function resize() {
-        const width = canvas.clientWidth;
-        const height = canvas.clientHeight;
-        if (canvas.width !== width || canvas.height !== height) {
-          renderer.setSize(width, height, false);
-          camera.aspect = width / height;
+        const size = Math.min(canvas.clientWidth, canvas.clientHeight) || 280;
+        if (canvas.width !== size || canvas.height !== size) {
+          renderer.setSize(size, size, false);
+          camera.aspect = 1;
           camera.updateProjectionMatrix();
         }
       }
       resize();
       window.addEventListener('resize', resize);
 
-      // Ambient & Directional Lights
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
       scene.add(ambientLight);
 
-      const light1 = new THREE.PointLight(0x10b981, 3, 90);
-      light1.position.set(20, 20, 20);
+      const light1 = new THREE.PointLight(0x10b981, 2.5, 60);
+      light1.position.set(15, 15, 15);
       scene.add(light1);
 
-      const light2 = new THREE.PointLight(0x06b6d4, 2.5, 90);
-      light2.position.set(-20, -20, 20);
+      const light2 = new THREE.PointLight(0x06b6d4, 2, 60);
+      light2.position.set(-15, -15, 15);
       scene.add(light2);
 
-      const light3 = new THREE.PointLight(0x8b5cf6, 2, 90);
-      light3.position.set(0, 25, -15);
-      scene.add(light3);
+      const group = new THREE.Group();
+      scene.add(group);
+      buildMeshFn(group);
 
-      const masterGroup = new THREE.Group();
-      scene.add(masterGroup);
-
-      // --- MODEL 1: DNA Double Helix (Left) ---
-      const dnaGroup = new THREE.Group();
-      dnaGroup.position.set(-13, 0, 0);
-      masterGroup.add(dnaGroup);
-
-      const numBases = 24;
-      const helixRadius = 4.0;
-      const heightStep = 0.9;
-      const twistStep = 0.38;
-
-      const sphereGeo = new THREE.SphereGeometry(0.5, 16, 16);
-      const strand1Mat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 100 });
-      const strand2Mat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 100 });
-      const rungsMat   = new THREE.MeshPhongMaterial({ color: 0xf59e0b, shininess: 80 });
-
-      for (let i = 0; i < numBases; i++) {
-        const angle = i * twistStep;
-        const y = (i - numBases / 2) * heightStep;
-
-        const x1 = Math.cos(angle) * helixRadius;
-        const z1 = Math.sin(angle) * helixRadius;
-        const x2 = Math.cos(angle + Math.PI) * helixRadius;
-        const z2 = Math.sin(angle + Math.PI) * helixRadius;
-
-        const atom1 = new THREE.Mesh(sphereGeo, strand1Mat);
-        atom1.position.set(x1, y, z1);
-        dnaGroup.add(atom1);
-
-        const atom2 = new THREE.Mesh(sphereGeo, strand2Mat);
-        atom2.position.set(x2, y, z2);
-        dnaGroup.add(atom2);
-
-        const bondLen = Math.hypot(x2 - x1, z2 - z1);
-        const rungGeo = new THREE.CylinderGeometry(0.1, 0.1, bondLen, 8);
-        const rung = new THREE.Mesh(rungGeo, rungsMat);
-        rung.position.set((x1 + x2) / 2, y, (z1 + z2) / 2);
-        rung.rotation.z = Math.PI / 2;
-        rung.rotation.y = -angle;
-        dnaGroup.add(rung);
-      }
-
-      // --- MODEL 2: Protein Icosahedron Capsule (Right) ---
-      const proteinGroup = new THREE.Group();
-      proteinGroup.position.set(13, 0, 0);
-      masterGroup.add(proteinGroup);
-
-      const icosaGeo = new THREE.IcosahedronGeometry(4.8, 1);
-      const icosaWireMat = new THREE.MeshPhongMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.8 });
-      const icosaMesh = new THREE.Mesh(icosaGeo, icosaWireMat);
-      proteinGroup.add(icosaMesh);
-
-      const coreGeo = new THREE.SphereGeometry(2.4, 16, 16);
-      const coreMat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90, transparent: true, opacity: 0.85 });
-      const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-      proteinGroup.add(coreMesh);
-
-      // --- MODEL 3: Fullerene / Nanoparticle Ring (Center) ---
-      const nanoGroup = new THREE.Group();
-      nanoGroup.position.set(0, 0, -2);
-      masterGroup.add(nanoGroup);
-
-      const torusGeo = new THREE.TorusGeometry(5.2, 0.28, 14, 48);
-      const torusMat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.7 });
-      const torusMesh = new THREE.Mesh(torusGeo, torusMat);
-      torusMesh.rotation.x = Math.PI / 3;
-      nanoGroup.add(torusMesh);
-
-      const torusMesh2 = new THREE.Mesh(torusGeo, new THREE.MeshPhongMaterial({ color: 0xf59e0b, wireframe: true, transparent: true, opacity: 0.6 }));
-      torusMesh2.rotation.y = Math.PI / 3;
-      nanoGroup.add(torusMesh2);
-
-      const centerSphere = new THREE.Mesh(new THREE.SphereGeometry(1.6, 16, 16), new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 100 }));
-      nanoGroup.add(centerSphere);
-
-      // Mouse & Touch Orbit Handling
+      // Orbit Drag Physics for THIS model individually
       let isDragging = false;
       let prevMousePos = { x: 0, y: 0 };
 
@@ -524,8 +409,8 @@
         if (!isDragging) return;
         const deltaX = e.clientX - prevMousePos.x;
         const deltaY = e.clientY - prevMousePos.y;
-        masterGroup.rotation.y += deltaX * 0.008;
-        masterGroup.rotation.x += deltaY * 0.008;
+        group.rotation.y += deltaX * 0.01;
+        group.rotation.x += deltaY * 0.01;
         prevMousePos = { x: e.clientX, y: e.clientY };
       });
 
@@ -540,29 +425,89 @@
         if (!isDragging || e.touches.length !== 1) return;
         const deltaX = e.touches[0].clientX - prevMousePos.x;
         const deltaY = e.touches[0].clientY - prevMousePos.y;
-        masterGroup.rotation.y += deltaX * 0.008;
-        masterGroup.rotation.x += deltaY * 0.008;
+        group.rotation.y += deltaX * 0.01;
+        group.rotation.x += deltaY * 0.01;
         prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
       });
 
-      // Animation Loop
       function animate() {
         requestAnimationFrame(animate);
-
         if (!isDragging) {
-          masterGroup.rotation.y += 0.004;
-          masterGroup.rotation.x = Math.sin(Date.now() * 0.0007) * 0.15;
+          group.rotation.y += 0.008;
+          group.rotation.x = Math.sin(Date.now() * 0.0008) * 0.15;
         }
-
-        dnaGroup.rotation.y += 0.015;
-        proteinGroup.rotation.x += 0.01;
-        proteinGroup.rotation.y += 0.012;
-        nanoGroup.rotation.z += 0.015;
-
         renderer.render(scene, camera);
       }
       animate();
-    })();
+    }
+
+    // 1. Initialize Individual DNA Helix Model (Right of protocol catalog)
+    makeInteractive3DViewer('dna-canvas', (group) => {
+      const numBases = 22;
+      const helixRadius = 3.6;
+      const heightStep = 0.85;
+      const twistStep = 0.4;
+
+      const sphereGeo = new THREE.SphereGeometry(0.44, 14, 14);
+      const strand1Mat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90 });
+      const strand2Mat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 90 });
+      const rungsMat   = new THREE.MeshPhongMaterial({ color: 0xf59e0b, shininess: 80 });
+
+      for (let i = 0; i < numBases; i++) {
+        const angle = i * twistStep;
+        const y = (i - numBases / 2) * heightStep;
+
+        const x1 = Math.cos(angle) * helixRadius;
+        const z1 = Math.sin(angle) * helixRadius;
+        const x2 = Math.cos(angle + Math.PI) * helixRadius;
+        const z2 = Math.sin(angle + Math.PI) * helixRadius;
+
+        const atom1 = new THREE.Mesh(sphereGeo, strand1Mat);
+        atom1.position.set(x1, y, z1);
+        group.add(atom1);
+
+        const atom2 = new THREE.Mesh(sphereGeo, strand2Mat);
+        atom2.position.set(x2, y, z2);
+        group.add(atom2);
+
+        const bondLen = Math.hypot(x2 - x1, z2 - z1);
+        const rungGeo = new THREE.CylinderGeometry(0.09, 0.09, bondLen, 6);
+        const rung = new THREE.Mesh(rungGeo, rungsMat);
+        rung.position.set((x1 + x2) / 2, y, (z1 + z2) / 2);
+        rung.rotation.z = Math.PI / 2;
+        rung.rotation.y = -angle;
+        group.add(rung);
+      }
+    }, 28);
+
+    // 2. Initialize Individual Protein Capsid Model (Left of domain filter)
+    makeInteractive3DViewer('protein-canvas', (group) => {
+      const icosaGeo = new THREE.IcosahedronGeometry(4.2, 1);
+      const icosaWireMat = new THREE.MeshPhongMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.85 });
+      const icosaMesh = new THREE.Mesh(icosaGeo, icosaWireMat);
+      group.add(icosaMesh);
+
+      const coreGeo = new THREE.SphereGeometry(2.0, 16, 16);
+      const coreMat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90, transparent: true, opacity: 0.85 });
+      const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+      group.add(coreMesh);
+    }, 22);
+
+    // 3. Initialize Individual Fullerene Torus Molecule Model (Bottom left)
+    makeInteractive3DViewer('torus-canvas', (group) => {
+      const torusGeo = new THREE.TorusGeometry(4.2, 0.24, 12, 40);
+      const torusMat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.75 });
+      const torusMesh = new THREE.Mesh(torusGeo, torusMat);
+      torusMesh.rotation.x = Math.PI / 3;
+      group.add(torusMesh);
+
+      const torusMesh2 = new THREE.Mesh(torusGeo, new THREE.MeshPhongMaterial({ color: 0xf59e0b, wireframe: true, transparent: true, opacity: 0.65 }));
+      torusMesh2.rotation.y = Math.PI / 3;
+      group.add(torusMesh2);
+
+      const centerSphere = new THREE.Mesh(new THREE.SphereGeometry(1.3, 16, 16), new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 100 }));
+      group.add(centerSphere);
+    }, 20);
   </script>
 </body>
 </html>
