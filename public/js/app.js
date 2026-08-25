@@ -2017,6 +2017,7 @@ if (typeof window !== 'undefined') {
 }
 
 // --- SHARED HEADER NAVIGATION GENERATOR (Clean, Modern, Minimalist Toolbar) ---
+// --- SHARED HEADER NAVIGATION GENERATOR (Compact, Minimalist, Professional Toolbar) ---
 function renderHeader(activePage = 'home') {
   window.currentActivePage = activePage;
   const user = AuthManager.getUser();
@@ -2024,138 +2025,138 @@ function renderHeader(activePage = 'home') {
   const isAuth = AuthManager.isAuthenticated();
 
   return `
-    <header class="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-md transition-all">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-15 flex items-center justify-between gap-4">
+    <header class="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl transition-all">
+      <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 h-12 flex items-center justify-between gap-3">
         
-        <!-- Left: Logo -->
-        <div class="flex items-center gap-6 shrink-0">
+        <!-- Left: Standout Minimalist Brand Mark -->
+        <div class="flex items-center gap-5 shrink-0">
           <a href="index.html" class="flex items-center gap-2 group">
-            <div class="w-8 h-8 rounded-lg bg-emerald-600 dark:bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shadow-sm group-hover:scale-105 transition-transform">
-              <i class="fa-solid fa-dna text-xs"></i>
+            <div class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">
+              <i class="fa-solid fa-dna text-[11px]"></i>
             </div>
-            <span class="font-extrabold text-base tracking-tight text-foreground">
+            <span class="font-brand font-black text-[15px] tracking-tight text-foreground">
               Auth<span class="text-emerald-600 dark:text-emerald-400">Ros</span>
             </span>
           </a>
-
-          <!-- Navigation Links -->
-          <nav class="hidden md:flex items-center gap-1 text-xs font-medium text-muted-foreground">
-            <a href="index.html" class="px-3 py-1.5 rounded-lg transition ${activePage === 'home' ? 'font-bold text-foreground bg-accent' : 'hover:text-foreground hover:bg-accent/60'}">
-              Overview
-            </a>
-            <a href="research.html" class="px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ${activePage === 'research' ? 'font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10' : 'hover:text-foreground hover:bg-accent/60'}">
-              <i class="fa-solid fa-book-medical text-[11px]"></i>
-              <span>Research</span>
-            </a>
-            <a href="research-domains.html" class="px-3 py-1.5 rounded-lg transition ${activePage === 'domains' ? 'font-bold text-foreground bg-accent' : 'hover:text-foreground hover:bg-accent/60'}">
-              Domains
-            </a>
-            <a href="saved-research.html" class="px-3 py-1.5 rounded-lg transition flex items-center gap-1 ${activePage === 'saved' ? 'font-bold text-foreground bg-accent' : 'hover:text-foreground hover:bg-accent/60'}">
-              <i class="fa-regular fa-star text-[11px]"></i>
-              <span>Saved</span>
-            </a>
-
-            <!-- Portals Dropdown -->
-            <div class="relative group">
-              <button class="px-3 py-1.5 rounded-lg transition flex items-center gap-1 text-muted-foreground hover:text-foreground hover:bg-accent/60">
-                <span>Portals</span>
-                <i class="fa-solid fa-chevron-down text-[9px] opacity-70 group-hover:rotate-180 transition-transform"></i>
-              </button>
-              <div class="absolute left-0 top-full mt-1 w-52 p-1.5 bg-card border border-border rounded-xl shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-50">
-                <a href="public-portal.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-accent text-xs font-semibold text-foreground">
-                  <i class="fa-solid fa-heart text-rose-500 w-4"></i> Public Donors
-                </a>
-                <a href="hospital-portal.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-accent text-xs font-semibold text-foreground">
-                  <i class="fa-solid fa-hospital text-purple-600 dark:text-purple-400 w-4"></i> Hospital Network
-                </a>
-                <a href="researcher-portal.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-accent text-xs font-semibold text-foreground">
-                  <i class="fa-solid fa-microscope text-orange-500 w-4"></i> Researcher RBAC
-                </a>
-                <div class="border-t border-border my-1"></div>
-                <a href="dashboard.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-emerald-500/10 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                  <i class="fa-solid fa-gauge-high w-4 text-emerald-600 dark:text-emerald-400"></i> Workspace Dashboard
-                </a>
-              </div>
-            </div>
-          </nav>
         </div>
 
-        <!-- Right: Actions & User -->
-        <div class="flex items-center gap-2.5">
+        <!-- Center: Floating Navigation Island (Desktop) -->
+        <nav class="hidden md:flex items-center gap-0.5 bg-muted/40 p-1 rounded-full border border-border/60 text-[12px] font-nav font-semibold text-muted-foreground shadow-2xs">
+          <a href="index.html" class="px-3 py-1 rounded-full transition ${activePage === 'home' ? 'font-bold text-foreground bg-card shadow-xs' : 'hover:text-foreground hover:bg-card/50'}">
+            Overview
+          </a>
+          <a href="research.html" class="px-3 py-1 rounded-full transition flex items-center gap-1.5 ${activePage === 'research' ? 'font-bold text-emerald-600 dark:text-emerald-400 bg-card shadow-xs' : 'hover:text-foreground hover:bg-card/50'}">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            <span>Protocols</span>
+          </a>
+          <a href="research-domains.html" class="px-3 py-1 rounded-full transition ${activePage === 'domains' ? 'font-bold text-foreground bg-card shadow-xs' : 'hover:text-foreground hover:bg-card/50'}">
+            Domains
+          </a>
+          <a href="saved-research.html" class="px-3 py-1 rounded-full transition flex items-center gap-1 ${activePage === 'saved' ? 'font-bold text-foreground bg-card shadow-xs' : 'hover:text-foreground hover:bg-card/50'}">
+            <i class="fa-regular fa-bookmark text-[10px]"></i>
+            <span>Saved</span>
+          </a>
+
+          <!-- Portals Flyout -->
+          <div class="relative group">
+            <button class="px-3 py-1 rounded-full transition flex items-center gap-1 hover:text-foreground hover:bg-card/50">
+              <span>Portals</span>
+              <i class="fa-solid fa-chevron-down text-[8px] opacity-70 group-hover:rotate-180 transition-transform"></i>
+            </button>
+            <div class="absolute left-0 top-full mt-1.5 w-48 p-1.5 bg-card/95 border border-border rounded-2xl shadow-xl backdrop-blur-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-50">
+              <a href="hospital-portal.html" class="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-accent text-xs font-semibold text-foreground">
+                <i class="fa-solid fa-hospital text-purple-600 dark:text-purple-400 text-xs w-4"></i> Hospital Site
+              </a>
+              <a href="researcher-portal.html" class="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-accent text-xs font-semibold text-foreground">
+                <i class="fa-solid fa-microscope text-orange-500 text-xs w-4"></i> Researcher RBAC
+              </a>
+              <a href="public-portal.html" class="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-accent text-xs font-semibold text-foreground">
+                <i class="fa-solid fa-heart text-emerald-500 text-xs w-4"></i> Public Donor
+              </a>
+              <div class="border-t border-border my-1"></div>
+              <a href="dashboard.html" class="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-emerald-500/10 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                <i class="fa-solid fa-gauge-high text-xs w-4"></i> SaaS Workspace
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Right: Actions & User Micro-Pills -->
+        <div class="flex items-center gap-2 shrink-0">
           
-          <!-- Minimal Search Shortcut -->
-          <a href="research.html" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-muted/40 hover:bg-accent hover:border-emerald-500/30 text-xs text-muted-foreground transition cursor-pointer">
-            <i class="fa-solid fa-magnifying-glass text-[11px]"></i>
-            <span>Search 10,500+ papers...</span>
-            <kbd class="ml-1 text-[9px] font-mono bg-background border border-border px-1 py-0.5 rounded text-muted-foreground">⌘K</kbd>
+          <!-- Minimalist Search Trigger -->
+          <a href="research.html" class="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full border border-border/60 bg-card hover:border-emerald-500/40 text-[11px] font-mono text-muted-foreground transition shadow-2xs">
+            <i class="fa-solid fa-magnifying-glass text-[10px]"></i>
+            <span>Search 10,500+</span>
+            <kbd class="text-[9px] bg-muted px-1 rounded text-foreground">⌘K</kbd>
           </a>
 
           ${isAuth ? `
-            <!-- User Dropdown (Authenticated) -->
+            <!-- Authenticated User Dropdown -->
             <div class="relative group">
-              <a href="dashboard.html" class="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-xl border border-border bg-card hover:bg-accent transition text-xs font-semibold">
-                <div class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-[11px]">
+              <a href="dashboard.html" class="flex items-center gap-1.5 p-1 pl-1.5 pr-2.5 rounded-full border border-border/80 bg-card hover:bg-accent transition text-xs font-nav font-semibold shadow-2xs">
+                <div class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px]">
                   ${(user?.full_name || 'U').charAt(0)}
                 </div>
-                <span class="max-w-[80px] truncate text-foreground text-xs hidden sm:block">${user?.full_name?.split(' ')[0] || 'User'}</span>
-                <span class="text-[9px] text-emerald-600 dark:text-emerald-400 font-bold uppercase hidden sm:block">${roleKey}</span>
+                <span class="max-w-[70px] truncate text-foreground text-[11px] hidden sm:block">${user?.full_name?.split(' ')[0] || 'User'}</span>
+                <span class="text-[8px] px-1 py-0.2 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-bold uppercase hidden sm:block">${roleKey}</span>
               </a>
-              <div class="absolute right-0 top-full mt-1 w-44 p-1.5 bg-card border border-border rounded-xl shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-50 text-xs">
+              <div class="absolute right-0 top-full mt-1.5 w-44 p-1.5 bg-card/95 border border-border rounded-2xl shadow-xl backdrop-blur-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-50 text-xs">
                 <div class="px-2.5 py-1.5 border-b border-border mb-1">
                   <div class="font-bold text-foreground truncate">${user?.full_name || 'Account'}</div>
-                  <div class="text-[10px] text-muted-foreground truncate">${user?.email || ''}</div>
+                  <div class="text-[10px] text-muted-foreground truncate font-mono">${user?.email || ''}</div>
                 </div>
-                <a href="dashboard.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-accent text-foreground"><i class="fa-solid fa-gauge-high text-muted-foreground w-4"></i> Dashboard</a>
-                <a href="profile.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-accent text-foreground"><i class="fa-regular fa-user text-muted-foreground w-4"></i> Profile</a>
-                <a href="publish.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-accent text-foreground"><i class="fa-solid fa-upload text-muted-foreground w-4"></i> Publish</a>
+                <a href="dashboard.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-accent text-foreground"><i class="fa-solid fa-gauge-high text-muted-foreground text-xs w-4"></i> Dashboard</a>
+                <a href="profile.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-accent text-foreground"><i class="fa-regular fa-user text-muted-foreground text-xs w-4"></i> Profile</a>
+                <a href="publish.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-accent text-foreground"><i class="fa-solid fa-upload text-muted-foreground text-xs w-4"></i> Publish</a>
                 <div class="border-t border-border my-1"></div>
-                <button onclick="AuthManager.logout()" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-rose-500/10 text-rose-600 transition text-left"><i class="fa-solid fa-arrow-right-from-bracket w-4"></i> Sign Out</button>
+                <button onclick="AuthManager.logout()" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-rose-500/10 text-rose-600 transition text-left"><i class="fa-solid fa-arrow-right-from-bracket text-xs w-4"></i> Sign Out</button>
               </div>
             </div>
           ` : `
-            <a href="auth.html" class="text-xs font-semibold text-muted-foreground hover:text-foreground px-2.5 py-1.5 rounded-lg hover:bg-accent transition">
+            <a href="auth.html" class="text-[11px] font-nav font-semibold text-muted-foreground hover:text-foreground px-2 py-1 rounded-full hover:bg-accent transition">
               Sign In
             </a>
-            <a href="auth.html" class="shadcn-btn btn-default btn-sm shadow-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs">
+            <a href="auth.html" class="px-3 py-1 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-nav font-bold text-[11px] shadow-xs transition hover:scale-102">
               Get Started
             </a>
           `}
 
-          <!-- Theme Toggle Button -->
-          <button onclick="ThemeManager.toggle()" title="Toggle Dark / Light Mode" class="theme-toggle-btn w-8 h-8 rounded-lg border border-border hover:bg-accent flex items-center justify-center text-muted-foreground hover:text-foreground transition">
-            <i class="${ThemeManager.getTheme() === 'dark' ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-slate-500'} theme-toggle-icon text-xs"></i>
+          <!-- Micro Theme Toggle -->
+          <button onclick="ThemeManager.toggle()" title="Toggle Theme" class="theme-toggle-btn w-7 h-7 rounded-full border border-border/70 hover:bg-accent flex items-center justify-center text-muted-foreground hover:text-foreground transition">
+            <i class="${ThemeManager.getTheme() === 'dark' ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-slate-500'} theme-toggle-icon text-[11px]"></i>
           </button>
 
-          <!-- Mobile Toggle -->
-          <button onclick="toggleMobileMenu()" class="md:hidden w-8 h-8 rounded-lg border border-border hover:bg-accent flex items-center justify-center text-muted-foreground transition" aria-label="Toggle menu">
-            <i class="fa-solid fa-bars text-xs"></i>
+          <!-- Mobile Hamburger -->
+          <button onclick="toggleMobileMenu()" class="md:hidden w-7 h-7 rounded-full border border-border/70 hover:bg-accent flex items-center justify-center text-muted-foreground transition" aria-label="Toggle menu">
+            <i class="fa-solid fa-bars text-[11px]"></i>
           </button>
         </div>
       </div>
 
       <!-- Mobile Dropdown Navigation Drawer -->
-      <div id="mobile-menu" class="hidden flex-col md:hidden border-t border-border bg-card px-4 pt-3 pb-4 space-y-2 text-xs font-semibold shadow-lg">
+      <div id="mobile-menu" class="hidden flex-col md:hidden border-t border-border bg-card/95 backdrop-blur-xl px-4 pt-3 pb-4 space-y-2 text-xs font-semibold shadow-lg">
         <div class="grid grid-cols-2 gap-2 pb-2">
-          <a href="public-portal.html" class="p-2 rounded-lg bg-amber-500/15 text-amber-700 dark:text-amber-300 flex items-center gap-2">
-            <i class="fa-solid fa-heart text-amber-500"></i> Donors
+          <a href="hospital-portal.html" class="p-2 rounded-xl bg-purple-500/10 text-purple-700 dark:text-purple-300 flex items-center gap-2">
+            <i class="fa-solid fa-hospital text-purple-500"></i> Hospital
           </a>
-          <a href="hospital-portal.html" class="p-2 rounded-lg bg-sky-500/15 text-sky-700 dark:text-sky-300 flex items-center gap-2">
-            <i class="fa-solid fa-hospital text-sky-500"></i> Hospitals
+          <a href="researcher-portal.html" class="p-2 rounded-xl bg-orange-500/10 text-orange-700 dark:text-orange-300 flex items-center gap-2">
+            <i class="fa-solid fa-microscope text-orange-500"></i> Research
           </a>
-          <a href="researcher-portal.html" class="p-2 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
-            <i class="fa-solid fa-microscope text-emerald-600"></i> Researchers
+          <a href="public-portal.html" class="p-2 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
+            <i class="fa-solid fa-heart text-emerald-500"></i> Donors
           </a>
-          <a href="dashboard.html" class="p-2 rounded-lg bg-slate-900 text-emerald-400 dark:bg-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-gauge-high"></i> Dashboard
+          <a href="dashboard.html" class="p-2 rounded-xl bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 flex items-center gap-2">
+            <i class="fa-solid fa-gauge-high text-cyan-500"></i> Workspace
           </a>
         </div>
         <div class="border-t border-border pt-2 space-y-1">
-          <a href="index.html" class="flex items-center gap-2 px-2.5 py-1.5 text-foreground hover:bg-accent rounded-lg">Overview</a>
-          <a href="research.html" class="flex items-center gap-2 px-2.5 py-1.5 text-emerald-600 font-bold hover:bg-accent rounded-lg">1,250+ Research Papers</a>
-          <a href="research-domains.html" class="flex items-center gap-2 px-2.5 py-1.5 text-foreground hover:bg-accent rounded-lg">Medical Domains</a>
-          <a href="saved-research.html" class="flex items-center gap-2 px-2.5 py-1.5 text-foreground hover:bg-accent rounded-lg">Saved Studies</a>
+          <a href="index.html" class="flex items-center gap-2 px-2.5 py-1.5 text-foreground hover:bg-accent rounded-xl">Overview</a>
+          <a href="research.html" class="flex items-center gap-2 px-2.5 py-1.5 text-emerald-600 font-bold hover:bg-accent rounded-xl">10,500+ Protocols</a>
+          <a href="research-domains.html" class="flex items-center gap-2 px-2.5 py-1.5 text-foreground hover:bg-accent rounded-xl">Biomedical Domains</a>
+          <a href="saved-research.html" class="flex items-center gap-2 px-2.5 py-1.5 text-foreground hover:bg-accent rounded-xl">Saved Studies</a>
           ${!isAuth ? `
-            <a href="auth.html" class="flex items-center gap-2 px-2.5 py-1.5 text-emerald-600 font-bold hover:bg-accent rounded-lg">Sign In / Register</a>
+            <a href="auth.html" class="flex items-center gap-2 px-2.5 py-1.5 text-emerald-600 font-bold hover:bg-accent rounded-xl">Sign In / Register</a>
           ` : ''}
         </div>
       </div>
