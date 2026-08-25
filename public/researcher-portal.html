@@ -75,25 +75,30 @@
       <div class="absolute -top-24 -right-24 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute -bottom-20 left-1/4 w-80 h-80 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
       
-      <div class="relative z-10 max-w-3xl space-y-4">
-        <div class="inline-flex items-center gap-2 bg-orange-500/25 border border-orange-400/40 text-orange-200 text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider">
-          <i class="fa-solid fa-microscope text-orange-400"></i> Researcher & Institutional Lab Portal
-        </div>
-        <h1 class="text-3xl sm:text-5xl font-black text-gradient-research tracking-tight leading-tight">
-          Hierarchical RBAC & Preclinical Data Management
-        </h1>
-        <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
-          Enforcing strict access control from Principal Investigators with full publication, grant, and privacy rights, to Senior Scientists, Lab Technicians, and Collaborators.
-        </p>
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">
+        <div class="max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 bg-orange-500/25 border border-orange-400/40 text-orange-200 text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider">
+            <i class="fa-solid fa-microscope text-orange-400"></i> Researcher & Institutional Lab Portal
+          </div>
+          <h1 class="text-3xl sm:text-5xl font-black text-gradient-research tracking-tight leading-tight">
+            Hierarchical RBAC & Preclinical Data Management
+          </h1>
+          <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+            Enforcing strict access control from Principal Investigators with full publication, grant, and privacy rights, to Senior Scientists, Lab Technicians, and Collaborators.
+          </p>
 
-        <div class="pt-2 flex flex-wrap items-center gap-4">
-          <a href="publish.html" class="btn-sunset font-bold px-6 py-3 rounded-2xl text-xs shadow-lg transition hover:scale-105 inline-flex items-center">
-            <i class="fa-solid fa-plus-circle mr-1.5"></i> Register New Protocol Record
-          </a>
-          <span class="text-xs text-orange-200 flex items-center gap-1.5 font-medium">
-            <i class="fa-solid fa-shield-halved text-emerald-400"></i> Cryptographic Audit Trail Enabled
-          </span>
+          <div class="pt-2 flex flex-wrap items-center gap-4">
+            <a href="publish.html" class="btn-sunset font-bold px-6 py-3 rounded-2xl text-xs shadow-lg transition hover:scale-105 inline-flex items-center">
+              <i class="fa-solid fa-plus-circle mr-1.5"></i> Register New Protocol Record
+            </a>
+            <span class="text-xs text-orange-200 flex items-center gap-1.5 font-medium">
+              <i class="fa-solid fa-shield-halved text-emerald-400"></i> Cryptographic Audit Trail Enabled
+            </span>
+          </div>
         </div>
+
+        <!-- 3D CRISPR Cleavage Model -->
+        <canvas data-bio-3d="cleavage" class="w-24 h-24 sm:w-28 sm:h-28 aspect-square cursor-grab active:cursor-grabbing shrink-0"></canvas>
       </div>
     </div>
 

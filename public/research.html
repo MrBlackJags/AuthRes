@@ -76,7 +76,7 @@
       <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none -z-0"></div>
 
       <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div class="space-y-2 max-w-2xl">
+        <div class="space-y-2 max-w-xl">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-orange-400/40 bg-orange-500/20 text-orange-200 text-xs font-semibold">
             <span class="beacon-dot w-2 h-2 rounded-full bg-emerald-400"></span>
             <span>Open Preclinical & Clinical Study Directory</span>
@@ -89,23 +89,26 @@
           </p>
         </div>
 
-        <!-- Telemetry Stat Counters (Animated Count-Up) -->
-        <div class="spotlight-card grid grid-cols-2 sm:grid-cols-4 gap-3 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shrink-0">
-          <div class="px-2">
-            <span class="text-xl font-extrabold text-white block font-mono" id="header-total-count">10,500</span>
-            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total Papers</span>
-          </div>
-          <div class="px-2 border-l border-white/10">
-            <span class="text-xl font-extrabold text-orange-400 block font-mono" id="header-ongoing-count">5,244</span>
-            <span class="text-[10px] text-orange-300/80 uppercase font-bold tracking-wider">In-Vivo Trials</span>
-          </div>
-          <div class="px-2 border-l border-white/10">
-            <span class="text-xl font-extrabold text-emerald-400 block font-mono" id="header-completed-count">5,256</span>
-            <span class="text-[10px] text-emerald-300/80 uppercase font-bold tracking-wider">Completed</span>
-          </div>
-          <div class="px-2 border-l border-white/10">
-            <span class="text-xl font-extrabold text-amber-300 block font-mono">40+</span>
-            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Countries</span>
+        <!-- Interactive 3D CRISPR Model & Stat Counters -->
+        <div class="flex items-center gap-4 shrink-0">
+          <canvas data-bio-3d="cleavage" class="w-20 h-20 sm:w-24 sm:h-24 aspect-square cursor-grab active:cursor-grabbing hidden sm:block"></canvas>
+          <div class="spotlight-card grid grid-cols-2 sm:grid-cols-4 gap-3 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shrink-0">
+            <div class="px-2">
+              <span class="text-xl font-extrabold text-white block font-mono" id="header-total-count">10,500</span>
+              <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total Papers</span>
+            </div>
+            <div class="px-2 border-l border-white/10">
+              <span class="text-xl font-extrabold text-orange-400 block font-mono" id="header-ongoing-count">5,244</span>
+              <span class="text-[10px] text-orange-300/80 uppercase font-bold tracking-wider">In-Vivo Trials</span>
+            </div>
+            <div class="px-2 border-l border-white/10">
+              <span class="text-xl font-extrabold text-emerald-400 block font-mono" id="header-completed-count">5,256</span>
+              <span class="text-[10px] text-emerald-300/80 uppercase font-bold tracking-wider">Completed</span>
+            </div>
+            <div class="px-2 border-l border-white/10">
+              <span class="text-xl font-extrabold text-amber-300 block font-mono">40+</span>
+              <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Countries</span>
+            </div>
           </div>
         </div>
       </div>

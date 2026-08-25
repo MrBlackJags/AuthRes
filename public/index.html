@@ -69,113 +69,96 @@
   <!-- Shared Header Navigation -->
   <div id="header-root"></div>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-24 pb-16">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-16 pb-16">
     
-    <!-- 1. ISOLATED HERO: Only AuthRos In Monumental Scale -->
-    <section class="min-h-[85vh] sm:min-h-[90vh] flex flex-col items-center justify-center text-center select-none">
-      <h1 class="text-7xl sm:text-[13rem] md:text-[17rem] lg:text-[21rem] xl:text-[25rem] font-black tracking-tighter text-foreground leading-none drop-shadow-sm font-brand">
+    <!-- 1. ISOLATED HERO: AuthRos In Refined Prominent Scale -->
+    <section class="min-h-[60vh] sm:min-h-[70vh] flex flex-col items-center justify-center text-center select-none py-6">
+      <h1 class="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter text-foreground leading-none drop-shadow-sm font-brand">
         Auth<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500">Ros</span>
       </h1>
+      <p class="text-xs sm:text-sm font-serif text-muted-foreground mt-4 max-w-md italic">
+        The Open Biomedical Research & Protocol Infrastructure
+      </p>
     </section>
 
-    <!-- 2. STAKEHOLDER PORTALS (Presented right on scroll with 3D Protein Capsid Model) -->
-    <section class="grid lg:grid-cols-12 gap-8 items-center pt-6">
+    <!-- 2. STAKEHOLDER PORTALS (Presented right on scroll) -->
+    <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
       
-      <!-- 4 Core Portals Grid -->
-      <div class="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-        
-        <!-- 1. Hospital -->
-        <a href="hospital-portal.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-purple-500/30 hover:border-purple-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
-          <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-            <i class="fa-solid fa-hospital"></i>
-          </div>
-          <span class="text-base font-extrabold text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition font-heading">Hospital</span>
-          <span class="text-xs text-muted-foreground">Clinical cohort matching</span>
-        </a>
+      <!-- 1. Hospital -->
+      <a href="hospital-portal.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-purple-500/30 hover:border-purple-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
+        <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+          <i class="fa-solid fa-hospital"></i>
+        </div>
+        <span class="text-base font-extrabold text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition font-heading">Hospital</span>
+        <span class="text-xs text-muted-foreground">Clinical cohort matching</span>
+      </a>
 
-        <!-- 2. Research -->
-        <a href="researcher-portal.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-orange-500/30 hover:border-orange-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
-          <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-            <i class="fa-solid fa-microscope"></i>
-          </div>
-          <span class="text-base font-extrabold text-foreground group-hover:text-orange-600 dark:group-hover:text-orange-400 transition font-heading">Research</span>
-          <span class="text-xs text-muted-foreground">Protocols & FastQ assays</span>
-        </a>
+      <!-- 2. Research -->
+      <a href="researcher-portal.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-orange-500/30 hover:border-orange-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
+        <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+          <i class="fa-solid fa-microscope"></i>
+        </div>
+        <span class="text-base font-extrabold text-foreground group-hover:text-orange-600 dark:group-hover:text-orange-400 transition font-heading">Research</span>
+        <span class="text-xs text-muted-foreground">Protocols & FastQ assays</span>
+      </a>
 
-        <!-- 3. User / Public -->
-        <a href="public-portal.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-emerald-500/30 hover:border-emerald-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-            <i class="fa-solid fa-heart"></i>
-          </div>
-          <span class="text-base font-extrabold text-foreground group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition font-heading">User</span>
-          <span class="text-xs text-muted-foreground">Direct grant crowdfunding</span>
-        </a>
+      <!-- 3. User / Public -->
+      <a href="public-portal.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-emerald-500/30 hover:border-emerald-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+          <i class="fa-solid fa-heart"></i>
+        </div>
+        <span class="text-base font-extrabold text-foreground group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition font-heading">User</span>
+        <span class="text-xs text-muted-foreground">Direct grant crowdfunding</span>
+      </a>
 
-        <!-- 4. SaaS -->
-        <a href="dashboard.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-cyan-500/30 hover:border-cyan-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
-          <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-            <i class="fa-solid fa-gauge-high"></i>
-          </div>
-          <span class="text-base font-extrabold text-foreground group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition font-heading">SaaS</span>
-          <span class="text-xs text-muted-foreground">RBAC & pipeline analytics</span>
-        </a>
-
-      </div>
-
-      <!-- 3D Model 1: Protein Capsid Sphere (Frameless) -->
-      <div class="lg:col-span-4 flex items-center justify-center">
-        <canvas id="protein-canvas" class="w-full max-w-[280px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
-      </div>
+      <!-- 4. SaaS -->
+      <a href="dashboard.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-cyan-500/30 hover:border-cyan-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
+        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+          <i class="fa-solid fa-gauge-high"></i>
+        </div>
+        <span class="text-base font-extrabold text-foreground group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition font-heading">SaaS</span>
+        <span class="text-xs text-muted-foreground">RBAC & pipeline analytics</span>
+      </a>
 
     </section>
 
-    <!-- 3. DOMAIN FILTERS & 3D CRISPR ENZYME COMPLEX (Floating) -->
-    <section class="grid lg:grid-cols-12 gap-8 items-center">
-      
-      <!-- 3D Model 2: CRISPR Cas9 RNA Cleavage Complex (Frameless) -->
-      <div class="lg:col-span-3 flex items-center justify-center">
-        <canvas id="cleavage-canvas" class="w-full max-w-[240px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
-      </div>
-
-      <!-- Domain Navigation -->
-      <div class="lg:col-span-9 space-y-4">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-3">
-          <div>
-            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider font-mono">Biomedical Protocols</span>
-            <h2 class="text-3xl font-black text-foreground tracking-tight font-heading">Verified Open Science Archive</h2>
-          </div>
-          <div class="flex items-center gap-2">
-            <a href="research.html" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs flex items-center gap-1.5 font-nav">
-              <i class="fa-solid fa-book-open text-xs"></i> 10,500+ Protocols
-            </a>
-            <a href="research-domains.html" class="px-3.5 py-2 rounded-xl border border-border hover:bg-accent text-foreground font-semibold text-xs transition font-nav">
-              Domains
-            </a>
-          </div>
+    <!-- 3. DOMAIN FILTERS -->
+    <section class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-3">
+        <div>
+          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider font-mono">Biomedical Protocols</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-foreground tracking-tight font-heading">Verified Open Science Archive</h2>
         </div>
-
-        <div class="flex items-center gap-1.5 overflow-x-auto pb-1" id="domain-pills">
-          <button onclick="filterHomeDomain('all', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition font-nav">
-            All (10,500+)
-          </button>
-          <button onclick="filterHomeDomain('oncology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
-            Oncology
-          </button>
-          <button onclick="filterHomeDomain('immunology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
-            Immunology
-          </button>
-          <button onclick="filterHomeDomain('neuroscience', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
-            Neuroscience
-          </button>
-          <button onclick="filterHomeDomain('genomics', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
-            Genomics & CRISPR
-          </button>
-          <button onclick="filterHomeDomain('cardiology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
-            Cardiology
-          </button>
+        <div class="flex items-center gap-2">
+          <a href="research.html" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs flex items-center gap-1.5 font-nav">
+            <i class="fa-solid fa-book-open text-xs"></i> 10,500+ Protocols
+          </a>
+          <a href="research-domains.html" class="px-3.5 py-2 rounded-xl border border-border hover:bg-accent text-foreground font-semibold text-xs transition font-nav">
+            Domains
+          </a>
         </div>
       </div>
 
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1" id="domain-pills">
+        <button onclick="filterHomeDomain('all', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition font-nav">
+          All (10,500+)
+        </button>
+        <button onclick="filterHomeDomain('oncology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
+          Oncology
+        </button>
+        <button onclick="filterHomeDomain('immunology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
+          Immunology
+        </button>
+        <button onclick="filterHomeDomain('neuroscience', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
+          Neuroscience
+        </button>
+        <button onclick="filterHomeDomain('genomics', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
+          Genomics & CRISPR
+        </button>
+        <button onclick="filterHomeDomain('cardiology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
+          Cardiology
+        </button>
+      </div>
     </section>
 
     <!-- 4. PROTOCOL CARDS GRID + 3D DNA DOUBLE HELIX (Floating Right) -->
@@ -188,29 +171,9 @@
         </div>
       </div>
 
-      <!-- 3D Model 3: DNA Double Helix (Frameless, floating on the right) -->
+      <!-- 3D Model: DNA Double Helix (Frameless, floating on the right) -->
       <div class="lg:col-span-3 flex items-center justify-center sticky top-20">
-        <canvas id="dna-canvas" class="w-full max-w-[260px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
-      </div>
-
-    </section>
-
-    <!-- 5. 3D ANTIBODY IMMUNOGLOBULIN & CELL MEMBRANE MODELS (Floating) -->
-    <section class="grid lg:grid-cols-12 gap-8 items-center border-t border-border pt-12">
-      
-      <!-- 3D Model 4: Y-Shaped Antibody Immunoglobulin (Frameless) -->
-      <div class="lg:col-span-3 flex items-center justify-center">
-        <canvas id="antibody-canvas" class="w-full max-w-[240px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
-      </div>
-
-      <!-- 3D Model 5: Cellular Membrane Ion Channel (Frameless) -->
-      <div class="lg:col-span-3 flex items-center justify-center">
-        <canvas id="membrane-canvas" class="w-full max-w-[240px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
-      </div>
-
-      <!-- 3D Model 6: Fullerene Torus Molecule (Frameless) -->
-      <div class="lg:col-span-6 flex items-center justify-center">
-        <canvas id="torus-canvas" class="w-full max-w-[280px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
+        <canvas data-bio-3d="dna" class="w-full max-w-[260px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
       </div>
 
     </section>
@@ -350,218 +313,6 @@
 
     // Initial render
     renderFeaturedGrid(allFeaturedPapers);
-
-    // =========================================================================
-    // HELPER: SETUP INDEPENDENT INTERACTIVE 3D MODEL
-    // Attaches custom scene, mesh, lighting, and mouse orbit drag handlers
-    // =========================================================================
-    function makeInteractive3DViewer(canvasId, buildMeshFn, cameraZ = 24) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas || typeof THREE === 'undefined') return;
-
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-      camera.position.z = cameraZ;
-
-      function resize() {
-        const size = Math.min(canvas.clientWidth, canvas.clientHeight) || 260;
-        if (canvas.width !== size || canvas.height !== size) {
-          renderer.setSize(size, size, false);
-          camera.aspect = 1;
-          camera.updateProjectionMatrix();
-        }
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      // Lighting
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
-      scene.add(ambientLight);
-
-      const light1 = new THREE.PointLight(0x10b981, 2.5, 60);
-      light1.position.set(15, 15, 15);
-      scene.add(light1);
-
-      const light2 = new THREE.PointLight(0x06b6d4, 2, 60);
-      light2.position.set(-15, -15, 15);
-      scene.add(light2);
-
-      const group = new THREE.Group();
-      scene.add(group);
-      buildMeshFn(group);
-
-      // Individual Mouse & Touch Drag Controls
-      let isDragging = false;
-      let prevMousePos = { x: 0, y: 0 };
-
-      canvas.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        prevMousePos = { x: e.clientX, y: e.clientY };
-      });
-      window.addEventListener('mouseup', () => isDragging = false);
-      window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        const deltaX = e.clientX - prevMousePos.x;
-        const deltaY = e.clientY - prevMousePos.y;
-        group.rotation.y += deltaX * 0.01;
-        group.rotation.x += deltaY * 0.01;
-        prevMousePos = { x: e.clientX, y: e.clientY };
-      });
-
-      canvas.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 1) {
-          isDragging = true;
-          prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        }
-      });
-      window.addEventListener('touchend', () => isDragging = false);
-      window.addEventListener('touchmove', (e) => {
-        if (!isDragging || e.touches.length !== 1) return;
-        const deltaX = e.touches[0].clientX - prevMousePos.x;
-        const deltaY = e.touches[0].clientY - prevMousePos.y;
-        group.rotation.y += deltaX * 0.01;
-        group.rotation.x += deltaY * 0.01;
-        prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      });
-
-      function animate() {
-        requestAnimationFrame(animate);
-        if (!isDragging) {
-          group.rotation.y += 0.008;
-          group.rotation.x = Math.sin(Date.now() * 0.0008) * 0.12;
-        }
-        renderer.render(scene, camera);
-      }
-      animate();
-    }
-
-    // 1. Protein Capsid Icosahedron Model
-    makeInteractive3DViewer('protein-canvas', (group) => {
-      const icosaGeo = new THREE.IcosahedronGeometry(4.0, 1);
-      const icosaWireMat = new THREE.MeshPhongMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.85 });
-      const icosaMesh = new THREE.Mesh(icosaGeo, icosaWireMat);
-      group.add(icosaMesh);
-
-      const coreGeo = new THREE.SphereGeometry(1.9, 16, 16);
-      const coreMat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90, transparent: true, opacity: 0.85 });
-      const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-      group.add(coreMesh);
-    }, 22);
-
-    // 2. CRISPR-Cas9 Cleavage R-Loop Complex Model
-    makeInteractive3DViewer('cleavage-canvas', (group) => {
-      const ringGeo = new THREE.TorusGeometry(3.6, 0.35, 10, 32, Math.PI * 1.5);
-      const ringMat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 100 });
-      const ring = new THREE.Mesh(ringGeo, ringMat);
-      group.add(ring);
-
-      const enzymeGeo = new THREE.DodecahedronGeometry(2.2);
-      const enzymeMat = new THREE.MeshPhongMaterial({ color: 0xf59e0b, wireframe: true, transparent: true, opacity: 0.8 });
-      const enzyme = new THREE.Mesh(enzymeGeo, enzymeMat);
-      group.add(enzyme);
-    }, 20);
-
-    // 3. DNA Double Helix Model
-    makeInteractive3DViewer('dna-canvas', (group) => {
-      const numBases = 22;
-      const helixRadius = 3.6;
-      const heightStep = 0.85;
-      const twistStep = 0.4;
-
-      const sphereGeo = new THREE.SphereGeometry(0.44, 14, 14);
-      const strand1Mat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90 });
-      const strand2Mat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 90 });
-      const rungsMat   = new THREE.MeshPhongMaterial({ color: 0xf59e0b, shininess: 80 });
-
-      for (let i = 0; i < numBases; i++) {
-        const angle = i * twistStep;
-        const y = (i - numBases / 2) * heightStep;
-
-        const x1 = Math.cos(angle) * helixRadius;
-        const z1 = Math.sin(angle) * helixRadius;
-        const x2 = Math.cos(angle + Math.PI) * helixRadius;
-        const z2 = Math.sin(angle + Math.PI) * helixRadius;
-
-        const atom1 = new THREE.Mesh(sphereGeo, strand1Mat);
-        atom1.position.set(x1, y, z1);
-        group.add(atom1);
-
-        const atom2 = new THREE.Mesh(sphereGeo, strand2Mat);
-        atom2.position.set(x2, y, z2);
-        group.add(atom2);
-
-        const bondLen = Math.hypot(x2 - x1, z2 - z1);
-        const rungGeo = new THREE.CylinderGeometry(0.09, 0.09, bondLen, 6);
-        const rung = new THREE.Mesh(rungGeo, rungsMat);
-        rung.position.set((x1 + x2) / 2, y, (z1 + z2) / 2);
-        rung.rotation.z = Math.PI / 2;
-        rung.rotation.y = -angle;
-        group.add(rung);
-      }
-    }, 28);
-
-    // 4. Y-Shaped Antibody Immunoglobulin Model
-    makeInteractive3DViewer('antibody-canvas', (group) => {
-      const stemGeo = new THREE.CylinderGeometry(0.35, 0.35, 4.2, 8);
-      const stemMat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90 });
-      const stem = new THREE.Mesh(stemGeo, stemMat);
-      stem.position.y = -1.8;
-      group.add(stem);
-
-      const arm1 = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 3.8, 8), new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 90 }));
-      arm1.position.set(-1.4, 1.2, 0);
-      arm1.rotation.z = Math.PI / 4;
-      group.add(arm1);
-
-      const arm2 = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 3.8, 8), new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 90 }));
-      arm2.position.set(1.4, 1.2, 0);
-      arm2.rotation.z = -Math.PI / 4;
-      group.add(arm2);
-
-      const tipGeo = new THREE.SphereGeometry(0.65, 12, 12);
-      const tipMat = new THREE.MeshPhongMaterial({ color: 0xf59e0b, shininess: 100 });
-      const tip1 = new THREE.Mesh(tipGeo, tipMat);
-      tip1.position.set(-2.7, 2.5, 0);
-      group.add(tip1);
-      const tip2 = new THREE.Mesh(tipGeo, tipMat);
-      tip2.position.set(2.7, 2.5, 0);
-      group.add(tip2);
-    }, 20);
-
-    // 5. Cellular Membrane Receptor / Ion Channel Cluster Model
-    makeInteractive3DViewer('membrane-canvas', (group) => {
-      const clusterCount = 14;
-      const sphereGeo = new THREE.SphereGeometry(0.6, 12, 12);
-      const mat = new THREE.MeshPhongMaterial({ color: 0x8b5cf6, shininess: 80, transparent: true, opacity: 0.9 });
-      for (let i = 0; i < clusterCount; i++) {
-        const phi = Math.acos(-1 + (2 * i) / clusterCount);
-        const theta = Math.sqrt(clusterCount * Math.PI) * phi;
-        const sphere = new THREE.Mesh(sphereGeo, mat);
-        sphere.position.setFromSphericalCoords(3.0, phi, theta);
-        group.add(sphere);
-      }
-      const core = new THREE.Mesh(new THREE.SphereGeometry(1.5, 14, 14), new THREE.MeshPhongMaterial({ color: 0x10b981, wireframe: true }));
-      group.add(core);
-    }, 20);
-
-    // 6. Fullerene Torus Molecule Model
-    makeInteractive3DViewer('torus-canvas', (group) => {
-      const torusGeo = new THREE.TorusGeometry(4.2, 0.24, 12, 40);
-      const torusMat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.75 });
-      const torusMesh = new THREE.Mesh(torusGeo, torusMat);
-      torusMesh.rotation.x = Math.PI / 3;
-      group.add(torusMesh);
-
-      const torusMesh2 = new THREE.Mesh(torusGeo, new THREE.MeshPhongMaterial({ color: 0xf59e0b, wireframe: true, transparent: true, opacity: 0.65 }));
-      torusMesh2.rotation.y = Math.PI / 3;
-      group.add(torusMesh2);
-
-      const centerSphere = new THREE.Mesh(new THREE.SphereGeometry(1.3, 16, 16), new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 100 }));
-      group.add(centerSphere);
-    }, 20);
   </script>
 </body>
 </html>

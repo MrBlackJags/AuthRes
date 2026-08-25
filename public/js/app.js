@@ -3178,3 +3178,220 @@ if (typeof window !== 'undefined') {
   window.closeQuickViewModal      = closeQuickViewModal;
   window.toggleQuickViewBookmark  = toggleQuickViewBookmark;
 }
+
+// =========================================================================
+// UNIVERSAL 3D BIOMOLECULAR MODEL ENGINE
+// Powers frameless, individually interactive 3D models across all webpages
+// Supported types: 'dna', 'protein', 'cleavage', 'antibody', 'membrane', 'torus'
+// =========================================================================
+function initBio3DViewer(canvasOrId, modelType = 'dna') {
+  const canvas = typeof canvasOrId === 'string' ? document.getElementById(canvasOrId) : canvasOrId;
+  if (!canvas) return;
+
+  function runRenderer() {
+    if (typeof THREE === 'undefined') return;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+    
+    let cameraZ = 24;
+    if (modelType === 'dna') cameraZ = 28;
+    if (modelType === 'protein') cameraZ = 22;
+    if (modelType === 'cleavage') cameraZ = 20;
+    if (modelType === 'antibody') cameraZ = 20;
+    if (modelType === 'membrane') cameraZ = 20;
+    if (modelType === 'torus') cameraZ = 20;
+    camera.position.z = cameraZ;
+
+    function resize() {
+      const size = Math.min(canvas.clientWidth, canvas.clientHeight) || 260;
+      if (canvas.width !== size || canvas.height !== size) {
+        renderer.setSize(size, size, false);
+        camera.aspect = 1;
+        camera.updateProjectionMatrix();
+      }
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    scene.add(ambientLight);
+    const light1 = new THREE.PointLight(0x10b981, 2.5, 60);
+    light1.position.set(15, 15, 15);
+    scene.add(light1);
+    const light2 = new THREE.PointLight(0x06b6d4, 2, 60);
+    light2.position.set(-15, -15, 15);
+    scene.add(light2);
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    // Construct Chosen Biomodel
+    if (modelType === 'dna') {
+      const numBases = 22, helixRadius = 3.6, heightStep = 0.85, twistStep = 0.4;
+      const sphereGeo = new THREE.SphereGeometry(0.44, 14, 14);
+      const strand1Mat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90 });
+      const strand2Mat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 90 });
+      const rungsMat   = new THREE.MeshPhongMaterial({ color: 0xf59e0b, shininess: 80 });
+
+      for (let i = 0; i < numBases; i++) {
+        const angle = i * twistStep;
+        const y = (i - numBases / 2) * heightStep;
+        const x1 = Math.cos(angle) * helixRadius;
+        const z1 = Math.sin(angle) * helixRadius;
+        const x2 = Math.cos(angle + Math.PI) * helixRadius;
+        const z2 = Math.sin(angle + Math.PI) * helixRadius;
+
+        const a1 = new THREE.Mesh(sphereGeo, strand1Mat);
+        a1.position.set(x1, y, z1);
+        group.add(a1);
+
+        const a2 = new THREE.Mesh(sphereGeo, strand2Mat);
+        a2.position.set(x2, y, z2);
+        group.add(a2);
+
+        const bondLen = Math.hypot(x2 - x1, z2 - z1);
+        const rung = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, bondLen, 6), rungsMat);
+        rung.position.set((x1 + x2) / 2, y, (z1 + z2) / 2);
+        rung.rotation.z = Math.PI / 2;
+        rung.rotation.y = -angle;
+        group.add(rung);
+      }
+    } else if (modelType === 'protein') {
+      const icosaGeo = new THREE.IcosahedronGeometry(4.0, 1);
+      const icosaWireMat = new THREE.MeshPhongMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.85 });
+      group.add(new THREE.Mesh(icosaGeo, icosaWireMat));
+      const coreGeo = new THREE.SphereGeometry(1.9, 16, 16);
+      const coreMat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90, transparent: true, opacity: 0.85 });
+      group.add(new THREE.Mesh(coreGeo, coreMat));
+    } else if (modelType === 'cleavage') {
+      const ringGeo = new THREE.TorusGeometry(3.6, 0.35, 10, 32, Math.PI * 1.5);
+      const ringMat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 100 });
+      group.add(new THREE.Mesh(ringGeo, ringMat));
+      const enzymeGeo = new THREE.DodecahedronGeometry(2.2);
+      const enzymeMat = new THREE.MeshPhongMaterial({ color: 0xf59e0b, wireframe: true, transparent: true, opacity: 0.8 });
+      group.add(new THREE.Mesh(enzymeGeo, enzymeMat));
+    } else if (modelType === 'antibody') {
+      const stemMat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90 });
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 4.2, 8), stemMat);
+      stem.position.y = -1.8;
+      group.add(stem);
+      const armMat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 90 });
+      const arm1 = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 3.8, 8), armMat);
+      arm1.position.set(-1.4, 1.2, 0);
+      arm1.rotation.z = Math.PI / 4;
+      group.add(arm1);
+      const arm2 = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 3.8, 8), armMat);
+      arm2.position.set(1.4, 1.2, 0);
+      arm2.rotation.z = -Math.PI / 4;
+      group.add(arm2);
+      const tipMat = new THREE.MeshPhongMaterial({ color: 0xf59e0b, shininess: 100 });
+      const tipGeo = new THREE.SphereGeometry(0.65, 12, 12);
+      const tip1 = new THREE.Mesh(tipGeo, tipMat);
+      tip1.position.set(-2.7, 2.5, 0);
+      group.add(tip1);
+      const tip2 = new THREE.Mesh(tipGeo, tipMat);
+      tip2.position.set(2.7, 2.5, 0);
+      group.add(tip2);
+    } else if (modelType === 'membrane') {
+      const clusterCount = 14;
+      const sphereGeo = new THREE.SphereGeometry(0.6, 12, 12);
+      const mat = new THREE.MeshPhongMaterial({ color: 0x8b5cf6, shininess: 80, transparent: true, opacity: 0.9 });
+      for (let i = 0; i < clusterCount; i++) {
+        const phi = Math.acos(-1 + (2 * i) / clusterCount);
+        const theta = Math.sqrt(clusterCount * Math.PI) * phi;
+        const s = new THREE.Mesh(sphereGeo, mat);
+        s.position.setFromSphericalCoords(3.0, phi, theta);
+        group.add(s);
+      }
+      group.add(new THREE.Mesh(new THREE.SphereGeometry(1.5, 14, 14), new THREE.MeshPhongMaterial({ color: 0x10b981, wireframe: true })));
+    } else if (modelType === 'torus') {
+      const torusGeo = new THREE.TorusGeometry(4.2, 0.24, 12, 40);
+      const t1 = new THREE.Mesh(torusGeo, new THREE.MeshPhongMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.75 }));
+      t1.rotation.x = Math.PI / 3;
+      group.add(t1);
+      const t2 = new THREE.Mesh(torusGeo, new THREE.MeshPhongMaterial({ color: 0xf59e0b, wireframe: true, transparent: true, opacity: 0.65 }));
+      t2.rotation.y = Math.PI / 3;
+      group.add(t2);
+      group.add(new THREE.Mesh(new THREE.SphereGeometry(1.3, 16, 16), new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 100 })));
+    }
+
+    // Individual Mouse & Touch Drag Controls
+    let isDragging = false;
+    let prevMousePos = { x: 0, y: 0 };
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      prevMousePos = { x: e.clientX, y: e.clientY };
+    });
+    window.addEventListener('mouseup', () => isDragging = false);
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - prevMousePos.x;
+      const deltaY = e.clientY - prevMousePos.y;
+      group.rotation.y += deltaX * 0.01;
+      group.rotation.x += deltaY * 0.01;
+      prevMousePos = { x: e.clientX, y: e.clientY };
+    });
+
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    });
+    window.addEventListener('touchend', () => isDragging = false);
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging || e.touches.length !== 1) return;
+      const deltaX = e.touches[0].clientX - prevMousePos.x;
+      const deltaY = e.touches[0].clientY - prevMousePos.y;
+      group.rotation.y += deltaX * 0.01;
+      group.rotation.x += deltaY * 0.01;
+      prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (!isDragging) {
+        group.rotation.y += 0.008;
+        group.rotation.x = Math.sin(Date.now() * 0.0008) * 0.12;
+      }
+      renderer.render(scene, camera);
+    }
+    animate();
+  }
+
+  if (typeof THREE === 'undefined') {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    s.onload = runRenderer;
+    document.head.appendChild(s);
+  } else {
+    runRenderer();
+  }
+}
+
+// Automatically bind any <canvas data-bio-3d="..."> elements on the page
+function autoInitBio3DModels() {
+  document.querySelectorAll('canvas[data-bio-3d]').forEach(c => {
+    const type = c.getAttribute('data-bio-3d') || 'dna';
+    initBio3DViewer(c, type);
+  });
+}
+
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', autoInitBio3DModels);
+  } else {
+    autoInitBio3DModels();
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.initBio3DViewer = initBio3DViewer;
+  window.autoInitBio3DModels = autoInitBio3DModels;
+}
