@@ -69,125 +69,150 @@
   <!-- Shared Header Navigation -->
   <div id="header-root"></div>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-16">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-16">
     
-    <!-- IMMERSIVE 3D LANDING SLIDE: Large AuthRos Typography + Multi-Model 3D Physics Canvas -->
-    <div class="relative overflow-hidden rounded-3xl min-h-[560px] sm:min-h-[620px] bg-slate-950 border border-emerald-500/30 shadow-2xl flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-white">
+    <!-- TOP LANDING SLIDE: Huge AuthRos Title + Immediate 4-Portal Entrance -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border border-emerald-500/25 p-8 sm:p-14 lg:p-20 shadow-2xl text-white text-center flex flex-col items-center justify-center min-h-[500px] sm:min-h-[580px] space-y-8">
       
-      <!-- Interactive 3D Multi-Model Background Canvas (Directly draggable/rotatable) -->
-      <canvas id="multi-model-canvas" class="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing z-0"></canvas>
+      <!-- Subtle Ambient Emerald Glows -->
+      <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-teal-500/15 rounded-full blur-3xl pointer-events-none"></div>
 
-      <!-- Soft Ambient Vignette for Legibility -->
-      <div class="absolute inset-0 bg-radial-gradient from-transparent via-slate-950/40 to-slate-950/80 pointer-events-none z-0"></div>
-
-      <!-- Top Scientific Metric Beacon -->
-      <div class="relative z-10 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-400/30 bg-slate-950/80 backdrop-blur-md text-emerald-300 text-xs font-semibold">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span>10,500+ Verified Protocols • Cryptographic RBAC Network</span>
-        </div>
-        <div class="hidden sm:flex items-center gap-2 text-[11px] font-mono text-emerald-400 bg-slate-950/80 px-3 py-1 rounded-full border border-emerald-400/20 backdrop-blur-md">
-          <i class="fa-solid fa-cube text-xs text-cyan-400"></i>
-          <span>INTERACTIVE 3D MULTI-BIOMODEL CANVAS</span>
-        </div>
+      <!-- Live Network Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-400/30 bg-emerald-950/60 backdrop-blur-md text-emerald-300 text-xs font-semibold">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>AuthRos • Decentralized Open Biomedical Network</span>
       </div>
 
-      <!-- Centerpiece: Large AuthRos Typography -->
-      <div class="relative z-10 text-center my-auto space-y-4 py-8 pointer-events-none">
-        <h1 class="text-6xl sm:text-8xl lg:text-9xl font-black tracking-tighter text-white drop-shadow-2xl select-none leading-none">
+      <!-- HUGE Title: AuthRos -->
+      <div class="space-y-3">
+        <h1 class="text-7xl sm:text-9xl lg:text-[11rem] font-black tracking-tighter text-white drop-shadow-2xl select-none leading-none">
           Auth<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Ros</span>
         </h1>
-        <p class="text-sm sm:text-base md:text-lg font-bold text-emerald-200/90 max-w-2xl mx-auto tracking-wide drop-shadow-md">
-          Decentralized Biomedical Research, Clinical Trial Matching & Grant Crowdfunding
+        <p class="text-xs sm:text-sm md:text-base font-semibold text-emerald-200/80 max-w-xl mx-auto tracking-wide">
+          Select your portal to enter the clinical & research ecosystem
         </p>
       </div>
 
-      <!-- 4 Core Entrance Gateways: Hospital, Research, User, SaaS -->
-      <div class="relative z-10 pt-4">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <!-- 4 Core Entrance Options: Hospital, Research, User, SaaS -->
+      <div class="w-full max-w-5xl pt-2">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 text-left">
           
-          <!-- Option 1: Hospital -->
-          <a href="hospital-portal.html" class="group bg-slate-900/85 hover:bg-slate-900 border border-purple-500/40 hover:border-purple-400 p-4 sm:p-5 rounded-2xl shadow-lg backdrop-blur-md transition-all hover:scale-103 flex flex-col justify-between space-y-2">
+          <!-- 1. Hospital -->
+          <a href="hospital-portal.html" class="group bg-slate-900/90 hover:bg-slate-800/90 border border-purple-500/30 hover:border-purple-400 p-5 rounded-2xl shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-104 flex flex-col justify-between space-y-3">
             <div class="flex items-center justify-between">
-              <div class="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-base font-bold group-hover:scale-110 transition-transform">
+              <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-hospital"></i>
               </div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-purple-300">Clinical Sites</span>
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-300">Clinical Sites</span>
             </div>
             <div>
-              <h3 class="text-base font-extrabold text-white group-hover:text-purple-300 transition">Hospital</h3>
+              <h2 class="text-lg font-black text-white group-hover:text-purple-300 transition">Hospital</h2>
               <p class="text-[11px] text-slate-300/80 leading-snug">De-identified patient cohort vault & trial recruitment.</p>
             </div>
-            <div class="text-[11px] font-bold text-purple-400 flex items-center gap-1 group-hover:translate-x-1 transition pt-1">
+            <div class="text-xs font-bold text-purple-400 flex items-center gap-1.5 group-hover:translate-x-1 transition pt-1">
               <span>Enter Portal</span>
-              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              <i class="fa-solid fa-arrow-right text-[11px]"></i>
             </div>
           </a>
 
-          <!-- Option 2: Research -->
-          <a href="researcher-portal.html" class="group bg-slate-900/85 hover:bg-slate-900 border border-orange-500/40 hover:border-orange-400 p-4 sm:p-5 rounded-2xl shadow-lg backdrop-blur-md transition-all hover:scale-103 flex flex-col justify-between space-y-2">
+          <!-- 2. Research -->
+          <a href="researcher-portal.html" class="group bg-slate-900/90 hover:bg-slate-800/90 border border-orange-500/30 hover:border-orange-400 p-5 rounded-2xl shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-104 flex flex-col justify-between space-y-3">
             <div class="flex items-center justify-between">
-              <div class="w-9 h-9 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-base font-bold group-hover:scale-110 transition-transform">
+              <div class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-microscope"></i>
               </div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-orange-300">Investigators</span>
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-orange-300">Investigators</span>
             </div>
             <div>
-              <h3 class="text-base font-extrabold text-white group-hover:text-orange-300 transition">Research</h3>
+              <h2 class="text-lg font-black text-white group-hover:text-orange-300 transition">Research</h2>
               <p class="text-[11px] text-slate-300/80 leading-snug">Register protocols, FastQ raw datasets & RBAC policies.</p>
             </div>
-            <div class="text-[11px] font-bold text-orange-400 flex items-center gap-1 group-hover:translate-x-1 transition pt-1">
+            <div class="text-xs font-bold text-orange-400 flex items-center gap-1.5 group-hover:translate-x-1 transition pt-1">
               <span>Enter Portal</span>
-              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              <i class="fa-solid fa-arrow-right text-[11px]"></i>
             </div>
           </a>
 
-          <!-- Option 3: User / Public -->
-          <a href="public-portal.html" class="group bg-slate-900/85 hover:bg-slate-900 border border-emerald-500/40 hover:border-emerald-400 p-4 sm:p-5 rounded-2xl shadow-lg backdrop-blur-md transition-all hover:scale-103 flex flex-col justify-between space-y-2">
+          <!-- 3. User / Public -->
+          <a href="public-portal.html" class="group bg-slate-900/90 hover:bg-slate-800/90 border border-emerald-500/30 hover:border-emerald-400 p-5 rounded-2xl shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-104 flex flex-col justify-between space-y-3">
             <div class="flex items-center justify-between">
-              <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-base font-bold group-hover:scale-110 transition-transform">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-heart"></i>
               </div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-300">Public Donors</span>
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-300">Supporters</span>
             </div>
             <div>
-              <h3 class="text-base font-extrabold text-white group-hover:text-emerald-300 transition">User</h3>
+              <h2 class="text-lg font-black text-white group-hover:text-emerald-300 transition">User</h2>
               <p class="text-[11px] text-slate-300/80 leading-snug">Crowdfund life-saving trials & follow open milestones.</p>
             </div>
-            <div class="text-[11px] font-bold text-emerald-400 flex items-center gap-1 group-hover:translate-x-1 transition pt-1">
+            <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5 group-hover:translate-x-1 transition pt-1">
               <span>Enter Portal</span>
-              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              <i class="fa-solid fa-arrow-right text-[11px]"></i>
             </div>
           </a>
 
-          <!-- Option 4: SaaS Workspace -->
-          <a href="dashboard.html" class="group bg-slate-900/85 hover:bg-slate-900 border border-cyan-500/40 hover:border-cyan-400 p-4 sm:p-5 rounded-2xl shadow-lg backdrop-blur-md transition-all hover:scale-103 flex flex-col justify-between space-y-2">
+          <!-- 4. SaaS -->
+          <a href="dashboard.html" class="group bg-slate-900/90 hover:bg-slate-800/90 border border-cyan-500/30 hover:border-cyan-400 p-5 rounded-2xl shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-104 flex flex-col justify-between space-y-3">
             <div class="flex items-center justify-between">
-              <div class="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-base font-bold group-hover:scale-110 transition-transform">
+              <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-gauge-high"></i>
               </div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-300">SaaS App</span>
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-cyan-300">SaaS App</span>
             </div>
             <div>
-              <h3 class="text-base font-extrabold text-white group-hover:text-cyan-300 transition">SaaS</h3>
+              <h2 class="text-lg font-black text-white group-hover:text-cyan-300 transition">SaaS</h2>
               <p class="text-[11px] text-slate-300/80 leading-snug">Pipeline telemetry, milestone analytics & admin console.</p>
             </div>
-            <div class="text-[11px] font-bold text-cyan-400 flex items-center gap-1 group-hover:translate-x-1 transition pt-1">
+            <div class="text-xs font-bold text-cyan-400 flex items-center gap-1.5 group-hover:translate-x-1 transition pt-1">
               <span>Open Workspace</span>
-              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              <i class="fa-solid fa-arrow-right text-[11px]"></i>
             </div>
           </a>
 
         </div>
+      </div>
+
+      <!-- Subtle Scroll Down Prompt -->
+      <div class="pt-2 text-[11px] text-emerald-400/80 font-mono flex items-center gap-2 animate-bounce">
+        <span>Scroll down to explore 3D Bio-Models</span>
+        <i class="fa-solid fa-chevron-down text-xs"></i>
       </div>
 
     </div>
 
-    <!-- QUICK SEARCH & DOMAIN EXPLORER -->
+    <!-- SCROLL-DOWN SECTION: 3D INTERACTIVE BIOMEDICAL PLAYGROUND (FIDDLE WITH 3D MODELS) -->
+    <div class="relative overflow-hidden rounded-3xl bg-slate-950 border border-emerald-500/30 shadow-2xl p-6 sm:p-8 space-y-4 text-white">
+      
+      <!-- Top Title Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-dna"></i>
+          </div>
+          <div>
+            <h2 class="text-base font-black text-white">Interactive 3D Biomolecular Models</h2>
+            <p class="text-[11px] text-emerald-300/80">DNA Helix • Viral Protein Capsid • Molecular Fullerenes</p>
+          </div>
+        </div>
+        <div class="text-[11px] font-mono text-slate-400 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Click & drag to rotate 3D models freely</span>
+        </div>
+      </div>
+
+      <!-- 3D WebGL Multi-Model Canvas -->
+      <div class="relative w-full h-[450px] sm:h-[540px] rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
+        <canvas id="multi-model-canvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+      </div>
+
+    </div>
+
+    <!-- VERIFIED PROTOCOLS EXPLORER (10,500+ Studies) -->
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
         <div>
-          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Live Library</span>
+          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Live Repository</span>
           <h2 class="text-2xl font-black text-foreground tracking-tight">Verified Research Protocols (10,500+)</h2>
         </div>
         <div class="flex items-center gap-2">
@@ -378,7 +403,7 @@
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-      camera.position.z = 40;
+      camera.position.z = 38;
 
       // Resize Handler
       function resize() {
@@ -394,37 +419,37 @@
       window.addEventListener('resize', resize);
 
       // Ambient & Directional Lights
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
       scene.add(ambientLight);
 
-      const light1 = new THREE.PointLight(0x10b981, 2.5, 80);
+      const light1 = new THREE.PointLight(0x10b981, 3, 90);
       light1.position.set(20, 20, 20);
       scene.add(light1);
 
-      const light2 = new THREE.PointLight(0x06b6d4, 2, 80);
+      const light2 = new THREE.PointLight(0x06b6d4, 2.5, 90);
       light2.position.set(-20, -20, 20);
       scene.add(light2);
 
-      const light3 = new THREE.PointLight(0x8b5cf6, 1.8, 80);
+      const light3 = new THREE.PointLight(0x8b5cf6, 2, 90);
       light3.position.set(0, 25, -15);
       scene.add(light3);
 
       const masterGroup = new THREE.Group();
       scene.add(masterGroup);
 
-      // --- MODEL 1: DNA Double Helix (Center-Left) ---
+      // --- MODEL 1: DNA Double Helix (Left) ---
       const dnaGroup = new THREE.Group();
-      dnaGroup.position.set(-14, 0, -2);
+      dnaGroup.position.set(-13, 0, 0);
       masterGroup.add(dnaGroup);
 
-      const numBases = 22;
-      const helixRadius = 4.2;
+      const numBases = 24;
+      const helixRadius = 4.0;
       const heightStep = 0.9;
       const twistStep = 0.38;
 
-      const sphereGeo = new THREE.SphereGeometry(0.48, 14, 14);
-      const strand1Mat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 100, wireframe: false });
-      const strand2Mat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 100, wireframe: false });
+      const sphereGeo = new THREE.SphereGeometry(0.5, 16, 16);
+      const strand1Mat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 100 });
+      const strand2Mat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 100 });
       const rungsMat   = new THREE.MeshPhongMaterial({ color: 0xf59e0b, shininess: 80 });
 
       for (let i = 0; i < numBases; i++) {
@@ -445,7 +470,7 @@
         dnaGroup.add(atom2);
 
         const bondLen = Math.hypot(x2 - x1, z2 - z1);
-        const rungGeo = new THREE.CylinderGeometry(0.09, 0.09, bondLen, 6);
+        const rungGeo = new THREE.CylinderGeometry(0.1, 0.1, bondLen, 8);
         const rung = new THREE.Mesh(rungGeo, rungsMat);
         rung.position.set((x1 + x2) / 2, y, (z1 + z2) / 2);
         rung.rotation.z = Math.PI / 2;
@@ -453,38 +478,40 @@
         dnaGroup.add(rung);
       }
 
-      // --- MODEL 2: Protein Icosahedron Capsule (Center-Right) ---
+      // --- MODEL 2: Protein Icosahedron Capsule (Right) ---
       const proteinGroup = new THREE.Group();
-      proteinGroup.position.set(15, 2, -1);
+      proteinGroup.position.set(13, 0, 0);
       masterGroup.add(proteinGroup);
 
       const icosaGeo = new THREE.IcosahedronGeometry(4.8, 1);
-      const icosaWireMat = new THREE.MeshPhongMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.75 });
+      const icosaWireMat = new THREE.MeshPhongMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.8 });
       const icosaMesh = new THREE.Mesh(icosaGeo, icosaWireMat);
       proteinGroup.add(icosaMesh);
 
-      // Core Nucleus
-      const coreGeo = new THREE.SphereGeometry(2.2, 16, 16);
-      const coreMat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 80, transparent: true, opacity: 0.85 });
+      const coreGeo = new THREE.SphereGeometry(2.4, 16, 16);
+      const coreMat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90, transparent: true, opacity: 0.85 });
       const coreMesh = new THREE.Mesh(coreGeo, coreMat);
       proteinGroup.add(coreMesh);
 
-      // --- MODEL 3: Fullerene / Nanoparticle Ring (Top Center) ---
+      // --- MODEL 3: Fullerene / Nanoparticle Ring (Center) ---
       const nanoGroup = new THREE.Group();
-      nanoGroup.position.set(0, 12, -8);
+      nanoGroup.position.set(0, 0, -2);
       masterGroup.add(nanoGroup);
 
-      const torusGeo = new THREE.TorusGeometry(5.5, 0.25, 12, 40);
-      const torusMat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.6 });
+      const torusGeo = new THREE.TorusGeometry(5.2, 0.28, 14, 48);
+      const torusMat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.7 });
       const torusMesh = new THREE.Mesh(torusGeo, torusMat);
       torusMesh.rotation.x = Math.PI / 3;
       nanoGroup.add(torusMesh);
 
-      const torusMesh2 = new THREE.Mesh(torusGeo, new THREE.MeshPhongMaterial({ color: 0xf59e0b, wireframe: true, transparent: true, opacity: 0.5 }));
+      const torusMesh2 = new THREE.Mesh(torusGeo, new THREE.MeshPhongMaterial({ color: 0xf59e0b, wireframe: true, transparent: true, opacity: 0.6 }));
       torusMesh2.rotation.y = Math.PI / 3;
       nanoGroup.add(torusMesh2);
 
-      // Mouse & Touch Orbit Handling on Whole Canvas
+      const centerSphere = new THREE.Mesh(new THREE.SphereGeometry(1.6, 16, 16), new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 100 }));
+      nanoGroup.add(centerSphere);
+
+      // Mouse & Touch Orbit Handling
       let isDragging = false;
       let prevMousePos = { x: 0, y: 0 };
 
@@ -518,20 +545,18 @@
         prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
       });
 
-      // Smooth Animation Loop
+      // Animation Loop
       function animate() {
         requestAnimationFrame(animate);
 
-        // Constant gentle background rotation
         if (!isDragging) {
-          masterGroup.rotation.y += 0.003;
-          masterGroup.rotation.x = Math.sin(Date.now() * 0.0006) * 0.15;
+          masterGroup.rotation.y += 0.004;
+          masterGroup.rotation.x = Math.sin(Date.now() * 0.0007) * 0.15;
         }
 
-        // Sub-model independent rotations
-        dnaGroup.rotation.y += 0.012;
-        proteinGroup.rotation.x += 0.008;
-        proteinGroup.rotation.y += 0.01;
+        dnaGroup.rotation.y += 0.015;
+        proteinGroup.rotation.x += 0.01;
+        proteinGroup.rotation.y += 0.012;
         nanoGroup.rotation.z += 0.015;
 
         renderer.render(scene, camera);
