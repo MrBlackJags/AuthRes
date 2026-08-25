@@ -865,6 +865,12 @@
                     <i class="fa-regular fa-eye mr-1 text-emerald-600"></i> Quick View
                   </button>
 
+                  ${!isComp ? `
+                    <button onclick="openDonateModal('${escapeQuotes(p.title)}', '$${raised.toLocaleString()}', '$${target.toLocaleString()}', '${p.id}')" title="Fund Research Grant" class="shadcn-btn btn-outline btn-sm text-xs py-1.5 px-2.5 text-orange-500 hover:text-orange-600 hover:bg-orange-500/10 hover:border-orange-500/50 transition">
+                      <i class="fa-solid fa-heart mr-1"></i> Fund
+                    </button>
+                  ` : ''}
+
                   <button onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')" title="Cite Study" class="shadcn-btn btn-ghost btn-sm text-xs py-1.5 px-2">
                     <i class="fa-solid fa-quote-left"></i>
                   </button>
@@ -874,7 +880,7 @@
                       ${t.details || 'Inspect'} →
                     </a>
                   ` : `
-                    <a href="auth.html?redirect=study-detail.html?id=${p.id}" class="btn-sunset px-3 py-1.5 rounded-xl text-xs font-bold shadow-2xs">
+                    <a href="auth.html?redirect=${encodeURIComponent('study-detail.html?id=' + p.id)}" class="btn-sunset px-3 py-1.5 rounded-xl text-xs font-bold shadow-2xs">
                       <i class="fa-solid fa-lock mr-1"></i> Login
                     </a>
                   `}
@@ -924,10 +930,15 @@
                     ${p.status === 'completed' ? 'Published' : 'Active Trial'}
                   </span>
                 </td>
-                <td class="p-3.5 text-right space-x-1.5">
+                <td class="p-3.5 text-right space-x-1.5 whitespace-nowrap">
                   <button onclick="openQuickViewModal('${p.id}')" title="Quick Read Abstract" class="shadcn-btn btn-outline btn-sm text-[11px] py-1 px-2 hover:border-emerald-500 hover:text-emerald-600">
                     <i class="fa-regular fa-eye mr-1 text-emerald-600"></i> View
                   </button>
+                  ${p.status !== 'completed' ? `
+                    <button onclick="openDonateModal('${escapeQuotes(p.title)}', '$${(p.crowdfunding_raised||0).toLocaleString()}', '$${(p.crowdfunding_target||50000).toLocaleString()}', '${p.id}')" title="Fund Research Grant" class="shadcn-btn btn-outline btn-sm text-[11px] py-1 px-2 text-orange-500 hover:text-orange-600 hover:bg-orange-500/10">
+                      <i class="fa-solid fa-heart mr-1"></i> Fund
+                    </button>
+                  ` : ''}
                   <button onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')" class="shadcn-btn btn-ghost btn-sm text-[11px] py-1 px-2">
                     <i class="fa-solid fa-quote-left"></i>
                   </button>
@@ -936,7 +947,7 @@
                       Open →
                     </a>
                   ` : `
-                    <a href="auth.html?redirect=study-detail.html?id=${p.id}" class="btn-sunset px-2.5 py-1 rounded-lg text-[11px] font-bold">
+                    <a href="auth.html?redirect=${encodeURIComponent('study-detail.html?id=' + p.id)}" class="btn-sunset px-2.5 py-1 rounded-lg text-[11px] font-bold">
                       <i class="fa-solid fa-lock mr-1"></i> Login
                     </a>
                   `}
