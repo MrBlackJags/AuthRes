@@ -1,80 +1,301 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
 /* ==========================================================================
-   SHADCN / UI THEME TOKENS (HSL DESIGN SYSTEM)
+   SOOTHING EYE-FRIENDLY GREEN THEME TOKENS (HSL DESIGN SYSTEM)
+   Designed for optical comfort, zero glare, and high clarity
    ========================================================================== */
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  /* Soothing mint-tinted eye-comfort light background */
+  --background: 145 25% 98.2%;     /* #f5f9f6 */
+  --foreground: 152 45% 12%;       /* #11271d - deep forest slate */
   --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
+  --card-foreground: 152 45% 12%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 158 75% 38%; /* Emerald 600 */
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --destructive: 0 84.2% 60.2%;
+  --popover-foreground: 152 45% 12%;
+  --primary: 152 76% 36%;          /* #14955a - vital emerald */
+  --primary-foreground: 140 30% 98%;
+  --secondary: 146 30% 94%;        /* #e6f2eb - soft sage */
+  --secondary-foreground: 152 45% 14%;
+  --muted: 146 25% 93.5%;
+  --muted-foreground: 150 14% 42%; /* #5e796c - botanical slate */
+  --accent: 146 35% 92%;
+  --accent-foreground: 152 50% 14%;
+  --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 158 75% 38%;
-  --radius: 0.75rem;
+  --border: 146 22% 87%;           /* #cee0d6 - gentle organic border */
+  --input: 146 22% 87%;
+  --ring: 152 76% 36%;
+  --radius: 0.85rem;
 
-  /* Theme Accents */
-  --emerald: 158 75% 38%;
-  --emerald-foreground: 210 40% 98%;
-  --amber: 38 92% 50%;
-  --amber-foreground: 24 9.8% 10%;
-  --sky: 199 89% 48%;
-  --sky-foreground: 210 40% 98%;
+  /* Theme Category Accents */
+  /* 1. Research: Forest Green + Sunset Orange */
+  --forest-green: 154 85% 18%;     /* #064e3b */
+  --sunset-orange: 24 95% 53%;     /* #f97316 */
+  --sunset-orange-deep: 21 90% 48%;/* #ea580c */
+
+  /* 2. Hospitals: Light Green + Purple (Red + Blue) */
+  --hospital-lightgreen: 142 71% 45%; /* #22c55e */
+  --hospital-purple: 263 70% 58%;     /* #8b5cf6 */
+  --hospital-violet: 271 81% 53%;     /* #7c3aed */
+
+  /* 3. General User: Shades of Green + Light Vibrant Accents */
+  --public-mint: 152 76% 45%;
+  --public-jade: 158 80% 32%;
+  --public-cyan: 199 89% 50%;
+  --public-rose: 350 89% 60%;
+  --public-gold: 45 93% 47%;
+  --public-lavender: 265 89% 66%;
 }
 
 .dark, html.dark {
-  --background: 224 71% 4%;
-  --foreground: 213 31% 91%;
-  --card: 224 71% 7%;
-  --card-foreground: 213 31% 91%;
-  --popover: 224 71% 7%;
-  --popover-foreground: 213 31% 91%;
-  --primary: 158 75% 42%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
+  /* Deep soothing forest-obsidian dark canvas (no harsh pure blacks) */
+  --background: 155 35% 6%;        /* #07130d - restful forest night */
+  --foreground: 142 30% 94%;       /* #ebf7f0 - soft luminescent mint */
+  --card: 155 30% 9.5%;            /* #0d1f16 - deep emerald obsidian */
+  --card-foreground: 142 30% 94%;
+  --popover: 155 30% 9.5%;
+  --popover-foreground: 142 30% 94%;
+  --primary: 152 70% 48%;          /* #22c55e - radiant chlorophyll green */
+  --primary-foreground: 155 40% 6%;
+  --secondary: 155 25% 15%;        /* #183023 */
+  --secondary-foreground: 142 30% 94%;
+  --muted: 155 25% 14%;
+  --muted-foreground: 148 18% 66%; /* #8cb49f - soft eucalyptus */
+  --accent: 155 28% 18%;
+  --accent-foreground: 142 30% 94%;
+  --destructive: 0 62% 40%;
   --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 158 75% 42%;
+  --border: 155 22% 17%;           /* #1a3627 - glowing organic border */
+  --input: 155 22% 17%;
+  --ring: 152 70% 48%;
 }
 
+/* ==========================================================================
+   PROFESSIONAL STANDOUT TYPOGRAPHY SYSTEM
+   Headings: Outfit (Modern, Geometric, Distinctive)
+   Body: Plus Jakarta Sans (Optical clarity, High legibility)
+   Monospace/Metrics: JetBrains Mono (Scientific precision, Tabular nums)
+   ========================================================================== */
 body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Background Subtle Bio-Grid Pattern */
+h1, h2, h3, h4, h5, h6, .font-heading, .font-display {
+  font-family: 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.025em;
+  font-feature-settings: "cv02" 1, "cv03" 1, "cv04" 1;
+}
+
+code, kbd, samp, pre, .font-mono, [class*="font-mono"] {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* ==========================================================================
+   CATEGORY THEME PROFILES
+   ========================================================================== */
+
+/* --- 1. RESEARCH THEME: FOREST GREEN + SUNSET ORANGE --- */
+.bg-research-hero {
+  background: linear-gradient(135deg, #022c22 0%, #064e3b 45%, #431407 100%) !important;
+}
+
+.text-gradient-research {
+  background: linear-gradient(135deg, #34d399 0%, #fb923c 60%, #fdba74 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.badge-sunset {
+  background: rgba(249, 115, 22, 0.12) !important;
+  color: #ea580c !important;
+  border: 1px solid rgba(249, 115, 22, 0.28) !important;
+}
+html.dark .badge-sunset {
+  background: rgba(249, 115, 22, 0.2) !important;
+  color: #fb923c !important;
+  border-color: rgba(249, 115, 22, 0.4) !important;
+}
+
+.badge-forest {
+  background: rgba(6, 78, 59, 0.12) !important;
+  color: #047857 !important;
+  border: 1px solid rgba(6, 78, 59, 0.28) !important;
+}
+html.dark .badge-forest {
+  background: rgba(5, 150, 105, 0.2) !important;
+  color: #34d399 !important;
+  border-color: rgba(5, 150, 105, 0.4) !important;
+}
+
+.btn-sunset {
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.25) !important;
+}
+.btn-sunset:hover {
+  background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%) !important;
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.35) !important;
+}
+
+.btn-forest {
+  background: linear-gradient(135deg, #064e3b 0%, #047857 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(6, 78, 59, 0.25) !important;
+}
+.btn-forest:hover {
+  background: linear-gradient(135deg, #022c22 0%, #064e3b 100%) !important;
+  box-shadow: 0 6px 20px rgba(6, 78, 59, 0.35) !important;
+}
+
+/* --- 2. HOSPITAL THEME: LIGHT GREEN + PURPLE (RED + BLUE) --- */
+.bg-hospital-hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #3b0764 40%, #064e3b 100%) !important;
+}
+
+.text-gradient-hospital {
+  background: linear-gradient(135deg, #86efac 0%, #c4b5fd 50%, #e9d5ff 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.badge-hospital-purple {
+  background: rgba(139, 92, 246, 0.12) !important;
+  color: #7c3aed !important;
+  border: 1px solid rgba(139, 92, 246, 0.28) !important;
+}
+html.dark .badge-hospital-purple {
+  background: rgba(139, 92, 246, 0.22) !important;
+  color: #c4b5fd !important;
+  border-color: rgba(139, 92, 246, 0.45) !important;
+}
+
+.badge-hospital-green {
+  background: rgba(34, 197, 94, 0.12) !important;
+  color: #16a34a !important;
+  border: 1px solid rgba(34, 197, 94, 0.28) !important;
+}
+html.dark .badge-hospital-green {
+  background: rgba(34, 197, 94, 0.22) !important;
+  color: #4ade80 !important;
+  border-color: rgba(34, 197, 94, 0.45) !important;
+}
+
+.btn-hospital-purple {
+  background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25) !important;
+}
+.btn-hospital-purple:hover {
+  background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%) !important;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35) !important;
+}
+
+.btn-hospital-lightgreen {
+  background: linear-gradient(135deg, #22c55e 0%, #10b981 100%) !important;
+  color: #052e16 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.25) !important;
+}
+.btn-hospital-lightgreen:hover {
+  background: linear-gradient(135deg, #16a34a 0%, #059669 100%) !important;
+  color: #ffffff !important;
+}
+
+/* --- 3. GENERAL USER THEME: SHADES OF GREEN + MULTIPLE LIGHT VIBRANT COLORS --- */
+.bg-public-hero {
+  background: linear-gradient(135deg, #022c22 0%, #064e3b 35%, #134e4a 65%, #312e81 100%) !important;
+}
+
+.text-gradient-rainbow {
+  background: linear-gradient(135deg, #6ee7b7 0%, #7dd3fc 35%, #fbcfe8 70%, #fde047 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.badge-lighty-cyan {
+  background: rgba(14, 165, 233, 0.12) !important;
+  color: #0284c7 !important;
+  border: 1px solid rgba(14, 165, 233, 0.28) !important;
+}
+html.dark .badge-lighty-cyan {
+  background: rgba(14, 165, 233, 0.2) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(14, 165, 233, 0.4) !important;
+}
+
+.badge-lighty-rose {
+  background: rgba(244, 63, 94, 0.12) !important;
+  color: #e11d48 !important;
+  border: 1px solid rgba(244, 63, 94, 0.28) !important;
+}
+html.dark .badge-lighty-rose {
+  background: rgba(244, 63, 94, 0.2) !important;
+  color: #fb7185 !important;
+  border-color: rgba(244, 63, 94, 0.4) !important;
+}
+
+.badge-lighty-gold {
+  background: rgba(234, 179, 8, 0.14) !important;
+  color: #b45309 !important;
+  border: 1px solid rgba(234, 179, 8, 0.3) !important;
+}
+html.dark .badge-lighty-gold {
+  background: rgba(234, 179, 8, 0.22) !important;
+  color: #fde047 !important;
+  border-color: rgba(234, 179, 8, 0.45) !important;
+}
+
+.badge-lighty-lavender {
+  background: rgba(168, 85, 247, 0.12) !important;
+  color: #9333ea !important;
+  border: 1px solid rgba(168, 85, 247, 0.28) !important;
+}
+html.dark .badge-lighty-lavender {
+  background: rgba(168, 85, 247, 0.2) !important;
+  color: #c084fc !important;
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+.badge-lighty-mint {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #059669 !important;
+  border: 1px solid rgba(16, 185, 129, 0.28) !important;
+}
+html.dark .badge-lighty-mint {
+  background: rgba(16, 185, 129, 0.2) !important;
+  color: #34d399 !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+}
+
+.btn-public-rainbow {
+  background: linear-gradient(135deg, #10b981 0%, #06b6d4 40%, #8b5cf6 75%, #f59e0b 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25) !important;
+}
+.btn-public-rainbow:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 22px rgba(16, 185, 129, 0.4) !important;
+}
+
+/* Background Grids */
 .bg-bio-grid {
-  background-image: radial-gradient(rgba(16, 185, 129, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(16, 185, 129, 0.14) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 .bg-hospital-grid {
-  background-image: radial-gradient(rgba(14, 165, 233, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(139, 92, 246, 0.14) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 .bg-public-grid {
-  background-image: radial-gradient(rgba(245, 158, 11, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(14, 165, 233, 0.14) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -84,7 +305,10 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #e6f2eb;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: #07130d;
 }
 ::-webkit-scrollbar-thumb {
   background: #10b981;
@@ -96,24 +320,24 @@ body {
 
 /* Glassmorphism Utilities */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(245, 249, 246, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.18);
 }
 
 .glass-dark {
-  background: rgba(6, 78, 59, 0.85);
+  background: rgba(7, 19, 13, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(52, 211, 153, 0.2);
+  border: 1px solid rgba(52, 211, 153, 0.22);
 }
 
-.glass-sky {
-  background: rgba(8, 47, 73, 0.85);
+.glass-hospital {
+  background: rgba(30, 27, 75, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.25);
 }
 
 /* Animations System */
@@ -122,18 +346,37 @@ body {
   50% { transform: translateY(-6px); }
 }
 
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(0.5deg); }
+}
+
 @keyframes pulseGlow {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 0.9; transform: scale(1.05); }
+  0%, 100% { opacity: 0.6; transform: scale(1); filter: blur(40px); }
+  50% { opacity: 0.95; transform: scale(1.08); filter: blur(55px); }
 }
 
 @keyframes slideInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes scalePop {
+  0% { transform: scale(0.92); opacity: 0; }
+  70% { transform: scale(1.02); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.3); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.2); }
+  70% { transform: scale(1); }
 }
 
 @keyframes rippleAnimation {
-  0% { transform: scale(0); opacity: 0.6; }
+  0% { transform: scale(0); opacity: 0.7; }
   100% { transform: scale(4); opacity: 0; }
 }
 
@@ -148,8 +391,18 @@ body {
   100% { background-position: 200% 0; }
 }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .animate-float {
   animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 7s ease-in-out infinite;
 }
 
 .animate-pulse-glow {
@@ -160,17 +413,26 @@ body {
   animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.animate-scale-pop {
+  animation: scalePop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-heart-beat {
+  animation: heartBeat 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Scroll Progress Bar at Top of Viewport */
 #scroll-progress-bar {
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
+  height: 3.5px;
   width: 0%;
-  background: linear-gradient(90deg, #059669, #10b981, #34d399, #6ee7b7);
+  background: linear-gradient(90deg, #059669, #10b981, #34d399, #38bdf8);
   z-index: 9999;
   transition: width 0.08s ease-out;
   pointer-events: none;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
 }
 
 /* Scroll Reveal Animations */
@@ -221,12 +483,14 @@ body {
 }
 
 /* Stagger animation helpers */
+.delay-50  { transition-delay: 50ms; }
 .delay-100 { transition-delay: 100ms; }
 .delay-150 { transition-delay: 150ms; }
 .delay-200 { transition-delay: 200ms; }
 .delay-250 { transition-delay: 250ms; }
 .delay-300 { transition-delay: 300ms; }
 .delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
 
 /* Click Ripple Container and Element */
 .ripple-container {
@@ -239,7 +503,7 @@ body {
   border-radius: 50%;
   transform: scale(0);
   animation: rippleAnimation 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: rgba(16, 185, 129, 0.3);
+  background-color: rgba(16, 185, 129, 0.35);
   pointer-events: none;
 }
 
@@ -254,19 +518,128 @@ button:active, .interactive-btn:active, .domain-pill:active, a.shadcn-btn:active
   animation: inputTypingGlow 0.35s ease-out;
 }
 
-/* Interactive Cards - Enhanced Sizing & Smooth Elevation */
-.interactive-card {
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+/* Interactive Cards - Enhanced Elevation, Dynamic Spotlight & Micro-Movement */
+.interactive-card, .spotlight-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
   will-change: transform, box-shadow;
 }
 
+/* Dynamic Cursor-Following Spotlight Glow */
+.interactive-card::before, .spotlight-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(380px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(16, 185, 129, 0.09), transparent 75%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.interactive-card:hover::before, .spotlight-card:hover::before {
+  opacity: 1;
+}
+
+html.dark .interactive-card::before, html.dark .spotlight-card::before {
+  background: radial-gradient(420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(52, 211, 153, 0.14), transparent 75%);
+}
+
 .interactive-card:hover {
-  transform: translateY(-4px) scale(1.008);
-  box-shadow: 0 16px 32px -10px rgba(6, 78, 59, 0.15);
+  transform: translateY(-5px) scale(1.008);
+  box-shadow: 0 20px 36px -10px rgba(6, 78, 59, 0.16);
+}
+
+html.dark .interactive-card:hover {
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(16, 185, 129, 0.12);
 }
 
 .interactive-card:active {
   transform: translateY(-1px) scale(0.985);
+}
+
+/* Dynamic 3D Perspective Tilt */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.15s ease-out, box-shadow 0.25s ease;
+}
+
+/* Luminous Border Beam & Shimmer Sweeps */
+.border-beam {
+  position: relative;
+  overflow: hidden;
+}
+.border-beam::after {
+  content: '';
+  position: absolute;
+  inset: -150%;
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(16, 185, 129, 0.7) 60deg, transparent 120deg);
+  animation: rotateBeam 4s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes rotateBeam {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Dynamic Shimmer Light Sweep on Buttons & Badges */
+.shimmer-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-sweep::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, transparent 30%, rgba(255, 255, 255, 0.22) 50%, transparent 70%);
+  transform: translateX(-100%) rotate(25deg);
+  transition: transform 0.75s ease;
+}
+.shimmer-sweep:hover::after {
+  transform: translateX(100%) rotate(25deg);
+}
+
+/* Live Telemetry Beacon Dot */
+.beacon-dot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.beacon-dot::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: inherit;
+  animation: beaconPulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  opacity: 0.75;
+}
+@keyframes beaconPulse {
+  0% { transform: scale(1); opacity: 0.75; }
+  75%, 100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Ambient Bio-Mesh Interactive Dynamic Canvas */
+#bio-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.45;
+}
+html.dark #bio-canvas {
+  opacity: 0.65;
 }
 
 /* Custom Gradients */
@@ -295,88 +668,94 @@ button:active, .interactive-btn:active, .domain-pill:active, a.shadcn-btn:active
 }
 
 /* ==========================================================================
-   DARK MODE SYSTEM OVERRIDES
+   DARK MODE SYSTEM OVERRIDES (Eye-Restful Forest Obsidian)
    ========================================================================== */
 html.dark body, body.dark-theme {
-  background-color: #0b0f19 !important;
-  color: #f1f5f9 !important;
+  background-color: #07130d !important;
+  color: #ebf7f0 !important;
 }
 
 html.dark .bg-slate-50 {
-  background-color: #0f172a !important;
+  background-color: #07130d !important;
 }
 
 html.dark .bg-slate-100 {
-  background-color: #1e293b !important;
+  background-color: #0d1f16 !important;
 }
 
 html.dark .bg-slate-200 {
-  background-color: #334155 !important;
+  background-color: #193325 !important;
 }
 
 html.dark .bg-white {
-  background-color: #1e293b !important;
-  color: #f8fafc !important;
+  background-color: #0d1f16 !important;
+  color: #ebf7f0 !important;
 }
 
 html.dark .glass-panel {
-  background: rgba(15, 23, 42, 0.88) !important;
+  background: rgba(13, 31, 22, 0.88) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-color: rgba(16, 185, 129, 0.25) !important;
+  border-color: rgba(52, 211, 153, 0.22) !important;
 }
 
 html.dark .text-slate-900,
 html.dark .text-slate-800 {
-  color: #f8fafc !important;
+  color: #ebf7f0 !important;
 }
 
 html.dark .text-slate-700,
 html.dark .text-slate-600 {
-  color: #cbd5e1 !important;
+  color: #b7d5c5 !important;
 }
 
 html.dark .text-slate-500 {
-  color: #94a3b8 !important;
+  color: #8cb49f !important;
 }
 
 html.dark .border-slate-100,
 html.dark .border-slate-200,
 html.dark .border-slate-300 {
-  border-color: #334155 !important;
+  border-color: #1a3627 !important;
 }
 
 html.dark .hover\:bg-slate-50:hover,
 html.dark .hover\:bg-slate-100:hover,
 html.dark .hover\:bg-slate-200\/60:hover {
-  background-color: #334155 !important;
+  background-color: #193325 !important;
 }
 
 html.dark input,
 html.dark select,
 html.dark textarea {
-  background-color: #0f172a !important;
-  color: #f8fafc !important;
-  border-color: #334155 !important;
+  background-color: #07130d !important;
+  color: #ebf7f0 !important;
+  border-color: #1a3627 !important;
 }
 
 html.dark ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #07130d;
 }
 
 /* Modals dark mode styling */
 html.dark #donate-card,
 html.dark #hospital-card {
-  background-color: #1e293b !important;
-  color: #f8fafc !important;
-  border-color: #334155 !important;
+  background-color: #0d1f16 !important;
+  color: #ebf7f0 !important;
+  border-color: #1a3627 !important;
 }
 
 html.dark .bg-amber-50\/70,
-html.dark .bg-amber-50,
-html.dark .bg-sky-50,
+html.dark .bg-amber-50 {
+  background-color: rgba(249, 115, 22, 0.15) !important;
+}
+
+html.dark .bg-sky-50 {
+  background-color: rgba(139, 92, 246, 0.18) !important;
+}
+
 html.dark .bg-emerald-50 {
-  background-color: rgba(30, 41, 59, 0.9) !important;
+  background-color: rgba(6, 78, 59, 0.25) !important;
 }
 
 /* Smooth Theme Transitions */

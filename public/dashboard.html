@@ -125,6 +125,12 @@
             <span>Team & RBAC Policy</span>
           </button>
 
+          <button onclick="switchDashboardTab('admin-ranks', this)" id="nav-btn-admin-ranks" class="dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition">
+            <i class="fa-solid fa-crown w-4 text-center text-orange-500"></i>
+            <span class="flex-1 text-left">Admin: User Ranks</span>
+            <span class="badge-sunset text-[9px] px-1.5 py-0.2 rounded font-black">Admin</span>
+          </button>
+
           <button onclick="switchDashboardTab('neondb', this)" class="dash-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition">
             <i class="fa-solid fa-server w-4 text-center"></i>
             <span>Neon DB Telemetry</span>
@@ -187,11 +193,11 @@
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center gap-2 min-w-0">
             <div class="w-7 h-7 rounded-full bg-primary/20 text-primary font-bold flex items-center justify-center text-xs shrink-0" id="sidebar-avatar">
-              S
+              A
             </div>
             <div class="min-w-0">
-              <span class="text-xs font-bold text-foreground truncate block leading-tight" id="sidebar-user-name">Dr. Sarah Raman</span>
-              <span class="text-[10px] text-muted-foreground truncate block" id="sidebar-user-role">Principal Investigator</span>
+              <span class="text-xs font-bold text-foreground truncate block leading-tight" id="sidebar-user-name">System Administrator</span>
+              <span class="text-[10px] text-muted-foreground truncate block" id="sidebar-user-role">Platform Admin</span>
             </div>
           </div>
           <button onclick="AuthManager.logout()" title="Sign Out" class="shadcn-btn btn-ghost btn-icon h-7 w-7 text-muted-foreground hover:text-destructive">
@@ -256,7 +262,7 @@
           <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 text-white p-6 rounded-3xl border border-emerald-500/20 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="space-y-1">
               <span class="shadcn-badge badge-emerald text-[10px] font-bold uppercase tracking-wider">Enterprise Workspace</span>
-              <h1 class="text-2xl font-extrabold text-white" id="welcome-header">Welcome, Dr. Sarah Raman</h1>
+              <h1 class="text-2xl font-extrabold text-white" id="welcome-header">Welcome to AuthRos Workspace</h1>
               <p class="text-xs text-slate-300">AuthRos SaaS Platform is operating on Neon Serverless PostgreSQL with 5-tier cryptographic RBAC.</p>
             </div>
             <div class="flex items-center gap-2 shrink-0">
@@ -351,7 +357,7 @@
                   </div>
                   <div>
                     <strong class="text-foreground block">Milestone Completed: Stage 1 Formulation & In-Vitro Transfection</strong>
-                    <span class="text-muted-foreground text-[11px]">Protocol: BT-402-ONC • Confirmed by Dr. Sarah Raman, PhD</span>
+                    <span class="text-muted-foreground text-[11px]">Protocol: BT-402-ONC • Confirmed by Principal Investigator</span>
                   </div>
                 </div>
                 <span class="text-[10px] font-mono text-muted-foreground">10 mins ago</span>
@@ -550,6 +556,87 @@
         </div>
 
         <!-- ======================================================== -->
+        <!-- TAB: ADMIN USER RANKS & ACCESS CONTROL -->
+        <!-- ======================================================== -->
+        <div id="tab-admin-ranks" class="dash-tab-content hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-500 text-xs font-bold uppercase tracking-wider mb-1">
+                <i class="fa-solid fa-crown text-orange-500"></i> Platform Administrator Controller
+              </div>
+              <h2 class="text-xl font-extrabold text-foreground">User Ranks & Platform Access Control</h2>
+              <p class="text-xs text-muted-foreground">As the Admin, you decide each user's rank. Unassigned/pending users cannot access research protocols.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="renderAdminUsersTable()" class="shadcn-btn btn-outline btn-sm text-xs">
+                <i class="fa-solid fa-rotate mr-1"></i> Refresh Directory
+              </button>
+              <button onclick="addNewMemberPrompt()" class="btn-forest px-3 py-1.5 rounded-xl text-xs font-bold shadow-xs">
+                <i class="fa-solid fa-user-plus mr-1"></i> Add New Member
+              </button>
+            </div>
+          </div>
+
+          <!-- Rank Stats Summary -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div class="p-4 rounded-2xl bg-card border border-border shadow-xs">
+              <div class="text-[10px] font-bold uppercase text-muted-foreground">Total Registered Users</div>
+              <div class="text-2xl font-black text-foreground mt-0.5" id="admin-stat-total">7</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-card border border-emerald-500/30 shadow-xs">
+              <div class="text-[10px] font-bold uppercase text-emerald-600 dark:text-emerald-400">Verified Ranks (1-5)</div>
+              <div class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-0.5" id="admin-stat-verified">6</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-card border border-amber-500/30 shadow-xs">
+              <div class="text-[10px] font-bold uppercase text-amber-500">Pending Rank Approvals</div>
+              <div class="text-2xl font-black text-amber-500 mt-0.5" id="admin-stat-pending">1</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-card border border-orange-500/30 shadow-xs">
+              <div class="text-[10px] font-bold uppercase text-orange-500">Your Current Identity</div>
+              <div class="text-xs font-black text-foreground mt-1.5 flex items-center gap-1">
+                <span class="badge-sunset px-2 py-0.5 rounded text-[10px] uppercase font-bold">Admin (Rank 1)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Ranks Management Table -->
+          <div class="shadcn-card overflow-hidden border-border">
+            <div class="p-4 border-b border-border bg-muted/20 flex flex-wrap items-center justify-between gap-3">
+              <div class="relative flex-1 min-w-[200px] max-w-sm">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-muted-foreground text-xs"></i>
+                <input 
+                  type="text" 
+                  id="adminUserSearchInput" 
+                  oninput="renderAdminUsersTable()" 
+                  placeholder="Filter users by name, email, or rank..." 
+                  class="w-full h-8 pl-8 pr-3 rounded-lg border border-border bg-card text-foreground text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                />
+              </div>
+              <div class="text-xs text-muted-foreground">
+                Click any dropdown to <strong class="text-foreground">instantly reassign that user's rank</strong>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-muted/50 border-b border-border uppercase text-[10px] text-muted-foreground font-bold tracking-wider">
+                  <tr>
+                    <th class="p-3.5">User & Email</th>
+                    <th class="p-3.5">Organization</th>
+                    <th class="p-3.5">Current Rank</th>
+                    <th class="p-3.5">Paper Access</th>
+                    <th class="p-3.5">Decide & Change Rank</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border font-medium" id="admin-ranks-tbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
         <!-- TAB 6: NEON DB TELEMETRY & ENGINE -->
         <!-- ======================================================== -->
         <div id="tab-neondb" class="dash-tab-content hidden space-y-6">
@@ -631,7 +718,7 @@
       const user = AuthManager.getUser();
       if (user) {
         document.getElementById('sidebar-user-name').textContent = user.full_name;
-        document.getElementById('sidebar-user-role').textContent = user.title || user.role.toUpperCase();
+        document.getElementById('sidebar-user-role').textContent = user.title || (user.role ? user.role.toUpperCase() : 'MEMBER');
         document.getElementById('sidebar-avatar').textContent = user.full_name.charAt(0);
         document.getElementById('welcome-header').textContent = `Welcome back, ${user.full_name.split(' ')[0]}`;
         if (user.org_name) document.getElementById('sidebar-org-name').textContent = user.org_name;
@@ -641,6 +728,7 @@
       loadDashboardTelemetry();
       loadDashboardProtocols();
       loadRbacUsers();
+      renderAdminUsersTable();
     }
 
     function toggleSidebar() {
@@ -694,7 +782,7 @@
               <td class="p-3 font-mono font-bold text-emerald-600">${p.code}</td>
               <td class="p-3">
                 <div class="font-bold text-foreground line-clamp-1">${p.title}</div>
-                <div class="text-[10px] text-muted-foreground">${p.lead_name || 'Dr. Sarah Raman'} • ${p.journal_citation || 'Peer-Reviewed'}</div>
+                <div class="text-[10px] text-muted-foreground">${p.lead_name || 'Consortium Lead'} • ${p.journal_citation || 'Peer-Reviewed'}</div>
               </td>
               <td class="p-3"><span class="shadcn-badge badge-emerald text-[10px] uppercase">${p.stage}</span></td>
               <td class="p-3">
@@ -734,40 +822,33 @@
 
     async function loadRbacUsers() {
       const tbody = document.getElementById('rbac-users-table');
-      if (!tbody) return;
-      try {
-        const res = await fetch(`${API_BASE_URL}/auth/users`);
-        const data = await res.json();
-        const users = data?.users || [
-          { id: 'usr-1', full_name: 'Dr. Sarah Raman, PhD', email: 'dr.raman@genvault.org', role: 'pi', org_name: 'GenVault Therapeutics' },
-          { id: 'usr-2', full_name: 'Dr. M. Vance, PhD', email: 'm.vance@synthego.com', role: 'scientist', org_name: 'Synthego Genetics' },
-          { id: 'usr-3', full_name: 'Alex Chen, MSc', email: 'alex.chen@genvault.org', role: 'tech', org_name: 'GenVault Therapeutics' },
-          { id: 'usr-4', full_name: 'Dr. E. Zhang, MD', email: 'clinical@hopkinsmedicine.org', role: 'hospital', org_name: 'Johns Hopkins Medicine' }
-        ];
+      if (!tbody || typeof AuthManager === 'undefined') return;
 
-        tbody.innerHTML = users.map(u => `
+      const users = AuthManager.getAllUsers();
+      tbody.innerHTML = users.map(u => {
+        const roleKey = u.role || 'pending';
+        const rankInfo = AuthManager.getRankInfo(roleKey);
+        return `
           <tr class="hover:bg-muted/40 transition">
             <td class="p-3.5 font-bold text-foreground">
-              <div>${u.full_name}</div>
-              <div class="text-[10px] text-muted-foreground font-normal">${u.email}</div>
+              <div>${u.full_name} ${u.is_admin ? '<span class="text-[9px] bg-orange-500/20 text-orange-600 dark:text-orange-400 px-1 py-0.2 rounded font-black ml-1">ADMIN</span>' : ''}</div>
+              <div class="text-[10px] text-muted-foreground font-mono font-normal">${u.email}</div>
             </td>
             <td class="p-3.5 text-muted-foreground">${u.org_name || 'Academic Lab'}</td>
             <td class="p-3.5">
-              <span class="shadcn-badge ${u.role === 'pi' ? 'badge-emerald' : u.role === 'hospital' ? 'badge-sky' : 'badge-outline'} text-[10px] uppercase font-bold">
-                ${u.role.toUpperCase()}
+              <span class="shadcn-badge ${rankInfo.badgeClass} text-[10px] uppercase font-bold">
+                ${rankInfo.level}: ${rankInfo.title}
               </span>
             </td>
             <td class="p-3.5 text-[11px] text-muted-foreground">
-              ${u.role === 'pi' ? 'Full publication, privacy toggles, grants, RBAC policy' :
-                u.role === 'scientist' ? 'Milestone progress, raw datasets review' :
-                u.role === 'tech' ? 'Upload FASTQ sequencing, log assays' : 'Submit anonymized cohorts, trial sites'}
+              ${rankInfo.canAccessPapers ? 'Verified full protocol access, datasets & milestones' : 'Restricted (Awaiting Admin Rank Approval)'}
             </td>
             <td class="p-3.5 text-right">
-              <button onclick="showToast('Permissions verified for ${u.full_name}', 'RBAC Scope', 'info')" class="shadcn-btn btn-ghost btn-sm text-[11px]">Edit</button>
+              <button onclick="switchDashboardTab('admin-ranks');" class="shadcn-btn btn-ghost btn-sm text-[11px] text-emerald-600 font-bold">Manage Rank →</button>
             </td>
           </tr>
-        `).join('');
-      } catch(e) {}
+        `;
+      }).join('');
     }
 
     function toggleApiKeyVisibility() {
@@ -781,9 +862,123 @@
       showToast('API key copied to clipboard.', 'Copied', 'success');
     }
 
-    function refreshDbStatus() {
-      loadDashboardTelemetry();
-      showToast('Neon Database connection ping verified (24ms).', 'DB Telemetry Refreshed', 'success');
+    function renderAdminUsersTable() {
+      const tbody = document.getElementById('admin-ranks-tbody');
+      if (!tbody || typeof AuthManager === 'undefined') return;
+
+      const query = (document.getElementById('adminUserSearchInput')?.value || '').toLowerCase().trim();
+      const allUsers = AuthManager.getAllUsers();
+      
+      const filtered = allUsers.filter(u => {
+        if (!query) return true;
+        return (u.full_name || '').toLowerCase().includes(query) ||
+               (u.email || '').toLowerCase().includes(query) ||
+               (u.role || '').toLowerCase().includes(query) ||
+               (u.org_name || '').toLowerCase().includes(query);
+      });
+
+      // Update summary counts
+      const totalEl = document.getElementById('admin-stat-total');
+      const verifiedEl = document.getElementById('admin-stat-verified');
+      const pendingEl = document.getElementById('admin-stat-pending');
+
+      if (totalEl) totalEl.textContent = allUsers.length;
+      if (verifiedEl) verifiedEl.textContent = allUsers.filter(u => u.role && u.role !== 'pending').length;
+      if (pendingEl) pendingEl.textContent = allUsers.filter(u => !u.role || u.role === 'pending').length;
+
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-muted-foreground">No members matching search query.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(u => {
+        const roleKey = u.role || 'pending';
+        const rankInfo = AuthManager.getRankInfo(roleKey);
+        const hasPaperAccess = Boolean(rankInfo.canAccessPapers);
+
+        return `
+          <tr class="hover:bg-muted/40 transition">
+            <td class="p-3.5 font-bold text-foreground">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs">
+                  <i class="fa-solid ${rankInfo.icon || 'fa-user'}"></i>
+                </div>
+                <div>
+                  <div>${u.full_name} ${u.is_admin ? '<span class="text-[9px] bg-orange-500/20 text-orange-600 dark:text-orange-400 px-1 py-0.2 rounded font-black ml-1">ADMIN</span>' : ''}</div>
+                  <div class="text-[10px] text-muted-foreground font-mono font-normal">${u.email}</div>
+                </div>
+              </div>
+            </td>
+            <td class="p-3.5 text-muted-foreground">
+              <div>${u.org_name || 'Consortium Lab'}</div>
+              <div class="text-[10px] text-muted-foreground">${u.registered_at || '2025-01-15'}</div>
+            </td>
+            <td class="p-3.5">
+              <span class="shadcn-badge ${rankInfo.badgeClass} text-[10px] uppercase font-bold tracking-wider">
+                ${rankInfo.level}: ${rankInfo.title}
+              </span>
+            </td>
+            <td class="p-3.5">
+              ${hasPaperAccess ? `
+                <span class="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-xs font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                  <i class="fa-solid fa-circle-check text-[10px]"></i> Unlocked
+                </span>
+              ` : `
+                <span class="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 text-xs font-bold bg-amber-500/10 px-2 py-0.5 rounded-full">
+                  <i class="fa-solid fa-lock text-[10px]"></i> Locked (Pending)
+                </span>
+              `}
+            </td>
+            <td class="p-3.5">
+              <div class="flex items-center gap-2">
+                <select onchange="updateMemberRank('${u.id}', this.value)" class="bg-card border border-border rounded-lg text-xs font-bold px-2.5 py-1 text-foreground focus:ring-1 focus:ring-emerald-500 cursor-pointer shadow-2xs">
+                  <option value="admin" ${roleKey === 'admin' ? 'selected' : ''}>👑 Rank 1: Admin / PI (Full)</option>
+                  <option value="pi" ${roleKey === 'pi' ? 'selected' : ''}>👨‍🔬 Rank 1: Principal Investigator</option>
+                  <option value="scientist" ${roleKey === 'scientist' ? 'selected' : ''}>🔬 Rank 2: Senior Scientist</option>
+                  <option value="tech" ${roleKey === 'tech' ? 'selected' : ''}>🧪 Rank 3: Lab Technician</option>
+                  <option value="hospital" ${roleKey === 'hospital' ? 'selected' : ''}>🏥 Rank 4: Hospital Partner</option>
+                  <option value="public" ${roleKey === 'public' ? 'selected' : ''}>💖 Rank 5: Public Supporter</option>
+                  <option value="pending" ${roleKey === 'pending' ? 'selected' : ''}>⏳ Rank 0: Pending Approval</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function updateMemberRank(userId, newRole) {
+      if (typeof AuthManager === 'undefined') return;
+      AuthManager.updateUserRank(userId, newRole);
+      renderAdminUsersTable();
+      if (typeof loadRbacUsers === 'function') loadRbacUsers();
+    }
+
+    function addNewMemberPrompt() {
+      if (typeof AuthManager === 'undefined') return;
+      const name = prompt('Enter Member Full Name:');
+      if (!name || !name.trim()) return;
+      const email = prompt('Enter Member Email Address:');
+      if (!email || !email.trim()) return;
+      const org = prompt('Enter Member Institution / Lab:') || 'Academic Lab';
+
+      const users = AuthManager.getAllUsers();
+      const newUser = {
+        id: 'usr-' + Date.now(),
+        full_name: name.trim(),
+        email: email.trim().toLowerCase(),
+        title: 'Pending Admin Rank Assignment',
+        role: 'pending',
+        is_admin: false,
+        tier: 'pro',
+        org_name: org.trim(),
+        registered_at: new Date().toISOString().split('T')[0]
+      };
+      users.push(newUser);
+      AuthManager.saveAllUsers(users);
+      renderAdminUsersTable();
+      if (typeof loadRbacUsers === 'function') loadRbacUsers();
+      showToast(`Member created: ${name}. You can now assign their rank from the dropdown.`, 'User Created', 'success');
     }
 
     document.addEventListener('DOMContentLoaded', initDashboard);

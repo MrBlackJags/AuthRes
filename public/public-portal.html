@@ -62,7 +62,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="bg-public-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-500 selection:text-white">
+<body class="bg-public-grid bg-background text-foreground font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white transition-colors duration-200">
 
   <!-- Header Placeholder -->
   <div id="header-root"></div>
@@ -70,157 +70,159 @@
 
   <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
     
-    <!-- Portal Hero Banner -->
-    <div class="bg-gradient-to-r from-amber-950 via-slate-900 to-emerald-950 text-white p-8 sm:p-12 rounded-3xl border border-amber-500/20 shadow-2xl relative overflow-hidden">
-      <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- Portal Hero Banner (Shades of Green + Multiple Light Vibrant Colors) -->
+    <div class="reveal bg-public-hero text-white p-8 sm:p-12 rounded-3xl border border-emerald-500/30 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-20 w-96 h-96 bg-rose-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-1/2 right-1/3 w-80 h-80 bg-amber-400/15 rounded-full blur-3xl pointer-events-none"></div>
       
       <div class="relative z-10 max-w-3xl space-y-4">
-        <div class="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider">
-          <i class="fa-solid fa-heart text-amber-400"></i> Public Supporter & Crowdfunding Hub
+        <div class="inline-flex items-center gap-2 bg-emerald-500/25 border border-emerald-400/40 text-emerald-200 text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider">
+          <i class="fa-solid fa-heart text-rose-400"></i> Public Supporter & Crowdfunding Hub
         </div>
-        <h1 class="text-3xl sm:text-5xl font-black text-gradient-amber tracking-tight leading-tight">
+        <h1 class="text-3xl sm:text-5xl font-black text-gradient-rainbow tracking-tight leading-tight">
           Directly Accelerate Life-Saving Open Medical Research
         </h1>
-        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+        <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
           As a public supporter, you can directly crowdfund verified preclinical breakthroughs and clinical trials. Track 100% transparent open-science milestones as researchers publish progress.
         </p>
 
         <div class="pt-2 flex flex-wrap items-center gap-4">
-          <button onclick="openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1')" class="bg-gradient-to-r from-amber-500 to-emerald-500 hover:from-amber-400 hover:to-emerald-400 text-slate-950 font-black px-6 py-3 rounded-2xl text-xs shadow-lg shadow-amber-500/20 transition hover:scale-105">
+          <button onclick="openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1')" class="btn-public-rainbow font-bold px-6 py-3 rounded-2xl text-xs shadow-lg transition hover:scale-105">
             <i class="fa-solid fa-hand-holding-dollar mr-1"></i> Make a Direct Research Donation
           </button>
-          <span class="text-xs text-slate-400 flex items-center gap-1.5">
-            <i class="fa-solid fa-shield-check text-emerald-400"></i> 100% Tax-Deductible & Verifiable Ledger
+          <span class="text-xs text-emerald-200 flex items-center gap-1.5 font-medium">
+            <i class="fa-solid fa-shield-check text-cyan-300"></i> 100% Tax-Deductible & Verifiable Ledger
           </span>
         </div>
       </div>
     </div>
 
-    <!-- Impact & Metrics Summary -->
+    <!-- Impact & Metrics Summary (Multiple Light Vibrant Accents) -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="interactive-card bg-white p-5 rounded-2xl border border-amber-200/80 shadow-xs">
-        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold mb-2">
+      <div class="interactive-card bg-card p-5 rounded-2xl border border-amber-500/20 shadow-xs">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 dark:text-amber-400 flex items-center justify-center font-bold mb-2">
           <i class="fa-solid fa-hand-holding-heart"></i>
         </div>
-        <span class="text-slate-400 block font-bold text-[10px] uppercase">Total Crowdfunded</span>
-        <strong class="text-slate-900 text-2xl font-black">$128,500 Raised</strong>
+        <span class="text-muted-foreground block font-bold text-[10px] uppercase">Total Crowdfunded</span>
+        <strong class="text-foreground text-2xl font-black">$128,500 Raised</strong>
       </div>
 
-      <div class="interactive-card bg-white p-5 rounded-2xl border border-amber-200/80 shadow-xs">
-        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold mb-2">
+      <div class="interactive-card bg-card p-5 rounded-2xl border border-emerald-500/20 shadow-xs">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold mb-2">
           <i class="fa-solid fa-users"></i>
         </div>
-        <span class="text-slate-400 block font-bold text-[10px] uppercase">Public Backers</span>
-        <strong class="text-slate-900 text-2xl font-black">1,420 Supporters</strong>
+        <span class="text-muted-foreground block font-bold text-[10px] uppercase">Public Backers</span>
+        <strong class="text-foreground text-2xl font-black">1,420 Supporters</strong>
       </div>
 
-      <div class="interactive-card bg-white p-5 rounded-2xl border border-amber-200/80 shadow-xs">
-        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold mb-2">
+      <div class="interactive-card bg-card p-5 rounded-2xl border border-cyan-500/20 shadow-xs">
+        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-bold mb-2">
           <i class="fa-solid fa-flask"></i>
         </div>
-        <span class="text-slate-400 block font-bold text-[10px] uppercase">Open Pipelines</span>
-        <strong class="text-slate-900 text-2xl font-black">14 Trials Funded</strong>
+        <span class="text-muted-foreground block font-bold text-[10px] uppercase">Open Pipelines</span>
+        <strong class="text-foreground text-2xl font-black">14 Trials Funded</strong>
       </div>
 
-      <div class="interactive-card bg-white p-5 rounded-2xl border border-amber-200/80 shadow-xs">
-        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold mb-2">
+      <div class="interactive-card bg-card p-5 rounded-2xl border border-purple-500/20 shadow-xs">
+        <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold mb-2">
           <i class="fa-solid fa-check-double"></i>
         </div>
-        <span class="text-slate-400 block font-bold text-[10px] uppercase">Milestones Published</span>
-        <strong class="text-slate-900 text-2xl font-black">88 Logged</strong>
+        <span class="text-muted-foreground block font-bold text-[10px] uppercase">Milestones Published</span>
+        <strong class="text-foreground text-2xl font-black">88 Logged</strong>
       </div>
     </div>
 
     <!-- Active Crowdfunding Campaigns Grid -->
     <div class="space-y-6">
-      <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+      <div class="flex items-center justify-between border-b border-border pb-4">
         <div>
-          <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+          <h2 class="text-xl font-bold text-foreground flex items-center gap-2">
             <i class="fa-solid fa-fire text-amber-500"></i> Active Open Research Crowdfunding Campaigns
           </h2>
-          <p class="text-xs text-slate-500">Fund clinical breakthroughs and follow real-time progress updates.</p>
+          <p class="text-xs text-muted-foreground">Fund clinical breakthroughs and follow real-time progress updates.</p>
         </div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6">
         
         <!-- Campaign Card 1 -->
-        <div class="interactive-card bg-white p-6 rounded-3xl border border-amber-200 shadow-xs space-y-4 flex flex-col justify-between">
+        <div class="interactive-card bg-card p-6 rounded-3xl border border-emerald-500/25 shadow-xs space-y-4 flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
-              <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-300">
-                <i class="fa-solid fa-bullseye text-[10px]"></i> Active Campaign
+              <span class="badge-lighty-rose text-xs font-bold px-2.5 py-0.5 rounded-full">
+                <i class="fa-solid fa-bullseye text-[10px] mr-1"></i> Active Campaign
               </span>
-              <span class="text-xs text-slate-400 font-bold">142 Backers</span>
+              <span class="text-xs text-muted-foreground font-bold">142 Backers</span>
             </div>
 
             <div>
-              <span class="text-[10px] font-bold text-slate-400 uppercase">Oncology Research</span>
-              <h3 class="text-lg font-bold text-slate-900 mt-0.5">Targeted mRNA Delivery for Solid Tumors (BT-402)</h3>
-              <p class="text-xs text-slate-500 mt-1">Lead: Dr. Sarah Raman, PhD (Helix Biotech / Harvard BioLab)</p>
+              <span class="text-[10px] font-bold text-muted-foreground uppercase">Oncology Research</span>
+              <h3 class="text-lg font-bold text-foreground mt-0.5">Targeted mRNA Delivery for Solid Tumors (BT-402)</h3>
+              <p class="text-xs text-muted-foreground mt-1">Lead: Oncology Research Consortium Lead</p>
             </div>
 
-            <p class="text-xs text-slate-600 leading-relaxed">
+            <p class="text-xs text-muted-foreground leading-relaxed">
               Developing ionizable lipid nanoparticle delivery systems to accumulate mRNA inside glioblastoma multiforme microenvironments.
             </p>
 
-            <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-100 space-y-2 text-xs">
-              <div class="flex justify-between font-bold text-slate-800">
+            <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/20 space-y-2 text-xs">
+              <div class="flex justify-between font-bold text-foreground">
                 <span>Funding Progress</span>
-                <span class="text-amber-700">$32,500 / $50,000 Goal</span>
+                <span class="text-emerald-600 dark:text-emerald-400 font-bold">$32,500 / $50,000 Goal</span>
               </div>
-              <div class="w-full bg-slate-200 rounded-full h-2.5 p-0.5">
-                <div class="bg-gradient-to-r from-amber-500 to-emerald-500 h-1.5 rounded-full" style="width: 65%"></div>
+              <div class="w-full bg-muted rounded-full h-2.5 p-0.5">
+                <div class="bg-gradient-to-r from-emerald-500 via-cyan-400 to-amber-400 h-1.5 rounded-full" style="width: 65%"></div>
               </div>
             </div>
           </div>
 
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-            <button onclick="openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1')" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-emerald-500 text-slate-950 font-black rounded-xl text-xs shadow-md">
-              <i class="fa-solid fa-heart text-amber-900 mr-1"></i> Fund This Campaign
+          <div class="pt-3 border-t border-border flex items-center justify-between">
+            <button onclick="openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1')" class="btn-public-rainbow font-bold px-5 py-2.5 rounded-xl text-xs shadow-md">
+              <i class="fa-solid fa-heart mr-1"></i> Fund This Campaign
             </button>
-            <a href="study-detail.html" class="text-xs font-bold text-amber-700 hover:underline">
+            <a href="study-detail.html?id=proj-1" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline">
               View Open Protocol →
             </a>
           </div>
         </div>
 
         <!-- Campaign Card 2 -->
-        <div class="interactive-card bg-white p-6 rounded-3xl border border-amber-200 shadow-xs space-y-4 flex flex-col justify-between">
+        <div class="interactive-card bg-card p-6 rounded-3xl border border-cyan-500/25 shadow-xs space-y-4 flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
-              <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-300">
-                <i class="fa-solid fa-bullseye text-[10px]"></i> Active Campaign
+              <span class="badge-lighty-cyan text-xs font-bold px-2.5 py-0.5 rounded-full">
+                <i class="fa-solid fa-bullseye text-[10px] mr-1"></i> Active Campaign
               </span>
-              <span class="text-xs text-slate-400 font-bold">89 Backers</span>
+              <span class="text-xs text-muted-foreground font-bold">89 Backers</span>
             </div>
 
             <div>
-              <span class="text-[10px] font-bold text-slate-400 uppercase">Gene Editing</span>
-              <h3 class="text-lg font-bold text-slate-900 mt-0.5">CRISPR Editing for Alpha-1 Antitrypsin</h3>
-              <p class="text-xs text-slate-500 mt-1">Lead: Dr. M. Vance, PhD (Synthego Labs)</p>
+              <span class="text-[10px] font-bold text-muted-foreground uppercase">Gene Editing</span>
+              <h3 class="text-lg font-bold text-foreground mt-0.5">CRISPR Editing for Alpha-1 Antitrypsin</h3>
+              <p class="text-xs text-muted-foreground mt-1">Lead: Dr. M. Vance, PhD (Synthego Labs)</p>
             </div>
 
-            <p class="text-xs text-slate-600 leading-relaxed">
+            <p class="text-xs text-muted-foreground leading-relaxed">
               In-vivo base editing therapeutic targeting point mutation correction in hepatocyte genome models.
             </p>
 
-            <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-100 space-y-2 text-xs">
-              <div class="flex justify-between font-bold text-slate-800">
+            <div class="bg-cyan-500/5 dark:bg-cyan-500/10 p-4 rounded-2xl border border-cyan-500/20 space-y-2 text-xs">
+              <div class="flex justify-between font-bold text-foreground">
                 <span>Funding Progress</span>
-                <span class="text-amber-700">$18,200 / $40,000 Goal</span>
+                <span class="text-cyan-600 dark:text-cyan-400 font-bold">$18,200 / $40,000 Goal</span>
               </div>
-              <div class="w-full bg-slate-200 rounded-full h-2.5 p-0.5">
-                <div class="bg-gradient-to-r from-amber-500 to-emerald-500 h-1.5 rounded-full" style="width: 45.5%"></div>
+              <div class="w-full bg-muted rounded-full h-2.5 p-0.5">
+                <div class="bg-gradient-to-r from-cyan-400 via-emerald-400 to-purple-400 h-1.5 rounded-full" style="width: 45.5%"></div>
               </div>
             </div>
           </div>
 
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-            <button onclick="openDonateModal('CRISPR Editing for Alpha-1 Antitrypsin', '$18,200', '$40,000', 'proj-2')" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-emerald-500 text-slate-950 font-black rounded-xl text-xs shadow-md">
-              <i class="fa-solid fa-heart text-amber-900 mr-1"></i> Fund This Campaign
+          <div class="pt-3 border-t border-border flex items-center justify-between">
+            <button onclick="openDonateModal('CRISPR Editing for Alpha-1 Antitrypsin', '$18,200', '$40,000', 'proj-2')" class="btn-public-rainbow font-bold px-5 py-2.5 rounded-xl text-xs shadow-md">
+              <i class="fa-solid fa-heart mr-1"></i> Fund This Campaign
             </button>
-            <a href="study-detail.html" class="text-xs font-bold text-amber-700 hover:underline">
+            <a href="study-detail.html?id=proj-2" class="text-xs font-bold text-cyan-600 dark:text-cyan-400 hover:underline">
               View Open Protocol →
             </a>
           </div>

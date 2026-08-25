@@ -62,206 +62,390 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+<body class="bg-background text-foreground font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white transition-colors duration-200">
 
   <!-- Shared Header -->
   <div id="header-root"></div>
 
   <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
     
-    <!-- Breadcrumb -->
-    <div class="flex items-center justify-between text-xs font-semibold">
-      <a href="research.html" class="text-slate-500 hover:text-emerald-700 flex items-center gap-1.5 transition">
+    <!-- Top Breadcrumb & Quick Actions -->
+    <div class="reveal flex flex-wrap items-center justify-between gap-3 text-xs font-semibold">
+      <a href="research.html" class="text-muted-foreground hover:text-emerald-600 flex items-center gap-1.5 transition">
         <i class="fa-solid fa-arrow-left"></i> Back to Research Directory
       </a>
-      <div class="flex items-center gap-2 text-slate-400">
-        <span>Protocol Directory</span> / <span class="text-emerald-700 font-bold" id="studyBreadcrumbId">BT-402-ONC</span>
+      <div class="flex items-center gap-2 text-muted-foreground">
+        <span>Global Archive</span> / 
+        <span class="text-emerald-600 dark:text-emerald-400 font-mono font-bold" id="studyBreadcrumbId">PROTOCOL</span>
       </div>
     </div>
 
     <!-- Main Header Card -->
-    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-5 relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-3xl pointer-events-none -z-0"></div>
+    <div class="reveal bg-card p-6 sm:p-8 rounded-3xl border border-border shadow-sm space-y-6 relative overflow-hidden">
+      <!-- Glow background aura -->
+      <div class="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 dark:bg-emerald-500/15 rounded-full blur-3xl pointer-events-none -z-0"></div>
       
-      <div class="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+      <!-- Badges and Metadata Header -->
+      <div class="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
         <div class="flex flex-wrap items-center gap-2">
-          <span id="studyStageBadge" class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Phase II Clinical</span>
-          <span id="studyAccessBadge" class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
-            <i class="fa-solid fa-globe text-[10px]"></i> Public Open Science
+          <span id="studyStageBadge" class="shadcn-badge badge-emerald text-[11px] uppercase font-bold tracking-wider">
+            Completed Publication
           </span>
-          <span class="bg-sky-50 text-sky-700 border border-sky-200 text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
-            <i class="fa-solid fa-hospital text-[10px]"></i> Hospital Partner Enabled
+          <span id="studyDomainBadge" class="inline-flex items-center gap-1.5 bg-muted px-3 py-1 rounded-full border border-border text-xs font-semibold text-foreground">
+            <i class="fa-solid fa-dna text-emerald-600 text-[10px]"></i>
+            <span id="studyDomainText">Biomedical Genomics</span>
+          </span>
+          <span id="studyCountryBadge" class="inline-flex items-center gap-1.5 bg-muted px-3 py-1 rounded-full border border-border text-xs font-semibold text-foreground">
+            <span id="studyCountryFlag"></span>
+            <span id="studyCountryName">Global</span>
           </span>
         </div>
-        <span id="studyMetaId" class="text-xs text-slate-400 font-mono">ID: BT-402-ONC • Created Aug 2025</span>
+        <div class="flex items-center gap-2">
+          <button id="studyBookmarkBtn" onclick="toggleDetailBookmark()" class="shadcn-btn btn-outline btn-sm text-xs py-1.5 px-3 hover:border-emerald-500 hover:text-emerald-600 transition" title="Save to bookmarks">
+            <i id="studyBookmarkIcon" class="fa-regular fa-bookmark mr-1.5"></i>
+            <span id="studyBookmarkText">Bookmark</span>
+          </button>
+          <button onclick="triggerShareModal()" class="shadcn-btn btn-outline btn-sm text-xs py-1.5 px-2.5" title="Cite & Share">
+            <i class="fa-solid fa-quote-left"></i>
+          </button>
+          <button onclick="window.print()" class="shadcn-btn btn-ghost btn-sm text-xs py-1.5 px-2.5 text-muted-foreground hover:text-foreground" title="Print Paper Summary">
+            <i class="fa-solid fa-print"></i>
+          </button>
+        </div>
       </div>
 
-      <div class="relative z-10 space-y-2">
-        <h1 id="studyTitle" class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
-          Targeted mRNA Delivery for Solid Tumors
+      <!-- Title & Summary -->
+      <div class="relative z-10 space-y-3">
+        <div class="flex items-center gap-2 text-xs font-mono text-muted-foreground" id="studyMetaId">
+          ID: PROTOCOL • Year: 2026
+        </div>
+        <h1 id="studyTitle" class="text-2xl sm:text-3xl lg:text-4xl font-black text-foreground leading-tight tracking-tight">
+          Loading Biomedical Research Protocol...
         </h1>
-        <p id="studySummary" class="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-3xl">
-          Investigating ionizable lipid nanoparticle formulations to facilitate targeted tissue accumulation and mRNA translation inside glioblastoma multiforme microenvironments.
+        <p id="studySummary" class="text-muted-foreground text-xs sm:text-sm leading-relaxed max-w-4xl">
+          Retrieving paper abstract, protocol records, and verified author citations...
         </p>
       </div>
 
-      <!-- Journal Citation & Links -->
-      <div id="studyCiteSection" class="relative z-10 p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-2 font-medium text-slate-700">
-          <i class="fa-solid fa-building-columns text-emerald-600"></i>
-          <span id="studyPublisherName" class="font-bold">Nature Publishing Group</span> •
-          <span id="studyCitation">Nature Biotechnology (2026)</span>
+      <!-- Journal Citation, Lead Investigator & External DOI Links -->
+      <div id="studyCiteSection" class="relative z-10 p-4 bg-muted/40 rounded-2xl border border-border text-xs flex flex-wrap items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2 font-medium text-foreground">
+            <i class="fa-solid fa-building-columns text-emerald-600"></i>
+            <strong id="studyPublisherName" class="font-bold">Nature Publishing Group</strong> •
+            <span id="studyCitation" class="text-muted-foreground">Nature (2026)</span>
+          </div>
+          <div class="text-[11px] text-muted-foreground flex items-center gap-1.5">
+            <i class="fa-solid fa-user-doctor text-emerald-600"></i>
+            <span>Lead: </span><strong id="studyLeadName" class="text-foreground">Research Consortium</strong>
+          </div>
         </div>
-        <div class="flex items-center gap-3 text-[11px]" id="studyExternalLinks">
-          <a href="#" id="studyDoiLink" target="_blank" class="text-emerald-700 font-bold hover:underline">
-            <i class="fa-solid fa-link mr-1"></i> DOI Document
+
+        <div class="flex items-center gap-2 flex-wrap text-xs" id="studyExternalLinks">
+          <a href="#" id="studyDoiLink" target="_blank" class="shadcn-btn btn-outline btn-sm text-xs hover:border-emerald-500 hover:text-emerald-600 transition">
+            <i class="fa-solid fa-link mr-1.5 text-emerald-600"></i>
+            <span id="studyDoiLabel">Official DOI Document</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 text-muted-foreground"></i>
           </a>
-          <a href="#" id="studyPubmedLink" target="_blank" class="text-sky-700 font-bold hover:underline">
-            <i class="fa-solid fa-book-medical mr-1"></i> PubMed Record
+          <a href="#" id="studyPubmedLink" target="_blank" class="shadcn-btn btn-outline btn-sm text-xs hover:border-sky-500 hover:text-sky-600 transition">
+            <i class="fa-solid fa-book-medical mr-1.5 text-sky-600"></i> PubMed Record
+            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 text-muted-foreground"></i>
           </a>
         </div>
       </div>
 
-      <!-- Actions & Crowdfunding Goal -->
-      <div class="relative z-10 pt-4 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100">
-        
-        <div class="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-100 flex-1 min-w-[280px] space-y-1.5">
-          <div class="flex justify-between text-xs font-bold text-slate-800">
-            <span class="flex items-center gap-1"><i class="fa-solid fa-heart text-emerald-600"></i> Public Crowdfunding Goal</span>
-            <span class="text-emerald-700" id="studyFundText">$32,500 of $50,000</span>
+      <!-- Crowdfunding & Clinical Goal Card -->
+      <div id="fundingSection" class="relative z-10 pt-4 flex flex-wrap items-center justify-between gap-4 border-t border-border">
+        <div class="bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/20 flex-1 min-w-[280px] space-y-2">
+          <div class="flex justify-between text-xs font-bold text-foreground">
+            <span class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+              <i class="fa-solid fa-heart"></i> Public Milestone Crowdfunding & Grant Goal
+            </span>
+            <span class="text-emerald-600 dark:text-emerald-400" id="studyFundText">$32,500 of $50,000</span>
           </div>
-          <div class="w-full bg-slate-200 rounded-full h-2">
-            <div id="studyFundBar" class="bg-gradient-to-r from-emerald-600 to-green-500 h-2 rounded-full" style="width: 65%"></div>
+          <div class="w-full bg-muted rounded-full h-2 overflow-hidden">
+            <div id="studyFundBar" class="bg-gradient-to-r from-emerald-600 to-green-500 h-2 rounded-full transition-all duration-500" style="width: 65%"></div>
           </div>
-          <div class="flex items-center justify-between text-[11px] text-slate-500">
+          <div class="flex items-center justify-between text-[11px] text-muted-foreground">
             <span id="studyBackersCount">142 Public Backers</span>
-            <button id="studyDonateInlineBtn" onclick="triggerCurrentDonate()" class="text-emerald-700 font-bold hover:underline">
+            <button id="studyDonateInlineBtn" onclick="triggerCurrentDonate()" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline">
               + Donate to Fund Pipeline
             </button>
           </div>
         </div>
 
         <div class="flex items-center gap-2">
-          <button id="studyCohortBtn" onclick="triggerCurrentCohort()" class="px-4 py-2.5 bg-sky-50 border border-sky-300 text-sky-800 hover:bg-sky-600 hover:text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-2xs">
-            <i class="fa-solid fa-hospital"></i> Submit Hospital Cohort
+          <button id="studyCohortBtn" onclick="triggerCurrentCohort()" class="shadcn-btn btn-outline btn-sm text-xs border-sky-500/30 text-sky-700 dark:text-sky-400 hover:bg-sky-500/10 font-bold">
+            <i class="fa-solid fa-hospital mr-1.5"></i> Submit Hospital Cohort
           </button>
 
-          <button id="studyDonateBtn" onclick="triggerCurrentDonate()" class="px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center gap-1.5">
-            <i class="fa-solid fa-heart"></i> Donate Funds
+          <button id="studyDonateBtn" onclick="triggerCurrentDonate()" class="shadcn-btn btn-default btn-sm text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm">
+            <i class="fa-solid fa-heart mr-1.5"></i> Support Research
           </button>
         </div>
+      </div>
 
+    </div>
+
+    <!-- Verified Access Badge / Auth Notification Banner -->
+    <div id="verifiedAccessBanner" class="hidden reveal p-3.5 sm:p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
+          <i class="fa-solid fa-shield-check"></i>
+        </div>
+        <div>
+          <span class="font-bold text-foreground" id="authUserName">Authenticated Member</span>
+          <span class="text-muted-foreground text-[11px]" id="authUserRank">• Verified Access</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="badge-forest text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+          <i class="fa-solid fa-lock-open mr-1"></i> Full Protocol Unlocked
+        </span>
+        <a href="dashboard.html" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline">
+          Workspace Dashboard →
+        </a>
       </div>
     </div>
 
-    <!-- Tabbed Navigation Bar -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
-      <div class="flex border-b border-slate-200 overflow-x-auto text-xs font-bold bg-slate-50/50">
-        <button onclick="switchTab('tab-milestones', this)" class="tab-btn px-6 py-3.5 text-emerald-700 border-b-2 border-emerald-600 font-bold flex items-center gap-2 shrink-0">
-          <i class="fa-solid fa-bars-staggered"></i> Milestones & Progress
+    <!-- Main Tabs Container & Authentication Lock Gate -->
+    <div class="reveal bg-card rounded-3xl border border-border shadow-xs overflow-hidden">
+      
+      <!-- Authentication Gate for Unauthenticated / Unassigned Visitors -->
+      <div id="protocolAuthGate" class="hidden p-8 sm:p-12 text-center space-y-6 bg-gradient-to-b from-emerald-950/20 via-card to-card">
+        <div class="w-16 h-16 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center font-bold text-2xl shadow-inner">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        
+        <div class="max-w-lg mx-auto space-y-2">
+          <span class="badge-sunset text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
+            Restricted Protocol Access
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black text-foreground">
+            Sign In to Inspect Scientific Protocols & Datasets
+          </h2>
+          <p class="text-xs text-muted-foreground leading-relaxed">
+            Unless you are signed in with an active account, access to raw FastQ sequencing assays, clinical milestone records, and full protocol specifications is locked. The System Administrator decides and approves your access rank.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <a id="gateLoginLink" href="auth.html" class="btn-forest px-6 py-3 rounded-2xl text-xs font-bold shadow-md transition hover:scale-105 inline-flex items-center gap-2">
+            <i class="fa-solid fa-right-to-bracket text-xs"></i> Sign In to Unlock Protocol
+          </a>
+          <button onclick="AuthManager.switchDemoRole('admin'); location.reload();" class="btn-sunset px-5 py-3 rounded-2xl text-xs font-bold shadow-md transition hover:scale-105 inline-flex items-center gap-2">
+            <i class="fa-solid fa-crown text-xs"></i> Log In as Admin (You)
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs (Only rendered when authenticated) -->
+      <div id="protocolTabsHeader" class="flex border-b border-border text-xs font-bold overflow-x-auto bg-muted/30">
+        <button onclick="switchTab('tab-protocol', this)" class="tab-btn px-5 py-3.5 border-b-2 border-emerald-600 text-emerald-600 dark:text-emerald-400 flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-dna"></i> Scientific Protocol & Abstract
         </button>
-        <button onclick="switchTab('tab-rbac', this)" class="tab-btn px-6 py-3.5 text-slate-500 hover:text-slate-800 flex items-center gap-2 shrink-0">
-          <i class="fa-solid fa-shield-halved"></i> Hierarchical RBAC Matrix (4)
+        <button onclick="switchTab('tab-milestones', this)" class="tab-btn px-5 py-3.5 text-muted-foreground hover:text-foreground flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-list-check"></i> Milestones & Evidence
         </button>
-        <button onclick="switchTab('tab-hospital', this)" class="tab-btn px-6 py-3.5 text-slate-500 hover:text-slate-800 flex items-center gap-2 shrink-0">
-          <i class="fa-solid fa-hospital-user"></i> Hospital Cohorts (2)
+        <button onclick="switchTab('tab-methodology', this)" class="tab-btn px-5 py-3.5 text-muted-foreground hover:text-foreground flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-flask"></i> Datasets & FastQ
+        </button>
+        <button onclick="switchTab('tab-rbac', this)" class="tab-btn px-5 py-3.5 text-muted-foreground hover:text-foreground flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-shield-halved"></i> RBAC Matrix & Authors
+        </button>
+        <button onclick="switchTab('tab-hospital', this)" class="tab-btn px-5 py-3.5 text-muted-foreground hover:text-foreground flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-hospital-user"></i> Hospital Cohorts
         </button>
       </div>
 
-      <div class="p-6">
+      <div class="p-6" id="protocolTabsBody">
         
+        <!-- Tab 0: Scientific Protocol & Abstract -->
+        <div id="tab-protocol" class="tab-content space-y-6">
+          <div class="space-y-3">
+            <h3 class="text-sm font-bold text-foreground flex items-center gap-2 uppercase tracking-wider text-muted-foreground">
+              <i class="fa-solid fa-dna text-emerald-600"></i> Peer-Reviewed Protocol Abstract
+            </h3>
+            <div class="p-5 rounded-2xl bg-muted/40 border border-border text-xs leading-relaxed text-foreground space-y-3 font-normal" id="protocolFullAbstract">
+              <p>Loading full scientific abstract...</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div class="p-4 rounded-2xl bg-card border border-border space-y-1">
+              <div class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Clinical Phase</div>
+              <div class="font-extrabold text-foreground text-sm" id="detailStageText">Phase II Multi-Site</div>
+              <div class="text-[11px] text-muted-foreground">In-vivo trial active</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-card border border-border space-y-1">
+              <div class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Open Science Status</div>
+              <div class="font-extrabold text-emerald-600 dark:text-emerald-400 text-sm">Public Open Access</div>
+              <div class="text-[11px] text-muted-foreground">CC BY-NC 4.0 Protocol</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-card border border-border space-y-1">
+              <div class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">DOI Index</div>
+              <div class="font-mono text-foreground text-xs truncate" id="detailDoiText">Available</div>
+              <div class="text-[11px] text-muted-foreground">Permanent digital identifier</div>
+            </div>
+          </div>
+        </div>
+
         <!-- Tab 1: Milestones -->
-        <div id="tab-milestones" class="tab-content space-y-6">
-          <div class="bg-emerald-50/60 p-4 sm:p-5 rounded-2xl border border-emerald-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div id="tab-milestones" class="tab-content hidden space-y-6">
+          <div class="bg-emerald-500/10 p-4 sm:p-5 rounded-2xl border border-emerald-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 class="text-sm font-bold text-slate-900">Overall Pipeline Completion</h3>
-              <p class="text-xs text-slate-500">Milestone checkpoint verification backed by lab technician FastQ uploads.</p>
+              <h3 class="text-sm font-bold text-foreground">Overall Pipeline Completion</h3>
+              <p class="text-xs text-muted-foreground">Milestone checkpoint verification backed by lab technician FastQ uploads.</p>
             </div>
             <div class="flex items-center gap-3">
-              <div class="w-28 sm:w-40 bg-slate-200 rounded-full h-2.5 overflow-hidden">
+              <div class="w-28 sm:w-40 bg-muted rounded-full h-2.5 overflow-hidden">
                 <div id="overallBar" class="bg-emerald-600 h-2.5 rounded-full transition-all duration-500" style="width: 75%"></div>
               </div>
-              <span id="overallPct" class="text-sm font-extrabold text-emerald-700">75%</span>
+              <span id="overallPct" class="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">75%</span>
             </div>
           </div>
 
           <div class="space-y-4" id="milestonesListContainer">
-            <div class="flex items-start gap-4 p-4 rounded-2xl border border-emerald-200 bg-emerald-50/30">
-              <input type="checkbox" checked onchange="recalculateProgress()" class="milestone-check mt-1 w-5 h-5 accent-emerald-600 rounded cursor-pointer" />
-              <div class="flex-1">
+            <div class="flex items-start gap-4 p-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/5">
+              <input type="checkbox" checked onchange="recalculateProgress()" class="milestone-check mt-1 w-4 h-4 accent-emerald-600 rounded cursor-pointer" />
+              <div class="flex-1 text-xs">
                 <div class="flex items-center justify-between">
-                  <h4 class="text-sm font-bold text-slate-900">Stage 1: Formulation & In-Vitro Transfection</h4>
-                  <span class="text-[11px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Completed</span>
+                  <h4 class="text-sm font-bold text-foreground">Stage 1: Formulation & In-Vitro Transfection</h4>
+                  <span class="shadcn-badge badge-emerald text-[10px] uppercase font-bold">Completed</span>
                 </div>
-                <p class="text-xs text-slate-500 mt-1">Target cell uptake confirmed >85% in murine cell line assays.</p>
+                <p class="text-muted-foreground mt-1">Target cell uptake confirmed >85% in murine cell line assays.</p>
               </div>
             </div>
 
-            <div class="flex items-start gap-4 p-4 rounded-2xl border border-emerald-500/40 bg-white shadow-xs">
-              <input type="checkbox" checked onchange="recalculateProgress()" class="milestone-check mt-1 w-5 h-5 accent-emerald-600 rounded cursor-pointer" />
-              <div class="flex-1">
+            <div class="flex items-start gap-4 p-4 rounded-2xl border border-emerald-500/40 bg-card shadow-xs">
+              <input type="checkbox" checked onchange="recalculateProgress()" class="milestone-check mt-1 w-4 h-4 accent-emerald-600 rounded cursor-pointer" />
+              <div class="flex-1 text-xs">
                 <div class="flex items-center justify-between">
-                  <h4 class="text-sm font-bold text-slate-900">Stage 2: Preclinical Animal Cohort Testing</h4>
-                  <span class="text-[11px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">Active In-Vivo</span>
+                  <h4 class="text-sm font-bold text-foreground">Stage 2: Preclinical Animal Cohort Testing</h4>
+                  <span class="shadcn-badge badge-amber text-[10px] uppercase font-bold">Active In-Vivo</span>
                 </div>
-                <p class="text-xs text-slate-500 mt-1">Tracking biodistribution and systemic toxicity profiles over a 16-week window.</p>
+                <p class="text-muted-foreground mt-1">Tracking biodistribution and systemic toxicity profiles over a 16-week window.</p>
               </div>
             </div>
 
-            <div class="flex items-start gap-4 p-4 rounded-2xl border border-slate-200 bg-white shadow-xs">
-              <input type="checkbox" onchange="recalculateProgress()" class="milestone-check mt-1 w-5 h-5 accent-emerald-600 rounded cursor-pointer" />
-              <div class="flex-1">
+            <div class="flex items-start gap-4 p-4 rounded-2xl border border-border bg-card shadow-xs">
+              <input type="checkbox" onchange="recalculateProgress()" class="milestone-check mt-1 w-4 h-4 accent-emerald-600 rounded cursor-pointer" />
+              <div class="flex-1 text-xs">
                 <div class="flex items-center justify-between">
-                  <h4 class="text-sm font-bold text-slate-900">Stage 3: Clinical Cohort Scaling & IND Submission</h4>
-                  <span class="text-[11px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded">Upcoming</span>
+                  <h4 class="text-sm font-bold text-foreground">Stage 3: Clinical Cohort Scaling & IND Submission</h4>
+                  <span class="shadcn-badge badge-outline text-[10px] uppercase font-bold">Upcoming</span>
                 </div>
-                <p class="text-xs text-slate-500 mt-1">Preparation of regulatory safety dossier and hospital multi-site onboarding.</p>
+                <p class="text-muted-foreground mt-1">Preparation of regulatory safety dossier and hospital multi-site onboarding.</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Tab 2: RBAC Matrix -->
+        <!-- Tab 2: Methodology & FastQ Datasets -->
+        <div id="tab-methodology" class="tab-content hidden space-y-4 text-xs">
+          <div class="p-4 rounded-2xl bg-muted/40 border border-border space-y-2">
+            <h4 class="font-bold text-foreground flex items-center gap-1.5">
+              <i class="fa-solid fa-server text-emerald-600"></i> Cryptographically Verified Datasets
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Sequencing outputs and biobank clinical metadata validated with SHA-256 integrity checksums.
+            </p>
+          </div>
+
+          <div class="overflow-x-auto rounded-2xl border border-border">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-muted/60 text-muted-foreground font-bold uppercase text-[10px] border-b border-border">
+                <tr>
+                  <th class="p-3">Dataset Name</th>
+                  <th class="p-3">File Type</th>
+                  <th class="p-3">Size</th>
+                  <th class="p-3">Integrity Checksum</th>
+                  <th class="p-3 text-right">Access</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border text-foreground font-medium">
+                <tr class="hover:bg-muted/30 transition">
+                  <td class="p-3 font-mono font-bold">GSM_RNA_Sequencing_Trial_01.fastq.gz</td>
+                  <td class="p-3"><span class="shadcn-badge badge-emerald text-[10px]">FastQ</span></td>
+                  <td class="p-3 text-muted-foreground">4.2 GB</td>
+                  <td class="p-3 font-mono text-[10px] text-muted-foreground">sha256:8f4c...3e1a</td>
+                  <td class="p-3 text-right">
+                    <button onclick="showToast('Initiating dataset download via encrypted gateway...', 'Dataset Access', 'info')" class="shadcn-btn btn-outline btn-sm text-[11px] py-1 px-2.5 hover:text-emerald-600">
+                      <i class="fa-solid fa-download mr-1"></i> Download
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-muted/30 transition">
+                  <td class="p-3 font-mono font-bold">Alignment_BAM_GRCh38_Tumor.bam</td>
+                  <td class="p-3"><span class="shadcn-badge badge-sky text-[10px]">BAM Alignment</span></td>
+                  <td class="p-3 text-muted-foreground">18.6 GB</td>
+                  <td class="p-3 font-mono text-[10px] text-muted-foreground">sha256:d19e...99bc</td>
+                  <td class="p-3 text-right">
+                    <button onclick="showToast('Initiating dataset download via encrypted gateway...', 'Dataset Access', 'info')" class="shadcn-btn btn-outline btn-sm text-[11px] py-1 px-2.5 hover:text-emerald-600">
+                      <i class="fa-solid fa-download mr-1"></i> Download
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 3: RBAC Matrix -->
         <div id="tab-rbac" class="tab-content hidden space-y-6">
-          <div class="divide-y divide-slate-100 border border-slate-200 rounded-2xl overflow-hidden text-xs">
-            <div class="p-3 bg-slate-50 font-bold text-slate-500 uppercase tracking-wider grid grid-cols-12 gap-2">
+          <div class="divide-y divide-border border border-border rounded-2xl overflow-hidden text-xs">
+            <div class="p-3 bg-muted/60 font-bold text-muted-foreground uppercase tracking-wider grid grid-cols-12 gap-2">
               <span class="col-span-4">Team Member & Role</span>
               <span class="col-span-5">Granted Scope</span>
               <span class="col-span-3 text-right">Role Level</span>
             </div>
 
-            <div class="p-3.5 grid grid-cols-12 gap-2 items-center bg-white">
+            <div class="p-3.5 grid grid-cols-12 gap-2 items-center bg-card">
               <div class="col-span-4 flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">SR</div>
+                <div class="w-8 h-8 rounded-full bg-emerald-500/15 text-emerald-600 font-bold flex items-center justify-center text-xs">PI</div>
                 <div>
-                  <strong class="text-slate-900 block font-bold" id="rbacPiName">Dr. Sarah Raman, PhD</strong>
-                  <span class="text-slate-400 text-[10px]">Principal Investigator</span>
+                  <strong class="text-foreground block font-bold" id="rbacPiName">Principal Investigator</strong>
+                  <span class="text-muted-foreground text-[10px]">Study Lead</span>
                 </div>
               </div>
-              <div class="col-span-5 text-slate-600">Full publication, privacy toggles, crowdfunding grants, & RBAC policy.</div>
+              <div class="col-span-5 text-muted-foreground">Full publication, privacy toggles, crowdfunding grants, & RBAC policy.</div>
               <div class="col-span-3 text-right">
-                <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-full text-[11px]">Level 1 • PI</span>
+                <span class="shadcn-badge badge-emerald text-[10px] font-bold">Level 1 • PI</span>
+              </div>
+            </div>
+
+            <div class="p-3.5 grid grid-cols-12 gap-2 items-center bg-card">
+              <div class="col-span-4 flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-blue-500/15 text-blue-600 font-bold flex items-center justify-center text-xs">SS</div>
+                <div>
+                  <strong class="text-foreground block font-bold">Co-Investigator Team</strong>
+                  <span class="text-muted-foreground text-[10px]">Senior Scientist</span>
+                </div>
+              </div>
+              <div class="col-span-5 text-muted-foreground">Upload and verify raw sequencing fastq & pipeline validation data.</div>
+              <div class="col-span-3 text-right">
+                <span class="shadcn-badge badge-sky text-[10px] font-bold">Level 2 • Scientist</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Tab 3: Hospital Cohorts -->
+        <!-- Tab 4: Hospital Cohorts -->
         <div id="tab-hospital" class="tab-content hidden space-y-4 text-xs">
-          <div class="p-3.5 bg-sky-50/50 rounded-2xl border border-sky-100 flex items-center justify-between">
+          <div class="p-4 bg-sky-500/5 rounded-2xl border border-sky-500/20 flex items-center justify-between">
             <div>
-              <strong class="text-slate-900 block font-bold">Johns Hopkins Medicine — Cohort #104</strong>
-              <span class="text-slate-500">45 Patients • EGFR T790M Biomarker Target</span>
+              <strong class="text-foreground block font-bold">Johns Hopkins Medicine — Cohort #104</strong>
+              <span class="text-muted-foreground">45 Patients • Targeted Biomarker Verification</span>
             </div>
-            <span class="bg-sky-100 text-sky-800 font-bold px-2.5 py-0.5 rounded-full">HIPAA Verified</span>
+            <span class="shadcn-badge badge-sky text-[10px] font-bold">HIPAA Verified</span>
           </div>
 
-          <div class="p-3.5 bg-sky-50/50 rounded-2xl border border-sky-100 flex items-center justify-between">
+          <div class="p-4 bg-sky-500/5 rounded-2xl border border-sky-500/20 flex items-center justify-between">
             <div>
-              <strong class="text-slate-900 block font-bold">Mayo Clinic Clinical Oncology — Cohort #88</strong>
-              <span class="text-slate-500">30 Patients • Glioblastoma Microenvironment</span>
+              <strong class="text-foreground block font-bold">Mayo Clinic Clinical Oncology — Cohort #88</strong>
+              <span class="text-muted-foreground">30 Patients • Glioblastoma Microenvironment</span>
             </div>
-            <span class="bg-sky-100 text-sky-800 font-bold px-2.5 py-0.5 rounded-full">HIPAA Verified</span>
+            <span class="shadcn-badge badge-sky text-[10px] font-bold">HIPAA Verified</span>
           </div>
         </div>
 
@@ -270,22 +454,28 @@
 
   </main>
 
-  <footer class="bg-slate-950 border-t border-emerald-900/40 text-slate-400 text-xs py-6 mt-12 text-center">
-    <p>© 2026 AuthRos • Centralized Biomedical Research Protocol</p>
+  <!-- Shared Footer -->
+  <footer class="bg-slate-950 border-t border-emerald-900/40 text-slate-400 text-xs py-8 mt-12 text-center">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <div class="flex items-center justify-center gap-2 text-white font-bold text-sm">
+        <i class="fa-solid fa-dna text-emerald-400"></i> AuthRos Biomedical Protocol Network
+      </div>
+      <p>© 2026 AuthRos • Centralized Global Medical & Biological Research Archive</p>
+    </div>
   </footer>
 
   <script src="js/app.js"></script>
   <script>
-    document.getElementById('header-root').innerHTML = renderHeader('research');
     let currentStudy = null;
 
     function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
       document.querySelectorAll('.tab-btn').forEach(b => {
-        b.className = 'tab-btn px-6 py-3.5 text-slate-500 hover:text-slate-800 flex items-center gap-2 shrink-0';
+        b.className = 'tab-btn px-5 py-3.5 text-muted-foreground hover:text-foreground flex items-center gap-2 shrink-0';
       });
-      document.getElementById(tabId).classList.remove('hidden');
-      btn.className = 'tab-btn px-6 py-3.5 text-emerald-700 border-b-2 border-emerald-600 font-bold flex items-center gap-2 shrink-0';
+      const activeTab = document.getElementById(tabId);
+      if (activeTab) activeTab.classList.remove('hidden');
+      btn.className = 'tab-btn px-5 py-3.5 text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-600 font-bold flex items-center gap-2 shrink-0';
     }
 
     function recalculateProgress() {
@@ -299,52 +489,112 @@
     }
 
     function triggerCurrentDonate() {
-      if (!currentStudy) return openDonateModal('Targeted mRNA Delivery for Solid Tumors', '$32,500', '$50,000', 'proj-1');
+      if (!currentStudy) return openDonateModal('Biomedical Research Study', '$32,500', '$50,000', 'proj-1');
       const raised = `$${(currentStudy.crowdfunding_raised || 0).toLocaleString()}`;
       const target = `$${(currentStudy.crowdfunding_target || 50000).toLocaleString()}`;
       openDonateModal(currentStudy.title, raised, target, currentStudy.id);
     }
 
     function triggerCurrentCohort() {
-      const title = currentStudy ? currentStudy.title : 'Targeted mRNA Delivery';
+      const title = currentStudy ? currentStudy.title : 'Biomedical Research Protocol';
       openHospitalCohortModal(title);
     }
 
+    function triggerShareModal() {
+      if (!currentStudy) return;
+      openShareModal(currentStudy.title, currentStudy.code, currentStudy.doi || '', currentStudy.journal_citation || '', currentStudy.source_url || '');
+    }
+
+    function toggleDetailBookmark() {
+      if (!currentStudy || typeof AuthRosState === 'undefined') return;
+      const isSaved = AuthRosState.toggleBookmark(currentStudy.id);
+      updateBookmarkUI(isSaved);
+      if (isSaved) {
+        showToast('Study saved to your bookmarks library.', 'Bookmarked', 'success');
+      } else {
+        showToast('Study removed from bookmarks.', 'Bookmark Removed', 'info');
+      }
+    }
+
+    function updateBookmarkUI(isSaved) {
+      const icon = document.getElementById('studyBookmarkIcon');
+      const text = document.getElementById('studyBookmarkText');
+      const btn = document.getElementById('studyBookmarkBtn');
+      if (isSaved) {
+        if (icon) icon.className = 'fa-solid fa-bookmark mr-1.5 text-emerald-600';
+        if (text) text.textContent = 'Saved';
+        if (btn) btn.classList.add('border-emerald-500', 'text-emerald-600', 'font-bold');
+      } else {
+        if (icon) icon.className = 'fa-regular fa-bookmark mr-1.5';
+        if (text) text.textContent = 'Bookmark';
+        if (btn) btn.classList.remove('border-emerald-500', 'text-emerald-600', 'font-bold');
+      }
+    }
+
     async function loadStudyDetails() {
+      document.getElementById('header-root').innerHTML = renderHeader('research');
+      
       const urlParams = new URLSearchParams(window.location.search);
-      const studyId = urlParams.get('id') || 'proj-1';
+      const studyId = urlParams.get('id') || urlParams.get('code') || 'proj-hist-1';
 
       try {
         let p = null;
-        const data = await AuthRosAPI.getProjectById(studyId);
-        if (data && data.project) {
-          p = data.project;
-        }
+        try {
+          const data = await AuthRosAPI.getProjectById(studyId);
+          if (data && data.project) p = data.project;
+        } catch(e) {}
 
-        // If not from API, find from fallback projects catalog
         if (!p) {
           p = findFallbackProjectById(studyId);
         }
 
         if (p) {
           currentStudy = p;
+          document.title = `${p.title} | AuthRos Protocol Archive`;
           document.getElementById('studyTitle').textContent = p.title;
-          document.getElementById('studySummary').textContent = p.abstract || p.summary;
+          document.getElementById('studySummary').textContent = p.summary || p.abstract;
           document.getElementById('studyBreadcrumbId').textContent = p.code || 'PROTOCOL';
           document.getElementById('studyMetaId').textContent = `ID: ${p.code} • Year: ${p.publication_year || 2026} • Country: ${p.country_name || 'Global'}`;
           
-          if (p.stage) document.getElementById('studyStageBadge').textContent = p.stage.toUpperCase();
-          if (p.visibility) document.getElementById('studyAccessBadge').innerHTML = `<i class="fa-solid fa-globe text-[10px]"></i> ${p.visibility.toUpperCase()} Science`;
+          const isComp = p.status === 'completed';
+          document.getElementById('studyStageBadge').className = `shadcn-badge ${isComp ? 'badge-forest' : 'badge-sunset'} text-[11px] uppercase font-bold tracking-wider`;
+          document.getElementById('studyStageBadge').textContent = isComp ? 'Completed Publication' : (p.stage ? p.stage.toUpperCase() : 'Active In-Vivo Pipeline');
+          
+          if (p.domain) {
+            document.getElementById('studyDomainText').textContent = p.domain.toUpperCase();
+          }
+          if (p.country_name) {
+            document.getElementById('studyCountryName').textContent = `${p.country_name} (${p.country_code || 'GL'})`;
+          }
+          if (typeof getCountryFlagSvg === 'function' && p.country_code) {
+            document.getElementById('studyCountryFlag').innerHTML = getCountryFlagSvg(p.country_code);
+          }
           if (p.publisher_name) document.getElementById('studyPublisherName').textContent = p.publisher_name;
           if (p.journal_citation) document.getElementById('studyCitation').textContent = p.journal_citation;
-          if (p.lead_name) document.getElementById('rbacPiName').textContent = p.lead_name;
+          if (p.lead_name) {
+            document.getElementById('studyLeadName').textContent = p.lead_name;
+            document.getElementById('rbacPiName').textContent = p.lead_name;
+          }
 
           if (p.doi) {
-            document.getElementById('studyDoiLink').href = `https://doi.org/${p.doi}`;
-            document.getElementById('studyDoiLink').textContent = `DOI: ${p.doi}`;
+            const doiUrl = p.doi.startsWith('http') ? p.doi : `https://doi.org/${p.doi}`;
+            document.getElementById('studyDoiLink').href = doiUrl;
+            document.getElementById('studyDoiLabel').textContent = `DOI: ${p.doi}`;
+            document.getElementById('detailDoiText').textContent = p.doi;
+          } else {
+            document.getElementById('studyDoiLink').classList.add('hidden');
           }
-          if (p.source_url) {
-            document.getElementById('studyPubmedLink').href = p.source_url;
+
+          const pubmedUrl = p.source_url || (p.doi ? `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(p.doi)}` : `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(p.title)}`);
+          document.getElementById('studyPubmedLink').href = pubmedUrl;
+
+          // Full abstract text
+          const abstractEl = document.getElementById('protocolFullAbstract');
+          if (abstractEl) {
+            abstractEl.innerHTML = `
+              <p class="font-semibold text-foreground text-sm mb-2">Scientific Abstract</p>
+              <p>${p.abstract || p.summary || 'Detailed experimental findings, molecular analysis, and peer-reviewed verification records.'}</p>
+            `;
           }
 
           const raised = p.crowdfunding_raised || 0;
@@ -355,6 +605,46 @@
           document.getElementById('studyFundBar').style.width = `${pct}%`;
           document.getElementById('overallPct').textContent = `${p.progress_percent || pct}%`;
           document.getElementById('overallBar').style.width = `${p.progress_percent || pct}%`;
+
+          if (typeof AuthRosState !== 'undefined') {
+            const isSaved = AuthRosState.isBookmarked(p.id);
+            updateBookmarkUI(isSaved);
+          }
+
+          // Auth & User Rank Gate Enforcement
+          const user = typeof AuthManager !== 'undefined' ? AuthManager.getUser() : null;
+          const hasPaperAccess = typeof AuthManager !== 'undefined' ? AuthManager.canAccessPapers() : false;
+
+          const authGate = document.getElementById('protocolAuthGate');
+          const tabsHeader = document.getElementById('protocolTabsHeader');
+          const tabsBody = document.getElementById('protocolTabsBody');
+          const accessBanner = document.getElementById('verifiedAccessBanner');
+          const gateLoginLink = document.getElementById('gateLoginLink');
+
+          if (gateLoginLink) {
+            gateLoginLink.href = `auth.html?redirect=${encodeURIComponent('study-detail.html?id=' + (p.id || studyId))}`;
+          }
+
+          if (!hasPaperAccess) {
+            // Restricted access: Show gate, hide full protocol body
+            if (authGate) authGate.classList.remove('hidden');
+            if (tabsHeader) tabsHeader.classList.add('hidden');
+            if (tabsBody) tabsBody.classList.add('hidden');
+            if (accessBanner) accessBanner.classList.add('hidden');
+          } else {
+            // Verified access: Show full protocol body & verified access ribbon
+            if (authGate) authGate.classList.add('hidden');
+            if (tabsHeader) tabsHeader.classList.remove('hidden');
+            if (tabsBody) tabsBody.classList.remove('hidden');
+            if (accessBanner) {
+              accessBanner.classList.remove('hidden');
+              const rankInfo = typeof AuthManager !== 'undefined' ? AuthManager.getRankInfo(user?.role) : { level: 'Rank 1', title: 'Verified Member' };
+              const nameEl = document.getElementById('authUserName');
+              const rankEl = document.getElementById('authUserRank');
+              if (nameEl) nameEl.textContent = user?.full_name || 'Authenticated Member';
+              if (rankEl) rankEl.textContent = `• ${rankInfo.level} (${rankInfo.title})`;
+            }
+          }
         }
       } catch (e) {
         console.warn('Study loading error:', e);
@@ -362,20 +652,26 @@
     }
 
     function findFallbackProjectById(id) {
+      const idStr = String(id || '').toLowerCase().trim();
       if (typeof AuthRosData !== 'undefined') {
         const papers = AuthRosData.getPapers();
-        const found = papers.find(x => x.id === id || x.code === id);
+        const found = papers.find(x => 
+          String(x.id).toLowerCase() === idStr || 
+          String(x.code).toLowerCase() === idStr ||
+          (x.doi && String(x.doi).toLowerCase() === idStr)
+        );
         if (found) return found;
       }
 
       // Dynamic fallback
       return {
         id,
-        title: `Biomedical Research Protocol (${id.toUpperCase()})`,
-        code: id.toUpperCase(),
+        title: `Biomedical Research Protocol (${String(id).toUpperCase()})`,
+        code: String(id).toUpperCase(),
         summary: 'Comprehensive scientific study investigating novel molecular mechanisms and verified clinical cohort responses.',
-        abstract: 'This research protocol evaluates target engagement, pharmacokinetics, and clinical endpoint tolerances using high-throughput molecular screening and verified cohort data.',
+        abstract: 'This research protocol evaluates target engagement, pharmacokinetics, and clinical endpoint tolerances using high-throughput molecular screening, sequencing assays, and verified cohort data.',
         stage: 'phase_2',
+        status: 'ongoing',
         visibility: 'public',
         domain: 'biomedical research',
         journal_citation: 'Nature Medicine (2026)',
@@ -390,7 +686,7 @@
       };
     }
 
-    loadStudyDetails();
+    document.addEventListener('DOMContentLoaded', loadStudyDetails);
   </script>
 </body>
 </html>

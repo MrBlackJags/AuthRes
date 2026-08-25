@@ -44,8 +44,11 @@ router.post('/register', sanitize, validateBody({
     const passwordHash = await bcrypt.hash(password, salt);
     const userId = 'usr-' + Date.now();
     const apiKey = 'sk_live_authros_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now().toString(36);
-    const userRole = role || 'scientist';
-    const userTier = ['pi', 'hospital'].includes(userRole) ? 'enterprise' : 'pro';
+    
+    // Strict Admin Decision Model: All new registrations are placed in Rank 0 (Pending Approval)
+    const userRole = 'pending';
+    const userTier = 'free';
+    const userTitle = title || 'Pending Admin Rank Approval';
 
     let orgId = 'org-1';
     if (organization_name) {
@@ -56,19 +59,19 @@ router.post('/register', sanitize, validateBody({
     await dbRun(`
       INSERT INTO users (id, email, password_hash, full_name, title, role, tier, api_key, organization_id)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [userId, email.toLowerCase(), passwordHash, full_name, title || 'Researcher', userRole, userTier, apiKey, orgId]);
+    `, [userId, email.toLowerCase(), passwordHash, full_name, userTitle, userRole, userTier, apiKey, orgId]);
 
     // Audit
     await dbRun('INSERT INTO audit_logs (id, action, actor_id, details) VALUES (?, ?, ?, ?)',
-      ['audit-reg-' + Date.now(), 'USER_REGISTER', userId, `New account: ${email.toLowerCase()}`]).catch(() => {});
+      ['audit-reg-' + Date.now(), 'USER_REGISTER', userId, `New account in pending queue: ${email.toLowerCase()}`]).catch(() => {});
 
     const token = signToken({ id: userId, email: email.toLowerCase(), full_name, role: userRole, tier: userTier });
 
     res.status(201).json({
       success: true,
-      message: 'Account registered successfully!',
+      message: 'Account registered successfully. Your access rank is currently Pending Approval by the Platform Administrator.',
       token,
-      user: { id: userId, email: email.toLowerCase(), full_name, title: title || 'Researcher', role: userRole, tier: userTier, api_key: apiKey }
+      user: { id: userId, email: email.toLowerCase(), full_name, title: userTitle, role: userRole, tier: userTier, api_key: apiKey }
     });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

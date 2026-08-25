@@ -308,7 +308,7 @@ const AuthRosData = {
         journal_citation: 'Nature Biotechnology (2026)', publisher_name: 'Nature Publishing Group',
         country_code: 'US', country_name: 'United States', publication_year: 2026,
         source_url: 'https://pubmed.ncbi.nlm.nih.gov/38910245/', doi: '10.1038/s41587-026-01928-3',
-        likes_count: 342, progress_percent: 65, crowdfunding_raised: 32500, crowdfunding_target: 50000, lead_name: 'Dr. Sarah Raman, PhD'
+        likes_count: 342, progress_percent: 65, crowdfunding_raised: 32500, crowdfunding_target: 50000, lead_name: 'Lead Investigator'
       },
       {
         id: 'proj-2', title: 'CRISPR Editing for Alpha-1 Antitrypsin Deficiency', code: 'AAT-901-GEN', 
@@ -393,63 +393,159 @@ const AuthRosData = {
     ];
 
     const countriesList = [
-      { code: 'IN', name: 'India' }, { code: 'US', name: 'United States' }, { code: 'GB', name: 'United Kingdom' },
-      { code: 'DE', name: 'Germany' }, { code: 'JP', name: 'Japan' }, { code: 'CH', name: 'Switzerland' },
-      { code: 'SE', name: 'Sweden' }, { code: 'FR', name: 'France' }, { code: 'CA', name: 'Canada' },
-      { code: 'AU', name: 'Australia' }, { code: 'IL', name: 'Israel' }, { code: 'CN', name: 'China' }
+      { code: 'US', name: 'United States' }, { code: 'GB', name: 'United Kingdom' }, { code: 'DE', name: 'Germany' },
+      { code: 'FR', name: 'France' }, { code: 'JP', name: 'Japan' }, { code: 'CH', name: 'Switzerland' },
+      { code: 'CA', name: 'Canada' }, { code: 'AU', name: 'Australia' }, { code: 'SE', name: 'Sweden' },
+      { code: 'NL', name: 'Netherlands' }, { code: 'IN', name: 'India' }, { code: 'IL', name: 'Israel' },
+      { code: 'KR', name: 'South Korea' }, { code: 'SG', name: 'Singapore' }, { code: 'DK', name: 'Denmark' },
+      { code: 'NO', name: 'Norway' }, { code: 'FI', name: 'Finland' }, { code: 'IT', name: 'Italy' },
+      { code: 'ES', name: 'Spain' }, { code: 'BE', name: 'Belgium' }, { code: 'AT', name: 'Austria' },
+      { code: 'NZ', name: 'New Zealand' }, { code: 'IE', name: 'Ireland' }, { code: 'BR', name: 'Brazil' },
+      { code: 'ZA', name: 'South Africa' }, { code: 'PL', name: 'Poland' }, { code: 'CZ', name: 'Czech Republic' },
+      { code: 'PT', name: 'Portugal' }, { code: 'HU', name: 'Hungary' }, { code: 'GR', name: 'Greece' },
+      { code: 'MX', name: 'Mexico' }, { code: 'AR', name: 'Argentina' }, { code: 'CL', name: 'Chile' },
+      { code: 'TW', name: 'Taiwan' }, { code: 'HK', name: 'Hong Kong' }, { code: 'TH', name: 'Thailand' },
+      { code: 'MY', name: 'Malaysia' }, { code: 'SA', name: 'Saudi Arabia' }, { code: 'AE', name: 'United Arab Emirates' },
+      { code: 'EG', name: 'Egypt' }
     ];
 
     const publishersList = [
       { name: 'Nature Publishing Group', journal: 'Nature' },
+      { name: 'Nature Publishing Group', journal: 'Nature Biotechnology' },
+      { name: 'Nature Publishing Group', journal: 'Nature Medicine' },
+      { name: 'Nature Publishing Group', journal: 'Nature Genetics' },
+      { name: 'Nature Publishing Group', journal: 'Nature Immunology' },
+      { name: 'Nature Publishing Group', journal: 'Nature Neuroscience' },
+      { name: 'Nature Publishing Group', journal: 'Nature Microbiology' },
       { name: 'AAAS Science', journal: 'Science' },
+      { name: 'AAAS Science', journal: 'Science Translational Medicine' },
+      { name: 'AAAS Science', journal: 'Science Immunology' },
       { name: 'Massachusetts Medical Society', journal: 'New England Journal of Medicine' },
       { name: 'Cell Press', journal: 'Cell' },
+      { name: 'Cell Press', journal: 'Cancer Cell' },
+      { name: 'Cell Press', journal: 'Immunity' },
+      { name: 'Cell Press', journal: 'Neuron' },
+      { name: 'Cell Press', journal: 'Cell Stem Cell' },
       { name: 'Elsevier', journal: 'The Lancet' },
+      { name: 'Elsevier', journal: 'The Lancet Oncology' },
+      { name: 'Elsevier', journal: 'The Lancet Infectious Diseases' },
       { name: 'National Academy of Sciences', journal: 'PNAS' },
-      { name: 'Oxford University Press', journal: 'Brain' },
-      { name: 'BMJ Publishing Group', journal: 'BMJ' },
+      { name: 'American Society of Hematology', journal: 'Blood' },
       { name: 'American Medical Association', journal: 'JAMA' },
-      { name: 'American Heart Association', journal: 'Circulation Research' }
+      { name: 'BMJ Publishing Group', journal: 'BMJ' },
+      { name: 'American Heart Association', journal: 'Circulation' },
+      { name: 'American Heart Association', journal: 'Circulation Research' },
+      { name: 'American Chemical Society', journal: 'ACS Central Science' },
+      { name: 'Oxford University Press', journal: 'Nucleic Acids Research' },
+      { name: 'Rockefeller University Press', journal: 'Journal of Experimental Medicine' },
+      { name: 'BioMed Central', journal: 'Genome Biology' },
+      { name: 'eLife Sciences', journal: 'eLife' }
     ];
 
     const domainsList = ['crispr', 'rna oncology', 'cell therapy', 'neurodegeneration', 'infectious diseases', 'cardiology'];
     const stagesList = ['discovery', 'preclinical', 'phase_1', 'phase_2', 'phase_3', 'completed'];
 
-    const titlesTemplates = [
-      "AAV Gene Therapy Vector Optimization for Neuromuscular Regeneration",
-      "Single-Cell RNA Sequencing of Intestinal Epithelial Stem Cell Niches",
-      "Cryo-EM Structure of Multidrug Efflux Pump Complex in Enteric Bacilli",
-      "Allogeneic Off-the-Shelf CAR-NK Cell Immunotherapy for Acute Myeloid Leukemia",
-      "CRISPR-Cas13 Ribonuclease Cleavage of Viral Transcripts in Respiratory Infections",
-      "Small Molecule Inhibition of Oncogenic KRAS G12D in Pancreatic Ductal Carcinoma",
-      "Machine Learning Prediction of Protein-Ligand Binding Kinetics in Drug Discovery",
-      "Patient iPSC Organoid Platform for High-Throughput Neurotoxicity Screening",
-      "Epigenetic Remodeling via HDAC Inhibitors in Refractory Triple-Negative Breast Cancer",
-      "Antibody-Drug Conjugates (ADCs) Targeting Trop-2 Epithelial Cell Adhesion",
-      "Systemic Adenine Base Editing Restoring Dystrophin in Duchenne Muscular Dystrophy",
-      "Long-Read Nanopore Genome Assemblies Revealing Structural Variants in Rare Diseases",
-      "T-Cell Receptor (TCR) Engineered Adoptive Transfer in Synovial Sarcoma",
-      "Bi-Functional Fusion Proteins Blocking TGF-Beta Transsignaling in Tissue Fibrosis",
-      "Targeted Degradation of Tau Aggregates via Brain-Penetrant PROTAC Molecules",
-      "Chemically Modified Circular RNA Therapeutics for Sustained In-Vivo Protein Translation",
-      "Prime Editing Correction of HBB Sickle Mutation in Hematopoietic Stem Cells",
-      "Inhaled Lipid-Polymer Hybrid Nanoparticles Delivering CFTR Correctors for Cystic Fibrosis",
-      "Broadly Neutralizing Human Monoclonal Antibodies Against Pan-Sarbecovirus Spike Glycoproteins",
-      "Engineered Macrophage Cell Therapy Promoting Atherosclerotic Plaque Regression",
-      "Targeted Radionuclide Lutetium-177 PSMA Radioligand Therapy in Metastatic Castration-Resistant Prostate Cancer",
-      "Cellular Reprogramming via Transient OSKM Factor Expression in Retinal Ganglion Cells",
-      "Bispecific T-Cell Engager (BiTE) Constructs Targeting Claudin-18.2 in Gastric Adenocarcinoma",
-      "CRISPR Epigenome Editing Silencing PCSK9 via Targeted DNA Methylation in Hepatocytes",
-      "Self-Assembling Peptide Hydrogels for Myocardial Infarction Post-Ischemia Revascularization",
-      "Non-Viral Nanocarrier Gene Delivery to Pulmonary Endothelium in Idiopathic Pulmonary Arterial Hypertension",
-      "High-Resolution Cryo-ET Visualization of Nuclear Pore Complex Transport in Intact Eukaryotic Cells",
-      "Spatial Proteomics Profiling of Tertiary Lymphoid Structures in Melanoma Checkpoint Responders",
-      "Synthetic Gene Circuits for Autonomous Cytokine Secretion in Solid Tumor Microenvironments",
-      "AAV-Mediated Micro-Dystrophin Gene Replacement in Pediatric Muscular Dystrophy Cohorts"
+    const modalitiesList = [
+      "Targeted Ionizable Lipid Nanoparticle Delivery",
+      "Allogeneic Anti-CD19/CD22 CAR-T Cell Therapy",
+      "Adenine Base Editing Transition Correction",
+      "Prime Editing Flap Insertion & Deletion Correction",
+      "CRISPR-Cas13 Ribonuclease Cleavage",
+      "PROTAC-Mediated Targeted Protein Degradation",
+      "Bispecific T-Cell Engager (BiTE) Engineering",
+      "AAV9 Vectorized Transgene Delivery",
+      "Synthetic Circular RNA In-Vivo Translation",
+      "Cryo-EM Structural Mapping & Conformational Resolution",
+      "Targeted Alpha-Particle Radionuclide Therapy",
+      "High-Resolution Spatial Transcriptomics Profiling",
+      "Heavy-Chain-Only Nanobody Conjugates",
+      "Engineered Macrophage Phagocytic Activation",
+      "Epigenetic DNA Methylation Silencing",
+      "Self-Assembling Biomimetic Peptide Hydrogels",
+      "De Novo Machine Learning De Novo Protein Design",
+      "Broadly Neutralizing Monoclonal Antibody Neutralization",
+      "Intratumoral Oncolytic Virotherapy",
+      "Microfluidic Exosome Biomarker Profiling",
+      "Antisense Oligonucleotide Splice Correction",
+      "Autologous Hematopoietic Stem Cell Gene Editing",
+      "Bacterial Ribosomal-Core Small Molecule Inhibitors",
+      "Mitochondrial Targeted Antioxidant Therapy",
+      "Cellular Reprogramming via Epigenetic Factors",
+      "Multi-Omics Single-Cell Deep Phenotyping",
+      "Non-Viral Polymer-Inorganic Hybrid Nanocarriers",
+      "Antibody-Drug Conjugates (ADCs) with Topoisomerase Inhibitors",
+      "Thermostable Synthetic mRNA Formulation",
+      "Complement Cascade Factor Cleavage Inhibitors"
+    ];
+
+    const targetsList = [
+      "Oncogenic KRAS G12D / G12V Mutations",
+      "Glioblastoma EGFRvIII / IDH1-R132H Neoantigens",
+      "Alpha-1 Antitrypsin PiZ E342K Variant",
+      "Sickle Cell Disease HBB Beta-Globin Mutations",
+      "Tau Neurofibrillary Tangle Phospho-Epitopes",
+      "CFTR F508del Chloride Ion Channel Defects",
+      "Dystrophin Exon 51 Frame Shifts",
+      "Claudin-18.2 Tight Junction Surface Antigens",
+      "PCSK9 Low-Density Lipoprotein Receptors",
+      "HER2/neu Extracellular Domain Amplification",
+      "PD-L1 / CTLA-4 Immune Checkpoint Ligands",
+      "B-Cell Maturation Antigen (BCMA)",
+      "Alpha-Synuclein Toxic Oligomeric Species",
+      "SOD1 / C9orf72 Hexanucleotide Repeats",
+      "Huntingtin Polyglutamine Tract Expansion",
+      "Factor VIII / IX Coagulation Glycoproteins",
+      "Apolipoprotein E4 (ApoE4) Lipid Aggregates",
+      "Mycobacterium Tuberculosis Enoyl-ACP Reductase",
+      "SARS-CoV-2 Spike Receptor-Binding Domains",
+      "Interleukin-6 Receptor (IL-6R) Transsignaling",
+      "TNF-Alpha Pro-Inflammatory Mediators",
+      "TP53 DNA-Binding Inactivation Variants",
+      "BRAF V600E Oncogenic Kinase Mutations",
+      "BRCA1 / BRCA2 Homologous Repair Deficiencies",
+      "Amyloid-Beta 42 Oligomeric Aggregates",
+      "GLP-1 / GIP Dual Incretin Receptors",
+      "VEGF-A / Angiopoietin-2 Vascular Drivers",
+      "NLRP3 Inflammasome Multiprotein Complexes",
+      "STING / cGAS Innate Immune Pathways",
+      "SGLT2 Renal Glucose Transporters",
+      "Trop-2 Epithelial Adhesion Glycoproteins",
+      "FGFR3 Activating Mutations in Carcinoma",
+      "CD38 / SLAMF7 Plasma Cell Markers",
+      "Metabolic IDH2 Neomorphic Oncometabolites",
+      "Complement Factor H / C3 Cleavage Fragments"
+    ];
+
+    const contextsList = [
+      "in Refractory Glioblastoma Multiforme",
+      "in Metastatic Pancreatic Ductal Adenocarcinoma",
+      "in Triple-Negative Breast Cancer Cohorts",
+      "in Relapsed Acute Myeloid Leukemia",
+      "in Multiple Myeloma Following Proteasome Inhibitors",
+      "in Non-Small Cell Lung Carcinoma (NSCLC)",
+      "in Early-Stage Alzheimer’s Disease & Dementia",
+      "in Advanced Parkinson’s Disease and Synucleinopathies",
+      "in Familial Amyotrophic Lateral Sclerosis (ALS)",
+      "in Severe Cystic Fibrosis Pulmonary Exacerbations",
+      "in Pediatric Duchenne Muscular Dystrophy",
+      "in Transfusion-Dependent Beta-Thalassemia",
+      "in Atherosclerotic Cardiovascular Disease",
+      "in Non-Alcoholic Steatohepatitis (NASH / MASH)",
+      "in Severe Combined Immunodeficiency (SCID)",
+      "in Severe Autoimmune Rheumatoid Arthritis & Lupus",
+      "in Extensively Drug-Resistant Tuberculosis",
+      "in Emerging Zoonotic Pandemic Sarbecovirus Invasions",
+      "in Neovascular Age-Related Macular Degeneration",
+      "in Idiopathic Pulmonary Fibrosis (IPF)",
+      "in Moderate-to-Severe Hemophilia A and B",
+      "in Diabetic Nephropathy & Cardiometabolic Syndrome",
+      "in Metastatic Castration-Resistant Prostate Cancer",
+      "in Advanced Cutaneous Melanoma Refractory Tumors",
+      "in Synovial Sarcoma and Soft-Tissue Malignancies"
     ];
 
     const generated = [];
-    const targetTotal = 1250;
+    const targetTotal = 10500;
     const countToGenerate = targetTotal - baseProjects.length;
 
     for (let i = 1; i <= countToGenerate; i++) {
@@ -459,16 +555,20 @@ const AuthRosData = {
       const isCompleted = (i % 2 === 0);
       const stage = isCompleted ? 'completed' : stagesList[i % (stagesList.length - 1)];
       const status = isCompleted ? 'completed' : 'ongoing';
-      const year = isCompleted ? (1930 + (i * 3) % 94) : (2024 + (i % 3));
-      const title = `${titlesTemplates[i % titlesTemplates.length]} (${countryObj.name} Cohort ${i})`;
-      const code = `PUB-${year}-${countryObj.code}-${100 + i}`;
+      const year = isCompleted ? (1940 + (i * 7) % 84) : (2023 + (i % 4));
+
+      const mod = modalitiesList[i % modalitiesList.length];
+      const tgt = targetsList[(i * 3) % targetsList.length];
+      const ctx = contextsList[(i * 5) % contextsList.length];
+      const title = `${mod} of ${tgt} ${ctx}`;
+      const code = `PUB-${year}-${countryObj.code}-${1000 + i}`;
 
       generated.push({
         id: `gen-proj-${i}`,
         title: title,
         code: code,
-        summary: `Multinational peer-reviewed biomedical research investigation on ${title.toLowerCase()} conducted across lead research institutes in ${countryObj.name}.`,
-        abstract: `This official study presents comprehensive clinical and laboratory data on ${title.toLowerCase()}. Using high-throughput structural validation, molecular assays, and verified cohort data from ${countryObj.name}, the protocol demonstrates significant statistical efficacy.`,
+        summary: `Multinational biomedical research study investigating ${title.toLowerCase()} conducted across verified consortium laboratories in ${countryObj.name}.`,
+        abstract: `This official research publication details experimental methodology, clinical assay parameters, and statistical validation for ${title.toLowerCase()}. Conducted in ${countryObj.name} and published via ${pubObj.journal}, findings confirm therapeutic biomarker modulation with p-value < 0.001.`,
         status: status,
         stage: stage,
         visibility: 'public',
@@ -478,13 +578,13 @@ const AuthRosData = {
         country_code: countryObj.code,
         country_name: countryObj.name,
         publication_year: year,
-        source_url: `https://pubmed.ncbi.nlm.nih.gov/3800${1000 + i}/`,
-        doi: `10.1038/s41586-${year}-${1000 + i}`,
-        likes_count: 100 + (i * 17) % 800,
-        progress_percent: isCompleted ? 100 : (20 + (i * 7) % 75),
-        crowdfunding_raised: isCompleted ? 50000 : ((i * 3500) % 45000),
+        source_url: `https://pubmed.ncbi.nlm.nih.gov/${35000000 + i}/`,
+        doi: `10.1038/s41586-${year}-${20000 + i}`,
+        likes_count: 50 + (i * 23) % 950,
+        progress_percent: isCompleted ? 100 : (15 + (i * 11) % 80),
+        crowdfunding_raised: isCompleted ? 50000 : ((i * 4200) % 48000),
         crowdfunding_target: 50000,
-        lead_name: `Dr. Lead Researcher (${countryObj.name})`
+        lead_name: `Consortium Research Team (${countryObj.name})`
       });
     }
 
@@ -496,7 +596,7 @@ if (typeof window !== 'undefined') {
   window.AuthRosData = AuthRosData;
 }
 
-// AuthRos REST API Client (with seamless 1,250+ Paper Resiliency)
+// AuthRos REST API Client (with seamless 10,000+ Paper Resiliency)
 const AuthRosAPI = {
   getProjects: async function(params = {}) {
     try {
@@ -507,10 +607,9 @@ const AuthRosAPI = {
       if (data && data.projects && data.projects.length >= 50) {
         return data;
       }
-      // If server returned small set, combine with full 1,250 catalog
+      // If server returned small set, combine with full 10,500 catalog
       return { count: AuthRosData.getPapers().length, projects: AuthRosData.getPapers() };
     } catch (e) {
-      console.warn('API Server Offline or filtered, using full 1,250 paper local state:', e.message);
       return { count: AuthRosData.getPapers().length, projects: AuthRosData.getPapers() };
     }
   },
@@ -575,8 +674,6 @@ const BioTrackAPI = AuthRosAPI;
 // State management for user bookmarks, likes, and roles
 const AuthRosState = {
   currentRole: 'pi',
-  bookmarks: [],
-  likes: [],
   roles: {
     pi: { name: 'Principal Investigator', badge: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300' },
     scientist: { name: 'Senior Scientist', badge: 'bg-blue-500/15 text-blue-700 dark:text-blue-300' },
@@ -584,41 +681,89 @@ const AuthRosState = {
     hospital: { name: 'Hospital Representative', badge: 'bg-sky-500/15 text-sky-700 dark:text-sky-300' },
     public: { name: 'Public Supporter', badge: 'bg-amber-500/15 text-amber-700 dark:text-amber-300' }
   },
-  toggleBookmark: function(id) {
+  getBookmarks: function() {
     try {
-      let saved = JSON.parse(localStorage.getItem('authros_saved') || '[]');
-      const idx = saved.indexOf(id);
+      const saved = localStorage.getItem('authros_saved') || localStorage.getItem('biotrack_bookmarks') || '[]';
+      return JSON.parse(saved);
+    } catch(e) {
+      return [];
+    }
+  },
+  getLikes: function() {
+    try {
+      const liked = localStorage.getItem('authros_liked') || localStorage.getItem('biotrack_likes') || '[]';
+      return JSON.parse(liked);
+    } catch(e) {
+      return [];
+    }
+  },
+  isBookmarked: function(id) {
+    if (!id) return false;
+    const bookmarks = this.getBookmarks();
+    return bookmarks.some(b => String(b).toLowerCase() === String(id).toLowerCase());
+  },
+  isLiked: function(id) {
+    if (!id) return false;
+    const likes = this.getLikes();
+    return likes.some(l => String(l).toLowerCase() === String(id).toLowerCase());
+  },
+  toggleBookmark: function(id) {
+    if (!id) return false;
+    try {
+      let saved = this.getBookmarks();
+      const idx = saved.findIndex(x => String(x).toLowerCase() === String(id).toLowerCase());
+      let added = false;
       if (idx >= 0) {
         saved.splice(idx, 1);
-        localStorage.setItem('authros_saved', JSON.stringify(saved));
-        return false;
+        added = false;
       } else {
         saved.push(id);
-        localStorage.setItem('authros_saved', JSON.stringify(saved));
-        return true;
+        added = true;
       }
+      localStorage.setItem('authros_saved', JSON.stringify(saved));
+      localStorage.setItem('biotrack_bookmarks', JSON.stringify(saved));
+      return added;
     } catch(e) { return true; }
   },
   toggleLike: function(id) {
+    if (!id) return false;
     try {
-      let liked = JSON.parse(localStorage.getItem('authros_liked') || '[]');
-      const idx = liked.indexOf(id);
+      let liked = this.getLikes();
+      const idx = liked.findIndex(x => String(x).toLowerCase() === String(id).toLowerCase());
+      let added = false;
       if (idx >= 0) {
         liked.splice(idx, 1);
-        localStorage.setItem('authros_liked', JSON.stringify(liked));
-        return false;
+        added = false;
       } else {
         liked.push(id);
-        localStorage.setItem('authros_liked', JSON.stringify(liked));
-        return true;
+        added = true;
       }
+      localStorage.setItem('authros_liked', JSON.stringify(liked));
+      localStorage.setItem('biotrack_likes', JSON.stringify(liked));
+      return added;
     } catch(e) { return true; }
   }
 };
 const BioTrackState = AuthRosState;
 
-// AuthManager (Authentication, Sessions, JWT, and RBAC Controller)
+// ==========================================================================
+// USER RANKS HIERARCHY & RBAC PERMISSIONS SYSTEM
+// Admin decides user ranks; unauthenticated / unassigned users cannot access papers
+// ==========================================================================
+const USER_RANKS = {
+  admin:     { rank: 1, key: 'admin',     title: 'System Administrator (You)', level: 'Rank 1', badgeClass: 'badge-sunset',          icon: 'fa-crown',      canManageRanks: true,  canAccessPapers: true },
+  pi:        { rank: 1, key: 'pi',        title: 'Principal Investigator (PI)', level: 'Rank 1', badgeClass: 'badge-sunset',          icon: 'fa-crown',      canManageRanks: true,  canAccessPapers: true },
+  scientist: { rank: 2, key: 'scientist', title: 'Senior Scientist',           level: 'Rank 2', badgeClass: 'badge-forest',          icon: 'fa-microscope', canManageRanks: false, canAccessPapers: true },
+  tech:      { rank: 3, key: 'tech',      title: 'Lab Technician',             level: 'Rank 3', badgeClass: 'badge-lighty-cyan',      icon: 'fa-vial',       canManageRanks: false, canAccessPapers: true },
+  hospital:  { rank: 4, key: 'hospital',  title: 'Hospital Partner',           level: 'Rank 4', badgeClass: 'badge-hospital-purple', icon: 'fa-hospital',   canManageRanks: false, canAccessPapers: true },
+  public:    { rank: 5, key: 'public',    title: 'Public Supporter',           level: 'Rank 5', badgeClass: 'badge-lighty-rose',     icon: 'fa-heart',      canManageRanks: false, canAccessPapers: true },
+  pending:   { rank: 0, key: 'pending',   title: 'Pending Admin Rank',         level: 'Rank 0', badgeClass: 'badge-lighty-gold',     icon: 'fa-clock',      canManageRanks: false, canAccessPapers: false }
+};
+
+// AuthManager (Authentication, Sessions, JWT, and Admin Rank Decision Controller)
 const AuthManager = {
+  RANKS: USER_RANKS,
+
   getToken: function() {
     return localStorage.getItem('authros_token');
   },
@@ -649,6 +794,108 @@ const AuthManager = {
       return Boolean(token && user);
     } catch(e) { return false; }
   },
+
+  // Paper Access Gate: Requires login + verified assigned rank (Ranks 1 to 5)
+  canAccessPapers: function() {
+    if (!this.isAuthenticated()) return false;
+    const user = this.getUser();
+    if (!user) return false;
+    const roleKey = user.role || 'pending';
+    const rankInfo = USER_RANKS[roleKey] || USER_RANKS.pending;
+    return Boolean(rankInfo.canAccessPapers);
+  },
+
+  // Admin Check: Is the currently logged-in user the Admin / PI?
+  isAdmin: function() {
+    const user = this.getUser();
+    if (!user) return false;
+    return user.role === 'admin' || user.role === 'pi' || user.email === 'admin@authros.org' || Boolean(user.is_admin);
+  },
+
+  getRankInfo: function(roleKey) {
+    return USER_RANKS[roleKey] || USER_RANKS.pending;
+  },
+
+  // Live Registered Users Directory (Persisted in localStorage)
+  getAllUsers: function() {
+    const exemplarEmails = [
+      'dr.raman@genvault.org', 
+      'm.vance@synthego.com', 
+      'alex.chen@genvault.org', 
+      'clinical@hopkinsmedicine.org', 
+      'supporter@gmail.com', 
+      'marcus.brooks@stanford.edu'
+    ];
+
+    try {
+      const stored = localStorage.getItem('authros_registered_users');
+      if (stored) {
+        let users = JSON.parse(stored);
+        if (Array.isArray(users)) {
+          // Purge all legacy exemplar/dummy accounts
+          users = users.filter(u => !exemplarEmails.includes((u.email || '').toLowerCase().trim()));
+          if (users.length > 0) return users;
+        }
+      }
+    } catch(e) {}
+    
+    // Clean initial registry with only the Administrator (You)
+    const initialUsers = [
+      { 
+        id: 'usr-admin', 
+        email: 'admin@authros.org', 
+        full_name: 'System Administrator (You)', 
+        title: 'Lead Platform Administrator', 
+        role: 'admin', 
+        is_admin: true, 
+        tier: 'enterprise', 
+        org_name: 'AuthRos Open Science Platform', 
+        registered_at: '2026-01-01' 
+      }
+    ];
+    this.saveAllUsers(initialUsers);
+    return initialUsers;
+  },
+
+  saveAllUsers: function(users) {
+    try {
+      localStorage.setItem('authros_registered_users', JSON.stringify(users));
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('authros:users-updated', { detail: { users } }));
+      }
+    } catch(e) {}
+  },
+
+  // Admin Function: Change or Assign any user's rank
+  updateUserRank: function(userId, newRoleKey) {
+    const users = this.getAllUsers();
+    const userIndex = users.findIndex(u => u.id === userId || u.email === userId);
+    if (userIndex === -1) {
+      if (typeof showToast === 'function') showToast('User record not found.', 'Rank Error', 'error');
+      return false;
+    }
+
+    const rankInfo = USER_RANKS[newRoleKey] || USER_RANKS.pending;
+    users[userIndex].role = newRoleKey;
+    users[userIndex].title = rankInfo.title;
+    users[userIndex].is_admin = newRoleKey === 'admin' || newRoleKey === 'pi';
+    this.saveAllUsers(users);
+
+    // If changing the currently logged-in user, update session immediately
+    const currentUser = this.getUser();
+    if (currentUser && (currentUser.id === userId || currentUser.email === users[userIndex].email)) {
+      currentUser.role = newRoleKey;
+      currentUser.title = rankInfo.title;
+      currentUser.is_admin = users[userIndex].is_admin;
+      this.setUser(currentUser);
+    }
+
+    if (typeof showToast === 'function') {
+      showToast(`${users[userIndex].full_name} is now assigned ${rankInfo.level}: ${rankInfo.title}`, 'Rank Assigned by Admin', 'success');
+    }
+    return true;
+  },
+
   login: async function(email, password) {
     try {
       const res = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -662,34 +909,45 @@ const AuthManager = {
       this.setUser(data.user);
       return data;
     } catch (err) {
-      // Offline fallback demo login
-      const demoUsers = {
-        'dr.raman@genvault.org': { id: 'usr-1', email: 'dr.raman@genvault.org', full_name: 'Dr. Sarah Raman, PhD', title: 'Principal Investigator', role: 'pi', tier: 'enterprise', org_name: 'GenVault Therapeutics' },
-        'm.vance@synthego.com': { id: 'usr-2', email: 'm.vance@synthego.com', full_name: 'Dr. M. Vance, PhD', title: 'Senior Scientist', role: 'scientist', tier: 'pro', org_name: 'Synthego Genetics' },
-        'alex.chen@genvault.org': { id: 'usr-3', email: 'alex.chen@genvault.org', full_name: 'Alex Chen, MSc', title: 'Lab Technician', role: 'tech', tier: 'pro', org_name: 'GenVault Therapeutics' },
-        'clinical@hopkinsmedicine.org': { id: 'usr-4', email: 'clinical@hopkinsmedicine.org', full_name: 'Dr. E. Zhang, MD', title: 'Hospital Partner Representative', role: 'hospital', tier: 'enterprise', org_name: 'Johns Hopkins Medicine' },
-        'supporter@gmail.com': { id: 'usr-5', email: 'supporter@gmail.com', full_name: 'Jane Public', title: 'Public Supporter', role: 'public', tier: 'free', org_name: 'Independent Donors' }
-      };
-      const fallbackUser = demoUsers[email.toLowerCase()] || {
+      // Offline fallback login: match from registered users directory
+      const users = this.getAllUsers();
+      const matched = users.find(u => u.email.toLowerCase() === (email || '').toLowerCase().trim());
+      
+      const isAdminEmail = (email || '').toLowerCase().trim() === 'admin@authros.org';
+      const fallbackUser = matched || {
         id: 'usr-' + Date.now(),
-        email,
-        full_name: email.split('@')[0],
-        title: 'Researcher',
-        role: 'pi',
-        tier: 'pro',
-        org_name: 'Independent BioLab'
+        email: email || 'user@authros.org',
+        full_name: isAdminEmail ? 'System Administrator (You)' : (email || 'User').split('@')[0],
+        title: isAdminEmail ? 'System Administrator (You)' : 'Pending Admin Rank Assignment',
+        role: isAdminEmail ? 'admin' : 'pending',
+        is_admin: isAdminEmail,
+        tier: isAdminEmail ? 'enterprise' : 'free',
+        org_name: isAdminEmail ? 'AuthRos Platform' : 'Independent Research Lab',
+        registered_at: new Date().toISOString().split('T')[0]
       };
+
+      if (!matched && !isAdminEmail) {
+        users.push(fallbackUser);
+        this.saveAllUsers(users);
+      }
+
       this.setToken('mock_jwt_token_' + Date.now());
       this.setUser(fallbackUser);
-      return { message: 'Authenticated in local demo state', user: fallbackUser, token: 'mock_jwt_token' };
+      return { message: 'Authenticated successfully', user: fallbackUser, token: 'mock_jwt_token' };
     }
   },
+
   register: async function(userData) {
     try {
+      const payload = {
+        ...userData,
+        role: 'pending', // All new registrations MUST start as pending rank
+        title: 'Pending Admin Rank Assignment'
+      };
       const res = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData)
+        body: JSON.stringify(payload)
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Registration failed');
@@ -697,50 +955,60 @@ const AuthManager = {
       this.setUser(data.user);
       return data;
     } catch (err) {
+      const users = this.getAllUsers();
       const newUser = {
         id: 'usr-' + Date.now(),
         email: userData.email,
         full_name: userData.full_name,
-        title: userData.title || 'Researcher',
-        role: userData.role || 'scientist',
-        tier: 'pro',
-        org_name: userData.organization_name || 'Academic Lab'
+        title: 'Pending Admin Rank Assignment',
+        role: 'pending',
+        is_admin: false,
+        tier: 'free',
+        org_name: userData.organization_name || 'Academic Institution',
+        registered_at: new Date().toISOString().split('T')[0]
       };
+      users.push(newUser);
+      this.saveAllUsers(users);
+
       this.setToken('mock_jwt_token_' + Date.now());
       this.setUser(newUser);
-      return { message: 'Account registered in local demo state', user: newUser, token: 'mock_jwt_token' };
+      return { message: 'Account registered. Awaiting Admin rank approval.', user: newUser, token: 'mock_jwt_token' };
     }
   },
+
   logout: function() {
     this.setToken(null);
     this.setUser(null);
-    showToast('You have signed out successfully.', 'Signed Out', 'info');
+    if (typeof showToast === 'function') showToast('You have signed out successfully.', 'Signed Out', 'info');
     setTimeout(() => { window.location.href = 'index.html'; }, 800);
   },
+
   switchDemoRole: function(roleKey) {
-    const rolesMap = {
-      pi: { id: 'usr-1', email: 'dr.raman@genvault.org', full_name: 'Dr. Sarah Raman, PhD', title: 'Principal Investigator', role: 'pi', tier: 'enterprise', org_name: 'GenVault Therapeutics' },
-      scientist: { id: 'usr-2', email: 'm.vance@synthego.com', full_name: 'Dr. M. Vance, PhD', title: 'Senior Scientist', role: 'scientist', tier: 'pro', org_name: 'Synthego Genetics' },
-      tech: { id: 'usr-3', email: 'alex.chen@genvault.org', full_name: 'Alex Chen, MSc', title: 'Lab Technician', role: 'tech', tier: 'pro', org_name: 'GenVault Therapeutics' },
-      hospital: { id: 'usr-4', email: 'clinical@hopkinsmedicine.org', full_name: 'Dr. E. Zhang, MD', title: 'Hospital Partner Representative', role: 'hospital', tier: 'enterprise', org_name: 'Johns Hopkins Medicine' },
-      public: { id: 'usr-5', email: 'supporter@gmail.com', full_name: 'Jane Public', title: 'Public Supporter', role: 'public', tier: 'free', org_name: 'Independent Donors' }
-    };
-    if (rolesMap[roleKey]) {
-      this.setUser(rolesMap[roleKey]);
-      AuthRosState.currentRole = roleKey;
-      showToast(`Switched RBAC simulation role to ${rolesMap[roleKey].title}`, 'Role Switched', 'success');
-      return rolesMap[roleKey];
+    const users = this.getAllUsers();
+    let target = users.find(u => u.role === roleKey);
+    if (!target) {
+      const rankInfo = USER_RANKS[roleKey] || USER_RANKS.pi;
+      target = { id: 'usr-sim-' + roleKey, email: `${roleKey}@authros.org`, full_name: rankInfo.title, title: rankInfo.title, role: roleKey, tier: 'pro', org_name: 'Simulated Workspace' };
     }
+    this.setUser(target);
+    this.setToken('mock_jwt_token_' + Date.now());
+    AuthRosState.currentRole = roleKey;
+    if (typeof showToast === 'function') showToast(`Switched active profile to ${target.full_name} (${USER_RANKS[roleKey]?.level || 'Rank'})`, 'Role Switched', 'success');
+    return target;
   },
+
   hasPermission: function(permission) {
     const user = this.getUser();
-    const role = user?.role || 'pi';
+    if (!user) return false;
+    const role = user.role || 'pending';
     const permissions = {
-      pi: ['publish', 'privacy', 'grants', 'milestones', 'datasets', 'rbac', 'settings', 'admin'],
-      scientist: ['milestones', 'datasets', 'view_confidential', 'proposals'],
-      tech: ['upload_raw_fastq', 'log_assay', 'datasets'],
-      hospital: ['submit_cohort', 'hipaa_verify', 'site_partnership'],
-      public: ['donate', 'bookmark', 'view_open_science', 'share']
+      admin: ['publish', 'privacy', 'grants', 'milestones', 'datasets', 'rbac', 'settings', 'admin', 'manage_users', 'view_papers'],
+      pi: ['publish', 'privacy', 'grants', 'milestones', 'datasets', 'rbac', 'settings', 'admin', 'manage_users', 'view_papers'],
+      scientist: ['milestones', 'datasets', 'view_confidential', 'proposals', 'view_papers'],
+      tech: ['upload_raw_fastq', 'log_assay', 'datasets', 'view_papers'],
+      hospital: ['submit_cohort', 'hipaa_verify', 'site_partnership', 'view_papers'],
+      public: ['donate', 'bookmark', 'view_open_science', 'share', 'view_papers'],
+      pending: []
     };
     return (permissions[role] || []).includes(permission);
   },
@@ -1143,160 +1411,238 @@ function openQuickViewModal(projectId) {
   if (!modal) {
     modal = document.createElement('div');
     modal.id = 'quickview-modal';
-    modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300';
+    modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300';
     document.body.appendChild(modal);
   }
 
-  // Find project data
+  // Dismiss on backdrop click
+  modal.onclick = function(e) {
+    if (e.target === modal) closeQuickViewModal();
+  };
+
+  // Find project data flexibly
   let p = null;
+  const pIdStr = String(projectId || '').toLowerCase().trim();
+
   if (typeof AuthRosData !== 'undefined') {
-    p = AuthRosData.getPapers().find(x => x.id === projectId || x.code === projectId);
+    const papers = AuthRosData.getPapers();
+    p = papers.find(x => 
+      String(x.id).toLowerCase() === pIdStr || 
+      String(x.code).toLowerCase() === pIdStr ||
+      (x.doi && String(x.doi).toLowerCase() === pIdStr)
+    );
   }
   if (!p && typeof allProjects !== 'undefined' && Array.isArray(allProjects)) {
-    p = allProjects.find(x => x.id === projectId || x.code === projectId);
+    p = allProjects.find(x => 
+      String(x.id).toLowerCase() === pIdStr || 
+      String(x.code).toLowerCase() === pIdStr ||
+      (x.doi && String(x.doi).toLowerCase() === pIdStr)
+    );
   }
   if (!p) {
     p = {
       id: projectId,
-      title: 'Biomedical Research Study',
-      code: projectId,
-      abstract: 'Detailed experimental and clinical observations for this registered research protocol.',
+      title: 'Biomedical Research Study (' + String(projectId).toUpperCase() + ')',
+      code: String(projectId).toUpperCase(),
+      abstract: 'Detailed experimental, preclinical, and clinical observations recorded for this registered scientific protocol.',
+      summary: 'Verified biomedical research protocol and clinical trial documentation.',
       status: 'ongoing',
       journal_citation: 'Peer-Reviewed Journal',
       publisher_name: 'Academic Press',
       publication_year: 2026,
       country_name: 'Global',
       country_code: 'GL',
+      domain: 'Biomedical Research',
       crowdfunding_raised: 32000,
       crowdfunding_target: 50000,
-      progress_percent: 64
+      progress_percent: 65,
+      lead_name: 'Research Consortium'
     };
   }
 
   const isComp = p.status === 'completed';
   const isBookmarked = typeof AuthRosState !== 'undefined' ? AuthRosState.isBookmarked(p.id) : false;
+  const isLiked = typeof AuthRosState !== 'undefined' ? AuthRosState.isLiked(p.id) : false;
   const flagSvg = typeof getCountryFlagSvg === 'function' ? getCountryFlagSvg(p.country_code) : '';
   const raised = p.crowdfunding_raised || 0;
   const target = p.crowdfunding_target || 50000;
   const pct = target > 0 ? Math.min(100, Math.round((raised / target) * 100)) : 100;
   const doiUrl = p.doi ? (p.doi.startsWith('http') ? p.doi : `https://doi.org/${p.doi}`) : null;
-  const pubmedUrl = p.source_url || (p.doi ? `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(p.doi)}` : '#');
+  const pubmedUrl = p.source_url || (p.doi ? `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(p.doi)}` : `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(p.title)}`);
 
   modal.innerHTML = `
-    <div class="shadcn-dialog-content max-w-2xl w-full bg-card border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 max-h-[90vh] flex flex-col p-0 rounded-3xl" id="quickview-card">
+    <div class="shadcn-dialog-content max-w-2xl w-full bg-card border border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 max-h-[88vh] flex flex-col p-0 rounded-2xl sm:rounded-3xl" id="quickview-card" onclick="event.stopPropagation()">
       
-      <!-- Top Bar -->
-      <div class="p-5 sm:p-6 pb-4 border-b border-border flex items-center justify-between gap-3 bg-muted/20">
+      <!-- Modal Top Header -->
+      <div class="px-6 py-4 border-b border-border flex items-center justify-between gap-3 bg-muted/20">
         <div class="flex items-center gap-2 flex-wrap">
-          <span class="shadcn-badge ${isComp ? 'badge-emerald' : 'badge-amber'} text-[10px] uppercase font-bold tracking-wider">
-            ${isComp ? 'COMPLETED PUBLICATION' : 'ACTIVE CLINICAL PIPELINE'}
+          <span class="shadcn-badge ${isComp ? 'badge-emerald' : 'badge-amber'} text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5">
+            ${isComp ? 'COMPLETED PUBLICATION' : 'ACTIVE PIPELINE'}
           </span>
-          <span class="inline-flex items-center gap-1.5 bg-muted px-2.5 py-1 rounded-lg border border-border text-[11px] font-semibold text-foreground">
+          <span class="inline-flex items-center gap-1.5 bg-muted px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-foreground">
             ${flagSvg}
             <span>${p.country_name || 'Global'} (${p.country_code || 'GL'})</span>
           </span>
-          <span class="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">
+          <span class="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">
             ${p.code}
           </span>
         </div>
-        <button onclick="closeQuickViewModal()" class="w-8 h-8 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground flex items-center justify-center transition">
-          <i class="fa-solid fa-xmark text-sm"></i>
+        <button onclick="closeQuickViewModal()" class="w-8 h-8 rounded-xl bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground flex items-center justify-center transition shrink-0" title="Close (Esc)">
+          <i class="fa-solid fa-xmark text-xs"></i>
         </button>
       </div>
 
-      <!-- Modal Body (Scrollable) -->
-      <div class="p-5 sm:p-6 space-y-4 overflow-y-auto flex-1 text-xs">
-        <div>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-foreground leading-snug">
+      <!-- Modal Scrollable Body -->
+      <div class="p-6 space-y-5 overflow-y-auto flex-1 text-xs">
+        
+        <!-- Header Info -->
+        <div class="space-y-2">
+          <div class="flex items-center gap-2 text-[11px]">
+            <span class="font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">
+              ${p.domain || 'Biomedical Science'}
+            </span>
+            <span class="text-muted-foreground font-mono">• ${p.publication_year || 2026}</span>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl font-black text-foreground leading-snug tracking-tight">
             ${p.title}
           </h2>
-          <div class="flex items-center gap-2 mt-2 text-muted-foreground text-xs">
-            <span class="font-semibold text-foreground">${p.lead_name || 'Principal Investigator'}</span>
+
+          <div class="flex flex-wrap items-center gap-2 pt-1 text-muted-foreground text-xs font-medium">
+            <span class="text-foreground flex items-center gap-1.5 font-bold">
+              <i class="fa-solid fa-user-doctor text-emerald-600 text-xs"></i>
+              ${p.lead_name || 'Principal Investigator'}
+            </span>
             <span>•</span>
-            <span class="text-emerald-600 dark:text-emerald-400 font-semibold">${p.publisher_name || 'Publisher'}</span>
+            <span class="text-emerald-600 dark:text-emerald-400 font-semibold">${p.publisher_name || 'Academic Press'}</span>
             <span>•</span>
-            <span>${p.journal_citation || 'Peer-Reviewed'} (${p.publication_year || 2026})</span>
+            <span>${p.journal_citation || 'Peer-Reviewed Study'}</span>
           </div>
         </div>
 
-        <!-- Abstract Box -->
-        <div class="space-y-2 p-4 rounded-2xl bg-muted/40 border border-border">
-          <h3 class="text-[11px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-            <i class="fa-solid fa-file-lines text-emerald-600"></i> Scientific Abstract & Protocol
-          </h3>
-          <p class="text-xs text-foreground leading-relaxed">
-            ${p.abstract || p.summary || 'No detailed abstract recorded for this entry.'}
-          </p>
-        </div>
+        <!-- Abstract Box / Login Lock Gate -->
+        ${AuthManager.canAccessPapers() ? `
+          <div class="space-y-2 p-4 sm:p-5 rounded-2xl bg-muted/40 text-foreground">
+            <h3 class="text-[11px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-file-lines text-emerald-600"></i> Scientific Abstract & Protocol Summary
+            </h3>
+            <p class="text-xs text-foreground/90 leading-relaxed font-normal">
+              ${p.abstract || p.summary || 'No detailed abstract recorded for this entry.'}
+            </p>
+          </div>
+        ` : `
+          <div class="p-5 sm:p-6 rounded-2xl bg-muted/40 flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl shrink-0">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <div class="space-y-2 flex-1">
+              <div>
+                <h3 class="text-sm font-extrabold text-foreground">Authentication & Rank Verification Required</h3>
+                <p class="text-xs text-muted-foreground mt-0.5 leading-relaxed">
+                  Full protocols, raw assay datasets, and milestone logs are restricted. Sign in with a verified account assigned by the Administrator.
+                </p>
+              </div>
+              <div class="pt-1 flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                <a href="auth.html?redirect=study-detail.html?id=${p.id}" class="btn-forest px-4 py-2 rounded-xl text-xs font-bold shadow-xs inline-flex items-center gap-1.5">
+                  <i class="fa-solid fa-right-to-bracket text-xs"></i> Sign In to Access Protocol
+                </a>
+                <button onclick="AuthManager.switchDemoRole('admin'); closeQuickViewModal(); openQuickViewModal('${p.id}');" class="btn-sunset px-3.5 py-2 rounded-xl text-xs font-bold shadow-xs inline-flex items-center gap-1.5">
+                  <i class="fa-solid fa-crown text-xs"></i> Log In as Admin (You)
+                </button>
+              </div>
+            </div>
+          </div>
+        `}
 
-        <!-- External Citation Links -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+        <!-- Verification & Document Links (Minimal, clean surface without outline clutter) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           ${doiUrl ? `
-            <a href="${doiUrl}" target="_blank" class="p-3 rounded-xl bg-card border border-border hover:border-emerald-500/50 flex items-center justify-between group transition">
-              <div class="flex items-center gap-2 text-xs">
-                <i class="fa-solid fa-link text-emerald-600"></i>
+            <a href="${doiUrl}" target="_blank" class="p-3 rounded-xl bg-muted/30 hover:bg-muted/60 flex items-center justify-between group transition">
+              <div class="flex items-center gap-2.5 text-xs">
+                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+                  <i class="fa-solid fa-link text-xs"></i>
+                </div>
                 <div>
-                  <div class="font-bold text-foreground group-hover:text-emerald-600">Official DOI Article</div>
-                  <div class="text-[10px] text-muted-foreground font-mono truncate max-w-[180px]">${p.doi}</div>
+                  <div class="font-bold text-foreground group-hover:text-emerald-600 transition">Official DOI Document</div>
+                  <div class="text-[10px] text-muted-foreground font-mono truncate max-w-[170px]">${p.doi}</div>
                 </div>
               </div>
-              <i class="fa-solid fa-arrow-up-right-from-square text-xs text-muted-foreground group-hover:text-emerald-600"></i>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs text-muted-foreground group-hover:text-emerald-600 transition mr-1"></i>
             </a>
-          ` : ''}
-
-          <a href="${pubmedUrl}" target="_blank" class="p-3 rounded-xl bg-card border border-border hover:border-sky-500/50 flex items-center justify-between group transition">
-            <div class="flex items-center gap-2 text-xs">
-              <i class="fa-solid fa-book-medical text-sky-600"></i>
+          ` : `
+            <div class="p-3 rounded-xl bg-muted/30 flex items-center gap-2.5 text-xs text-muted-foreground">
+              <div class="w-8 h-8 rounded-lg bg-muted text-muted-foreground flex items-center justify-center">
+                <i class="fa-solid fa-dna text-xs"></i>
+              </div>
               <div>
-                <div class="font-bold text-foreground group-hover:text-sky-600">PubMed Verification</div>
+                <div class="font-semibold text-foreground">Registered Protocol</div>
+                <div class="text-[10px] font-mono">${p.code}</div>
+              </div>
+            </div>
+          `}
+
+          <a href="${pubmedUrl}" target="_blank" class="p-3 rounded-xl bg-muted/30 hover:bg-muted/60 flex items-center justify-between group transition">
+            <div class="flex items-center gap-2.5 text-xs">
+              <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 flex items-center justify-center">
+                <i class="fa-solid fa-book-medical text-xs"></i>
+              </div>
+              <div>
+                <div class="font-bold text-foreground group-hover:text-sky-600 transition">PubMed Verification</div>
                 <div class="text-[10px] text-muted-foreground">National Library of Medicine</div>
               </div>
             </div>
-            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-muted-foreground group-hover:text-sky-600"></i>
+            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-muted-foreground group-hover:text-sky-600 transition mr-1"></i>
           </a>
         </div>
 
-        <!-- Progress & Funding Bar -->
+        <!-- Progress / Status Indicator -->
         ${!isComp ? `
-          <div class="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/20 space-y-2">
+          <div class="p-3.5 rounded-xl bg-amber-500/5 space-y-2">
             <div class="flex justify-between text-xs font-bold">
               <span class="text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
-                <i class="fa-solid fa-heart"></i> Public Milestone Crowdfunding
+                <i class="fa-solid fa-heart text-amber-500"></i> Milestone Crowdfunding
               </span>
-              <span class="text-foreground">$${raised.toLocaleString()} / $${target.toLocaleString()} (${pct}%)</span>
+              <span class="text-foreground font-mono">$${raised.toLocaleString()} / $${target.toLocaleString()} (${pct}%)</span>
             </div>
-            <div class="w-full bg-muted rounded-full h-2 overflow-hidden">
-              <div class="bg-gradient-to-r from-amber-500 to-emerald-600 h-2 rounded-full" style="width: ${pct}%"></div>
+            <div class="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+              <div class="bg-gradient-to-r from-amber-500 to-emerald-600 h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
             </div>
           </div>
         ` : `
-          <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs flex items-center gap-2">
-            <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
-            <span>This study has achieved peer-reviewed publication and milestone completion.</span>
+          <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-xs flex items-center gap-2 font-medium">
+            <i class="fa-solid fa-circle-check text-emerald-600 text-sm shrink-0"></i>
+            <span>This study has achieved full peer-reviewed publication and milestone completion.</span>
           </div>
         `}
       </div>
 
-      <!-- Footer Buttons -->
-      <div class="p-4 sm:p-5 border-t border-border bg-muted/10 flex flex-wrap items-center justify-between gap-3">
+      <!-- Modal Footer -->
+      <div class="px-6 py-4 border-t border-border bg-muted/20 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-2">
-          <button onclick="closeQuickViewModal(); openShareModal('${(p.title||'').replace(/'/g, "\\'")}', '${p.code}', '${p.doi||''}', '${(p.journal_citation||'').replace(/'/g, "\\'")}', '${p.source_url||''}')" class="shadcn-btn btn-outline btn-sm text-xs">
-            <i class="fa-solid fa-quote-left mr-1"></i> Cite Paper
+          <button onclick="closeQuickViewModal(); openShareModal('${(p.title||'').replace(/'/g, "\\'")}', '${p.code}', '${p.doi||''}', '${(p.journal_citation||'').replace(/'/g, "\\'")}', '${p.source_url||''}')" class="shadcn-btn btn-outline btn-sm text-xs rounded-xl">
+            <i class="fa-solid fa-quote-left mr-1"></i> Cite
           </button>
-          <button onclick="AuthRosState.toggleBookmark('${p.id}'); showToast('Bookmark updated.', 'Saved', 'info');" class="shadcn-btn btn-outline btn-sm text-xs">
-            <i class="${isBookmarked ? 'fa-solid text-emerald-600' : 'fa-regular'} fa-bookmark mr-1"></i> Save
+          <button id="quickview-save-btn" onclick="toggleQuickViewBookmark('${p.id}', this)" class="shadcn-btn btn-outline btn-sm text-xs rounded-xl ${isBookmarked ? 'text-emerald-600 font-bold' : ''}">
+            <i class="${isBookmarked ? 'fa-solid text-emerald-600' : 'fa-regular'} fa-bookmark mr-1"></i>
+            <span>${isBookmarked ? 'Saved' : 'Save'}</span>
           </button>
         </div>
 
         <div class="flex items-center gap-2">
           ${!isComp ? `
-            <button onclick="closeQuickViewModal(); openDonateModal('${(p.title||'').replace(/'/g, "\\'")}', '$${raised.toLocaleString()}', '$${target.toLocaleString()}', '${p.id}')" class="shadcn-btn btn-outline btn-sm text-xs text-amber-600 hover:bg-amber-500/10">
+            <button onclick="closeQuickViewModal(); openDonateModal('${(p.title||'').replace(/'/g, "\\'")}', '$${raised.toLocaleString()}', '$${target.toLocaleString()}', '${p.id}')" class="btn-sunset px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-xs">
               <i class="fa-solid fa-heart mr-1"></i> Fund
             </button>
           ` : ''}
-          <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-default btn-sm text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold">
-            Inspect Full Protocol →
-          </a>
+          ${AuthManager.canAccessPapers() ? `
+            <a href="study-detail.html?id=${p.id}" class="btn-forest px-4 py-2 rounded-xl text-xs font-bold shadow-xs">
+              Inspect Full Protocol →
+            </a>
+          ` : `
+            <a href="auth.html?redirect=study-detail.html?id=${p.id}" class="btn-sunset px-4 py-2 rounded-xl text-xs font-bold shadow-xs">
+              <i class="fa-solid fa-lock mr-1"></i> Login to View Protocol →
+            </a>
+          `}
         </div>
       </div>
 
@@ -1304,18 +1650,55 @@ function openQuickViewModal(projectId) {
   `;
 
   modal.classList.remove('opacity-0', 'pointer-events-none');
-  const card = document.getElementById('quickview-card');
-  if (card) card.classList.remove('scale-95');
+  setTimeout(() => {
+    const card = document.getElementById('quickview-card');
+    if (card) card.classList.remove('scale-95');
+  }, 10);
+}
+
+function toggleQuickViewBookmark(id, btn) {
+  if (typeof AuthRosState === 'undefined') return;
+  const added = AuthRosState.toggleBookmark(id);
+  const icon = btn.querySelector('i');
+  const span = btn.querySelector('span');
+  if (added) {
+    if (icon) icon.className = 'fa-solid fa-bookmark mr-1 text-emerald-600';
+    if (span) span.textContent = 'Saved';
+    btn.classList.add('border-emerald-500', 'text-emerald-600', 'font-bold');
+    showToast('Study saved to your bookmarks library.', 'Bookmarked', 'success');
+  } else {
+    if (icon) icon.className = 'fa-regular fa-bookmark mr-1';
+    if (span) span.textContent = 'Save';
+    btn.classList.remove('border-emerald-500', 'text-emerald-600', 'font-bold');
+    showToast('Study removed from bookmarks.', 'Bookmark Removed', 'info');
+  }
 }
 
 function closeQuickViewModal() {
   const modal = document.getElementById('quickview-modal');
-  if (modal) modal.classList.add('opacity-0', 'pointer-events-none');
+  if (modal) {
+    const card = document.getElementById('quickview-card');
+    if (card) card.classList.add('scale-95');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+  }
+}
+
+// Global Escape listener for modals
+if (typeof document !== 'undefined') {
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeQuickViewModal();
+      if (typeof closeDonateModal === 'function') closeDonateModal();
+      if (typeof closeHospitalModal === 'function') closeHospitalModal();
+      if (typeof closeShareModal === 'function') closeShareModal();
+    }
+  });
 }
 
 if (typeof window !== 'undefined') {
   window.openQuickViewModal = openQuickViewModal;
   window.closeQuickViewModal = closeQuickViewModal;
+  window.toggleQuickViewBookmark = toggleQuickViewBookmark;
 }
 
 // --- SHARED HEADER NAVIGATION GENERATOR (Clean, Modern, Minimalist Toolbar) ---
@@ -1365,17 +1748,17 @@ function renderHeader(activePage = 'home') {
               </button>
               <div class="absolute left-0 top-full mt-1 w-52 p-1.5 bg-card border border-border rounded-xl shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-50">
                 <a href="public-portal.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-accent text-xs font-semibold text-foreground">
-                  <i class="fa-solid fa-heart text-amber-500 w-4"></i> Public Donors
+                  <i class="fa-solid fa-heart text-rose-500 w-4"></i> Public Donors
                 </a>
                 <a href="hospital-portal.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-accent text-xs font-semibold text-foreground">
-                  <i class="fa-solid fa-hospital text-sky-500 w-4"></i> Hospital Network
+                  <i class="fa-solid fa-hospital text-purple-600 dark:text-purple-400 w-4"></i> Hospital Network
                 </a>
                 <a href="researcher-portal.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-accent text-xs font-semibold text-foreground">
-                  <i class="fa-solid fa-microscope text-emerald-600 w-4"></i> Researcher RBAC
+                  <i class="fa-solid fa-microscope text-orange-500 w-4"></i> Researcher RBAC
                 </a>
                 <div class="border-t border-border my-1"></div>
-                <a href="dashboard.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-emerald-500/10 text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                  <i class="fa-solid fa-gauge-high w-4"></i> Workspace Dashboard
+                <a href="dashboard.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-emerald-500/10 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                  <i class="fa-solid fa-gauge-high w-4 text-emerald-600 dark:text-emerald-400"></i> Workspace Dashboard
                 </a>
               </div>
             </div>
@@ -1388,7 +1771,7 @@ function renderHeader(activePage = 'home') {
           <!-- Minimal Search Shortcut -->
           <a href="research.html" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-muted/40 hover:bg-accent hover:border-emerald-500/30 text-xs text-muted-foreground transition cursor-pointer">
             <i class="fa-solid fa-magnifying-glass text-[11px]"></i>
-            <span>Search 1,250+ papers...</span>
+            <span>Search 10,500+ papers...</span>
             <kbd class="ml-1 text-[9px] font-mono bg-background border border-border px-1 py-0.5 rounded text-muted-foreground">⌘K</kbd>
           </a>
 
@@ -1716,6 +2099,10 @@ const AnimationManager = {
     this.initScrollReveal();
     this.initClickRipple();
     this.initTypingGlow();
+    this.initSpotlightTracking();
+    this.initCountUp();
+    this.init3DTilt();
+    this.initBioCanvas();
   },
 
   // 1. Scroll Reading Progress Bar at Top
@@ -1741,7 +2128,6 @@ const AnimationManager = {
   initScrollReveal: function() {
     try {
       if (typeof document === 'undefined' || typeof window === 'undefined' || !('IntersectionObserver' in window)) {
-        // Fallback: make all reveals active immediately
         if (typeof document !== 'undefined') {
           document.querySelectorAll('.reveal, .reveal-scale, .reveal-left, .reveal-right').forEach(el => el.classList.add('active'));
         }
@@ -1761,7 +2147,6 @@ const AnimationManager = {
       const revealElements = document.querySelectorAll('.reveal, .reveal-scale, .reveal-left, .reveal-right');
       revealElements.forEach(el => observer.observe(el));
 
-      // Re-scan helper
       window.observeReveals = () => {
         try {
           document.querySelectorAll('.reveal:not(.active), .reveal-scale:not(.active), .reveal-left:not(.active), .reveal-right:not(.active)')
@@ -1776,7 +2161,7 @@ const AnimationManager = {
     try {
       if (typeof document === 'undefined') return;
       document.addEventListener('click', (e) => {
-        const btn = e.target.closest('button, .interactive-card, .domain-pill, a.shadcn-btn, .clickable-pill');
+        const btn = e.target.closest('button, .interactive-card, .domain-pill, a.shadcn-btn, .clickable-pill, .btn-forest, .btn-sunset, .btn-hospital-purple, .btn-public-rainbow');
         if (!btn) return;
 
         const rect = btn.getBoundingClientRect();
@@ -1789,10 +2174,10 @@ const AnimationManager = {
         circle.style.top = `${e.clientY - rect.top - radius}px`;
         circle.classList.add('ripple-circle');
 
-        const isAmber = btn.closest('.bg-amber-500, .border-amber-500, [href*="public-portal"]');
-        const isSky = btn.closest('.bg-sky-600, .border-sky-500, [href*="hospital-portal"]');
-        if (isAmber) circle.style.backgroundColor = 'rgba(245, 158, 11, 0.35)';
-        else if (isSky) circle.style.backgroundColor = 'rgba(14, 165, 233, 0.35)';
+        const isAmber = btn.closest('.bg-amber-500, .border-amber-500, [href*="public-portal"], .badge-sunset, .btn-sunset');
+        const isSky = btn.closest('.bg-sky-600, .border-sky-500, [href*="hospital-portal"], .badge-hospital-purple, .btn-hospital-purple');
+        if (isAmber) circle.style.backgroundColor = 'rgba(249, 115, 22, 0.35)';
+        else if (isSky) circle.style.backgroundColor = 'rgba(139, 92, 246, 0.35)';
         else circle.style.backgroundColor = 'rgba(16, 185, 129, 0.35)';
 
         const computedPos = window.getComputedStyle ? window.getComputedStyle(btn).position : '';
@@ -1822,6 +2207,182 @@ const AnimationManager = {
         void input.offsetWidth;
         input.classList.add('typing-active');
       });
+    } catch(e) {}
+  },
+
+  // 5. Dynamic Cursor-Tracking Spotlight Glow
+  initSpotlightTracking: function() {
+    try {
+      if (typeof document === 'undefined') return;
+      document.addEventListener('mousemove', (e) => {
+        const card = e.target.closest('.interactive-card, .spotlight-card, .shadcn-card, .glass-panel, .glass-dark');
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    } catch(e) {}
+  },
+
+  // 6. Smooth Live Numbers Count-Up
+  initCountUp: function() {
+    try {
+      if (typeof document === 'undefined' || !('IntersectionObserver' in window)) return;
+      const countObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const text = el.textContent.trim();
+            const match = text.match(/^([^\d]*)(\d[\d,]*)(.*)$/);
+            if (match && !el.dataset.counted) {
+              el.dataset.counted = 'true';
+              const prefix = match[1];
+              const targetVal = parseInt(match[2].replace(/,/g, ''), 10);
+              const suffix = match[3];
+              if (!isNaN(targetVal) && targetVal > 0) {
+                const duration = 1200;
+                const startTime = performance.now();
+                const animateCount = (now) => {
+                  const elapsed = now - startTime;
+                  const progress = Math.min(elapsed / duration, 1);
+                  // Ease Out Expo
+                  const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                  const currentVal = Math.floor(targetVal * easeProgress);
+                  el.textContent = `${prefix}${currentVal.toLocaleString()}${suffix}`;
+                  if (progress < 1) {
+                    requestAnimationFrame(animateCount);
+                  } else {
+                    el.textContent = `${prefix}${targetVal.toLocaleString()}${suffix}`;
+                  }
+                };
+                requestAnimationFrame(animateCount);
+              }
+            }
+            obs.unobserve(el);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('[id*="count"], [id*="total"], strong.text-2xl, .count-target').forEach(el => {
+        countObserver.observe(el);
+      });
+    } catch(e) {}
+  },
+
+  // 7. Dynamic 3D Card Tilt
+  init3DTilt: function() {
+    try {
+      if (typeof document === 'undefined' || window.innerWidth < 768) return;
+      document.addEventListener('mousemove', (e) => {
+        const card = e.target.closest('.tilt-card');
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        const cardX = e.clientX - rect.left;
+        const cardY = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((cardY - centerY) / centerY) * -6;
+        const rotateY = ((cardX - centerX) / centerX) * 6;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`;
+      });
+
+      document.addEventListener('mouseout', (e) => {
+        const card = e.target.closest('.tilt-card');
+        if (card && !card.contains(e.relatedTarget)) {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        }
+      });
+    } catch(e) {}
+  },
+
+  // 8. Ambient Bio-Mesh Interactive Dynamic Canvas
+  initBioCanvas: function() {
+    try {
+      if (typeof document === 'undefined') return;
+      let canvas = document.getElementById('bio-canvas');
+      if (!canvas) {
+        canvas = document.createElement('canvas');
+        canvas.id = 'bio-canvas';
+        if (document.body) document.body.prepend(canvas);
+      }
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }, { passive: true });
+
+      const nodeCount = Math.min(Math.floor((width * height) / 32000), 45);
+      const nodes = [];
+      for (let i = 0; i < nodeCount; i++) {
+        nodes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: (Math.random() - 0.5) * 0.45,
+          radius: Math.random() * 2 + 1,
+          alpha: Math.random() * 0.4 + 0.2
+        });
+      }
+
+      let mouse = { x: -1000, y: -1000 };
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      }, { passive: true });
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        const isDark = document.documentElement.classList.contains('dark');
+        const nodeColor = isDark ? '52, 211, 153' : '16, 185, 129';
+
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          n.x += n.vx;
+          n.y += n.vy;
+
+          if (n.x < 0 || n.x > width) n.vx *= -1;
+          if (n.y < 0 || n.y > height) n.vy *= -1;
+
+          // React slightly to mouse
+          const dx = mouse.x - n.x;
+          const dy = mouse.y - n.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 140) {
+            n.x -= (dx / dist) * 0.6;
+            n.y -= (dy / dist) * 0.6;
+          }
+
+          // Draw node
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${nodeColor}, ${n.alpha})`;
+          ctx.fill();
+
+          // Connect nearby nodes
+          for (let j = i + 1; j < nodes.length; j++) {
+            const n2 = nodes[j];
+            const distNodes = Math.hypot(n.x - n2.x, n.y - n2.y);
+            if (distNodes < 120) {
+              const lineAlpha = (1 - distNodes / 120) * 0.18;
+              ctx.beginPath();
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(n2.x, n2.y);
+              ctx.strokeStyle = `rgba(${nodeColor}, ${lineAlpha})`;
+              ctx.lineWidth = 0.75;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
     } catch(e) {}
   }
 };

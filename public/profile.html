@@ -53,7 +53,7 @@
         }
       }
     };
-    if (localStorage.getItem('biotrack_theme') === 'dark' || (!('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (localStorage.getItem('authros_theme') === 'dark' || localStorage.getItem('biotrack_theme') === 'dark' || (!('authros_theme' in localStorage) && !('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -62,7 +62,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="bg-bio-grid bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+<body class="bg-background text-foreground font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white transition-colors duration-200">
 
   <!-- Shared Header -->
   <div id="header-root"></div>
@@ -70,43 +70,46 @@
   <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
     
     <!-- Profile Banner -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+    <div class="reveal spotlight-card bg-card rounded-3xl border border-border shadow-md overflow-hidden">
       <div class="h-36 bg-gradient-to-r from-emerald-950 via-slate-900 to-green-950 relative"></div>
       
       <div class="px-6 sm:px-8 pb-6 relative flex flex-col md:flex-row items-start md:items-end justify-between gap-6 -mt-14">
         <div class="flex flex-col sm:flex-row items-start sm:items-end gap-5">
-          <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-emerald-600 to-green-400 text-white flex items-center justify-center font-black text-3xl border-4 border-white shadow-xl">
-            SR
+          <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-emerald-600 to-green-400 text-white flex items-center justify-center font-black text-3xl border-4 border-card shadow-xl">
+            <i class="fa-solid fa-user"></i>
           </div>
           <div class="space-y-1">
-            <h1 class="text-2xl font-extrabold text-slate-900" id="profName">Dr. Sarah Raman, PhD</h1>
-            <p class="text-xs text-slate-600"><span id="profTitle">Principal Investigator</span> • <span class="text-emerald-700 font-bold" id="profOrg">GenVault Therapeutics</span></p>
+            <div class="flex items-center gap-2">
+              <h1 class="text-2xl font-extrabold text-foreground" id="profName">Researcher Profile</h1>
+              <span id="profRankBadge" class="badge-forest text-[11px] font-bold px-2.5 py-0.5 rounded-md uppercase">Rank 1</span>
+            </div>
+            <p class="text-xs text-muted-foreground"><span id="profTitle">Platform Member</span> • <span class="text-emerald-600 dark:text-emerald-400 font-bold" id="profOrg">AuthRos Research</span></p>
           </div>
         </div>
 
         <div class="flex items-center gap-2">
-          <a href="dashboard.html" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold shadow-md hover:bg-emerald-600 transition">
-            <i class="fa-solid fa-gauge-high mr-1"></i> SaaS Workspace
+          <a href="dashboard.html" class="shadcn-btn btn-default text-xs font-bold shadow-xs bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl">
+            <i class="fa-solid fa-gauge-high mr-1"></i> Workspace Dashboard
           </a>
-          <a href="publish.html" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl text-xs font-bold shadow-md">
-            + Start New Protocol
+          <a href="publish.html" class="shadcn-btn btn-outline text-xs font-bold shadow-xs rounded-xl">
+            + Start Protocol
           </a>
         </div>
       </div>
     </div>
 
     <!-- Managed Studies -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 p-6 space-y-4">
+    <div class="reveal spotlight-card bg-card rounded-3xl border border-border p-6 space-y-4 shadow-sm">
       <div class="flex items-center justify-between">
-        <h2 class="text-lg font-bold text-slate-900">Managed Protocols & Active Pipelines</h2>
-        <a href="dashboard.html" class="text-xs font-bold text-emerald-600 hover:underline">Manage All in SaaS Dashboard →</a>
+        <h2 class="text-lg font-bold text-foreground">Managed Protocols & Active Pipelines</h2>
+        <a href="dashboard.html" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline">Manage All in SaaS Dashboard →</a>
       </div>
-      <div class="interactive-card p-5 rounded-2xl border border-slate-200 bg-slate-50 flex items-center justify-between">
+      <div class="interactive-card p-5 rounded-2xl border border-border bg-muted/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span class="font-bold text-slate-900 block text-sm">Project BT-402-ONC (Targeted mRNA Delivery)</span>
-          <span class="text-xs text-slate-500">Status: Phase II Clinical • $32,500 Crowdfunded • 45 Hospital Cohorts Linked</span>
+          <span class="font-bold text-foreground block text-sm">Project BT-402-ONC (Targeted mRNA Delivery)</span>
+          <span class="text-xs text-muted-foreground">Status: Phase II Clinical • $32,500 Crowdfunded • 45 Hospital Cohorts Linked</span>
         </div>
-        <a href="study-detail.html?id=proj-1" class="px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-700 hover:bg-emerald-600 hover:text-white transition">
+        <a href="study-detail.html?id=proj-1" class="shadcn-btn btn-outline text-xs font-bold shadow-xs rounded-xl self-start sm:self-auto">
           Manage RBAC & Protocol →
         </a>
       </div>
@@ -114,7 +117,7 @@
 
   </main>
 
-  <footer class="bg-slate-950 border-t border-emerald-900/40 text-slate-400 text-xs py-6 mt-12 text-center">
+  <footer class="border-t border-border bg-card/60 text-muted-foreground text-xs py-6 mt-12 text-center">
     <p>© 2026 AuthRos Platform • User Profile</p>
   </footer>
 
@@ -128,6 +131,12 @@
         document.getElementById('profName').textContent = user.full_name;
         document.getElementById('profTitle').textContent = user.title || user.role.toUpperCase();
         if (user.org_name) document.getElementById('profOrg').textContent = user.org_name;
+        const rankBadge = document.getElementById('profRankBadge');
+        if (rankBadge) {
+          const rankInfo = AuthManager.getRankInfo(user.role);
+          rankBadge.className = `${rankInfo.badgeClass} text-[11px] font-bold px-2.5 py-0.5 rounded-md uppercase`;
+          rankBadge.textContent = rankInfo.level + ' • ' + rankInfo.title;
+        }
       }
     }
     initProfile();

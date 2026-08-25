@@ -43,13 +43,13 @@ function requireRole(...allowedRoles) {
     if (!req.user) {
       return res.status(401).json({ success: false, error: 'Authentication required.' });
     }
-    if (!allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({
-        success: false,
-        error: `Access denied. Required role: ${allowedRoles.join(' or ')}. Your role: ${req.user.role}.`
-      });
+    if (req.user.role === 'admin' || req.user.is_admin || allowedRoles.includes(req.user.role)) {
+      return next();
     }
-    next();
+    return res.status(403).json({
+      success: false,
+      error: `Access denied. Required role: ${allowedRoles.join(' or ')}. Your role: ${req.user.role}.`
+    });
   };
 }
 

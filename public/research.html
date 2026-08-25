@@ -67,42 +67,44 @@
   <!-- Shared Header -->
   <div id="header-root"></div>
 
-  <!-- Hero Header Section -->
-  <section class="relative bg-gradient-to-b from-emerald-950 via-slate-900 to-background border-b border-emerald-500/20 pt-10 pb-12 overflow-hidden text-white">
-    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-emerald-500/15 rounded-full blur-[120px] pointer-events-none -z-0"></div>
-    
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 relative z-10">
+  <!-- Hero Header Section (Forest Green + Sunset Orange Research Theme) -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+    <div class="reveal relative overflow-hidden rounded-3xl bg-research-hero border border-orange-500/25 p-6 sm:p-10 shadow-xl text-white">
       
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div class="space-y-3 max-w-3xl">
-          <div class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs px-3.5 py-1 rounded-full font-bold shadow-xs">
-            <i class="fa-solid fa-dna text-emerald-400"></i>
-            <span>1,250+ Verified Global Papers • 1928–2026 Archive</span>
+      <!-- Background Glow Orbs -->
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-orange-500/15 rounded-full blur-3xl pointer-events-none -z-0"></div>
+      <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none -z-0"></div>
+
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="space-y-2 max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-orange-400/40 bg-orange-500/20 text-orange-200 text-xs font-semibold">
+            <span class="beacon-dot w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Open Preclinical & Clinical Study Directory</span>
           </div>
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
-            Biomedical Research <span class="text-gradient-emerald">Directory</span>
+          <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            Peer-Reviewed <span class="text-gradient-research">Biomedical Protocols</span>
           </h1>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
-            Explore 1,250+ verified medical research papers, ongoing clinical trials, and landmark biological breakthroughs spanning 12 international research hubs.
+          <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+            Search, filter, and inspect verified preclinical research studies across Harvard, Helix Biotech, Johns Hopkins, and Stanford Open Labs.
           </p>
         </div>
 
-        <!-- Telemetry Stat Counters -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white/5 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shrink-0">
+        <!-- Telemetry Stat Counters (Animated Count-Up) -->
+        <div class="spotlight-card grid grid-cols-2 sm:grid-cols-4 gap-3 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shrink-0">
           <div class="px-2">
-            <span class="text-xl font-extrabold text-white block" id="header-total-count">1,250</span>
+            <span class="text-xl font-extrabold text-white block font-mono" id="header-total-count">10,500</span>
             <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total Papers</span>
           </div>
           <div class="px-2 border-l border-white/10">
-            <span class="text-xl font-extrabold text-emerald-400 block" id="header-ongoing-count">618</span>
-            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">In-Vivo Trials</span>
+            <span class="text-xl font-extrabold text-orange-400 block font-mono" id="header-ongoing-count">5,244</span>
+            <span class="text-[10px] text-orange-300/80 uppercase font-bold tracking-wider">In-Vivo Trials</span>
           </div>
           <div class="px-2 border-l border-white/10">
-            <span class="text-xl font-extrabold text-green-400 block" id="header-completed-count">632</span>
-            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Completed</span>
+            <span class="text-xl font-extrabold text-emerald-400 block font-mono" id="header-completed-count">5,256</span>
+            <span class="text-[10px] text-emerald-300/80 uppercase font-bold tracking-wider">Completed</span>
           </div>
           <div class="px-2 border-l border-white/10">
-            <span class="text-xl font-extrabold text-sky-400 block">12</span>
+            <span class="text-xl font-extrabold text-amber-300 block font-mono">40+</span>
             <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Countries</span>
           </div>
         </div>
@@ -114,8 +116,11 @@
   <!-- Main Search, Filtering, and Content Container -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
     
+    <!-- Auth & Rank Access Status Banner -->
+    <div id="researchAuthGateBanner" class="reveal"></div>
+
     <!-- Unified Filter Command Bar -->
-    <div class="bg-card rounded-2xl border border-border p-4 sm:p-5 shadow-sm space-y-4">
+    <div class="reveal spotlight-card bg-card rounded-2xl border border-border p-4 sm:p-5 shadow-sm space-y-4">
       
       <!-- Top Row: Search Input + Status Tabs + Multilingual & View Modes -->
       <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
@@ -127,7 +132,7 @@
             type="text" 
             id="searchInput" 
             oninput="filterStudies()" 
-            placeholder="Search 1,250+ papers by title, author, biomarker, DOI, country, or journal... (Press / to search)" 
+            placeholder="Search 10,500+ papers by title, author, biomarker, DOI, country, or journal... (Press / to search)" 
             class="w-full bg-muted/60 border border-border rounded-xl pl-9 pr-8 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
           />
           <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-2.5 text-muted-foreground hover:text-foreground text-xs">
@@ -139,15 +144,15 @@
         <div class="flex items-center gap-1 bg-muted p-1 rounded-xl border border-border text-xs font-semibold shrink-0">
           <button onclick="setStatusFilter('all', this)" class="status-tab-btn px-3.5 py-1.5 rounded-lg bg-emerald-600 text-white font-bold shadow-xs transition flex items-center gap-1.5">
             <span>All Studies</span>
-            <span id="badge-count-all" class="text-[10px] bg-white/20 px-1.5 py-0.2 rounded-full">1,250</span>
+            <span id="badge-count-all" class="text-[10px] bg-white/20 px-1.5 py-0.2 rounded-full">10,500</span>
           </button>
           <button onclick="setStatusFilter('ongoing', this)" class="status-tab-btn px-3.5 py-1.5 rounded-lg text-muted-foreground hover:text-foreground transition flex items-center gap-1.5">
             <span>In-Vivo / Active</span>
-            <span id="badge-count-ongoing" class="text-[10px] bg-muted px-1.5 py-0.2 rounded-full">618</span>
+            <span id="badge-count-ongoing" class="text-[10px] bg-muted px-1.5 py-0.2 rounded-full">5,244</span>
           </button>
           <button onclick="setStatusFilter('completed', this)" class="status-tab-btn px-3.5 py-1.5 rounded-lg text-muted-foreground hover:text-foreground transition flex items-center gap-1.5">
             <span>Completed Papers</span>
-            <span id="badge-count-completed" class="text-[10px] bg-muted px-1.5 py-0.2 rounded-full">632</span>
+            <span id="badge-count-completed" class="text-[10px] bg-muted px-1.5 py-0.2 rounded-full">5,256</span>
           </button>
         </div>
 
@@ -261,24 +266,22 @@
 
         <!-- Sort & Per-Page Controls -->
         <div class="flex items-center gap-2.5 flex-wrap">
-          <!-- Interactive Sort Controls -->
+          <!-- Tidy Interactive Sort Controls -->
           <div class="flex items-center gap-1.5 bg-muted/60 p-1 rounded-xl border border-border">
-            <span class="text-[10px] font-bold text-muted-foreground uppercase px-1 flex items-center gap-1">
+            <span class="text-[10px] font-bold text-muted-foreground uppercase px-1.5 flex items-center gap-1">
               <i class="fa-solid fa-arrow-down-short-wide text-emerald-600"></i> Sort:
             </span>
-            <select id="sortSelect" onchange="setSortFilter(this.value)" class="bg-card border border-border rounded-lg px-2.5 py-1 text-[11px] font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer">
-              <option value="year_desc">📅 Year: Newest (2026 → 1928)</option>
-              <option value="year_asc">⏳ Year: Oldest / Historic (1928 → 2026)</option>
-              <option value="likes_desc">❤️ Most Popular / Citations</option>
-              <option value="funded_desc">💰 Highest Crowdfunded ($)</option>
-              <option value="progress_desc">📈 Highest Clinical Progress (%)</option>
-              <option value="title_asc">🔤 Title: A to Z</option>
-              <option value="title_desc">🔤 Title: Z to A</option>
-              <option value="country_asc">🌍 Country: A to Z</option>
+            <select id="sortSelect" onchange="setSortCategory(this.value)" class="bg-card border border-border rounded-lg px-2.5 py-1 text-[11px] font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer">
+              <option value="year" selected>📅 Publication Year</option>
+              <option value="likes">❤️ Most Popular / Citations</option>
+              <option value="funded">💰 Highest Crowdfunded ($)</option>
+              <option value="progress">📈 Clinical Trial Progress (%)</option>
+              <option value="title">🔤 Paper Title</option>
+              <option value="country">🌍 Lead Country</option>
             </select>
-            <button id="sortDirectionBtn" onclick="toggleSortDirection()" title="Invert Sort Order" class="p-1 px-2 rounded-lg bg-card hover:bg-accent border border-border text-foreground text-[11px] font-bold transition flex items-center gap-1">
+            <button id="sortDirectionBtn" onclick="toggleSortDirection()" title="Change Sort Direction" class="p-1 px-2.5 rounded-lg bg-card hover:bg-accent border border-border text-foreground text-[11px] font-bold transition flex items-center gap-1.5 shadow-2xs">
               <i id="sortDirectionIcon" class="fa-solid fa-arrow-down-wide-short text-emerald-600 text-xs"></i>
-              <span id="sortDirectionLabel" class="text-[10px]">Desc</span>
+              <span id="sortDirectionLabel" class="text-[10px] whitespace-nowrap">Newest First</span>
             </button>
           </div>
 
@@ -334,7 +337,7 @@
     let filteredProjects = [...allProjects];
     let currentStatus = 'all';
     let currentDomain = 'all';
-    let currentSort = 'year_desc';
+    let currentSortKey = 'year';
     let sortDirection = 'desc';
     let currentViewMode = 'card';
     let currentLang = 'en';
@@ -354,7 +357,7 @@
       document.getElementById('header-root').innerHTML = renderHeader('research');
 
       try {
-        const apiRes = await AuthRosAPI.getProjects({ limit: 1250 });
+        const apiRes = await AuthRosAPI.getProjects({ limit: 12000 });
         if (apiRes && apiRes.projects && apiRes.projects.length >= 50) {
           allProjects = apiRes.projects;
         } else {
@@ -430,14 +433,21 @@
         if (pubEl) pubEl.value = params.get('publisher');
       }
       if (params.get('sort')) {
-        currentSort = params.get('sort');
+        const rawSort = params.get('sort');
+        if (rawSort.includes('_')) {
+          const parts = rawSort.split('_');
+          currentSortKey = parts[0];
+          sortDirection = parts[1] === 'asc' ? 'asc' : 'desc';
+        } else {
+          currentSortKey = rawSort;
+        }
         const sEl = document.getElementById('sortSelect');
-        if (sEl) sEl.value = currentSort;
-        sortDirection = currentSort.endsWith('_asc') ? 'asc' : 'desc';
+        if (sEl) sEl.value = currentSortKey;
         updateSortButtonUI();
       }
       if (params.get('status')) currentStatus = params.get('status');
 
+      checkResearchAuthBanner();
       updateCounts();
       filterStudies();
 
@@ -448,6 +458,71 @@
           document.getElementById('searchInput').focus();
         }
       });
+    }
+
+    function checkResearchAuthBanner() {
+      const banner = document.getElementById('researchAuthGateBanner');
+      if (!banner || typeof AuthManager === 'undefined') return;
+
+      const isAuth = AuthManager.isAuthenticated();
+      const canAccess = AuthManager.canAccessPapers();
+      const user = AuthManager.getUser();
+
+      if (!isAuth || !canAccess) {
+        banner.innerHTML = `
+          <div class="p-4 sm:p-5 rounded-2xl bg-card border-2 border-emerald-500/30 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl font-bold shrink-0">
+                <i class="fa-solid fa-lock"></i>
+              </div>
+              <div class="space-y-0.5">
+                <div class="flex items-center gap-2">
+                  <h3 class="text-sm font-extrabold text-foreground">Authentication Required to Access Papers</h3>
+                  <span class="badge-sunset text-[9px] uppercase font-black px-2 py-0.5 rounded-full">Admin Rank Gate</span>
+                </div>
+                <p class="text-xs text-muted-foreground leading-relaxed">
+                  Unless you log in, access to preclinical research papers, full protocols, and FastQ datasets is locked. The System Administrator decides your rank.
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center justify-center sm:justify-end gap-2 shrink-0">
+              <a href="auth.html?redirect=research.html" class="btn-forest px-4 py-2 rounded-xl text-xs font-bold shadow-xs inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-right-to-bracket text-xs"></i> Sign In to Access Papers
+              </a>
+              <button onclick="AuthManager.switchDemoRole('admin'); location.reload();" class="btn-sunset px-3.5 py-2 rounded-xl text-xs font-bold shadow-xs inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-crown text-xs"></i> Log In as Admin (You)
+              </button>
+            </div>
+          </div>
+        `;
+        banner.classList.remove('hidden');
+      } else {
+        const rankInfo = AuthManager.getRankInfo(user?.role);
+        banner.innerHTML = `
+          <div class="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
+                <i class="fa-solid fa-shield-check"></i>
+              </div>
+              <div>
+                <span class="font-bold text-foreground">${user?.full_name || 'Authenticated Member'}</span>
+                <span class="text-muted-foreground text-[11px] font-medium">• ${rankInfo.level} (${rankInfo.title})</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="badge-forest text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+                <i class="fa-solid fa-lock-open mr-1"></i> Paper Access Unlocked
+              </span>
+              ${AuthManager.isAdmin() ? `
+                <a href="dashboard.html" class="badge-sunset text-[10px] font-bold px-2.5 py-0.5 rounded-full hover:underline">
+                  <i class="fa-solid fa-crown mr-1"></i> Manage User Ranks in Dashboard →
+                </a>
+              ` : ''}
+            </div>
+          </div>
+        `;
+        banner.classList.remove('hidden');
+      }
     }
 
     function updateCounts() {
@@ -496,24 +571,20 @@
       filterStudies();
     }
 
-    function setSortFilter(val) {
-      currentSort = val;
-      sortDirection = val.endsWith('_asc') ? 'asc' : 'desc';
+    function setSortCategory(val) {
+      currentSortKey = val;
+      if (val === 'title' || val === 'country') {
+        sortDirection = 'asc';
+      } else {
+        sortDirection = 'desc';
+      }
       updateSortButtonUI();
       currentPage = 1;
       filterStudies();
     }
 
     function toggleSortDirection() {
-      if (sortDirection === 'desc') {
-        sortDirection = 'asc';
-        if (currentSort.endsWith('_desc')) currentSort = currentSort.replace('_desc', '_asc');
-      } else {
-        sortDirection = 'desc';
-        if (currentSort.endsWith('_asc')) currentSort = currentSort.replace('_asc', '_desc');
-      }
-      const sortEl = document.getElementById('sortSelect');
-      if (sortEl) sortEl.value = currentSort;
+      sortDirection = (sortDirection === 'desc') ? 'asc' : 'desc';
       updateSortButtonUI();
       currentPage = 1;
       filterStudies();
@@ -522,32 +593,47 @@
     function updateSortButtonUI() {
       const icon = document.getElementById('sortDirectionIcon');
       const label = document.getElementById('sortDirectionLabel');
-      if (icon && label) {
-        if (sortDirection === 'asc') {
-          icon.className = 'fa-solid fa-arrow-up-short-wide text-emerald-600 text-xs';
-          label.textContent = 'Asc';
-        } else {
-          icon.className = 'fa-solid fa-arrow-down-wide-short text-emerald-600 text-xs';
-          label.textContent = 'Desc';
-        }
+      if (!icon || !label) return;
+
+      const isAsc = sortDirection === 'asc';
+      icon.className = isAsc ? 'fa-solid fa-arrow-up-short-wide text-emerald-600 text-xs' : 'fa-solid fa-arrow-down-wide-short text-emerald-600 text-xs';
+
+      if (currentSortKey === 'year') {
+        label.textContent = isAsc ? 'Oldest First' : 'Newest First';
+      } else if (currentSortKey === 'likes') {
+        label.textContent = isAsc ? 'Least Popular' : 'Most Popular';
+      } else if (currentSortKey === 'funded') {
+        label.textContent = isAsc ? 'Lowest Raised' : 'Highest Raised';
+      } else if (currentSortKey === 'progress') {
+        label.textContent = isAsc ? 'Lowest Progress' : 'Highest Progress';
+      } else if (currentSortKey === 'title') {
+        label.textContent = isAsc ? 'A to Z' : 'Z to A';
+      } else if (currentSortKey === 'country') {
+        label.textContent = isAsc ? 'A to Z' : 'Z to A';
+      } else {
+        label.textContent = isAsc ? 'Ascending' : 'Descending';
       }
     }
 
     function sortProjects(list) {
       return list.sort((a, b) => {
-        if (currentSort === 'year_desc') return (b.publication_year || 0) - (a.publication_year || 0);
-        if (currentSort === 'year_asc') return (a.publication_year || 0) - (b.publication_year || 0);
-        if (currentSort === 'likes_desc') return (b.likes_count || 0) - (a.likes_count || 0);
-        if (currentSort === 'likes_asc') return (a.likes_count || 0) - (b.likes_count || 0);
-        if (currentSort === 'funded_desc') return (b.crowdfunding_raised || 0) - (a.crowdfunding_raised || 0);
-        if (currentSort === 'funded_asc') return (a.crowdfunding_raised || 0) - (b.crowdfunding_raised || 0);
-        if (currentSort === 'progress_desc') return (b.progress_percent || 0) - (a.progress_percent || 0);
-        if (currentSort === 'progress_asc') return (a.progress_percent || 0) - (b.progress_percent || 0);
-        if (currentSort === 'title_asc') return (a.title || '').localeCompare(b.title || '');
-        if (currentSort === 'title_desc') return (b.title || '').localeCompare(a.title || '');
-        if (currentSort === 'country_asc') return (a.country_name || '').localeCompare(b.country_name || '');
-        if (currentSort === 'country_desc') return (b.country_name || '').localeCompare(a.country_name || '');
-        return 0;
+        let cmp = 0;
+        if (currentSortKey === 'year') {
+          cmp = (b.publication_year || 0) - (a.publication_year || 0);
+        } else if (currentSortKey === 'likes') {
+          cmp = (b.likes_count || 0) - (a.likes_count || 0);
+        } else if (currentSortKey === 'funded') {
+          cmp = (b.crowdfunding_raised || 0) - (a.crowdfunding_raised || 0);
+        } else if (currentSortKey === 'progress') {
+          cmp = (b.progress_percent || 0) - (a.progress_percent || 0);
+        } else if (currentSortKey === 'title') {
+          cmp = (a.title || '').localeCompare(b.title || '');
+          return sortDirection === 'desc' ? -cmp : cmp;
+        } else if (currentSortKey === 'country') {
+          cmp = (a.country_name || '').localeCompare(b.country_name || '');
+          return sortDirection === 'desc' ? -cmp : cmp;
+        }
+        return sortDirection === 'asc' ? -cmp : cmp;
       });
     }
 
@@ -625,10 +711,12 @@
       document.getElementById('countryFilter').value = 'all';
       document.getElementById('publisherFilter').value = 'all';
       document.getElementById('domainSelect').value = 'all';
-      document.getElementById('sortSelect').value = 'year_desc';
+      
+      const sortSelect = document.getElementById('sortSelect');
+      if (sortSelect) sortSelect.value = 'year';
       currentDomain = 'all';
       currentStatus = 'all';
-      currentSort = 'year_desc';
+      currentSortKey = 'year';
       sortDirection = 'desc';
       updateSortButtonUI();
       currentPage = 1;
@@ -691,7 +779,7 @@
       container.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
       const t = Translations[currentLang] || {};
 
-      container.innerHTML = items.map(p => {
+      container.innerHTML = items.map((p, idx) => {
         const isComp = p.status === 'completed';
         const isBookmarked = AuthRosState.isBookmarked(p.id);
         const isLiked = AuthRosState.isLiked(p.id);
@@ -700,9 +788,10 @@
         const target = p.crowdfunding_target || 50000;
         const pct = target > 0 ? Math.min(100, Math.round((raised / target) * 100)) : 100;
         const flagSvg = getCountryFlagSvg(p.country_code);
+        const animDelay = Math.min(idx * 30, 300);
 
         return `
-          <div class="shadcn-card p-6 flex flex-col justify-between space-y-5 border-border hover:border-emerald-500/50 hover:shadow-lg transition-all duration-300 relative overflow-hidden group">
+          <div class="shadcn-card p-6 flex flex-col justify-between space-y-5 border-border hover:border-emerald-500/50 hover:shadow-lg transition-all duration-300 relative overflow-hidden group animate-fade-in" style="animation-delay: ${animDelay}ms;">
             
             <!-- Card Header -->
             <div class="space-y-3">
@@ -719,7 +808,7 @@
 
                 <div class="flex items-center gap-1">
                   <!-- Bookmark Button -->
-                  <button onclick="toggleCardBookmark('${p.id}', this)" title="Bookmark Study" class="p-1.5 rounded-lg text-muted-foreground hover:text-emerald-600 transition ${isBookmarked ? 'text-emerald-600' : ''}">
+                  <button onclick="toggleCardBookmark('${p.id}', this)" title="Bookmark Study" class="p-1.5 rounded-lg text-muted-foreground hover:text-emerald-600 transition ${isBookmarked ? 'text-emerald-600 font-bold' : ''}">
                     <i class="${isBookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark text-xs"></i>
                   </button>
                   <span class="font-mono text-[11px] text-muted-foreground font-bold">${p.code}</span>
@@ -728,7 +817,7 @@
 
               <!-- Title & Abstract -->
               <div>
-                <a href="study-detail.html?id=${p.id}" class="text-base font-extrabold text-foreground group-hover:text-emerald-600 transition leading-snug line-clamp-2 block">
+                <a href="${AuthManager.canAccessPapers() ? 'study-detail.html?id=' + p.id : 'auth.html?redirect=study-detail.html?id=' + p.id}" class="text-base font-extrabold text-foreground group-hover:text-emerald-600 transition leading-snug line-clamp-2 block">
                   ${p.title}
                 </a>
                 <p class="text-xs text-muted-foreground mt-2 line-clamp-3 leading-relaxed">
@@ -754,7 +843,7 @@
                     <span class="text-emerald-600">$${raised.toLocaleString()} / $${target.toLocaleString()} (${pct}%)</span>
                   </div>
                   <div class="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-                    <div class="bg-gradient-to-r from-emerald-600 to-green-500 h-1.5 rounded-full" style="width: ${pct}%"></div>
+                    <div class="bg-gradient-to-r from-emerald-600 to-green-500 h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
                   </div>
                 </div>
               ` : `
@@ -767,7 +856,7 @@
               <div class="flex items-center justify-between gap-2 pt-1">
                 <!-- Like Counter Button -->
                 <button onclick="toggleCardLike('${p.id}', this)" class="shadcn-btn btn-outline btn-sm text-xs py-1.5 px-2.5 ${isLiked ? 'bg-rose-500/10 text-rose-600 border-rose-500/30 font-bold' : ''}">
-                  <i class="${isLiked ? 'fa-solid' : 'fa-regular'} fa-heart mr-1 ${isLiked ? 'text-rose-600' : 'text-muted-foreground'}"></i>
+                  <i class="${isLiked ? 'fa-solid' : 'fa-regular'} fa-heart mr-1 ${isLiked ? 'text-rose-600 animate-heart-beat' : 'text-muted-foreground'}"></i>
                   <span class="like-num">${likes}</span>
                 </button>
 
@@ -780,9 +869,15 @@
                     <i class="fa-solid fa-quote-left"></i>
                   </button>
 
-                  <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-default btn-sm text-xs py-1.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold">
-                    ${t.details || 'Inspect'} →
-                  </a>
+                  ${AuthManager.canAccessPapers() ? `
+                    <a href="study-detail.html?id=${p.id}" class="btn-forest px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-2xs">
+                      ${t.details || 'Inspect'} →
+                    </a>
+                  ` : `
+                    <a href="auth.html?redirect=study-detail.html?id=${p.id}" class="btn-sunset px-3 py-1.5 rounded-xl text-xs font-bold shadow-2xs">
+                      <i class="fa-solid fa-lock mr-1"></i> Login
+                    </a>
+                  `}
                 </div>
               </div>
             </div>
@@ -794,7 +889,7 @@
 
     // 2. LIST VIEW RENDERER
     function renderListView(container, items) {
-      container.className = "bg-card rounded-2xl border border-border overflow-hidden";
+      container.className = "bg-card rounded-2xl border border-border overflow-hidden animate-fade-in";
       container.innerHTML = `
         <table class="w-full text-left text-xs">
           <thead class="bg-muted/60 border-b border-border uppercase text-[10px] text-muted-foreground font-bold tracking-wider">
@@ -807,8 +902,8 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-border font-medium">
-            ${items.map(p => `
-              <tr class="hover:bg-muted/40 transition">
+            ${items.map((p, idx) => `
+              <tr class="hover:bg-muted/40 transition animate-fade-in" style="animation-delay: ${Math.min(idx * 20, 200)}ms;">
                 <td class="p-3.5">
                   <div class="flex items-center gap-1.5">
                     ${getCountryFlagSvg(p.country_code)}
@@ -817,7 +912,7 @@
                   <span class="text-[10px] text-muted-foreground">${p.country_name || 'Global'}</span>
                 </td>
                 <td class="p-3.5">
-                  <a href="study-detail.html?id=${p.id}" class="font-bold text-foreground hover:text-emerald-600 transition block line-clamp-1">${p.title}</a>
+                  <a href="${AuthManager.canAccessPapers() ? 'study-detail.html?id=' + p.id : 'auth.html?redirect=study-detail.html?id=' + p.id}" class="font-bold text-foreground hover:text-emerald-600 transition block line-clamp-1">${p.title}</a>
                   <span class="text-[11px] text-muted-foreground">${p.lead_name || 'Research Consortium'}</span>
                 </td>
                 <td class="p-3.5 text-muted-foreground">
@@ -836,9 +931,15 @@
                   <button onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')" class="shadcn-btn btn-ghost btn-sm text-[11px] py-1 px-2">
                     <i class="fa-solid fa-quote-left"></i>
                   </button>
-                  <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-default btn-sm text-[11px] py-1 px-2.5 bg-emerald-600 text-white font-bold">
-                    Open →
-                  </a>
+                  ${AuthManager.canAccessPapers() ? `
+                    <a href="study-detail.html?id=${p.id}" class="btn-forest px-3 py-1 rounded-lg text-[11px] font-bold">
+                      Open →
+                    </a>
+                  ` : `
+                    <a href="auth.html?redirect=study-detail.html?id=${p.id}" class="btn-sunset px-2.5 py-1 rounded-lg text-[11px] font-bold">
+                      <i class="fa-solid fa-lock mr-1"></i> Login
+                    </a>
+                  `}
                 </td>
               </tr>
             `).join('')}
@@ -849,23 +950,27 @@
 
     // 3. CONCISE DIGEST VIEW
     function renderConciseView(container, items) {
-      container.className = "space-y-4";
-      container.innerHTML = items.map(p => `
-        <div class="shadcn-card p-5 border-border hover:border-emerald-500/40 transition flex flex-col md:flex-row md:items-start justify-between gap-4">
+      container.className = "space-y-4 animate-fade-in";
+      container.innerHTML = items.map((p, idx) => `
+        <div class="shadcn-card p-5 border-border hover:border-emerald-500/40 transition flex flex-col md:flex-row md:items-start justify-between gap-4 animate-fade-in" style="animation-delay: ${Math.min(idx * 25, 250)}ms;">
           <div class="space-y-2 flex-1">
             <div class="flex items-center gap-2">
               <span class="shadcn-badge ${p.status === 'completed' ? 'badge-emerald' : 'badge-amber'} text-[10px] uppercase font-bold">${p.status}</span>
               <span class="font-mono text-xs text-muted-foreground font-bold">${p.code}</span>
               <span class="text-xs text-muted-foreground font-semibold">• ${p.journal_citation}</span>
             </div>
-            <a href="study-detail.html?id=${p.id}" class="text-base font-bold text-foreground hover:text-emerald-600 transition block">${p.title}</a>
+            <a href="${AuthManager.canAccessPapers() ? 'study-detail.html?id=' + p.id : 'auth.html?redirect=study-detail.html?id=' + p.id}" class="text-base font-bold text-foreground hover:text-emerald-600 transition block">${p.title}</a>
             <p class="text-xs text-muted-foreground leading-relaxed line-clamp-2">${p.abstract || p.summary}</p>
           </div>
           <div class="shrink-0 flex md:flex-col items-center md:items-end justify-between gap-2">
             <span class="text-xs font-mono text-muted-foreground">Year: ${p.publication_year || 2026}</span>
             <div class="flex items-center gap-2">
               <button onclick="openQuickViewModal('${p.id}')" class="shadcn-btn btn-outline btn-sm text-xs"><i class="fa-regular fa-eye mr-1 text-emerald-600"></i> Quick View</button>
-              <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-default btn-sm text-xs bg-emerald-600 text-white font-bold">Full Study →</a>
+              ${AuthManager.canAccessPapers() ? `
+                <a href="study-detail.html?id=${p.id}" class="btn-forest px-3.5 py-1.5 rounded-xl text-xs font-bold">Full Study →</a>
+              ` : `
+                <a href="auth.html?redirect=study-detail.html?id=${p.id}" class="btn-sunset px-3 py-1.5 rounded-xl text-xs font-bold"><i class="fa-solid fa-lock mr-1"></i> Login</a>
+              `}
             </div>
           </div>
         </div>
@@ -874,17 +979,21 @@
 
     // 4. BRIEF INDEX VIEW
     function renderBriefView(container, items) {
-      container.className = "bg-card rounded-2xl border border-border divide-y divide-border text-xs";
+      container.className = "bg-card rounded-2xl border border-border divide-y divide-border text-xs animate-fade-in";
       container.innerHTML = items.map(p => `
         <div class="p-3.5 flex items-center justify-between hover:bg-muted/40 transition gap-4">
           <div class="flex items-center gap-3 min-w-0">
             <span class="font-mono text-emerald-600 font-bold w-28 shrink-0">${p.code}</span>
-            <a href="study-detail.html?id=${p.id}" class="font-bold text-foreground hover:text-emerald-600 truncate block">${p.title}</a>
+            <a href="${AuthManager.canAccessPapers() ? 'study-detail.html?id=' + p.id : 'auth.html?redirect=study-detail.html?id=' + p.id}" class="font-bold text-foreground hover:text-emerald-600 truncate block">${p.title}</a>
           </div>
           <div class="flex items-center gap-3 shrink-0 text-muted-foreground">
             <span>${p.journal_citation}</span>
             <button onclick="openQuickViewModal('${p.id}')" class="shadcn-btn btn-outline btn-sm text-xs font-semibold hover:text-emerald-600"><i class="fa-regular fa-eye mr-1"></i> View</button>
-            <a href="study-detail.html?id=${p.id}" class="shadcn-btn btn-ghost btn-sm text-xs font-bold">Open →</a>
+            ${AuthManager.canAccessPapers() ? `
+              <a href="study-detail.html?id=${p.id}" class="btn-forest px-2.5 py-1 rounded-lg text-xs font-bold">Open →</a>
+            ` : `
+              <a href="auth.html?redirect=study-detail.html?id=${p.id}" class="btn-sunset px-2 py-1 rounded-lg text-xs font-bold"><i class="fa-solid fa-lock mr-1"></i> Login</a>
+            `}
           </div>
         </div>
       `).join('');
@@ -953,7 +1062,7 @@
       const added = AuthRosState.toggleBookmark(id);
       const icon = btn.querySelector('i');
       if (added) {
-        icon.className = 'fa-solid fa-bookmark text-xs';
+        icon.className = 'fa-solid fa-bookmark text-xs animate-scale-pop text-emerald-600';
         btn.classList.add('text-emerald-600');
         showToast('Study saved to your saved research library.', 'Bookmarked', 'success');
       } else {
@@ -970,7 +1079,7 @@
       let currentVal = parseInt(numSpan.textContent, 10) || 0;
 
       if (isLiked) {
-        icon.className = 'fa-solid fa-heart mr-1 text-rose-600';
+        icon.className = 'fa-solid fa-heart mr-1 text-rose-600 animate-heart-beat';
         btn.classList.add('bg-rose-500/10', 'text-rose-600', 'border-rose-500/30', 'font-bold');
         numSpan.textContent = currentVal + 1;
         AuthRosAPI.likeProject(id, 'like');

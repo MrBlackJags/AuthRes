@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash TEXT,
     full_name TEXT NOT NULL,
     title TEXT, -- e.g. Principal Investigator, Research Fellow, Hospital Representative
-    role TEXT NOT NULL DEFAULT 'scientist' CHECK (role IN ('pi', 'scientist', 'tech', 'hospital', 'public')),
+    role TEXT NOT NULL DEFAULT 'pending' CHECK (role IN ('admin', 'pi', 'scientist', 'tech', 'hospital', 'public', 'pending')),
     tier TEXT NOT NULL DEFAULT 'pro' CHECK (tier IN ('free', 'pro', 'enterprise')),
     api_key TEXT,
     organization_id TEXT REFERENCES organizations(id) ON DELETE SET NULL,
@@ -119,3 +119,11 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     details TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 10. Performance Indexes for 10,000+ Research Projects Querying
+CREATE INDEX IF NOT EXISTS idx_rp_status ON research_projects(status);
+CREATE INDEX IF NOT EXISTS idx_rp_stage ON research_projects(stage);
+CREATE INDEX IF NOT EXISTS idx_rp_domain ON research_projects(domain);
+CREATE INDEX IF NOT EXISTS idx_rp_country ON research_projects(country_code);
+CREATE INDEX IF NOT EXISTS idx_rp_year ON research_projects(publication_year);
+CREATE INDEX IF NOT EXISTS idx_rp_created ON research_projects(created_at);

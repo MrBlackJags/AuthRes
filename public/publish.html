@@ -98,11 +98,11 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block font-bold text-slate-700 text-xs uppercase tracking-wider mb-1.5">Lead Investigator *</label>
-              <input type="text" id="inputPI" required oninput="updateCardPreview()" value="Dr. Sarah Raman, PhD" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-500" />
+              <input type="text" id="inputPI" required oninput="updateCardPreview()" placeholder="e.g. Lead Investigator" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-500" />
             </div>
             <div>
               <label class="block font-bold text-slate-700 text-xs uppercase tracking-wider mb-1.5">Institution / Lab</label>
-              <input type="text" id="inputInst" oninput="updateCardPreview()" value="GenVault / Harvard BioLab" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-500" />
+              <input type="text" id="inputInst" oninput="updateCardPreview()" placeholder="e.g. Academic Research Lab" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-500" />
             </div>
           </div>
 
@@ -126,7 +126,7 @@
 
           <div>
             <label class="block font-bold text-slate-700 text-xs uppercase tracking-wider mb-1.5">Research Abstract</label>
-            <textarea id="inputAbstract" rows="4" oninput="updateCardPreview()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-500">Synthetic antibody construct targeted against tumor neoantigens for selective cytotoxic T-cell engagement.</textarea>
+            <textarea id="inputAbstract" rows="4" oninput="updateCardPreview()" placeholder="Describe preclinical background, methodology, and biomarker endpoints..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-500"></textarea>
           </div>
 
           <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
@@ -143,7 +143,7 @@
         <div class="bg-white p-6 rounded-3xl border-2 border-emerald-500/40 shadow-xl space-y-4">
           <span id="prevStage" class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full">Phase II Clinical</span>
           <h4 id="prevTitle" class="text-base font-extrabold text-slate-900 mt-1">Synthetic Antibody Neutralization of Neoantigens</h4>
-          <p id="prevLead" class="text-xs text-slate-500">Lead: Dr. Sarah Raman, PhD (GenVault / Harvard BioLab)</p>
+          <p id="prevLead" class="text-xs text-slate-500">Lead: Principal Investigator</p>
           <p id="prevAbstract" class="text-xs text-slate-600 italic bg-slate-50 p-3 rounded-xl">"Synthetic antibody construct targeted against tumor neoantigens."</p>
         </div>
       </div>
@@ -160,18 +160,25 @@
   <script>
     document.getElementById('header-root').innerHTML = renderHeader('publish');
 
+    const currentUser = typeof AuthManager !== 'undefined' ? AuthManager.getUser() : null;
+    if (currentUser) {
+      if (document.getElementById('inputPI')) document.getElementById('inputPI').value = currentUser.full_name || '';
+      if (document.getElementById('inputInst')) document.getElementById('inputInst').value = currentUser.org_name || '';
+    }
+
     function updateCardPreview() {
       const title = document.getElementById('inputTitle').value || 'Untitled Study Protocol';
-      const pi = document.getElementById('inputPI').value || 'Dr. Sarah Raman';
-      const inst = document.getElementById('inputInst').value || 'Helix Biotech';
+      const pi = document.getElementById('inputPI').value || 'Lead Investigator';
+      const inst = document.getElementById('inputInst').value || 'Research Institution';
       const stage = document.getElementById('selectStage').value;
       const abstract = document.getElementById('inputAbstract').value || 'Abstract summary...';
 
       document.getElementById('prevTitle').textContent = title;
       document.getElementById('prevLead').textContent = `Lead: ${pi} (${inst})`;
       document.getElementById('prevStage').textContent = stage;
-      document.getElementById('prevAbstract').textContent = `"${abstract}"`;
+      document.getElementById('prevAbstract').textContent = `"${abstract.substring(0, 140)}..."`;
     }
+    updateCardPreview();
 
     async function handlePublishSubmit() {
       const title = document.getElementById('inputTitle').value;

@@ -100,7 +100,7 @@ router.patch('/users/:id', async (req, res) => {
     const { id } = req.params;
     const { role, tier, title } = req.body;
 
-    const validRoles = ['pi', 'scientist', 'tech', 'hospital', 'public'];
+    const validRoles = ['admin', 'pi', 'scientist', 'tech', 'hospital', 'public', 'pending'];
     const validTiers = ['free', 'pro', 'enterprise'];
 
     if (role && !validRoles.includes(role)) {

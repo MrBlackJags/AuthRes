@@ -40,13 +40,9 @@ function initNativeSqlite() {
   // Default demo password is "password123"
   const defaultHash = '$2a$10$w3U6R7UqyW2q4k9nU7Yw1eO5R9fK8a2w8x1e7y5z3c2b1a0d9e8f7'; // bcrypt hash for password123
 
-  // Seed Users
+  // Seed Administrator Account (You)
   db.exec(`INSERT INTO users (id, email, password_hash, full_name, title, role, tier, api_key, organization_id) VALUES
-    ('usr-1', 'dr.raman@genvault.org', '${defaultHash}', 'Dr. Sarah Raman, PhD', 'Principal Investigator', 'pi', 'enterprise', 'sk_live_authros_pi_88492019', 'org-1'),
-    ('usr-2', 'm.vance@synthego.com', '${defaultHash}', 'Dr. M. Vance, PhD', 'Senior Scientist', 'scientist', 'pro', 'sk_live_authros_sci_39201844', 'org-2'),
-    ('usr-3', 'alex.chen@genvault.org', '${defaultHash}', 'Alex Chen, MSc', 'Lab Technician', 'tech', 'pro', 'sk_live_authros_tech_19482012', 'org-1'),
-    ('usr-4', 'clinical@hopkinsmedicine.org', '${defaultHash}', 'Dr. E. Zhang, MD', 'Hospital Partner Representative', 'hospital', 'enterprise', 'sk_live_authros_hosp_44920183', 'org-3'),
-    ('usr-5', 'supporter@gmail.com', '${defaultHash}', 'Jane Public', 'Public Supporter', 'public', 'free', 'sk_live_authros_pub_55928172', NULL)
+    ('usr-admin', 'admin@authros.org', '${defaultHash}', 'System Administrator (You)', 'Lead Platform Administrator', 'admin', 'enterprise', 'sk_live_authros_admin_99248201', 'org-1')
   ;`);
 
   // Seed Landmark Historical and Active Clinical Research Projects (500 Studies)
@@ -263,65 +259,161 @@ function initNativeSqlite() {
     }
   ];
 
-  // Dynamically generate additional global research papers to reach 500 verified studies
+  // Dynamically generate 10,500+ global research papers
   const countriesList = [
-    { code: 'IN', name: 'India' }, { code: 'US', name: 'United States' }, { code: 'GB', name: 'United Kingdom' },
-    { code: 'DE', name: 'Germany' }, { code: 'JP', name: 'Japan' }, { code: 'CH', name: 'Switzerland' },
-    { code: 'SE', name: 'Sweden' }, { code: 'FR', name: 'France' }, { code: 'CA', name: 'Canada' },
-    { code: 'AU', name: 'Australia' }, { code: 'IL', name: 'Israel' }, { code: 'CN', name: 'China' }
+    { code: 'US', name: 'United States' }, { code: 'GB', name: 'United Kingdom' }, { code: 'DE', name: 'Germany' },
+    { code: 'FR', name: 'France' }, { code: 'JP', name: 'Japan' }, { code: 'CH', name: 'Switzerland' },
+    { code: 'CA', name: 'Canada' }, { code: 'AU', name: 'Australia' }, { code: 'SE', name: 'Sweden' },
+    { code: 'NL', name: 'Netherlands' }, { code: 'IN', name: 'India' }, { code: 'IL', name: 'Israel' },
+    { code: 'KR', name: 'South Korea' }, { code: 'SG', name: 'Singapore' }, { code: 'DK', name: 'Denmark' },
+    { code: 'NO', name: 'Norway' }, { code: 'FI', name: 'Finland' }, { code: 'IT', name: 'Italy' },
+    { code: 'ES', name: 'Spain' }, { code: 'BE', name: 'Belgium' }, { code: 'AT', name: 'Austria' },
+    { code: 'NZ', name: 'New Zealand' }, { code: 'IE', name: 'Ireland' }, { code: 'BR', name: 'Brazil' },
+    { code: 'ZA', name: 'South Africa' }, { code: 'PL', name: 'Poland' }, { code: 'CZ', name: 'Czech Republic' },
+    { code: 'PT', name: 'Portugal' }, { code: 'HU', name: 'Hungary' }, { code: 'GR', name: 'Greece' },
+    { code: 'MX', name: 'Mexico' }, { code: 'AR', name: 'Argentina' }, { code: 'CL', name: 'Chile' },
+    { code: 'TW', name: 'Taiwan' }, { code: 'HK', name: 'Hong Kong' }, { code: 'TH', name: 'Thailand' },
+    { code: 'MY', name: 'Malaysia' }, { code: 'SA', name: 'Saudi Arabia' }, { code: 'AE', name: 'United Arab Emirates' },
+    { code: 'EG', name: 'Egypt' }
   ];
 
   const publishersList = [
     { name: 'Nature Publishing Group', journal: 'Nature' },
+    { name: 'Nature Publishing Group', journal: 'Nature Biotechnology' },
+    { name: 'Nature Publishing Group', journal: 'Nature Medicine' },
+    { name: 'Nature Publishing Group', journal: 'Nature Genetics' },
+    { name: 'Nature Publishing Group', journal: 'Nature Immunology' },
+    { name: 'Nature Publishing Group', journal: 'Nature Neuroscience' },
+    { name: 'Nature Publishing Group', journal: 'Nature Microbiology' },
     { name: 'AAAS Science', journal: 'Science' },
+    { name: 'AAAS Science', journal: 'Science Translational Medicine' },
+    { name: 'AAAS Science', journal: 'Science Immunology' },
     { name: 'Massachusetts Medical Society', journal: 'New England Journal of Medicine' },
     { name: 'Cell Press', journal: 'Cell' },
+    { name: 'Cell Press', journal: 'Cancer Cell' },
+    { name: 'Cell Press', journal: 'Immunity' },
+    { name: 'Cell Press', journal: 'Neuron' },
+    { name: 'Cell Press', journal: 'Cell Stem Cell' },
     { name: 'Elsevier', journal: 'The Lancet' },
+    { name: 'Elsevier', journal: 'The Lancet Oncology' },
+    { name: 'Elsevier', journal: 'The Lancet Infectious Diseases' },
     { name: 'National Academy of Sciences', journal: 'PNAS' },
-    { name: 'Oxford University Press', journal: 'Brain' },
-    { name: 'BMJ Publishing Group', journal: 'BMJ' },
+    { name: 'American Society of Hematology', journal: 'Blood' },
     { name: 'American Medical Association', journal: 'JAMA' },
-    { name: 'American Heart Association', journal: 'Circulation Research' }
+    { name: 'BMJ Publishing Group', journal: 'BMJ' },
+    { name: 'American Heart Association', journal: 'Circulation' },
+    { name: 'American Heart Association', journal: 'Circulation Research' },
+    { name: 'American Chemical Society', journal: 'ACS Central Science' },
+    { name: 'Oxford University Press', journal: 'Nucleic Acids Research' },
+    { name: 'Rockefeller University Press', journal: 'Journal of Experimental Medicine' },
+    { name: 'BioMed Central', journal: 'Genome Biology' },
+    { name: 'eLife Sciences', journal: 'eLife' }
   ];
 
   const domainsList = ['crispr', 'rna oncology', 'cell therapy', 'neurodegeneration', 'infectious diseases', 'cardiology'];
   const stagesList = ['discovery', 'preclinical', 'phase_1', 'phase_2', 'phase_3', 'completed'];
 
-  const titlesTemplates = [
-    "AAV Gene Therapy Vector Optimization for Neuromuscular Regeneration",
-    "Single-Cell RNA Sequencing of Intestinal Epithelial Stem Cell Niches",
-    "Cryo-EM Structure of Multidrug Efflux Pump Complex in Enteric Bacilli",
-    "Allogeneic Off-the-Shelf CAR-NK Cell Immunotherapy for Acute Myeloid Leukemia",
-    "CRISPR-Cas13 Ribonuclease Cleavage of Viral Transcripts in Respiratory Infections",
-    "Small Molecule Inhibition of Oncogenic KRAS G12D in Pancreatic Ductal Carcinoma",
-    "Machine Learning Prediction of Protein-Ligand Binding Kinetics in Drug Discovery",
-    "Patient iPSC Organoid Platform for High-Throughput Neurotoxicity Screening",
-    "Epigenetic Remodeling via HDAC Inhibitors in Refractory Triple-Negative Breast Cancer",
-    "Antibody-Drug Conjugates (ADCs) Targeting Trop-2 Epithelial Cell Adhesion",
-    "Systemic Adenine Base Editing Restoring Dystrophin in Duchenne Muscular Dystrophy",
-    "Long-Read Nanopore Genome Assemblies Revealing Structural Variants in Rare Diseases",
-    "T-Cell Receptor (TCR) Engineered Adoptive Transfer in Synovial Sarcoma",
-    "Bi-Functional Fusion Proteins Blocking TGF-Beta Transsignaling in Tissue Fibrosis",
-    "Targeted Degradation of Tau Aggregates via Brain-Penetrant PROTAC Molecules",
-    "Chemically Modified Circular RNA Therapeutics for Sustained In-Vivo Protein Translation",
-    "Prime Editing Correction of HBB Sickle Mutation in Hematopoietic Stem Cells",
-    "Inhaled Lipid-Polymer Hybrid Nanoparticles Delivering CFTR Correctors for Cystic Fibrosis",
-    "Broadly Neutralizing Human Monoclonal Antibodies Against Pan-Sarbecovirus Spike Glycoproteins",
-    "Engineered Macrophage Cell Therapy Promoting Atherosclerotic Plaque Regression",
-    "Targeted Radionuclide Lutetium-177 PSMA Radioligand Therapy in Metastatic Castration-Resistant Prostate Cancer",
-    "Cellular Reprogramming via Transient OSKM Factor Expression in Retinal Ganglion Cells",
-    "Bispecific T-Cell Engager (BiTE) Constructs Targeting Claudin-18.2 in Gastric Adenocarcinoma",
-    "CRISPR Epigenome Editing Silencing PCSK9 via Targeted DNA Methylation in Hepatocytes",
-    "Self-Assembling Peptide Hydrogels for Myocardial Infarction Post-Ischemia Revascularization",
-    "Non-Viral Nanocarrier Gene Delivery to Pulmonary Endothelium in Idiopathic Pulmonary Arterial Hypertension",
-    "High-Resolution Cryo-ET Visualization of Nuclear Pore Complex Transport in Intact Eukaryotic Cells",
-    "Spatial Proteomics Profiling of Tertiary Lymphoid Structures in Melanoma Checkpoint Responders",
-    "Synthetic Gene Circuits for Autonomous Cytokine Secretion in Solid Tumor Microenvironments",
-    "AAV-Mediated Micro-Dystrophin Gene Replacement in Pediatric Muscular Dystrophy Cohorts"
+  const modalitiesList = [
+    "Targeted Ionizable Lipid Nanoparticle Delivery",
+    "Allogeneic Anti-CD19/CD22 CAR-T Cell Therapy",
+    "Adenine Base Editing Transition Correction",
+    "Prime Editing Flap Insertion & Deletion Correction",
+    "CRISPR-Cas13 Ribonuclease Cleavage",
+    "PROTAC-Mediated Targeted Protein Degradation",
+    "Bispecific T-Cell Engager (BiTE) Engineering",
+    "AAV9 Vectorized Transgene Delivery",
+    "Synthetic Circular RNA In-Vivo Translation",
+    "Cryo-EM Structural Mapping & Conformational Resolution",
+    "Targeted Alpha-Particle Radionuclide Therapy",
+    "High-Resolution Spatial Transcriptomics Profiling",
+    "Heavy-Chain-Only Nanobody Conjugates",
+    "Engineered Macrophage Phagocytic Activation",
+    "Epigenetic DNA Methylation Silencing",
+    "Self-Assembling Biomimetic Peptide Hydrogels",
+    "De Novo Machine Learning De Novo Protein Design",
+    "Broadly Neutralizing Monoclonal Antibody Neutralization",
+    "Intratumoral Oncolytic Virotherapy",
+    "Microfluidic Exosome Biomarker Profiling",
+    "Antisense Oligonucleotide Splice Correction",
+    "Autologous Hematopoietic Stem Cell Gene Editing",
+    "Bacterial Ribosomal-Core Small Molecule Inhibitors",
+    "Mitochondrial Targeted Antioxidant Therapy",
+    "Cellular Reprogramming via Epigenetic Factors",
+    "Multi-Omics Single-Cell Deep Phenotyping",
+    "Non-Viral Polymer-Inorganic Hybrid Nanocarriers",
+    "Antibody-Drug Conjugates (ADCs) with Topoisomerase Inhibitors",
+    "Thermostable Synthetic mRNA Formulation",
+    "Complement Cascade Factor Cleavage Inhibitors"
+  ];
+
+  const targetsList = [
+    "Oncogenic KRAS G12D / G12V Mutations",
+    "Glioblastoma EGFRvIII / IDH1-R132H Neoantigens",
+    "Alpha-1 Antitrypsin PiZ E342K Variant",
+    "Sickle Cell Disease HBB Beta-Globin Mutations",
+    "Tau Neurofibrillary Tangle Phospho-Epitopes",
+    "CFTR F508del Chloride Ion Channel Defects",
+    "Dystrophin Exon 51 Frame Shifts",
+    "Claudin-18.2 Tight Junction Surface Antigens",
+    "PCSK9 Low-Density Lipoprotein Receptors",
+    "HER2/neu Extracellular Domain Amplification",
+    "PD-L1 / CTLA-4 Immune Checkpoint Ligands",
+    "B-Cell Maturation Antigen (BCMA)",
+    "Alpha-Synuclein Toxic Oligomeric Species",
+    "SOD1 / C9orf72 Hexanucleotide Repeats",
+    "Huntingtin Polyglutamine Tract Expansion",
+    "Factor VIII / IX Coagulation Glycoproteins",
+    "Apolipoprotein E4 (ApoE4) Lipid Aggregates",
+    "Mycobacterium Tuberculosis Enoyl-ACP Reductase",
+    "SARS-CoV-2 Spike Receptor-Binding Domains",
+    "Interleukin-6 Receptor (IL-6R) Transsignaling",
+    "TNF-Alpha Pro-Inflammatory Mediators",
+    "TP53 DNA-Binding Inactivation Variants",
+    "BRAF V600E Oncogenic Kinase Mutations",
+    "BRCA1 / BRCA2 Homologous Repair Deficiencies",
+    "Amyloid-Beta 42 Oligomeric Aggregates",
+    "GLP-1 / GIP Dual Incretin Receptors",
+    "VEGF-A / Angiopoietin-2 Vascular Drivers",
+    "NLRP3 Inflammasome Multiprotein Complexes",
+    "STING / cGAS Innate Immune Pathways",
+    "SGLT2 Renal Glucose Transporters",
+    "Trop-2 Epithelial Adhesion Glycoproteins",
+    "FGFR3 Activating Mutations in Carcinoma",
+    "CD38 / SLAMF7 Plasma Cell Markers",
+    "Metabolic IDH2 Neomorphic Oncometabolites",
+    "Complement Factor H / C3 Cleavage Fragments"
+  ];
+
+  const contextsList = [
+    "in Refractory Glioblastoma Multiforme",
+    "in Metastatic Pancreatic Ductal Adenocarcinoma",
+    "in Triple-Negative Breast Cancer Cohorts",
+    "in Relapsed Acute Myeloid Leukemia",
+    "in Multiple Myeloma Following Proteasome Inhibitors",
+    "in Non-Small Cell Lung Carcinoma (NSCLC)",
+    "in Early-Stage Alzheimer’s Disease & Dementia",
+    "in Advanced Parkinson’s Disease and Synucleinopathies",
+    "in Familial Amyotrophic Lateral Sclerosis (ALS)",
+    "in Severe Cystic Fibrosis Pulmonary Exacerbations",
+    "in Pediatric Duchenne Muscular Dystrophy",
+    "in Transfusion-Dependent Beta-Thalassemia",
+    "in Atherosclerotic Cardiovascular Disease",
+    "in Non-Alcoholic Steatohepatitis (NASH / MASH)",
+    "in Severe Combined Immunodeficiency (SCID)",
+    "in Severe Autoimmune Rheumatoid Arthritis & Lupus",
+    "in Extensively Drug-Resistant Tuberculosis",
+    "in Emerging Zoonotic Pandemic Sarbecovirus Invasions",
+    "in Neovascular Age-Related Macular Degeneration",
+    "in Idiopathic Pulmonary Fibrosis (IPF)",
+    "in Moderate-to-Severe Hemophilia A and B",
+    "in Diabetic Nephropathy & Cardiometabolic Syndrome",
+    "in Metastatic Castration-Resistant Prostate Cancer",
+    "in Advanced Cutaneous Melanoma Refractory Tumors",
+    "in Synovial Sarcoma and Soft-Tissue Malignancies"
   ];
 
   const generatedProjects = [];
-  const targetTotal = 1250;
+  const targetTotal = 10500;
   const countToGenerate = targetTotal - baseProjects.length;
 
   for (let i = 1; i <= countToGenerate; i++) {
@@ -331,16 +423,20 @@ function initNativeSqlite() {
     const isCompleted = (i % 2 === 0);
     const stage = isCompleted ? 'completed' : stagesList[i % (stagesList.length - 1)];
     const status = isCompleted ? 'completed' : 'ongoing';
-    const year = isCompleted ? (1930 + (i * 3) % 94) : (2024 + (i % 3));
-    const title = `${titlesTemplates[i % titlesTemplates.length]} (${countryObj.name} Cohort ${i})`;
-    const code = `PUB-${year}-${countryObj.code}-${100 + i}`;
+    const year = isCompleted ? (1940 + (i * 7) % 84) : (2023 + (i % 4));
+    
+    const mod = modalitiesList[i % modalitiesList.length];
+    const tgt = targetsList[(i * 3) % targetsList.length];
+    const ctx = contextsList[(i * 5) % contextsList.length];
+    const title = `${mod} of ${tgt} ${ctx}`;
+    const code = `PUB-${year}-${countryObj.code}-${1000 + i}`;
 
     generatedProjects.push({
       id: `gen-proj-${i}`,
       title: title,
       code: code,
-      summary: `Multinational peer-reviewed biomedical research investigation on ${title.toLowerCase()} conducted across lead research institutes in ${countryObj.name}.`,
-      abstract: `This official study presents comprehensive clinical and laboratory data on ${title.toLowerCase()}. Using high-throughput structural validation, molecular assays, and verified cohort data from ${countryObj.name}, the protocol demonstrates significant statistical efficacy.`,
+      summary: `Multinational biomedical research study investigating ${title.toLowerCase()} conducted across verified consortium laboratories in ${countryObj.name}.`,
+      abstract: `This official research publication details experimental methodology, clinical assay parameters, and statistical validation for ${title.toLowerCase()}. Conducted in ${countryObj.name} and published via ${pubObj.journal}, findings confirm therapeutic biomarker modulation with p-value < 0.001.`,
       status: status,
       stage: stage,
       visibility: 'public',
@@ -350,20 +446,22 @@ function initNativeSqlite() {
       country_code: countryObj.code,
       country_name: countryObj.name,
       publication_year: year,
-      source_url: `https://pubmed.ncbi.nlm.nih.gov/3800${1000 + i}/`,
-      doi: `10.1038/s41586-${year}-${1000 + i}`,
-      likes_count: 100 + (i * 17) % 800,
-      progress_percent: isCompleted ? 100 : (20 + (i * 7) % 75),
-      crowdfunding_raised: isCompleted ? 50000 : ((i * 3500) % 45000),
+      source_url: `https://pubmed.ncbi.nlm.nih.gov/${35000000 + i}/`,
+      doi: `10.1038/s41586-${year}-${20000 + i}`,
+      likes_count: 50 + (i * 23) % 950,
+      progress_percent: isCompleted ? 100 : (15 + (i * 11) % 80),
+      crowdfunding_raised: isCompleted ? 50000 : ((i * 4200) % 48000),
       crowdfunding_target: 50000
     });
   }
 
   const allProjectsToSeed = [...baseProjects, ...generatedProjects];
 
+  db.exec('BEGIN TRANSACTION;');
+
   const stmt = db.prepare(`INSERT INTO research_projects 
     (id, title, code, summary, abstract, status, stage, visibility, domain, journal_citation, publisher_name, country_code, country_name, publication_year, source_url, doi, likes_count, progress_percent, crowdfunding_raised, crowdfunding_target, lead_investigator_id, organization_id) VALUES
-    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'usr-1', 'org-1')
+    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'usr-admin', 'org-1')
   `);
 
   for (const p of allProjectsToSeed) {
@@ -374,29 +472,29 @@ function initNativeSqlite() {
     );
   }
 
-  console.log(`Seeded ${allProjectsToSeed.length} research projects into database.`);
+  db.exec('COMMIT;');
+  console.log(`Successfully seeded ${allProjectsToSeed.length.toLocaleString()} research projects into database.`);
 
   // Seed Milestones
   db.exec(`INSERT INTO milestones (id, project_id, title, description, order_index, is_completed) VALUES
     ('ms-1', 'proj-1', 'Stage 1: Formulation & In-Vitro Transfection', 'Target cell uptake confirmed >85% in murine tumor cell line assays.', 1, 1),
     ('ms-2', 'proj-1', 'Stage 2: Preclinical Animal Cohort Testing', 'Tracking biodistribution and systemic toxicity profiles over a 16-week window.', 2, 1),
     ('ms-3', 'proj-1', 'Stage 3: IND Filing & Phase I Human Safety', 'Scheduled for Q1 2027 pending final animal cohort safety reports.', 3, 0),
-
     ('ms-4', 'proj-2', 'Stage 1: Guide RNA Selection & Vector Packaging', 'Synthesized 12 gRNA candidates targeting Exon 3.', 1, 1),
     ('ms-5', 'proj-2', 'Stage 2: Mouse Model Gene Knock-in Validation', 'Measuring circulating AAT protein restoration in vivo.', 2, 0)
   ;`);
 
   // Seed Datasets
   db.exec(`INSERT INTO datasets (id, project_id, file_name, file_url, file_type, file_size, visibility, uploaded_by) VALUES
-    ('ds-1', 'proj-1', 'LNP_Biodistribution_Cohort_A.csv', '/uploads/LNP_Biodistribution_Cohort_A.csv', 'csv', '14.2 MB', 'public', 'usr-3'),
-    ('ds-2', 'proj-1', 'RNAseq_TumorMicroenvironment_Raw.fastq', '/uploads/RNAseq_TumorMicroenvironment_Raw.fastq', 'fastq', '1.8 GB', 'public', 'usr-3'),
-    ('ds-3', 'proj-1', 'Preclinical_Toxicity_Summary_Phase2.pdf', '/uploads/Preclinical_Toxicity_Summary_Phase2.pdf', 'pdf', '4.1 MB', 'public', 'usr-1')
+    ('ds-1', 'proj-1', 'LNP_Biodistribution_Cohort_A.csv', '/uploads/LNP_Biodistribution_Cohort_A.csv', 'csv', '14.2 MB', 'public', 'usr-admin'),
+    ('ds-2', 'proj-1', 'RNAseq_TumorMicroenvironment_Raw.fastq', '/uploads/RNAseq_TumorMicroenvironment_Raw.fastq', 'fastq', '1.8 GB', 'public', 'usr-admin'),
+    ('ds-3', 'proj-1', 'Preclinical_Toxicity_Summary_Phase2.pdf', '/uploads/Preclinical_Toxicity_Summary_Phase2.pdf', 'pdf', '4.1 MB', 'public', 'usr-admin')
   ;`);
 
   // Seed Donations
   db.exec(`INSERT INTO donations (id, project_id, donor_name, amount) VALUES
-    ('don-1', 'proj-1', 'Public Supporter John D.', 500),
-    ('don-2', 'proj-1', 'Jane Public', 100),
+    ('don-1', 'proj-1', 'Public Backer', 500),
+    ('don-2', 'proj-1', 'Research Supporter', 100),
     ('don-3', 'proj-2', 'Medical Innovation Fund', 2500)
   ;`);
 
@@ -409,10 +507,9 @@ function initNativeSqlite() {
 
   // Seed Audit Logs
   db.exec(`INSERT INTO audit_logs (id, project_id, action, actor_id, details) VALUES
-    ('aud-1', 'proj-1', 'PROJECT_CREATE', 'usr-1', 'Created protocol BT-402-ONC with public visibility'),
-    ('aud-2', 'proj-1', 'DATASET_UPLOAD', 'usr-3', 'Uploaded 1.8 GB raw FASTQ transcriptomics dataset'),
-    ('aud-3', 'proj-1', 'STATUS_CHANGE', 'usr-2', 'Updated project pipeline status from preclinical to phase_2'),
-    ('aud-4', 'proj-1', 'DONATION_MADE', 'usr-5', 'Contributed $500 to BT-402-ONC glioblastoma protocol')
+    ('aud-1', 'proj-1', 'PROJECT_CREATE', 'usr-admin', 'Created protocol BT-402-ONC with public visibility'),
+    ('aud-2', 'proj-1', 'DATASET_UPLOAD', 'usr-admin', 'Uploaded 1.8 GB raw FASTQ transcriptomics dataset'),
+    ('aud-3', 'proj-1', 'STATUS_CHANGE', 'usr-admin', 'Updated project pipeline status from preclinical to phase_2')
   ;`);
 
   console.log('AuthRos Database Seeding completed successfully!');
