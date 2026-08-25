@@ -1133,9 +1133,30 @@ async function handleLikeClick(btn, studyId, studyTitle) {
 }
 
 // --- SHARE RESEARCH MODAL SYSTEM (Clean, Modern Glassmorphic Dialog) ---
-function openShareModal(title, code, doi, citation, sourceUrl) {
+function openShareModal(arg1, code, doi, citation, sourceUrl) {
   let modal = document.getElementById('share-modal');
-  const shareUrl = sourceUrl || `${window.location.origin}/study-detail.html?id=${code || 'PROTOCOL'}`;
+  let title = 'Biomedical Research Protocol';
+  let shareCode = code || 'PROTOCOL';
+  let shareDoi = doi || '10.1038/s41586-2026-09821';
+  let safeCitation = citation || 'AuthRos Open Biomedical Research Network (2026)';
+  let shareUrl = sourceUrl || `${window.location.origin}/study-detail.html?id=${shareCode}`;
+
+  if (typeof AuthRosData !== 'undefined') {
+    const papers = AuthRosData.getPapers();
+    const argStr = String(arg1 || '').toLowerCase().trim();
+    const match = papers.find(x => String(x.id).toLowerCase() === argStr || String(x.code).toLowerCase() === argStr);
+    if (match) {
+      title = match.title;
+      shareCode = match.code;
+      shareDoi = match.doi || shareDoi;
+      safeCitation = match.journal_citation || safeCitation;
+      shareUrl = `${window.location.origin}/study-detail.html?id=${match.id}`;
+    } else if (typeof arg1 === 'string' && arg1.length > 0) {
+      title = arg1;
+    }
+  } else if (typeof arg1 === 'string' && arg1.length > 0) {
+    title = arg1;
+  }
 
   if (!modal) {
     modal = document.createElement('div');
@@ -1149,8 +1170,6 @@ function openShareModal(title, code, doi, citation, sourceUrl) {
   };
 
   const safeTitle = (title || 'Biomedical Research Protocol').replace(/"/g, '&quot;');
-  const safeCitation = citation || 'AuthRos Open Biomedical Research Network (2026)';
-  const doiText = doi || '10.1038/s41586-2026-09821';
 
   modal.innerHTML = `
     <div class="shadcn-dialog-content max-w-lg w-full bg-card border border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 rounded-3xl p-6 space-y-5" id="share-card" onclick="event.stopPropagation()">
@@ -1159,7 +1178,7 @@ function openShareModal(title, code, doi, citation, sourceUrl) {
           <span class="shadcn-badge badge-forest text-xs">
             <i class="fa-solid fa-share-nodes text-xs mr-1 text-emerald-500"></i> Publication Citation
           </span>
-          <span class="text-xs text-muted-foreground font-mono font-bold">${code || 'PROTOCOL'}</span>
+          <span class="text-xs text-muted-foreground font-mono font-bold">${shareCode}</span>
         </div>
         <button onclick="closeShareModal()" class="w-8 h-8 rounded-xl bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground flex items-center justify-center transition" title="Close (Esc)">
           <i class="fa-solid fa-xmark text-xs"></i>
@@ -1188,13 +1207,13 @@ function openShareModal(title, code, doi, citation, sourceUrl) {
           <div class="flex justify-between items-center mb-1.5">
             <label class="font-bold uppercase tracking-wider text-muted-foreground text-[10px]">Citation (APA & DOI)</label>
             <div class="flex items-center gap-2">
-              <button onclick="copyCitation('${safeCitation}', '${doiText}', 'apa')" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline text-[11px]">Copy APA</button>
+              <button onclick="copyCitation('${safeCitation}', '${shareDoi}', 'apa')" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline text-[11px]">Copy APA</button>
               <span class="text-muted-foreground">•</span>
-              <button onclick="copyCitation('${safeCitation}', '${doiText}', 'bibtex', '${code}', '${safeTitle}')" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline text-[11px]">Copy BibTeX</button>
+              <button onclick="copyCitation('${safeCitation}', '${shareDoi}', 'bibtex', '${shareCode}', '${safeTitle}')" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline text-[11px]">Copy BibTeX</button>
             </div>
           </div>
           <div class="p-3.5 bg-muted/40 rounded-2xl border border-border/80 font-mono text-[11px] text-muted-foreground leading-relaxed">
-            "${safeTitle}." <em>${safeCitation}</em>. DOI: ${doiText}
+            "${safeTitle}." <em>${safeCitation}</em>. DOI: ${shareDoi}
           </div>
         </div>
 
@@ -1256,8 +1275,36 @@ let activeProjectId = 'proj-1';
 let selectedDonation = 100;
 let selectedPaymentMethod = 'card';
 
-function openDonateModal(title, currentRaised, targetGoal, studyId) {
+function openDonateModal(arg1, currentRaised, targetGoal, studyId) {
+  let p = null;
+  let title = 'Biomedical Protocol Grant Funding';
+  let raisedText = currentRaised || '$32,500';
+  let targetText = targetGoal || '$50,000';
   activeProjectId = studyId || 'proj-1';
+
+  if (typeof AuthRosData !== 'undefined') {
+    const papers = AuthRosData.getPapers();
+    const argStr = String(arg1 || '').toLowerCase().trim();
+    const studyIdStr = String(studyId || '').toLowerCase().trim();
+    const match = papers.find(x => 
+      String(x.id).toLowerCase() === argStr || 
+      String(x.code).toLowerCase() === argStr ||
+      String(x.id).toLowerCase() === studyIdStr || 
+      String(x.code).toLowerCase() === studyIdStr
+    );
+    if (match) {
+      p = match;
+      activeProjectId = match.id;
+      title = match.title;
+      raisedText = `$${(match.crowdfunding_raised || 0).toLocaleString()}`;
+      targetText = `$${(match.crowdfunding_target || 50000).toLocaleString()}`;
+    } else if (typeof arg1 === 'string' && arg1.length > 0) {
+      title = arg1;
+    }
+  } else if (typeof arg1 === 'string' && arg1.length > 0) {
+    title = arg1;
+  }
+
   let modal = document.getElementById('donate-modal');
   if (!modal) {
     modal = document.createElement('div');
@@ -1303,7 +1350,7 @@ function openDonateModal(title, currentRaised, targetGoal, studyId) {
         <div class="bg-muted/40 p-4 rounded-2xl border border-border space-y-2.5">
           <div class="flex justify-between text-xs font-bold text-foreground">
             <span>Progress Towards Next Milestone</span>
-            <span id="donate-raised-text" class="text-emerald-600 dark:text-emerald-400 font-mono">${currentRaised || '$32,500'} of ${targetGoal || '$50,000'}</span>
+            <span id="donate-raised-text" class="text-emerald-600 dark:text-emerald-400 font-mono">${raisedText} of ${targetText}</span>
           </div>
           <div class="w-full bg-muted rounded-full h-2 overflow-hidden">
             <div id="donate-progress-bar" class="bg-gradient-to-r from-orange-500 via-amber-400 to-emerald-500 h-2 rounded-full transition-all duration-500" style="width: 65%"></div>
@@ -1887,7 +1934,7 @@ function openQuickViewModal(projectId) {
       <!-- Action Footer -->
       <div class="px-6 py-4 border-t border-border bg-muted/20 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-2">
-          <button onclick="closeQuickViewModal(); openShareModal('${safeTitle.replace(/'/g, "\\'")}', '${p.code}', '${p.doi||''}', '${safeCitation.replace(/'/g, "\\'")}', '${p.source_url||''}')" class="shadcn-btn btn-outline btn-sm text-xs rounded-xl">
+          <button onclick="closeQuickViewModal(); openShareModal('${p.id}')" class="shadcn-btn btn-outline btn-sm text-xs rounded-xl">
             <i class="fa-solid fa-quote-left mr-1"></i> Cite
           </button>
           <button id="quickview-save-btn" onclick="toggleQuickViewBookmark('${p.id}', this)" class="shadcn-btn btn-outline btn-sm text-xs rounded-xl ${isBookmarked ? 'text-emerald-600 font-bold' : ''}">
@@ -1898,7 +1945,7 @@ function openQuickViewModal(projectId) {
 
         <div class="flex items-center gap-2">
           ${!isComp ? `
-            <button onclick="closeQuickViewModal(); openDonateModal('${safeTitle.replace(/'/g, "\\'")}', '$${raised.toLocaleString()}', '$${target.toLocaleString()}', '${p.id}')" class="btn-sunset px-4 py-2 rounded-xl text-xs font-bold shadow-xs">
+            <button onclick="closeQuickViewModal(); openDonateModal('${p.id}')" class="btn-sunset px-4 py-2 rounded-xl text-xs font-bold shadow-xs">
               <i class="fa-solid fa-heart mr-1"></i> Fund
             </button>
           ` : ''}

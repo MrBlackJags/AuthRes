@@ -866,12 +866,12 @@
                   </button>
 
                   ${!isComp ? `
-                    <button onclick="openDonateModal('${escapeQuotes(p.title)}', '$${raised.toLocaleString()}', '$${target.toLocaleString()}', '${p.id}')" title="Fund Research Grant" class="shadcn-btn btn-outline btn-sm text-xs py-1.5 px-2.5 text-orange-500 hover:text-orange-600 hover:bg-orange-500/10 hover:border-orange-500/50 transition">
+                    <button onclick="openDonateModal('${p.id}')" title="Fund Research Grant" class="shadcn-btn btn-outline btn-sm text-xs py-1.5 px-2.5 text-orange-500 hover:text-orange-600 hover:bg-orange-500/10 hover:border-orange-500/50 transition">
                       <i class="fa-solid fa-heart mr-1"></i> Fund
                     </button>
                   ` : ''}
 
-                  <button onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')" title="Cite Study" class="shadcn-btn btn-ghost btn-sm text-xs py-1.5 px-2">
+                  <button onclick="openShareModal('${p.id}')" title="Cite Study" class="shadcn-btn btn-ghost btn-sm text-xs py-1.5 px-2">
                     <i class="fa-solid fa-quote-left"></i>
                   </button>
 
@@ -935,11 +935,11 @@
                     <i class="fa-regular fa-eye mr-1 text-emerald-600"></i> View
                   </button>
                   ${p.status !== 'completed' ? `
-                    <button onclick="openDonateModal('${escapeQuotes(p.title)}', '$${(p.crowdfunding_raised||0).toLocaleString()}', '$${(p.crowdfunding_target||50000).toLocaleString()}', '${p.id}')" title="Fund Research Grant" class="shadcn-btn btn-outline btn-sm text-[11px] py-1 px-2 text-orange-500 hover:text-orange-600 hover:bg-orange-500/10">
+                    <button onclick="openDonateModal('${p.id}')" title="Fund Research Grant" class="shadcn-btn btn-outline btn-sm text-[11px] py-1 px-2 text-orange-500 hover:text-orange-600 hover:bg-orange-500/10">
                       <i class="fa-solid fa-heart mr-1"></i> Fund
                     </button>
                   ` : ''}
-                  <button onclick="openShareModal('${escapeQuotes(p.title)}', '${p.code}', '${p.doi || ''}', '${escapeQuotes(p.journal_citation || '')}', '${p.source_url || ''}')" class="shadcn-btn btn-ghost btn-sm text-[11px] py-1 px-2">
+                  <button onclick="openShareModal('${p.id}')" class="shadcn-btn btn-ghost btn-sm text-[11px] py-1 px-2">
                     <i class="fa-solid fa-quote-left"></i>
                   </button>
                   ${AuthManager.canAccessPapers() ? `

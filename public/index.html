@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuthRos | Centralized Biomedical Research & Crowdfunding Network</title>
+  <title>AuthRos | Decentralized Biomedical Research & Clinical Trial Network</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Three.js for 3D Interactive Molecular Simulation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -53,7 +55,7 @@
         }
       }
     };
-    if (localStorage.getItem('authros_theme') === 'dark' || localStorage.getItem('biotrack_theme') === 'dark' || (!('authros_theme' in localStorage) && !('biotrack_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (localStorage.getItem('authros_theme') === 'dark' || (!('authros_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -64,176 +66,244 @@
 </head>
 <body class="bg-background text-foreground font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white transition-colors duration-200">
 
-  <!-- Header Placeholder -->
+  <!-- Shared Header Navigation -->
   <div id="header-root"></div>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-16">
     
-    <!-- Hero Section (General User: Shades of Green + Multiple Light Vibrant Colors) -->
-    <div class="reveal relative overflow-hidden rounded-3xl bg-public-hero border border-emerald-500/30 p-8 sm:p-12 lg:p-14 text-center space-y-7 shadow-xl text-white">
+    <!-- HERO SECTION: 3D Interactive Molecular Canvas + Scientific Telemetry -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950 via-slate-950 to-teal-950 border border-emerald-500/30 p-6 sm:p-10 lg:p-12 shadow-2xl text-white">
       
-      <!-- Multi-color Soft Background Glows -->
-      <div class="absolute -top-12 -left-12 w-[350px] h-[350px] bg-cyan-500/20 rounded-full blur-3xl pointer-events-none -z-0"></div>
-      <div class="absolute -bottom-12 -right-12 w-[350px] h-[350px] bg-rose-500/15 rounded-full blur-3xl pointer-events-none -z-0"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[320px] bg-emerald-500/15 rounded-full blur-3xl pointer-events-none -z-0 animate-pulse-glow"></div>
+      <!-- Ambient Glow Orbs -->
+      <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none -z-0"></div>
+      <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none -z-0"></div>
 
-      <!-- Top Badge -->
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-400/40 bg-emerald-500/20 text-emerald-200 text-xs font-semibold relative z-10">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span>Open Science Biomedical Network • 1,250+ Verified Protocols</span>
-      </div>
+      <div class="grid lg:grid-cols-12 gap-8 items-center relative z-10">
+        
+        <!-- Left: Concise Scientific Headline & Search -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-400/40 bg-emerald-900/40 text-emerald-300 text-xs font-semibold backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>AuthRos Open Bio-Grid • 10,500+ Indexed Research Protocols</span>
+          </div>
 
-      <!-- Headline -->
-      <div class="max-w-3xl mx-auto space-y-3.5 relative z-10">
-        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
-          Accelerating <span class="text-gradient-rainbow">Open Biomedical</span> Research & Clinical Trials
-        </h1>
-        <p class="text-sm sm:text-base text-emerald-100/90 max-w-2xl mx-auto leading-relaxed">
-          A centralized platform connecting public supporters with life-saving trials, hospitals with clinical cohorts, and researchers with cryptographic RBAC protocol management.
-        </p>
-      </div>
+          <div class="space-y-3">
+            <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+              Centralized <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Biomedical Discovery</span> & Grant Crowdfunding
+            </h1>
+            <p class="text-xs sm:text-sm text-emerald-100/80 max-w-xl leading-relaxed">
+              Accelerating therapeutics through transparent open-science protocols, hospital-partnered de-identified cohort validation, and direct public milestone grants.
+            </p>
+          </div>
 
-      <!-- Clean Search Bar with Keystroke Glow -->
-      <div class="max-w-xl mx-auto pt-2 relative z-10">
-        <form onsubmit="event.preventDefault(); handleHeroSearch();" class="relative flex items-center shadow-lg shadow-black/20">
-          <i class="fa-solid fa-magnifying-glass absolute left-4 text-muted-foreground text-sm"></i>
-          <input 
-            type="text" 
-            id="hero-search-input" 
-            placeholder="Search by molecule, protocol, disease, or investigator..." 
-            class="w-full h-12 pl-11 pr-28 rounded-2xl border border-border bg-card text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 transition"
-          />
-          <button type="submit" class="btn-public-rainbow absolute right-1.5 px-4 py-2 rounded-xl text-white font-bold text-xs shadow-xs transition hover:scale-102">
-            Search
-          </button>
-        </form>
+          <!-- Scientific Telemetry Pill Badges -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 pt-1 text-[11px] font-mono">
+            <span class="px-3 py-1 rounded-xl bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-dna text-emerald-400"></i> FastQ Multi-Omics
+            </span>
+            <span class="px-3 py-1 rounded-xl bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-shield-halved text-cyan-400"></i> Cryptographic RBAC
+            </span>
+            <span class="px-3 py-1 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-hand-holding-heart text-amber-400"></i> 100% Direct Grants
+            </span>
+          </div>
 
-        <div class="flex flex-wrap items-center justify-center gap-1.5 mt-3 text-xs">
-          <span class="text-[11px] font-semibold text-emerald-200">Explore:</span>
-          <button onclick="fillHeroSearch('Oncology')" class="badge-lighty-rose px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition hover:scale-105">Oncology</button>
-          <button onclick="fillHeroSearch('mRNA')" class="badge-lighty-cyan px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition hover:scale-105">Targeted mRNA</button>
-          <button onclick="fillHeroSearch('CRISPR')" class="badge-lighty-gold px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition hover:scale-105">CRISPR</button>
-          <button onclick="fillHeroSearch('Immunology')" class="badge-lighty-lavender px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition hover:scale-105">Immunology</button>
-          <button onclick="fillHeroSearch('Cardiology')" class="badge-lighty-mint px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition hover:scale-105">Cardiology</button>
+          <!-- Search Bar with Live Keystroke Support -->
+          <div class="max-w-xl mx-auto lg:mx-0 pt-2">
+            <form onsubmit="event.preventDefault(); handleHeroSearch();" class="relative flex items-center shadow-xl">
+              <i class="fa-solid fa-magnifying-glass absolute left-4 text-emerald-400/60 text-sm"></i>
+              <input 
+                type="text" 
+                id="hero-search-input" 
+                placeholder="Search by biomarker, disease, target gene, or lead author..." 
+                class="w-full h-12 pl-11 pr-28 rounded-2xl border border-emerald-500/40 bg-slate-900/90 text-white placeholder:text-slate-400 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 transition backdrop-blur-md"
+              />
+              <button type="submit" class="absolute right-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs shadow-md transition hover:scale-102">
+                Explore
+              </button>
+            </form>
+
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 mt-3 text-xs">
+              <span class="text-[11px] font-semibold text-emerald-300/80">Trending Targets:</span>
+              <button onclick="fillHeroSearch('CRISPR')" class="badge-lighty-cyan px-2.5 py-0.5 rounded-full text-[10px] font-bold transition hover:scale-105">CRISPR-Cas9</button>
+              <button onclick="fillHeroSearch('mRNA')" class="badge-lighty-mint px-2.5 py-0.5 rounded-full text-[10px] font-bold transition hover:scale-105">Lipid mRNA</button>
+              <button onclick="fillHeroSearch('Oncology')" class="badge-lighty-rose px-2.5 py-0.5 rounded-full text-[10px] font-bold transition hover:scale-105">Immunotherapy</button>
+              <button onclick="fillHeroSearch('Glioblastoma')" class="badge-lighty-gold px-2.5 py-0.5 rounded-full text-[10px] font-bold transition hover:scale-105">CAR-T Cells</button>
+            </div>
+          </div>
+
+          <!-- Direct CTAs -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
+            <a href="research.html" class="btn-forest px-5 py-2.5 rounded-xl font-bold text-xs shadow-lg transition hover:scale-102 flex items-center gap-2">
+              <i class="fa-solid fa-microscope text-orange-400 text-xs"></i> Explore 10,500+ Protocols
+            </a>
+            <a href="public-portal.html" class="btn-sunset px-5 py-2.5 rounded-xl font-bold text-xs shadow-lg transition hover:scale-102 flex items-center gap-2">
+              <i class="fa-solid fa-heart text-xs"></i> Back a Clinical Trial
+            </a>
+          </div>
+
         </div>
-      </div>
 
-      <!-- Quick Action Buttons -->
-      <div class="flex flex-wrap items-center justify-center gap-3 pt-1 relative z-10">
-        <a href="research.html" class="btn-forest px-5 py-2.5 rounded-xl font-bold text-xs shadow-sm transition hover:scale-102 flex items-center gap-2">
-          <i class="fa-solid fa-book-medical text-xs text-orange-400"></i> Browse 1,250+ Studies
-        </a>
-        <a href="public-portal.html" class="btn-sunset px-5 py-2.5 rounded-xl font-bold text-xs shadow-sm transition hover:scale-102 flex items-center gap-2">
-          <i class="fa-solid fa-heart text-xs"></i> Public Donors Hub
-        </a>
+        <!-- Right: 3D Interactive Double-Helix & Molecular Visualizer Container -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative w-full aspect-square max-w-[420px] mx-auto rounded-3xl overflow-hidden border border-emerald-500/30 bg-slate-950/80 shadow-2xl backdrop-blur-md group">
+            
+            <!-- 3D Canvas Mount Point -->
+            <canvas id="molecular-canvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+
+            <!-- 3D Live Telemetry Overlay -->
+            <div class="absolute top-3 left-3 right-3 flex items-center justify-between text-[10px] font-mono text-emerald-400 pointer-events-none">
+              <div class="flex items-center gap-1.5 bg-slate-950/80 px-2.5 py-1 rounded-xl border border-emerald-500/30">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>MODEL: DNA_HELIX_ALPHA</span>
+              </div>
+              <div class="bg-slate-950/80 px-2.5 py-1 rounded-xl border border-emerald-500/30">
+                <span>ROT: <span id="telemetry-angle">0.00</span>°</span>
+              </div>
+            </div>
+
+            <!-- 3D Interaction Hints -->
+            <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[10px] text-slate-300 pointer-events-none">
+              <span class="bg-slate-950/80 px-2.5 py-1 rounded-xl border border-emerald-500/30 font-medium">
+                <i class="fa-solid fa-hand-pointer text-emerald-400 mr-1"></i> Drag to orbit 3D model
+              </span>
+              <button onclick="toggle3DSpeed()" class="pointer-events-auto bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded-xl border border-emerald-500/30 font-bold text-emerald-300 transition">
+                <i class="fa-solid fa-gauge text-[10px] mr-1"></i> Spin Speed
+              </button>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- 4 Clean Ecosystem Gateway Cards (Coordinated Theming) -->
-    <div class="space-y-6">
-      <div class="reveal-left flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-border pb-4">
-        <div>
-          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Access Portals</span>
-          <h2 class="text-2xl font-black text-foreground tracking-tight">Select Your Workspace Portal</h2>
+    <!-- LIVE METRICS TICKER: Scientific High-Impact Summary -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="p-5 rounded-2xl bg-card border border-emerald-500/20 shadow-xs space-y-1 hover:border-emerald-500/50 transition">
+        <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm font-bold mb-1">
+          <i class="fa-solid fa-file-medical"></i>
         </div>
-        <p class="text-xs text-muted-foreground">Dedicated environments tailored for each biomedical stakeholder</p>
+        <div class="text-2xl font-black text-emerald-600 dark:text-emerald-400">10,500+</div>
+        <div class="text-xs font-bold text-foreground">Verified Publications</div>
+        <div class="text-[10px] text-muted-foreground">Indexed in SQLite database</div>
       </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="p-5 rounded-2xl bg-card border border-orange-500/20 shadow-xs space-y-1 hover:border-orange-500/50 transition">
+        <div class="w-8 h-8 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center text-sm font-bold mb-1">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+        </div>
+        <div class="text-2xl font-black text-orange-500">$128,500</div>
+        <div class="text-xs font-bold text-foreground">Milestone Grants Disbursed</div>
+        <div class="text-[10px] text-muted-foreground">100% direct lab funding</div>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-card border border-purple-500/20 shadow-xs space-y-1 hover:border-purple-500/50 transition">
+        <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-sm font-bold mb-1">
+          <i class="fa-solid fa-hospital"></i>
+        </div>
+        <div class="text-2xl font-black text-purple-600 dark:text-purple-400">45 Sites</div>
+        <div class="text-xs font-bold text-foreground">Hospital Trial Networks</div>
+        <div class="text-[10px] text-muted-foreground">De-identified patient cohorts</div>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-card border border-cyan-500/20 shadow-xs space-y-1 hover:border-cyan-500/50 transition">
+        <div class="w-8 h-8 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-sm font-bold mb-1">
+          <i class="fa-solid fa-globe"></i>
+        </div>
+        <div class="text-2xl font-black text-cyan-600 dark:text-cyan-400">40+ Nations</div>
+        <div class="text-xs font-bold text-foreground">Global Jurisdictions</div>
+        <div class="text-[10px] text-muted-foreground">Open-science collaboration</div>
+      </div>
+    </div>
+
+    <!-- 3-PILLAR ECOSYSTEM GATEWAYS -->
+    <div class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-border pb-4">
+        <div>
+          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Stakeholder Portals</span>
+          <h2 class="text-2xl font-black text-foreground tracking-tight">Dedicated Biomedical Environments</h2>
+        </div>
+        <p class="text-xs text-muted-foreground">Select your portal to access specialized tools and datasets</p>
+      </div>
+
+      <div class="grid sm:grid-cols-3 gap-5">
         
-        <!-- Portal 1: Public Donors (Shades of Green + Light Vibrant Accents) -->
-        <a href="public-portal.html" class="reveal-scale delay-100 tilt-card spotlight-card interactive-card bg-card p-5 sm:p-6 rounded-2xl border border-rose-500/20 hover:border-rose-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
+        <!-- Portal 1: Public Donors & Supporters -->
+        <a href="public-portal.html" class="group bg-card p-6 rounded-3xl border border-border hover:border-emerald-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between transition-all">
           <div class="space-y-3">
-            <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
-              <i class="fa-solid fa-heart"></i>
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-hand-holding-heart"></i>
             </div>
             <div>
-              <span class="badge-lighty-rose text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">Supporters</span>
-              <h3 class="text-base font-bold text-foreground mt-1.5 group-hover:text-rose-600 transition">Public Donors</h3>
+              <span class="badge-lighty-mint text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">Supporters & Donors</span>
+              <h3 class="text-base font-black text-foreground mt-1.5 group-hover:text-emerald-600 transition">Public Crowdfunding Hub</h3>
             </div>
             <p class="text-xs text-muted-foreground leading-relaxed">
-              Crowdfund verified preclinical pipelines and follow transparent open milestones.
-            </p>
-          </div>
-          <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-rose-600 dark:text-rose-400 group-hover:translate-x-1 transition">
-            <span>Enter Portal</span>
-            <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </div>
-        </a>
-
-        <!-- Portal 2: Hospital Network (Light Green + Purple) -->
-        <a href="hospital-portal.html" class="reveal-scale delay-150 tilt-card spotlight-card interactive-card bg-card p-5 sm:p-6 rounded-2xl border border-purple-500/25 hover:border-purple-500/60 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
-          <div class="space-y-3">
-            <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
-              <i class="fa-solid fa-hospital text-green-500"></i>
-            </div>
-            <div>
-              <span class="badge-hospital-purple text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">Clinical Sites</span>
-              <h3 class="text-base font-bold text-foreground mt-1.5 group-hover:text-purple-600 transition">Hospital Network</h3>
-            </div>
-            <p class="text-xs text-muted-foreground leading-relaxed">
-              Submit HIPAA-compliant anonymized patient cohorts and match ongoing trials.
-            </p>
-          </div>
-          <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-purple-600 dark:text-purple-400 group-hover:translate-x-1 transition">
-            <span>Enter Portal</span>
-            <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </div>
-        </a>
-
-        <!-- Portal 3: Researcher RBAC (Forest Green + Sunset Orange) -->
-        <a href="researcher-portal.html" class="reveal-scale delay-200 tilt-card spotlight-card interactive-card bg-card p-5 sm:p-6 rounded-2xl border border-orange-500/25 hover:border-orange-500/60 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
-          <div class="space-y-3">
-            <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
-              <i class="fa-solid fa-microscope"></i>
-            </div>
-            <div>
-              <span class="badge-sunset text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">Research Labs</span>
-              <h3 class="text-base font-bold text-foreground mt-1.5 group-hover:text-orange-600 transition">Researcher RBAC</h3>
-            </div>
-            <p class="text-xs text-muted-foreground leading-relaxed">
-              Manage multi-tier lab permissions, register protocols, and upload FastQ datasets.
-            </p>
-          </div>
-          <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-orange-600 dark:text-orange-400 group-hover:translate-x-1 transition">
-            <span>Enter Portal</span>
-            <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </div>
-        </a>
-
-        <!-- Portal 4: SaaS Workspace (Vitality Emerald + Mint) -->
-        <a href="dashboard.html" class="reveal-scale delay-250 tilt-card spotlight-card interactive-card bg-card p-5 sm:p-6 rounded-2xl border border-emerald-500/25 hover:border-emerald-500/60 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
-          <div class="space-y-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
-              <i class="fa-solid fa-gauge-high"></i>
-            </div>
-            <div>
-              <span class="badge-lighty-mint text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">SaaS App</span>
-              <h3 class="text-base font-bold text-foreground mt-1.5 group-hover:text-emerald-600 transition">SaaS Workspace</h3>
-            </div>
-            <p class="text-xs text-muted-foreground leading-relaxed">
-              Clinical pipeline metrics, live protocol tracking, audit logs, and analytics.
+              Fund verified clinical trials, sponsor active preclinical runs, and track 100% transparent open milestones.
             </p>
           </div>
           <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition">
-            <span>Open Workspace</span>
-            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            <span>Explore Campaigns</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </div>
+        </a>
+
+        <!-- Portal 2: Hospital & Clinical Sites -->
+        <a href="hospital-portal.html" class="group bg-card p-6 rounded-3xl border border-border hover:border-purple-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between transition-all">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-hospital"></i>
+            </div>
+            <div>
+              <span class="badge-hospital-purple text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">Clinical Sites</span>
+              <h3 class="text-base font-black text-foreground mt-1.5 group-hover:text-purple-600 transition">Hospital Partner Vault</h3>
+            </div>
+            <p class="text-xs text-muted-foreground leading-relaxed">
+              Submit HIPAA/GDPR compliant de-identified patient cohorts and match biomarker phenotypes with active pipelines.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-purple-600 dark:text-purple-400 group-hover:translate-x-1 transition">
+            <span>Submit Patient Cohort</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </div>
+        </a>
+
+        <!-- Portal 3: Principal Investigators & Researchers -->
+        <a href="researcher-portal.html" class="group bg-card p-6 rounded-3xl border border-border hover:border-orange-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between transition-all">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-500 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-microscope"></i>
+            </div>
+            <div>
+              <span class="badge-sunset text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">Principal Investigators</span>
+              <h3 class="text-base font-black text-foreground mt-1.5 group-hover:text-orange-500 transition">Researcher RBAC Portal</h3>
+            </div>
+            <p class="text-xs text-muted-foreground leading-relaxed">
+              Register protocols, manage raw sequencing assays, configure RBAC policies, and publish open science milestones.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-orange-500 group-hover:translate-x-1 transition">
+            <span>Manage Protocols</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
           </div>
         </a>
 
       </div>
     </div>
 
-    <!-- Featured Research Catalog (Live Dynamic Cards) -->
-    <div class="space-y-6 pt-2">
-      <div class="reveal-left flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <!-- FEATURED RESEARCH PROTOCOLS SHOWCASE -->
+    <div class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
         <div>
           <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Live Library</span>
-          <h2 class="text-2xl font-black text-foreground tracking-tight">Featured Research Protocols</h2>
+          <h2 class="text-2xl font-black text-foreground tracking-tight">Verified Research Protocols</h2>
         </div>
         <div class="flex items-center gap-2">
-          <a href="research.html" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs flex items-center gap-1.5">
-            <i class="fa-solid fa-book-open text-[11px]"></i> Full 1,250+ Catalog
+          <a href="research.html" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs flex items-center gap-1.5">
+            <i class="fa-solid fa-book-open text-xs"></i> View All 10,500+ Studies
           </a>
           <a href="research-domains.html" class="px-3.5 py-2 rounded-xl border border-border hover:bg-accent text-foreground font-semibold text-xs transition">
             All Domains
@@ -242,67 +312,30 @@
       </div>
 
       <!-- Domain Filter Tabs -->
-      <div class="reveal flex items-center gap-1.5 overflow-x-auto pb-1" id="domain-pills">
-        <button onclick="filterHomeDomain('all', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition">
-          All (1,250+)
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1" id="domain-pills">
+        <button onclick="filterHomeDomain('all', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition">
+          All Domains (10,500+)
         </button>
-        <button onclick="filterHomeDomain('oncology', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+        <button onclick="filterHomeDomain('oncology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
           Oncology
         </button>
-        <button onclick="filterHomeDomain('immunology', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+        <button onclick="filterHomeDomain('immunology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
           Immunology
         </button>
-        <button onclick="filterHomeDomain('neuroscience', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+        <button onclick="filterHomeDomain('neuroscience', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
           Neuroscience
         </button>
-        <button onclick="filterHomeDomain('rare_disease', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
-          Rare Disease
+        <button onclick="filterHomeDomain('genomics', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+          Genomics & CRISPR
         </button>
-        <button onclick="filterHomeDomain('genomics', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
-          Genomics
-        </button>
-        <button onclick="filterHomeDomain('cardiology', this)" class="domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
+        <button onclick="filterHomeDomain('cardiology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition">
           Cardiology
         </button>
       </div>
 
       <!-- Dynamic Grid Container -->
       <div id="home-featured-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- Javascript fills real cards here -->
-      </div>
-    </div>
-
-    <!-- Platform Impact Summary -->
-    <div class="reveal bg-card rounded-3xl border border-border p-6 sm:p-8 space-y-6 shadow-xs">
-      <div class="text-center max-w-xl mx-auto space-y-1">
-        <h3 class="text-xl font-bold text-foreground">Global Open Science Impact</h3>
-        <p class="text-xs text-muted-foreground">Verifiable research milestones and decentralized biomedical collaboration</p>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="p-4 sm:p-5 rounded-2xl bg-muted/40 border border-border text-center space-y-1 hover:border-emerald-500/30 transition">
-          <div class="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">1,250+</div>
-          <div class="text-xs font-bold text-foreground">Verified Studies</div>
-          <div class="text-[10px] text-muted-foreground">Active in archive</div>
-        </div>
-
-        <div class="p-4 sm:p-5 rounded-2xl bg-muted/40 border border-border text-center space-y-1 hover:border-amber-500/30 transition">
-          <div class="text-2xl sm:text-3xl font-black text-amber-500">$128,500</div>
-          <div class="text-xs font-bold text-foreground">Crowdfunded</div>
-          <div class="text-[10px] text-muted-foreground">Public contributions</div>
-        </div>
-
-        <div class="p-4 sm:p-5 rounded-2xl bg-muted/40 border border-border text-center space-y-1 hover:border-sky-500/30 transition">
-          <div class="text-2xl sm:text-3xl font-black text-sky-500">45</div>
-          <div class="text-xs font-bold text-foreground">Hospital Sites</div>
-          <div class="text-[10px] text-muted-foreground">Clinical partners</div>
-        </div>
-
-        <div class="p-4 sm:p-5 rounded-2xl bg-muted/40 border border-border text-center space-y-1 hover:border-violet-500/30 transition">
-          <div class="text-2xl sm:text-3xl font-black text-violet-500">12+</div>
-          <div class="text-xs font-bold text-foreground">Nations</div>
-          <div class="text-[10px] text-muted-foreground">International reach</div>
-        </div>
+        <!-- Filled dynamically by JavaScript -->
       </div>
     </div>
 
@@ -316,14 +349,14 @@
           <i class="fa-solid fa-dna"></i>
         </div>
         <span class="font-extrabold text-foreground">Auth<span class="text-emerald-600">Ros</span></span>
-        <span>• Centralized Biomedical Research & Crowdfunding Network</span>
+        <span>• Decentralized Biomedical Research & Crowdfunding Network</span>
       </div>
       <div class="flex items-center gap-4 text-[11px] font-semibold">
-        <a href="public-portal.html" class="hover:text-foreground transition">Donors</a>
-        <a href="hospital-portal.html" class="hover:text-foreground transition">Hospitals</a>
+        <a href="public-portal.html" class="hover:text-foreground transition">Public Donors</a>
+        <a href="hospital-portal.html" class="hover:text-foreground transition">Hospital Sites</a>
         <a href="researcher-portal.html" class="hover:text-foreground transition">Researchers</a>
         <a href="dashboard.html" class="hover:text-foreground transition">Workspace</a>
-        <a href="research.html" class="hover:text-foreground transition">1,250+ Papers</a>
+        <a href="research.html" class="hover:text-foreground transition">10,500+ Protocols</a>
       </div>
     </div>
   </footer>
@@ -355,63 +388,77 @@
       if (!grid) return;
 
       if (!papersToRender || papersToRender.length === 0) {
-        grid.innerHTML = '<div class="col-span-3 text-center py-8 text-muted-foreground text-xs">No papers found for this domain.</div>';
+        grid.innerHTML = '<div class="col-span-3 text-center py-8 text-muted-foreground text-xs">No papers found for this category.</div>';
         return;
       }
 
       const slice = papersToRender.slice(0, 6);
       grid.innerHTML = slice.map((p, idx) => {
-        const flag = (typeof getCountryFlagSvg !== 'undefined') ? getCountryFlagSvg(p.country_code || 'US') : '';
-        const stage = p.stage || 'preclinical';
-        const badgeClass = (typeof PipelineManager !== 'undefined') ? PipelineManager.getBadgeClass(stage) : 'bg-emerald-50 text-emerald-700 border-emerald-200';
-        const stageLabel = (typeof PipelineManager !== 'undefined') ? PipelineManager.formatStage(stage) : stage;
-        const progressPct = p.progress_percent || (p.status === 'completed' ? 100 : 45);
+        const flag = (typeof getCountryFlagSvg !== 'undefined') ? getCountryFlagSvg(p.country_code || 'GL') : '';
+        const isComp = p.status === 'completed';
         const raised = p.crowdfunding_raised || 0;
         const target = p.crowdfunding_target || 50000;
-        const safeTitle = (p.title || '').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
-        const staggerClass = idx % 3 === 0 ? 'delay-100' : idx % 3 === 1 ? 'delay-200' : 'delay-300';
+        const pct = target > 0 ? Math.min(100, Math.round((raised / target) * 100)) : 100;
+        const hasAccess = typeof AuthManager !== 'undefined' ? AuthManager.canAccessPapers() : false;
 
         return `
-          <div class="reveal-scale ${staggerClass} interactive-card bg-card rounded-2xl border border-border p-5 space-y-3 flex flex-col justify-between hover:shadow-md hover:border-emerald-500/40 transition-all">
+          <div class="interactive-card bg-card rounded-2xl border border-border p-5 space-y-3 flex flex-col justify-between hover:shadow-lg hover:border-emerald-500/40 transition-all duration-300">
             <div class="space-y-2">
               <div class="flex items-start justify-between gap-2">
                 <div class="flex items-center gap-1.5">
                   ${flag}
                   <span class="text-[10px] font-mono text-muted-foreground font-semibold">${p.code || p.id}</span>
                 </div>
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${badgeClass}">
-                  ${stageLabel}
+                <span class="shadcn-badge ${isComp ? 'badge-forest' : 'badge-sunset'} text-[10px] font-bold uppercase">
+                  ${isComp ? 'Published' : 'Active Pipeline'}
                 </span>
               </div>
               <h3 class="text-sm font-bold text-foreground line-clamp-2 leading-snug">${p.title}</h3>
-              <p class="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">${p.lead_name || p.lead_investigator || 'Lead Investigator'}</p>
-              <p class="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">${p.summary || ''}</p>
+              <p class="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">${p.lead_name || 'Principal Investigator'}</p>
+              <p class="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">${p.abstract || p.summary || ''}</p>
             </div>
 
             <div class="space-y-2.5 pt-2 border-t border-border/60">
-              <div class="space-y-1">
-                <div class="flex justify-between text-[10px] font-semibold text-muted-foreground">
-                  <span>Progress</span>
-                  <span class="text-emerald-600 dark:text-emerald-400 font-bold">${progressPct}%</span>
+              ${!isComp ? `
+                <div class="space-y-1">
+                  <div class="flex justify-between text-[10px] font-semibold text-muted-foreground">
+                    <span>Grant Progress</span>
+                    <span class="text-emerald-600 dark:text-emerald-400 font-mono font-bold">$${raised.toLocaleString()} (${pct}%)</span>
+                  </div>
+                  <div class="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                    <div class="h-1.5 rounded-full bg-gradient-to-r from-orange-500 to-emerald-500 transition-all" style="width: ${pct}%"></div>
+                  </div>
                 </div>
-                <div class="w-full bg-muted rounded-full h-1.5">
-                  <div class="h-1.5 rounded-full bg-emerald-600 transition-all" style="width: ${progressPct}%"></div>
+              ` : `
+                <div class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                  <i class="fa-solid fa-circle-check text-xs"></i> 100% Peer-Reviewed Verification
                 </div>
-              </div>
+              `}
 
               <div class="flex items-center justify-between text-[10px] text-muted-foreground">
-                <span>Raised: <b>$${raised.toLocaleString()}</b></span>
-                <span class="px-2 py-0.5 rounded-md bg-accent font-bold text-foreground capitalize">${p.domain || 'Medical'}</span>
+                <span>Year: <b class="text-foreground">${p.publication_year || 2026}</b></span>
+                <span class="px-2 py-0.5 rounded-md bg-accent font-bold text-foreground capitalize">${p.domain || 'Biomedical'}</span>
               </div>
 
-              <div class="flex gap-2 pt-1">
-                <button onclick="openQuickViewModal('${p.id}')" class="px-2.5 py-1.5 rounded-lg border border-border text-[11px] font-semibold text-foreground hover:border-emerald-500 hover:text-emerald-600 transition" title="Quick Read Abstract">
-                  <i class="fa-regular fa-eye text-[10px]"></i>
+              <div class="flex gap-1.5 pt-1">
+                <button onclick="openQuickViewModal('${p.id}')" class="px-2.5 py-1.5 rounded-xl border border-border text-[11px] font-semibold text-foreground hover:border-emerald-500 hover:text-emerald-600 transition" title="Quick Read Abstract">
+                  <i class="fa-regular fa-eye text-[10px] mr-1"></i> Quick View
                 </button>
-                <a href="study-detail.html?id=${p.id}" class="flex-1 text-center text-[11px] font-bold py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-xs">
-                  View Protocol
-                </a>
-                <button onclick="openShareModal('${safeTitle}','${p.code || ''}','${p.doi || ''}','${(p.journal_citation || '').replace(/'/g,"\\'")}','${p.source_url || ''}')" class="px-3 py-1.5 rounded-lg border border-border text-[11px] font-semibold text-foreground hover:bg-accent transition" title="Cite Protocol">
+                ${!isComp ? `
+                  <button onclick="openDonateModal('${p.id}')" class="px-2.5 py-1.5 rounded-xl border border-orange-500/30 text-orange-500 hover:bg-orange-500/10 text-[11px] font-bold transition" title="Fund Grant">
+                    <i class="fa-solid fa-heart text-[10px]"></i> Fund
+                  </button>
+                ` : ''}
+                ${hasAccess ? `
+                  <a href="study-detail.html?id=${p.id}" class="flex-1 text-center text-[11px] font-bold py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-xs">
+                    Inspect Protocol →
+                  </a>
+                ` : `
+                  <a href="auth.html?redirect=${encodeURIComponent('study-detail.html?id=' + p.id)}" class="flex-1 text-center text-[11px] font-bold py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white transition shadow-xs">
+                    <i class="fa-solid fa-lock text-[10px] mr-1"></i> Login
+                  </a>
+                `}
+                <button onclick="openShareModal('${p.id}')" class="px-2.5 py-1.5 rounded-xl border border-border text-[11px] font-semibold text-foreground hover:bg-accent transition" title="Cite Protocol">
                   <i class="fa-solid fa-quote-right text-[10px]"></i>
                 </button>
               </div>
@@ -419,15 +466,13 @@
           </div>
         `;
       }).join('');
-
-      if (window.observeReveals) window.observeReveals();
     }
 
     function filterHomeDomain(domainKey, btn) {
       document.querySelectorAll('.domain-pill').forEach(b => {
-        b.className = 'domain-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition';
+        b.className = 'domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition';
       });
-      btn.className = 'domain-pill px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition';
+      btn.className = 'domain-pill px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition';
 
       if (domainKey === 'all') {
         renderFeaturedGrid(allFeaturedPapers);
@@ -439,6 +484,148 @@
 
     // Initial render
     renderFeaturedGrid(allFeaturedPapers);
+
+    // =========================================================================
+    // THREE.JS 3D INTERACTIVE DNA & MOLECULAR SIMULATION
+    // =========================================================================
+    let spinSpeed = 0.008;
+    function toggle3DSpeed() {
+      spinSpeed = spinSpeed === 0.008 ? 0.025 : (spinSpeed === 0.025 ? 0.003 : 0.008);
+    }
+
+    (function init3DMolecularViewer() {
+      const canvas = document.getElementById('molecular-canvas');
+      if (!canvas || typeof THREE === 'undefined') return;
+
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+      camera.position.z = 32;
+
+      // Dynamic Resizing
+      function resize() {
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        if (canvas.width !== width || canvas.height !== height) {
+          renderer.setSize(width, height, false);
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+        }
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+      scene.add(ambientLight);
+
+      const pointLight1 = new THREE.PointLight(0x10b981, 2, 50);
+      pointLight1.position.set(10, 15, 10);
+      scene.add(pointLight1);
+
+      const pointLight2 = new THREE.PointLight(0x06b6d4, 1.5, 50);
+      pointLight2.position.set(-10, -15, 10);
+      scene.add(pointLight2);
+
+      // Construct Double Helix Geometry
+      const dnaGroup = new THREE.Group();
+      scene.add(dnaGroup);
+
+      const numBases = 28;
+      const radius = 5.5;
+      const heightStep = 0.85;
+      const twistStep = 0.35;
+
+      const sphereGeo = new THREE.SphereGeometry(0.55, 16, 16);
+      const strand1Mat = new THREE.MeshPhongMaterial({ color: 0x10b981, shininess: 90 });
+      const strand2Mat = new THREE.MeshPhongMaterial({ color: 0x06b6d4, shininess: 90 });
+      const rungsMat   = new THREE.MeshPhongMaterial({ color: 0xf59e0b, shininess: 70 });
+
+      for (let i = 0; i < numBases; i++) {
+        const angle = i * twistStep;
+        const y = (i - numBases / 2) * heightStep;
+
+        const x1 = Math.cos(angle) * radius;
+        const z1 = Math.sin(angle) * radius;
+
+        const x2 = Math.cos(angle + Math.PI) * radius;
+        const z2 = Math.sin(angle + Math.PI) * radius;
+
+        // Atom 1
+        const atom1 = new THREE.Mesh(sphereGeo, strand1Mat);
+        atom1.position.set(x1, y, z1);
+        dnaGroup.add(atom1);
+
+        // Atom 2
+        const atom2 = new THREE.Mesh(sphereGeo, strand2Mat);
+        atom2.position.set(x2, y, z2);
+        dnaGroup.add(atom2);
+
+        // Hydrogen Bond Cylinder Rung
+        const bondLength = Math.hypot(x2 - x1, z2 - z1);
+        const rungGeo = new THREE.CylinderGeometry(0.12, 0.12, bondLength, 8);
+        const rung = new THREE.Mesh(rungGeo, rungsMat);
+        rung.position.set((x1 + x2) / 2, y, (z1 + z2) / 2);
+        rung.rotation.z = Math.PI / 2;
+        rung.rotation.y = -angle;
+        dnaGroup.add(rung);
+      }
+
+      // Mouse Orbit Controls
+      let isDragging = false;
+      let prevMousePos = { x: 0, y: 0 };
+
+      canvas.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        prevMousePos = { x: e.clientX, y: e.clientY };
+      });
+      window.addEventListener('mouseup', () => isDragging = false);
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - prevMousePos.x;
+        const deltaY = e.clientY - prevMousePos.y;
+        dnaGroup.rotation.y += deltaX * 0.01;
+        dnaGroup.rotation.x += deltaY * 0.01;
+        prevMousePos = { x: e.clientX, y: e.clientY };
+      });
+
+      // Touch support
+      canvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+      });
+      window.addEventListener('touchend', () => isDragging = false);
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging || e.touches.length !== 1) return;
+        const deltaX = e.touches[0].clientX - prevMousePos.x;
+        const deltaY = e.touches[0].clientY - prevMousePos.y;
+        dnaGroup.rotation.y += deltaX * 0.01;
+        dnaGroup.rotation.x += deltaY * 0.01;
+        prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      });
+
+      // Animation Loop
+      const telemetryAngle = document.getElementById('telemetry-angle');
+      function animate() {
+        requestAnimationFrame(animate);
+        if (!isDragging) {
+          dnaGroup.rotation.y += spinSpeed;
+          dnaGroup.rotation.x = Math.sin(Date.now() * 0.001) * 0.2;
+        }
+
+        if (telemetryAngle) {
+          const deg = Math.round(((dnaGroup.rotation.y * 180 / Math.PI) % 360 + 360) % 360);
+          telemetryAngle.textContent = String(deg).padStart(3, '0');
+        }
+
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
   </script>
 </body>
 </html>
