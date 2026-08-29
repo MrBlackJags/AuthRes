@@ -246,9 +246,14 @@
             <i class="fa-solid fa-globe mr-1 text-emerald-600"></i> Public Directory
           </a>
 
-          <!-- Dark Mode Toggle -->
-          <button onclick="ThemeManager.toggle()" title="Toggle Theme" class="theme-toggle-btn shadcn-btn btn-outline btn-icon h-9 w-9">
-            <i class="${ThemeManager.getTheme() === 'dark' ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-muted-foreground'} theme-toggle-icon text-sm"></i>
+          <!-- Theme Spectrum Trigger -->
+          <button onclick="GreenShadeManager.toggleModal()" title="Theme Spectrum (Dark Mode ➔ Light Mode via Greens)" class="shadcn-btn btn-outline btn-icon h-9 w-9 group" aria-label="Theme Spectrum Controller">
+            <span class="w-4 h-4 rounded-full bg-gradient-to-tr from-[#07130d] via-[#14955a] to-[#ffffff] border border-border/80 inline-block shadow-2xs group-hover:scale-110 transition-transform"></span>
+          </button>
+
+          <!-- Cycle Theme Spectrum Button -->
+          <button onclick="ThemeManager.toggle()" title="Cycle Theme (Dark Obsidian ➔ Emerald ➔ Pure White)" class="theme-toggle-btn shadcn-btn btn-outline btn-icon h-9 w-9">
+            <i class="fa-solid fa-leaf text-emerald-600 theme-toggle-icon text-sm"></i>
           </button>
         </div>
 

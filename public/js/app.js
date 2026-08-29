@@ -58,86 +58,575 @@ const API_BASE_URL = (typeof window !== 'undefined' && window.location && window
   ? `${window.location.origin}/api` 
   : 'http://localhost:5000/api';
 
-// Theme Toggle Manager (Dark / Light Mode)
+// ==========================================================================
+// UNIFIED THEME SYSTEM: DARK MODE TO LIGHT MODE GREEN SPECTRUM
+// (Dark Obsidian ➔ Emerald Night ➔ Herbal Emerald ➔ Light Sage ➔ Pure White)
+// ==========================================================================
 const ThemeManager = {
   getTheme: function() {
-    try {
-      if (typeof localStorage !== 'undefined') {
-        const saved = localStorage.getItem('authros_theme') || localStorage.getItem('biotrack_theme');
-        if (saved) return saved;
-      }
-      if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
-    } catch(e) {}
-    return 'light';
+    const pct = GreenShadeManager.getShade();
+    return pct < 38 ? 'dark' : 'light';
   },
 
-  setTheme: function(theme) {
-    try {
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('authros_theme', theme);
-        localStorage.setItem('biotrack_theme', theme);
-      }
-      if (typeof document !== 'undefined') {
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-          if (document.body) document.body.classList.add('dark-theme');
-        } else {
-          document.documentElement.classList.remove('dark');
-          if (document.body) document.body.classList.remove('dark-theme');
-        }
-      }
-    } catch(e) {}
-    this.updateToggleIcons();
+  setTheme: function(themeOrPct) {
+    if (typeof themeOrPct === 'number') {
+      GreenShadeManager.setShade(themeOrPct);
+    } else if (themeOrPct === 'dark') {
+      GreenShadeManager.setShade(0);
+    } else if (themeOrPct === 'light') {
+      GreenShadeManager.setShade(50);
+    }
   },
 
   toggle: function() {
-    const current = this.getTheme();
-    const newTheme = current === 'dark' ? 'light' : 'dark';
-    this.setTheme(newTheme);
+    const current = GreenShadeManager.getShade();
+    // Smoothly cycle across spectrum: 0% (Dark Mode) -> 50% (Herbal Emerald) -> 100% (Pure White) -> 0%
+    let nextPct = 50;
+    if (current < 30) nextPct = 50;
+    else if (current < 80) nextPct = 100;
+    else nextPct = 0;
+    
+    GreenShadeManager.setShade(nextPct);
+    const label = GreenShadeManager.getPresetLabel(nextPct);
     if (typeof showToast === 'function') {
-      showToast(`Switched to ${newTheme.toUpperCase()} theme mode`, 'Theme Updated', 'info');
+      showToast(`Theme spectrum: ${label}`, 'Theme Spectrum', 'info');
     }
   },
 
   updateToggleIcons: function() {
     try {
       if (typeof document === 'undefined') return;
-      const isDark = this.getTheme() === 'dark';
+      const pct = GreenShadeManager.getShade();
       document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
         const icon = btn.querySelector('.theme-toggle-icon');
         const text = btn.querySelector('.theme-toggle-text');
         if (icon) {
-          icon.className = isDark ? 'fa-solid fa-sun text-amber-400 theme-toggle-icon' : 'fa-solid fa-moon text-slate-600 theme-toggle-icon';
+          if (pct < 20) {
+            icon.className = 'fa-solid fa-moon text-emerald-400 theme-toggle-icon text-sm';
+          } else if (pct < 38) {
+            icon.className = 'fa-solid fa-tree text-emerald-400 theme-toggle-icon text-sm';
+          } else if (pct < 70) {
+            icon.className = 'fa-solid fa-leaf text-emerald-600 dark:text-emerald-400 theme-toggle-icon text-sm';
+          } else if (pct < 92) {
+            icon.className = 'fa-solid fa-seedling text-emerald-500 theme-toggle-icon text-sm';
+          } else {
+            icon.className = 'fa-solid fa-sun text-amber-500 theme-toggle-icon text-sm';
+          }
         }
         if (text) {
-          text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+          text.textContent = GreenShadeManager.getPresetLabel(pct);
         }
       });
     } catch(e) {}
   },
 
   init: function() {
+    GreenShadeManager.init();
+  }
+};
+
+// ==========================================================================
+// GREEN SHADE CONTROLLER (DYNAMIC SPECTRUM: DARK MODE ➔ LIGHT MODE VIA GREENS)
+// ==========================================================================
+const GreenShadeManager = {
+  PRESETS: [
+    { id: 'dark-obsidian', name: 'Dark Obsidian', percent: 0, dotColor: '#07130d', desc: 'Deep Nocturnal Forest Dark Mode' },
+    { id: 'emerald-night', name: 'Emerald Night', percent: 25, dotColor: '#14281e', desc: 'Muted Deep Emerald Dark Mode' },
+    { id: 'herbal-emerald', name: 'Herbal Emerald', percent: 50, dotColor: '#14955a', desc: 'Lush Botanical Emerald Light Mode' },
+    { id: 'light-sage', name: 'Light Sage', percent: 75, dotColor: '#86efac', desc: 'Airy Soft Mint & Sage Light Mode' },
+    { id: 'pure-white', name: 'Pure White', percent: 100, dotColor: '#ffffff', desc: 'Crisp Minimalist Clean White' }
+  ],
+
+  getShade: function() {
     try {
-      if (typeof document === 'undefined') return;
-      const theme = this.getTheme();
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
+      if (typeof localStorage !== 'undefined') {
+        const saved = localStorage.getItem('authros_green_shade');
+        if (saved !== null && !isNaN(Number(saved))) {
+          return Math.max(0, Math.min(100, Number(saved)));
+        }
+        const oldTheme = localStorage.getItem('authros_theme');
+        if (oldTheme === 'dark') return 0;
+      }
+    } catch(e) {}
+    return 50; // Default: Herbal Emerald
+  },
+
+  hslToRgb: function(h, s, l) {
+    s /= 100;
+    l /= 100;
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+    return `${Math.round(f(0) * 255)}, ${Math.round(f(8) * 255)}, ${Math.round(f(4) * 255)}`;
+  },
+
+  getCurrentCanvasRgb: function(isDark) {
+    try {
+      const vars = this.getVariables(this.getShade());
+      if (vars && vars['--primary-rgb']) return vars['--primary-rgb'];
+    } catch(e) {}
+    return isDark ? '52, 211, 153' : '16, 185, 129';
+  },
+
+  getVariables: function(percent) {
+    const t = Math.max(0, Math.min(100, percent)) / 100;
+    const isDark = t < 0.38;
+
+    let primaryH, primaryS, primaryL;
+    let bgH, bgS, bgL;
+    let fgH, fgS, fgL;
+    let cardH, cardS, cardL;
+    let borderH, borderS, borderL;
+    let secH, secS, secL;
+    let mutedH, mutedS, mutedL;
+    let textureOpacity, glowOpacity;
+
+    if (t <= 0.25) {
+      // 0.0 -> 0.25: Obsidian Forest (Deep Dark) -> Emerald Night (Muted Dark)
+      const f = t / 0.25;
+      primaryH = 152;
+      primaryS = 75 + (72 - 75) * f;
+      primaryL = 46 + (44 - 46) * f;
+
+      bgH = 155 + (154 - 155) * f;
+      bgS = 35 + (32 - 35) * f;
+      bgL = 5.5 + (11.5 - 5.5) * f;
+
+      fgH = 142;
+      fgS = 30 + (28 - 30) * f;
+      fgL = 95 + (94 - 95) * f;
+
+      cardH = 155 + (154 - 155) * f;
+      cardS = 30 + (28 - 30) * f;
+      cardL = 9.0 + (15.5 - 9.0) * f;
+
+      borderH = 155 + (154 - 155) * f;
+      borderS = 24 + (22 - 24) * f;
+      borderL = 16 + (22 - 16) * f;
+
+      secH = 155 + (154 - 155) * f;
+      secS = 25 + (24 - 25) * f;
+      secL = 14 + (19 - 14) * f;
+
+      mutedH = 155; mutedS = 25; mutedL = 13 + 5 * f;
+
+      textureOpacity = 0.18 - 0.03 * f;
+      glowOpacity = 0.14 - 0.03 * f;
+    } else if (t <= 0.50) {
+      // 0.25 -> 0.50: Emerald Night (Dark) -> Herbal Emerald (Rich Light)
+      const f = (t - 0.25) / 0.25;
+      primaryH = 152;
+      primaryS = 72 + (76 - 72) * f;
+      primaryL = 44 + (36 - 44) * f;
+
+      if (t < 0.38) {
+        // Dark range
+        bgH = 154; bgS = 32 - 8 * f; bgL = 11.5 + (17 - 11.5) * (f / 0.52);
+        fgH = 142; fgS = 28; fgL = 94;
+        cardH = 154; cardS = 28; cardL = 15.5 + 5 * f;
+        borderH = 154; borderS = 22; borderL = 22 + 5 * f;
+        secH = 154; secS = 24; secL = 19 + 5 * f;
+        mutedH = 154; mutedS = 25; mutedL = 18 + 4 * f;
+      } else {
+        // Herbal Emerald light range
+        const fLight = (t - 0.38) / (0.50 - 0.38);
+        bgH = 148; bgS = 28; bgL = 92.5 + (95.8 - 92.5) * fLight;
+        fgH = 154; fgS = 65; fgL = 9;
+        cardH = 148; cardS = 15; cardL = 97.5 + (99.0 - 97.5) * fLight;
+        borderH = 148; borderS = 24; borderL = 80 + (84 - 80) * fLight;
+        secH = 148; secS = 28; secL = 88 + (92 - 88) * fLight;
+        mutedH = 148; mutedS = 25; mutedL = 87 + (92 - 87) * fLight;
+      }
+
+      textureOpacity = 0.15 - 0.03 * f;
+      glowOpacity = 0.11 - 0.03 * f;
+    } else if (t <= 0.75) {
+      // 0.50 -> 0.75: Herbal Emerald (Rich Light) -> Light Sage (Airy Botanical Light)
+      const f = (t - 0.50) / 0.25;
+      primaryH = 152 + (146 - 152) * f;
+      primaryS = 76 + (68 - 76) * f;
+      primaryL = 36 + (40 - 36) * f;
+
+      bgH = 148 + (140 - 148) * f;
+      bgS = 28 + (18 - 28) * f;
+      bgL = 95.8 + (98.6 - 95.8) * f;
+
+      fgH = 154 + (150 - 154) * f;
+      fgS = 65 + (40 - 65) * f;
+      fgL = 9 + (12 - 9) * f;
+
+      cardH = 0; cardS = 0; cardL = 100;
+
+      borderH = 148 + (142 - 148) * f;
+      borderS = 24 + (18 - 24) * f;
+      borderL = 84 + (88 - 84) * f;
+
+      secH = 148 + (142 - 148) * f;
+      secS = 28 + (22 - 28) * f;
+      secL = 92 + (95 - 92) * f;
+
+      mutedH = 148 + (142 - 148) * f;
+      mutedS = 25 + (18 - 25) * f;
+      mutedL = 92 + (95 - 92) * f;
+
+      textureOpacity = 0.12 - 0.04 * f;
+      glowOpacity = 0.08 - 0.03 * f;
+    } else {
+      // 0.75 -> 1.0: Light Sage -> Pure White (Crisp Minimalist Light)
+      const f = (t - 0.75) / 0.25;
+      primaryH = 146 + (150 - 146) * f;
+      primaryS = 68 + (40 - 68) * f;
+      primaryL = 40 + (40 - 40) * f;
+
+      bgH = 140 + (0 - 140) * f;
+      bgS = 18 * (1 - f);
+      bgL = 98.6 + (100 - 98.6) * f;
+
+      fgH = 150 + (220 - 150) * f;
+      fgS = 40 + (25 - 40) * f;
+      fgL = 12 + (12 - 12) * f;
+
+      cardH = 0; cardS = 0; cardL = 100;
+
+      borderH = 142 + (214 - 142) * f;
+      borderS = 18 + (20 - 18) * f;
+      borderL = 88 + (90 - 88) * f;
+
+      secH = 142 + (210 - 142) * f;
+      secS = 22 + (20 - 22) * f;
+      secL = 95 + (96.5 - 95) * f;
+
+      mutedH = 142 + (210 - 142) * f;
+      mutedS = 18 + (16 - 18) * f;
+      mutedL = 95 + (96 - 95) * f;
+
+      textureOpacity = 0.08 - 0.068 * f;
+      glowOpacity = 0.05 * (1 - f);
+    }
+
+    const primaryLightL = Math.min(80, primaryL + 15);
+    const primaryRgbStr = this.hslToRgb(primaryH, primaryS, primaryL);
+
+    return {
+      '--primary': `${Math.round(primaryH)} ${Math.round(primaryS)}% ${Math.round(primaryL)}%`,
+      '--primary-light': `${Math.round(primaryH)} ${Math.round(primaryS)}% ${Math.round(primaryLightL)}%`,
+      '--primary-rgb': primaryRgbStr,
+      '--primary-foreground': isDark ? '155 40% 6%' : '0 0% 100%',
+      '--background': `${Math.round(bgH)} ${Math.round(bgS)}% ${bgL.toFixed(1)}%`,
+      '--foreground': `${Math.round(fgH)} ${Math.round(fgS)}% ${Math.round(fgL)}%`,
+      '--card': `${Math.round(cardH)} ${Math.round(cardS)}% ${cardL.toFixed(1)}%`,
+      '--card-foreground': `${Math.round(fgH)} ${Math.round(fgS)}% ${Math.round(fgL)}%`,
+      '--secondary': `${Math.round(secH)} ${Math.round(secS)}% ${secL.toFixed(1)}%`,
+      '--secondary-foreground': `${Math.round(fgH)} ${Math.round(fgS)}% ${Math.round(fgL)}%`,
+      '--muted': `${Math.round(mutedH)} ${Math.round(mutedS)}% ${mutedL.toFixed(1)}%`,
+      '--muted-foreground': isDark ? '148 18% 66%' : '150 14% 42%',
+      '--border': `${Math.round(borderH)} ${Math.round(borderS)}% ${Math.round(borderL)}%`,
+      '--input': `${Math.round(borderH)} ${Math.round(borderS)}% ${Math.round(borderL)}%`,
+      '--ring': `${Math.round(primaryH)} ${Math.round(primaryS)}% ${Math.round(primaryL)}%`,
+      '--accent': `${Math.round(secH)} ${Math.round(secS)}% ${secL.toFixed(1)}%`,
+      '--accent-foreground': `${Math.round(fgH)} ${Math.round(fgS)}% ${Math.round(fgL)}%`,
+      '--bg-texture-opacity': textureOpacity.toFixed(3),
+      '--bg-glow-opacity': glowOpacity.toFixed(3),
+      '--forest-green': isDark ? '152 75% 46%' : `${Math.round(primaryH)} 85% 18%`,
+      '--hospital-lightgreen': `${Math.round(primaryH - 10)} 71% 45%`
+    };
+  },
+
+  applyShade: function(percent) {
+    if (percent === undefined || percent === null) {
+      percent = this.getShade();
+    }
+    const isDark = percent < 38;
+    const vars = this.getVariables(percent);
+
+    if (typeof document !== 'undefined') {
+      const root = document.documentElement;
+
+      if (isDark) {
+        root.classList.add('dark');
         if (document.body) document.body.classList.add('dark-theme');
       } else {
-        document.documentElement.classList.remove('dark');
+        root.classList.remove('dark');
         if (document.body) document.body.classList.remove('dark-theme');
       }
+
+      Object.keys(vars).forEach(k => {
+        root.style.setProperty(k, vars[k]);
+      });
+
+      // Ensure style tag exists for explicit cascade
+      let styleTag = document.getElementById('authros-green-shade-css');
+      if (!styleTag) {
+        styleTag = document.createElement('style');
+        styleTag.id = 'authros-green-shade-css';
+        document.head.appendChild(styleTag);
+      }
+
+      styleTag.textContent = `
+        :root {
+          ${Object.entries(vars).map(([k, v]) => `${k}: ${v};`).join('\n  ')}
+        }
+        ${percent >= 92 ? `
+          .bg-slate-50, body { background-color: hsl(var(--background)) !important; }
+        ` : ''}
+      `;
+
+      this.updateModalControls(percent);
+      if (typeof ThemeManager !== 'undefined' && ThemeManager.updateToggleIcons) {
+        ThemeManager.updateToggleIcons();
+      }
+    }
+  },
+
+  setShade: function(percent, save = true) {
+    percent = Math.max(0, Math.min(100, Number(percent)));
+    if (save && typeof localStorage !== 'undefined') {
+      localStorage.setItem('authros_green_shade', percent);
+      localStorage.setItem('authros_theme', percent < 38 ? 'dark' : 'light');
+    }
+    this.applyShade(percent);
+  },
+
+  getPresetLabel: function(percent) {
+    const p = this.PRESETS.find(x => Math.abs(x.percent - percent) <= 4);
+    if (p) return p.name;
+    if (percent < 15) return 'Dark Obsidian';
+    if (percent < 38) return 'Emerald Night';
+    if (percent < 65) return 'Herbal Emerald';
+    if (percent < 88) return 'Light Sage';
+    return 'Pure White';
+  },
+
+  updateModalControls: function(percent) {
+    try {
+      const slider = document.getElementById('green-shade-slider');
+      if (slider && Number(slider.value) !== percent) {
+        slider.value = percent;
+      }
+      const label = document.getElementById('shade-preset-name');
+      if (label) {
+        label.textContent = this.getPresetLabel(percent);
+      }
+      const percentText = document.getElementById('shade-percent-num');
+      if (percentText) {
+        percentText.textContent = `${Math.round(percent)}%`;
+      }
+      // Update preset buttons active state
+      document.querySelectorAll('.shade-preset-btn').forEach(btn => {
+        const btnPercent = Number(btn.getAttribute('data-percent'));
+        if (Math.abs(btnPercent - percent) <= 4) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    } catch(e) {}
+  },
+
+  openModal: function() {
+    this.injectUI();
+    const modal = document.getElementById('green-shade-modal');
+    if (modal) {
+      modal.classList.add('open');
+    }
+  },
+
+  closeModal: function() {
+    const modal = document.getElementById('green-shade-modal');
+    if (modal) {
+      modal.classList.remove('open');
+    }
+  },
+
+  toggleModal: function() {
+    this.injectUI();
+    const modal = document.getElementById('green-shade-modal');
+    if (modal) {
+      if (modal.classList.contains('open')) {
+        this.closeModal();
+      } else {
+        this.openModal();
+      }
+    }
+  },
+
+  reset: function() {
+    this.setShade(50);
+    if (typeof showToast === 'function') {
+      showToast('Theme reset to Herbal Emerald (Default)', 'Theme Reset', 'info');
+    }
+  },
+
+  injectUI: function() {
+    if (typeof document === 'undefined') return;
+    if (document.getElementById('green-shade-fab')) return; // Already injected
+
+    // 1. Create Floating Action Button
+    const fab = document.createElement('button');
+    fab.id = 'green-shade-fab';
+    fab.setAttribute('title', 'Dark to Light Green Theme Spectrum (Dark Obsidian ➔ Emerald ➔ Pure White)');
+    fab.setAttribute('aria-label', 'Theme Spectrum Controller');
+    fab.innerHTML = `
+      <span class="fab-icon">
+        <i class="fa-solid fa-palette"></i>
+      </span>
+      <span>Green Spectrum</span>
+    `;
+    fab.onclick = (e) => {
+      e.stopPropagation();
+      this.toggleModal();
+    };
+    document.body.appendChild(fab);
+
+    // 2. Create Floating Modal
+    const currentPercent = this.getShade();
+    const modal = document.createElement('div');
+    modal.id = 'green-shade-modal';
+    modal.innerHTML = `
+      <!-- Header -->
+      <div class="shade-modal-header">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-lg bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold font-heading text-foreground">Theme Spectrum</div>
+            <div class="text-[10px] text-muted-foreground">Dark Obsidian ➔ Emerald ➔ Pure White</div>
+          </div>
+        </div>
+        <button id="shade-close-btn" class="w-6 h-6 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground flex items-center justify-center text-xs transition" title="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-4 space-y-4 text-xs">
+        
+        <!-- Status & Readout -->
+        <div class="flex items-center justify-between bg-secondary/60 px-3 py-2 rounded-xl border border-border">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-primary inline-block shadow-xs"></span>
+            <span class="font-bold text-foreground" id="shade-preset-name">${this.getPresetLabel(currentPercent)}</span>
+          </div>
+          <span class="font-mono font-bold text-primary px-2 py-0.5 rounded-md bg-card border border-border" id="shade-percent-num">${Math.round(currentPercent)}%</span>
+        </div>
+
+        <!-- Range Slider -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between text-[11px] font-semibold text-muted-foreground">
+            <span>🌑 Dark (0%)</span>
+            <span>🌿 Emerald (50%)</span>
+            <span>⚪ White (100%)</span>
+          </div>
+          <div class="shade-slider-track">
+            <input type="range" min="0" max="100" step="1" value="${currentPercent}" id="green-shade-slider" class="shade-slider" aria-label="Dark to Light Green Theme Slider" />
+          </div>
+        </div>
+
+        <!-- 5 Presets Grid -->
+        <div class="space-y-1.5">
+          <div class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground font-mono">Theme Presets</div>
+          <div class="shade-presets-grid">
+            ${this.PRESETS.map(p => `
+              <button class="shade-preset-btn ${Math.abs(p.percent - currentPercent) <= 4 ? 'active' : ''}" data-percent="${p.percent}" title="${p.desc}">
+                <span class="shade-preset-dot" style="background-color: ${p.dotColor};"></span>
+                <span>${p.name.split(' ')[0]}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Live Sample Preview Box -->
+        <div class="shade-preview-box space-y-2">
+          <div class="text-[10px] font-bold text-muted-foreground font-mono uppercase">Live Atmosphere</div>
+          <div class="flex items-center justify-between gap-2">
+            <button class="px-3 py-1.5 rounded-lg bg-primary text-primary-foreground font-bold text-[11px] shadow-xs hover:opacity-90 transition">
+              <i class="fa-solid fa-seedling mr-1 text-[10px]"></i> Primary
+            </button>
+            <span class="px-2.5 py-1 rounded-lg bg-secondary text-secondary-foreground font-semibold text-[10px] border border-border">
+              Surface
+            </span>
+            <span class="text-foreground text-[11px] font-medium truncate">
+              Aa Contrast
+            </span>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="flex items-center justify-between pt-1 border-t border-border">
+          <button id="shade-reset-btn" class="px-2.5 py-1 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground text-[11px] font-semibold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-rotate-left text-[10px]"></i> Reset Default
+          </button>
+          <span class="text-[10px] text-muted-foreground flex items-center gap-1 font-mono">
+            <i class="fa-solid fa-check text-emerald-500 text-[9px]"></i> Auto-saved
+          </span>
+        </div>
+
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Event listeners
+    const slider = document.getElementById('green-shade-slider');
+    if (slider) {
+      slider.addEventListener('input', (e) => {
+        this.setShade(Number(e.target.value), true);
+      });
+    }
+
+    const closeBtn = document.getElementById('shade-close-btn');
+    if (closeBtn) {
+      closeBtn.onclick = () => this.closeModal();
+    }
+
+    const resetBtn = document.getElementById('shade-reset-btn');
+    if (resetBtn) {
+      resetBtn.onclick = () => this.reset();
+    }
+
+    modal.querySelectorAll('.shade-preset-btn').forEach(btn => {
+      btn.onclick = () => {
+        const pct = Number(btn.getAttribute('data-percent'));
+        this.setShade(pct, true);
+      };
+    });
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+      const modalEl = document.getElementById('green-shade-modal');
+      const fabEl = document.getElementById('green-shade-fab');
+      if (modalEl && modalEl.classList.contains('open')) {
+        if (!modalEl.contains(e.target) && !fabEl.contains(e.target) && !e.target.closest('[data-open-shade-tool]')) {
+          this.closeModal();
+        }
+      }
+    });
+
+    // Close on ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.closeModal();
+      }
+    });
+  },
+
+  init: function() {
+    try {
+      if (typeof document === 'undefined') return;
+      this.applyShade();
+      this.injectUI();
     } catch(e) {}
   }
 };
 
-// Immediate initialization
+// Immediate initialization for Theme and Green Shade
 if (typeof document !== 'undefined') {
   ThemeManager.init();
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => ThemeManager.init());
+    document.addEventListener('DOMContentLoaded', () => {
+      ThemeManager.init();
+    });
   } else {
     ThemeManager.init();
   }
@@ -2122,9 +2611,14 @@ function renderHeader(activePage = 'home') {
             </a>
           `}
 
-          <!-- Micro Theme Toggle -->
-          <button onclick="ThemeManager.toggle()" title="Toggle Theme" class="theme-toggle-btn w-7 h-7 rounded-full border border-border/70 hover:bg-accent flex items-center justify-center text-muted-foreground hover:text-foreground transition">
-            <i class="${ThemeManager.getTheme() === 'dark' ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-slate-500'} theme-toggle-icon text-[11px]"></i>
+          <!-- Theme Spectrum Trigger -->
+          <button onclick="GreenShadeManager.toggleModal()" title="Theme Spectrum (Dark Mode ➔ Light Mode via Greens)" class="w-7 h-7 rounded-full border border-border/70 hover:bg-accent flex items-center justify-center text-muted-foreground hover:text-foreground transition group" aria-label="Theme Spectrum Controller">
+            <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-tr from-[#07130d] via-[#14955a] to-[#ffffff] border border-border/80 inline-block shadow-2xs group-hover:scale-110 transition-transform"></span>
+          </button>
+
+          <!-- Cycle Theme Spectrum Button -->
+          <button onclick="ThemeManager.toggle()" title="Cycle Theme (Dark Obsidian ➔ Emerald ➔ Pure White)" class="theme-toggle-btn w-7 h-7 rounded-full border border-border/70 hover:bg-accent flex items-center justify-center text-muted-foreground hover:text-foreground transition">
+            <i class="fa-solid fa-leaf text-emerald-600 theme-toggle-icon text-[11px]"></i>
           </button>
 
           <!-- Mobile Hamburger -->
@@ -2656,7 +3150,9 @@ const AnimationManager = {
       function animate() {
         ctx.clearRect(0, 0, width, height);
         const isDark = document.documentElement.classList.contains('dark');
-        const nodeColor = isDark ? '52, 211, 153' : '16, 185, 129';
+        const nodeColor = (typeof GreenShadeManager !== 'undefined') 
+          ? GreenShadeManager.getCurrentCanvasRgb(isDark) 
+          : (isDark ? '52, 211, 153' : '16, 185, 129');
 
         for (let i = 0; i < nodes.length; i++) {
           const n = nodes[i];
@@ -3177,6 +3673,8 @@ if (typeof window !== 'undefined') {
   window.openQuickViewModal       = openQuickViewModal;
   window.closeQuickViewModal      = closeQuickViewModal;
   window.toggleQuickViewBookmark  = toggleQuickViewBookmark;
+  window.ThemeManager             = ThemeManager;
+  window.GreenShadeManager        = GreenShadeManager;
 }
 
 // =========================================================================
