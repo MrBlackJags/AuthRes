@@ -247,7 +247,7 @@
           </a>
 
           <!-- Theme Spectrum Trigger -->
-          <button onclick="GreenShadeManager.toggleModal()" title="Theme Spectrum (Dark Mode ➔ Light Mode via Greens)" class="shadcn-btn btn-outline btn-icon h-9 w-9 group" aria-label="Theme Spectrum Controller">
+          <button onclick="GreenShadeManager.toggleModal(event)" data-open-shade-tool="true" title="Theme Spectrum Controller (Dark Obsidian ➔ Emerald ➔ Pure White)" class="theme-spectrum-btn shadcn-btn btn-outline btn-icon h-9 w-9 group" aria-label="Theme Spectrum Controller">
             <span class="w-4 h-4 rounded-full bg-gradient-to-tr from-[#07130d] via-[#14955a] to-[#ffffff] border border-border/80 inline-block shadow-2xs group-hover:scale-110 transition-transform"></span>
           </button>
 
@@ -724,6 +724,11 @@
     let currentTab = 'overview';
 
     function initDashboard() {
+      // Enforce Field Access Control: Requires Admin / PI role
+      if (typeof AuthManager !== 'undefined') {
+        AuthManager.protectFieldPage('saas');
+      }
+
       const user = AuthManager.getUser();
       if (user) {
         document.getElementById('sidebar-user-name').textContent = user.full_name;

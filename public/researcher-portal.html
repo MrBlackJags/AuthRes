@@ -248,6 +248,10 @@
     if (typeof renderPortalSwitcher !== 'undefined') {
       document.getElementById('portal-switcher-root').innerHTML = renderPortalSwitcher('researchers');
     }
+    // Enforce Field Access Control: Requires Research Scientist / Lab profile
+    if (typeof AuthManager !== 'undefined') {
+      AuthManager.protectFieldPage('research');
+    }
   </script>
 </body>
 </html>

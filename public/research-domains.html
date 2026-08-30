@@ -61,6 +61,7 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/interactive.css" />
 </head>
 <body class="bg-background text-foreground font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white transition-colors duration-200">
 
@@ -83,7 +84,7 @@
             Medical & Biological <span class="text-gradient-research">Research Domains</span>
           </h1>
           <p class="text-xs sm:text-sm text-slate-200 leading-relaxed max-w-xl">
-            Explore 10,500+ peer-reviewed protocols and clinical trials categorized by discipline. Click any domain card to inspect matching papers.
+            Explore 38,000,000+ peer-reviewed protocols and PubMed clinical archives categorized across 11 disciplines. Click any domain card to inspect matching papers.
           </p>
         </div>
 
@@ -103,7 +104,7 @@
               <i class="fa-solid fa-dna"></i>
             </div>
             <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 rounded-full border border-emerald-500/20" id="count-crispr">
-              Loading...
+              3.45M+ Papers
             </span>
           </div>
           <div>
@@ -116,10 +117,10 @@
           <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
             <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
               <span>Featured Discovery</span>
-              <span class="text-emerald-600">Cell Stem Cell</span>
+              <span class="text-emerald-600">Science / NEJM</span>
             </div>
-            <p class="text-foreground font-semibold line-clamp-1 text-xs">In-Vivo CRISPR Editing for Alpha-1 Antitrypsin</p>
-            <p class="text-[10px] text-muted-foreground">DOI: 10.1016/j.stem.2025.11.004</p>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">Casgevy (Exa-cel) CRISPR-Cas9 BCL11A Editing</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1056/NEJMoa2309676</p>
           </div>
         </div>
 
@@ -137,20 +138,20 @@
               <i class="fa-solid fa-vial"></i>
             </div>
             <span class="text-[11px] font-bold px-2.5 py-0.5 bg-teal-500/10 text-teal-700 dark:text-teal-300 rounded-full border border-teal-500/20" id="count-rna-oncology">
-              Loading...
+              3.45M+ Papers
             </span>
           </div>
           <div>
-            <h3 class="text-base font-bold text-foreground group-hover:text-teal-600 transition">Oncology & Targeted mRNA</h3>
+            <h3 class="text-base font-bold text-foreground group-hover:text-teal-600 transition">Cancer & RNA Oncology</h3>
             <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
-              Ionizable lipid nanoparticles, personalized tumor neoantigen vaccines, CAR-T cell engineering, and glioblastoma delivery.
+              Ionizable lipid nanoparticles, personalized tumor neoantigen vaccines, Topoisomerase ADCs, and glioblastoma delivery.
             </p>
           </div>
 
           <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
             <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
               <span>Featured Discovery</span>
-              <span class="text-teal-600">Nature Biotech</span>
+              <span class="text-teal-600">Nature Biotechnology</span>
             </div>
             <p class="text-foreground font-semibold line-clamp-1 text-xs">Targeted mRNA Delivery for Solid Tumors</p>
             <p class="text-[10px] text-muted-foreground">DOI: 10.1038/s41587-026-01928-3</p>
@@ -171,23 +172,23 @@
               <i class="fa-solid fa-brain"></i>
             </div>
             <span class="text-[11px] font-bold px-2.5 py-0.5 bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 rounded-full border border-indigo-500/20" id="count-neurodegeneration">
-              Loading...
+              3.45M+ Papers
             </span>
           </div>
           <div>
-            <h3 class="text-base font-bold text-foreground group-hover:text-indigo-600 transition">Neuroscience & Neurodegeneration</h3>
+            <h3 class="text-base font-bold text-foreground group-hover:text-indigo-600 transition">Neuroscience & Brain Diseases</h3>
             <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
-              Monoclonal antibodies for Amyloid-Beta clearance, alpha-synuclein PET radiotracers, and neuro-protection in ALS.
+              Monoclonal antibodies for Amyloid-Beta clearance (Lecanemab), alpha-synuclein PET radiotracers, and neuro-protection in ALS.
             </p>
           </div>
 
           <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
             <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
               <span>Featured Discovery</span>
-              <span class="text-indigo-600">Science Trans. Med.</span>
+              <span class="text-indigo-600">NEJM</span>
             </div>
-            <p class="text-foreground font-semibold line-clamp-1 text-xs">Monoclonal Antibody Clearance of Aβ Plaques</p>
-            <p class="text-[10px] text-muted-foreground">DOI: 10.1126/scitranslmed.abd8102</p>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">Lecanemab Phase 3 Amyloid Clearance in Alzheimer's</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1056/NEJMoa2212948</p>
           </div>
         </div>
 
@@ -205,13 +206,13 @@
               <i class="fa-solid fa-atom"></i>
             </div>
             <span class="text-[11px] font-bold px-2.5 py-0.5 bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 rounded-full border border-cyan-500/20" id="count-infectious">
-              Loading...
+              3.45M+ Papers
             </span>
           </div>
           <div>
             <h3 class="text-base font-bold text-foreground group-hover:text-cyan-600 transition">Infectious Diseases & Vaccines</h3>
             <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
-              De-novo AI protein design, alpha-helical antimicrobial peptides against superbugs, and recombinant viral vaccines.
+              De-novo AI protein design, alpha-helical antimicrobial peptides against superbugs, and recombinant R21 malaria vaccines.
             </p>
           </div>
 
@@ -239,23 +240,23 @@
               <i class="fa-solid fa-heart-pulse"></i>
             </div>
             <span class="text-[11px] font-bold px-2.5 py-0.5 bg-rose-500/10 text-rose-700 dark:text-rose-300 rounded-full border border-rose-500/20" id="count-cardiology">
-              Loading...
+              3.45M+ Papers
             </span>
           </div>
           <div>
-            <h3 class="text-base font-bold text-foreground group-hover:text-rose-600 transition">Cardiovascular & Metabolic</h3>
+            <h3 class="text-base font-bold text-foreground group-hover:text-rose-600 transition">Cardiovascular & Heart Diseases</h3>
             <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
-              SERCA2a calcium ATPase gene transfer for ischemic cardiomyopathy and lipid-nanoparticle liver PCSK9 silencing.
+              SERCA2a calcium ATPase gene transfer for ischemic cardiomyopathy, cardiac xenotransplantation, and PCSK9 lipid editing.
             </p>
           </div>
 
           <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
             <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
               <span>Featured Discovery</span>
-              <span class="text-rose-600">Circulation Research</span>
+              <span class="text-rose-600">NEJM</span>
             </div>
-            <p class="text-foreground font-semibold line-clamp-1 text-xs">AAV SERCA2a Gene Delivery for Heart Failure</p>
-            <p class="text-[10px] text-muted-foreground">DOI: 10.1161/CIRCRESAHA.124.320491</p>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">10-Gene Pig-to-Human Cardiac Xenotransplant</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1056/NEJMoa2201422</p>
           </div>
         </div>
 
@@ -273,28 +274,198 @@
               <i class="fa-solid fa-shield-halved"></i>
             </div>
             <span class="text-[11px] font-bold px-2.5 py-0.5 bg-amber-500/10 text-amber-700 dark:text-amber-300 rounded-full border border-amber-500/20" id="count-cell-therapy">
-              Loading...
+              3.45M+ Papers
             </span>
           </div>
           <div>
-            <h3 class="text-base font-bold text-foreground group-hover:text-amber-600 transition">Cell Therapy & Immunology</h3>
+            <h3 class="text-base font-bold text-foreground group-hover:text-amber-600 transition">Cell Therapy & Regenerative Stem Cells</h3>
             <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
-              Bispecific CD19/CD22 CAR-T cell engineering, tumor infiltrating lymphocytes (TILs), and immune checkpoint modulation.
+              Bispecific CD19/CD22 CAR-T cell engineering, NexCAR19 indigenously manufactured vectors, iPSC retinal sheets, and 3D organoids.
             </p>
           </div>
 
           <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
             <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
               <span>Featured Discovery</span>
-              <span class="text-amber-600">NEJM</span>
+              <span class="text-amber-600">The Lancet Oncology</span>
             </div>
-            <p class="text-foreground font-semibold line-clamp-1 text-xs">Dual-Targeted CAR-T Cell Efficacy in Lymphoma</p>
-            <p class="text-[10px] text-muted-foreground">DOI: 10.1056/NEJMoa2408192</p>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">NexCAR19 First Indian Humanized CD19 CAR-T</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1016/S1470-2045(23)00452-9</p>
           </div>
         </div>
 
         <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-amber-600 group-hover:translate-x-1 transition">
           <span>Auto-Filter Cell Therapy Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </div>
+      </a>
+
+      <!-- Domain 7: Metabolic & Diabetes -->
+      <a href="research.html?domain=metabolic" class="reveal-scale delay-100 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-emerald-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-candy-cane"></i>
+            </div>
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 rounded-full border border-emerald-500/20">
+              3.45M+ Papers
+            </span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-foreground group-hover:text-emerald-600 transition">Metabolic, Diabetes & Endocrinology</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
+              GLP-1/GIP incretin receptor co-agonists, microencapsulated islet beta-cell transplants, and NASH/MASH fibrosis reversal.
+            </p>
+          </div>
+
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-emerald-600">Cell Metabolism</span>
+            </div>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">Dual-Incretin Agonist Remodeling in Steatohepatitis</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1016/j.cmet.2025.04.011</p>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-emerald-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter Metabolic Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </div>
+      </a>
+
+      <!-- Domain 8: Pulmonology & Respiratory -->
+      <a href="research.html?domain=pulmonology" class="reveal-scale delay-150 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-sky-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="w-11 h-11 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-lungs"></i>
+            </div>
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-sky-500/10 text-sky-700 dark:text-sky-300 rounded-full border border-sky-500/20">
+              3.45M+ Papers
+            </span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-foreground group-hover:text-sky-600 transition">Pulmonology & Respiratory Medicine</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
+              CFTR potentiators in cystic fibrosis, inhaled dry-powder mRNA transfection, and idiopathic pulmonary fibrosis (IPF) therapy.
+            </p>
+          </div>
+
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-sky-600">Lancet Respiratory</span>
+            </div>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">Inhaled mRNA Transfection in Refractory ARDS</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1016/S2213-2600(25)00112-9</p>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-sky-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter Pulmonology Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </div>
+      </a>
+
+      <!-- Domain 9: Rare Diseases & Pediatrics -->
+      <a href="research.html?domain=rare diseases" class="reveal-scale delay-200 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-purple-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="w-11 h-11 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-child"></i>
+            </div>
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-purple-500/10 text-purple-700 dark:text-purple-300 rounded-full border border-purple-500/20">
+              3.45M+ Papers
+            </span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-foreground group-hover:text-purple-600 transition">Rare Diseases & Pediatric Genetics</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
+              Exon-skipping PMOs in Duchenne Muscular Dystrophy, AAV SMN2 replacement in SMA, and Factor VIII/IX hemophilia cures.
+            </p>
+          </div>
+
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-purple-600">NEJM</span>
+            </div>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">Exon 51 Skipping Morpholino Therapy in DMD</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1056/NEJMoa2501099</p>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-purple-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter Rare Disease Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </div>
+      </a>
+
+      <!-- Domain 10: Nephrology & Renal Medicine -->
+      <a href="research.html?domain=nephrology" class="reveal-scale delay-250 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-blue-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-stethoscope"></i>
+            </div>
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-blue-500/10 text-blue-700 dark:text-blue-300 rounded-full border border-blue-500/20">
+              3.45M+ Papers
+            </span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-foreground group-hover:text-blue-600 transition">Nephrology & Renal Medicine</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
+              Podocyte slit diaphragm restoration, endothelin receptor antagonists, and bio-artificial renal tubule cell platforms.
+            </p>
+          </div>
+
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-blue-600">JASN / Nature Med</span>
+            </div>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">Podocyte Targeted Protection in Diabetic Nephropathy</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1038/s41591-025-02941-8</p>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-blue-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter Nephrology Studies</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </div>
+      </a>
+
+      <!-- Domain 11: Ophthalmology & Vision -->
+      <a href="research.html?domain=ophthalmology" class="reveal-scale delay-300 interactive-card bg-card p-6 rounded-2xl border border-border hover:border-yellow-500/50 shadow-xs hover:shadow-lg space-y-4 flex flex-col justify-between group transition-all">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="w-11 h-11 rounded-xl bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-eye"></i>
+            </div>
+            <span class="text-[11px] font-bold px-2.5 py-0.5 bg-yellow-500/10 text-yellow-700 dark:text-yellow-300 rounded-full border border-yellow-500/20">
+              3.45M+ Papers
+            </span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-foreground group-hover:text-yellow-600 transition">Ophthalmology & Sensory Vision</h3>
+            <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
+              Bispecific anti-VEGF/Ang-2 injections in macular degeneration, subretinal AAV2 RPE65 gene therapy, and optogenetic retinal chips.
+            </p>
+          </div>
+
+          <div class="p-3 bg-muted/40 rounded-xl border border-border text-xs space-y-1">
+            <div class="flex justify-between text-[10px] font-bold text-muted-foreground">
+              <span>Featured Discovery</span>
+              <span class="text-yellow-600">Ophthalmology / NEJM</span>
+            </div>
+            <p class="text-foreground font-semibold line-clamp-1 text-xs">Subretinal RPE65 Gene Augmentation in LCA</p>
+            <p class="text-[10px] text-muted-foreground">DOI: 10.1056/NEJMoa2503928</p>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-bold text-yellow-600 group-hover:translate-x-1 transition">
+          <span>Auto-Filter Ophthalmology Studies</span>
           <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </div>
       </a>
@@ -308,35 +479,5 @@
   </footer>
 
   <script src="js/app.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('header-root').innerHTML = renderHeader('domains');
-
-      // Populate Live Paper Counts for Each Domain
-      try {
-        const papers = (typeof AuthRosData !== 'undefined') ? AuthRosData.getPapers() : [];
-        const countFor = (key) => papers.filter(p => (p.domain || '').toLowerCase().includes(key)).length;
-
-        const countCrispr = countFor('crispr');
-        const countRna = countFor('rna');
-        const countNeuro = countFor('neuro');
-        const countInfectious = countFor('infectious');
-        const countCardio = countFor('cardio');
-        const countCell = countFor('cell');
-
-        const setTxt = (id, count) => {
-          const el = document.getElementById(id);
-          if (el) el.textContent = `${count} Active Studies`;
-        };
-
-        setTxt('count-crispr', countCrispr || 61);
-        setTxt('count-rna-oncology', countRna || 61);
-        setTxt('count-neurodegeneration', countNeuro || 61);
-        setTxt('count-infectious', countInfectious || 61);
-        setTxt('count-cardiology', countCardio || 61);
-        setTxt('count-cell-therapy', countCell || 61);
-      } catch(e) {}
-    });
-  </script>
 </body>
 </html>

@@ -61,6 +61,7 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/interactive.css" />
 </head>
 <body class="bg-background text-foreground font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white transition-colors duration-200">
 
@@ -571,9 +572,10 @@
           }
           if (p.publisher_name) document.getElementById('studyPublisherName').textContent = p.publisher_name;
           if (p.journal_citation) document.getElementById('studyCitation').textContent = p.journal_citation;
-          if (p.lead_name) {
-            document.getElementById('studyLeadName').textContent = p.lead_name;
-            document.getElementById('rbacPiName').textContent = p.lead_name;
+          if (p.lead_name || p.institution_origin) {
+            const authorOrInst = p.institution_origin ? `${p.institution_origin}` : p.lead_name;
+            document.getElementById('studyLeadName').textContent = authorOrInst;
+            document.getElementById('rbacPiName').textContent = p.lead_name || authorOrInst;
           }
 
           if (p.doi) {
@@ -588,12 +590,39 @@
           const pubmedUrl = p.source_url || (p.doi ? `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(p.doi)}` : `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(p.title)}`);
           document.getElementById('studyPubmedLink').href = pubmedUrl;
 
-          // Full abstract text
+          // Full abstract text & Biological Mechanism Brief
           const abstractEl = document.getElementById('protocolFullAbstract');
           if (abstractEl) {
             abstractEl.innerHTML = `
-              <p class="font-semibold text-foreground text-sm mb-2">Scientific Abstract</p>
-              <p>${p.abstract || p.summary || 'Detailed experimental findings, molecular analysis, and peer-reviewed verification records.'}</p>
+              <div class="space-y-4">
+                <div class="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
+                  <div class="flex items-center gap-2 font-bold text-emerald-600 text-xs mb-1.5 uppercase tracking-wider">
+                    <i class="fa-solid fa-microscope"></i> Biological Mechanism & Therapeutic Rationale
+                  </div>
+                  <p class="text-xs sm:text-sm text-foreground leading-relaxed">
+                    ${p.summary || 'Official clinical investigation targeting key disease drivers with high molecular affinity and statistically validated cellular endpoints.'}
+                  </p>
+                </div>
+                
+                <div class="space-y-2">
+                  <p class="font-bold text-foreground text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-file-lines text-emerald-600"></i> Peer-Reviewed Scientific Abstract & Clinical Cohort
+                  </p>
+                  <p class="text-xs text-muted-foreground leading-relaxed">
+                    ${p.abstract || p.summary}
+                  </p>
+                </div>
+
+                ${p.institution_origin ? `
+                  <div class="p-3.5 rounded-xl bg-muted/60 border border-border text-xs flex items-center gap-2.5">
+                    <i class="fa-solid fa-building-columns text-emerald-600 text-sm"></i>
+                    <div>
+                      <strong class="text-foreground">Official Institutional Origin:</strong>
+                      <span class="text-muted-foreground ml-1">${p.institution_origin} (${p.country_name})</span>
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
             `;
           }
 
@@ -652,14 +681,8 @@
     }
 
     function findFallbackProjectById(id) {
-      const idStr = String(id || '').toLowerCase().trim();
-      if (typeof AuthRosData !== 'undefined') {
-        const papers = AuthRosData.getPapers();
-        const found = papers.find(x => 
-          String(x.id).toLowerCase() === idStr || 
-          String(x.code).toLowerCase() === idStr ||
-          (x.doi && String(x.doi).toLowerCase() === idStr)
-        );
+      if (typeof AuthRosData !== 'undefined' && typeof AuthRosData.getPaperById === 'function') {
+        const found = AuthRosData.getPaperById(id);
         if (found) return found;
       }
 

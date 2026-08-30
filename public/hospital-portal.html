@@ -247,6 +247,10 @@
     if (typeof renderPortalSwitcher !== 'undefined') {
       document.getElementById('portal-switcher-root').innerHTML = renderPortalSwitcher('hospitals');
     }
+    // Enforce Field Access Control: Requires Hospital / Clinician role
+    if (typeof AuthManager !== 'undefined') {
+      AuthManager.protectFieldPage('hospital');
+    }
   </script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuthRos | Decentralized Biomedical Research & Clinical Trial Network</title>
+  <title>AuthRos | The Open Biomedical Research & Protocol Infrastructure</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Three.js for 3D Interactive Multi-Model Molecular Simulation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -63,256 +63,81 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body class="bg-background text-foreground font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white transition-colors duration-200">
+  <link rel="stylesheet" href="css/interactive.css" />
+  <style>
+    /* Full-screen 3D DNA Backdrop filling screen with 15% lowered visibility (opacity: 0.85) */
+    #bg-dna-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: 0.85; /* Lower visibility by 15% */
+      pointer-events: auto;
+      cursor: grab;
+      filter: drop-shadow(0 0 35px rgba(16, 185, 129, 0.22));
+    }
+    #bg-dna-backdrop:active {
+      cursor: grabbing;
+    }
 
-  <!-- Shared Header Navigation -->
+    /* Toolbar initial 2-second isolation state */
+    #header-root {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(-8px);
+      position: relative;
+      z-index: 50;
+    }
+    #header-root.toolbar-revealed {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-background text-foreground font-sans antialiased min-h-screen h-full flex flex-col justify-between selection:bg-emerald-500 selection:text-white transition-colors duration-200 overflow-hidden relative">
+
+  <!-- Massive Full-Screen 3D DNA Double Helix Backdrop (Opacity 0.85) -->
+  <canvas id="bg-dna-backdrop" data-bio-3d="dna-backdrop"></canvas>
+
+  <!-- Shared Header Navigation (Isolated for first 2 seconds, fades in smoothly) -->
   <div id="header-root"></div>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-16 pb-16">
-    
-    <!-- 1. ISOLATED HERO: AuthRos In Refined Prominent Scale -->
-    <section class="min-h-[60vh] sm:min-h-[70vh] flex flex-col items-center justify-center text-center select-none py-6">
-      <h1 class="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter text-foreground leading-none drop-shadow-sm font-brand">
+  <!-- Pure Isolated Hero: AuthRos Centered -->
+  <main class="flex-1 flex flex-col items-center justify-center text-center select-none px-4 sm:px-6 relative z-10 w-full">
+    <div class="space-y-4">
+      <h1 class="text-7xl sm:text-8xl md:text-9xl lg:text-[11rem] xl:text-[13rem] font-black tracking-tighter text-foreground leading-none font-brand drop-shadow-2xl select-none transition-transform duration-500 hover:scale-[1.02]">
         Auth<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500">Ros</span>
       </h1>
-      <p class="text-xs sm:text-sm font-serif text-muted-foreground mt-4 max-w-md italic">
+      <p class="text-xs sm:text-sm md:text-base font-serif text-muted-foreground max-w-md mx-auto italic tracking-wide">
         The Open Biomedical Research & Protocol Infrastructure
       </p>
-    </section>
-
-    <!-- 2. STAKEHOLDER PORTALS (Presented right on scroll) -->
-    <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
-      
-      <!-- 1. Hospital -->
-      <a href="hospital-portal.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-purple-500/30 hover:border-purple-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
-        <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-          <i class="fa-solid fa-hospital"></i>
-        </div>
-        <span class="text-base font-extrabold text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition font-heading">Hospital</span>
-        <span class="text-xs text-muted-foreground">Clinical cohort matching</span>
-      </a>
-
-      <!-- 2. Research -->
-      <a href="researcher-portal.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-orange-500/30 hover:border-orange-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
-        <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-          <i class="fa-solid fa-microscope"></i>
-        </div>
-        <span class="text-base font-extrabold text-foreground group-hover:text-orange-600 dark:group-hover:text-orange-400 transition font-heading">Research</span>
-        <span class="text-xs text-muted-foreground">Protocols & FastQ assays</span>
-      </a>
-
-      <!-- 3. User / Public -->
-      <a href="public-portal.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-emerald-500/30 hover:border-emerald-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
-        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-          <i class="fa-solid fa-heart"></i>
-        </div>
-        <span class="text-base font-extrabold text-foreground group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition font-heading">User</span>
-        <span class="text-xs text-muted-foreground">Direct grant crowdfunding</span>
-      </a>
-
-      <!-- 4. SaaS -->
-      <a href="dashboard.html" class="p-5 rounded-2xl bg-card hover:bg-accent/40 border border-cyan-500/30 hover:border-cyan-500 shadow-xs hover:shadow-md transition-all duration-300 hover:scale-104 flex flex-col items-center text-center space-y-2 group">
-        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
-          <i class="fa-solid fa-gauge-high"></i>
-        </div>
-        <span class="text-base font-extrabold text-foreground group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition font-heading">SaaS</span>
-        <span class="text-xs text-muted-foreground">RBAC & pipeline analytics</span>
-      </a>
-
-    </section>
-
-    <!-- 3. DOMAIN FILTERS -->
-    <section class="space-y-4">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-3">
-        <div>
-          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider font-mono">Biomedical Protocols</span>
-          <h2 class="text-2xl sm:text-3xl font-black text-foreground tracking-tight font-heading">Verified Open Science Archive</h2>
-        </div>
-        <div class="flex items-center gap-2">
-          <a href="research.html" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs flex items-center gap-1.5 font-nav">
-            <i class="fa-solid fa-book-open text-xs"></i> 10,500+ Protocols
-          </a>
-          <a href="research-domains.html" class="px-3.5 py-2 rounded-xl border border-border hover:bg-accent text-foreground font-semibold text-xs transition font-nav">
-            Domains
-          </a>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-1.5 overflow-x-auto pb-1" id="domain-pills">
-        <button onclick="filterHomeDomain('all', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition font-nav">
-          All (10,500+)
-        </button>
-        <button onclick="filterHomeDomain('oncology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
-          Oncology
-        </button>
-        <button onclick="filterHomeDomain('immunology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
-          Immunology
-        </button>
-        <button onclick="filterHomeDomain('neuroscience', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
-          Neuroscience
-        </button>
-        <button onclick="filterHomeDomain('genomics', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
-          Genomics & CRISPR
-        </button>
-        <button onclick="filterHomeDomain('cardiology', this)" class="domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav">
-          Cardiology
-        </button>
-      </div>
-    </section>
-
-    <!-- 4. PROTOCOL CARDS GRID + 3D DNA DOUBLE HELIX (Floating Right) -->
-    <section class="grid lg:grid-cols-12 gap-8 items-start">
-      
-      <!-- Dynamic Protocols Grid -->
-      <div class="lg:col-span-9">
-        <div id="home-featured-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <!-- Filled dynamically by JavaScript -->
-        </div>
-      </div>
-
-      <!-- 3D Model: DNA Double Helix (Frameless, floating on the right) -->
-      <div class="lg:col-span-3 flex items-center justify-center sticky top-20">
-        <canvas data-bio-3d="dna" class="w-full max-w-[260px] aspect-square cursor-grab active:cursor-grabbing"></canvas>
-      </div>
-
-    </section>
-
+    </div>
   </main>
 
-  <!-- Clean Minimal Footer -->
-  <footer class="bg-card border-t border-border text-muted-foreground text-xs py-8 mt-12 transition-colors">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <div class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px]">
-          <i class="fa-solid fa-dna"></i>
-        </div>
-        <span class="font-extrabold text-foreground font-brand">Auth<span class="text-emerald-600">Ros</span></span>
-        <span>• Decentralized Biomedical Research & Crowdfunding Network</span>
-      </div>
-      <div class="flex items-center gap-4 text-[11px] font-semibold font-nav">
-        <a href="hospital-portal.html" class="hover:text-foreground transition">Hospital</a>
-        <a href="researcher-portal.html" class="hover:text-foreground transition">Research</a>
-        <a href="public-portal.html" class="hover:text-foreground transition">User</a>
-        <a href="dashboard.html" class="hover:text-foreground transition">SaaS</a>
-        <a href="research.html" class="hover:text-foreground transition">10,500+ Protocols</a>
-      </div>
-    </div>
-  </footer>
+  <!-- Empty bottom spacer to maintain centered harmony -->
+  <div class="h-10 w-full pointer-events-none"></div>
 
   <script src="js/app.js"></script>
   <script>
-    document.getElementById('header-root').innerHTML = renderHeader('home');
-
-    // Dynamic Featured Papers
-    let allFeaturedPapers = [];
-    try {
-      allFeaturedPapers = (typeof AuthRosData !== 'undefined') ? AuthRosData.getPapers() : [];
-    } catch(e) {
-      allFeaturedPapers = [];
+    // Initialize header navigation
+    const headerEl = document.getElementById('header-root');
+    if (headerEl) {
+      headerEl.innerHTML = renderHeader('home');
     }
 
-    function renderFeaturedGrid(papersToRender) {
-      const grid = document.getElementById('home-featured-grid');
-      if (!grid) return;
-
-      if (!papersToRender || papersToRender.length === 0) {
-        grid.innerHTML = '<div class="col-span-3 text-center py-8 text-muted-foreground text-xs">No papers found for this category.</div>';
-        return;
+    // 2-Second Isolation Timer:
+    // Only "AuthRos" and the backdrop DNA are visible for the first 2 seconds.
+    // After 2.0s, the header toolbar reveals seamlessly with zero extra boxes.
+    setTimeout(() => {
+      if (headerEl) {
+        headerEl.classList.add('toolbar-revealed');
       }
-
-      const slice = papersToRender.slice(0, 6);
-      grid.innerHTML = slice.map((p, idx) => {
-        const flag = (typeof getCountryFlagSvg !== 'undefined') ? getCountryFlagSvg(p.country_code || 'GL') : '';
-        const isComp = p.status === 'completed';
-        const raised = p.crowdfunding_raised || 0;
-        const target = p.crowdfunding_target || 50000;
-        const pct = target > 0 ? Math.min(100, Math.round((raised / target) * 100)) : 100;
-        const hasAccess = typeof AuthManager !== 'undefined' ? AuthManager.canAccessPapers() : false;
-
-        return `
-          <div class="interactive-card bg-card rounded-2xl border border-border p-5 space-y-3 flex flex-col justify-between hover:shadow-lg hover:border-emerald-500/40 transition-all duration-300">
-            <div class="space-y-2">
-              <div class="flex items-start justify-between gap-2">
-                <div class="flex items-center gap-1.5">
-                  ${flag}
-                  <span class="text-[10px] font-mono text-muted-foreground font-semibold">${p.code || p.id}</span>
-                </div>
-                <span class="shadcn-badge ${isComp ? 'badge-forest' : 'badge-sunset'} text-[10px] font-bold uppercase font-mono">
-                  ${isComp ? 'Published' : 'Active Pipeline'}
-                </span>
-              </div>
-              <h3 class="text-base font-bold text-foreground line-clamp-2 leading-snug font-heading">${p.title}</h3>
-              <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">${p.lead_name || 'Principal Investigator'}</p>
-              <p class="text-xs text-muted-foreground line-clamp-2 leading-relaxed">${p.abstract || p.summary || ''}</p>
-            </div>
-
-            <div class="space-y-2.5 pt-2 border-t border-border/60">
-              ${!isComp ? `
-                <div class="space-y-1">
-                  <div class="flex justify-between text-xs font-semibold text-muted-foreground font-mono">
-                    <span>Grant Progress</span>
-                    <span class="text-emerald-600 dark:text-emerald-400 font-bold">$${raised.toLocaleString()} (${pct}%)</span>
-                  </div>
-                  <div class="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-                    <div class="h-1.5 rounded-full bg-gradient-to-r from-orange-500 to-emerald-500 transition-all" style="width: ${pct}%"></div>
-                  </div>
-                </div>
-              ` : `
-                <div class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-nav">
-                  <i class="fa-solid fa-circle-check text-xs"></i> Peer-Reviewed Protocol
-                </div>
-              `}
-
-              <div class="flex items-center justify-between text-xs text-muted-foreground">
-                <span>Year: <b class="text-foreground font-mono">${p.publication_year || 2026}</b></span>
-                <span class="px-2 py-0.5 rounded-md bg-accent font-bold text-foreground capitalize font-nav">${p.domain || 'Biomedical'}</span>
-              </div>
-
-              <div class="flex gap-1.5 pt-1">
-                <button onclick="openQuickViewModal('${p.id}')" class="px-2.5 py-1.5 rounded-xl border border-border text-xs font-semibold text-foreground hover:border-emerald-500 hover:text-emerald-600 transition font-nav" title="Quick Read Abstract">
-                  <i class="fa-regular fa-eye text-[10px] mr-1"></i> Quick View
-                </button>
-                ${!isComp ? `
-                  <button onclick="openDonateModal('${p.id}')" class="px-2.5 py-1.5 rounded-xl border border-orange-500/30 text-orange-500 hover:bg-orange-500/10 text-xs font-bold transition font-nav" title="Fund Grant">
-                    <i class="fa-solid fa-heart text-[10px]"></i> Fund
-                  </button>
-                ` : ''}
-                ${hasAccess ? `
-                  <a href="study-detail.html?id=${p.id}" class="flex-1 text-center text-xs font-bold py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-xs font-nav">
-                    Inspect Protocol →
-                  </a>
-                ` : `
-                  <a href="auth.html?redirect=${encodeURIComponent('study-detail.html?id=' + p.id)}" class="flex-1 text-center text-xs font-bold py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white transition shadow-xs font-nav">
-                    <i class="fa-solid fa-lock text-[10px] mr-1"></i> Login
-                  </a>
-                `}
-                <button onclick="openShareModal('${p.id}')" class="px-2.5 py-1.5 rounded-xl border border-border text-xs font-semibold text-foreground hover:bg-accent transition" title="Cite Protocol">
-                  <i class="fa-solid fa-quote-right text-[10px]"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function filterHomeDomain(domainKey, btn) {
-      document.querySelectorAll('.domain-pill').forEach(b => {
-        b.className = 'domain-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-accent text-muted-foreground hover:text-foreground transition font-nav';
-      });
-      btn.className = 'domain-pill px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-xs transition font-nav';
-
-      if (domainKey === 'all') {
-        renderFeaturedGrid(allFeaturedPapers);
-      } else {
-        const filtered = allFeaturedPapers.filter(p => (p.domain || '').toLowerCase().includes(domainKey));
-        renderFeaturedGrid(filtered);
-      }
-    }
-
-    // Initial render
-    renderFeaturedGrid(allFeaturedPapers);
+    }, 2000);
   </script>
 </body>
 </html>
+

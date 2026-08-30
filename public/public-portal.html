@@ -248,6 +248,10 @@
     if (typeof renderPortalSwitcher !== 'undefined') {
       document.getElementById('portal-switcher-root').innerHTML = renderPortalSwitcher('donors');
     }
+    // Enforce Field Access Control: Requires Donor / User profile
+    if (typeof AuthManager !== 'undefined') {
+      AuthManager.protectFieldPage('user');
+    }
   </script>
 </body>
 </html>

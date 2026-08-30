@@ -1,0 +1,529 @@
+/* ==========================================================================
+   AUTHROS HIGH-PERFORMANCE INTERACTIVE VISUAL EFFECTS SUITE
+   Includes: Quantum Dot Matrix Backdrop, Scroll-Driven Media Scaling & Color Shifts,
+   3D Model Aura, Tactile Pointer Aura, Living Aurora Mesh, and Click Physics.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. HIGH-DENSITY QUANTUM DOT MATRIX BACKDROP
+   ========================================================================== */
+#bg-dots-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none !important;
+  z-index: -3;
+  overflow: hidden;
+  background-image: 
+    radial-gradient(rgba(16, 185, 129, 0.16) 1.2px, transparent 1.2px),
+    radial-gradient(rgba(6, 182, 212, 0.09) 1.5px, transparent 1.5px);
+  background-size: 28px 28px, 56px 56px;
+  background-position: 0 0, 14px 14px;
+  opacity: 0.75;
+  transition: opacity 0.4s ease, transform 0.2s ease-out;
+  will-change: transform, opacity;
+}
+
+html.dark #bg-dots-grid {
+  background-image: 
+    radial-gradient(rgba(52, 211, 153, 0.24) 1.4px, transparent 1.4px),
+    radial-gradient(rgba(6, 182, 212, 0.14) 1.8px, transparent 1.8px);
+  opacity: 0.95;
+}
+
+/* Ambient Breathing Wave for Dot Matrix */
+@keyframes dotsLatticeBreathe {
+  0% {
+    background-size: 28px 28px, 56px 56px;
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    background-size: 29px 29px, 58px 58px;
+    filter: hue-rotate(15deg);
+  }
+  100% {
+    background-size: 28px 28px, 56px 56px;
+    filter: hue-rotate(0deg);
+  }
+}
+
+#bg-dots-grid.ambient-breathe {
+  animation: dotsLatticeBreathe 18s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   2. CUSTOM CURSOR & TACTILE POINTER AURA SYSTEM
+   Zero-lag, 100% non-blocking (pointer-events: none guaranteed on all layers)
+   ========================================================================== */
+#custom-pointer-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none !important;
+  z-index: 999990;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.custom-pointer-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background: #10b981;
+  border-radius: 50%;
+  pointer-events: none !important;
+  z-index: 999992;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.9), 0 0 16px rgba(16, 185, 129, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.18s ease, height 0.18s ease, background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  will-change: transform;
+}
+
+.custom-pointer-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid rgba(16, 185, 129, 0.6);
+  background: rgba(16, 185, 129, 0.06);
+  border-radius: 50%;
+  pointer-events: none !important;
+  z-index: 999991;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              background-color 0.2s ease,
+              box-shadow 0.2s ease,
+              opacity 0.2s ease;
+  will-change: transform;
+}
+
+/* Hover State - Magnetic Expansion */
+.custom-pointer-ring.pointer-hover {
+  width: 52px;
+  height: 52px;
+  background: rgba(16, 185, 129, 0.14);
+  border-color: rgba(52, 211, 153, 0.9);
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.45);
+}
+
+.custom-pointer-dot.pointer-hover {
+  width: 9px;
+  height: 9px;
+  background: #34d399;
+  box-shadow: 0 0 14px rgba(52, 211, 153, 1);
+}
+
+/* Amber / Public Crowdfunding theme variant */
+.custom-pointer-ring.pointer-amber {
+  border-color: rgba(245, 158, 11, 0.85);
+  background: rgba(245, 158, 11, 0.14);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
+}
+.custom-pointer-dot.pointer-amber {
+  background: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.95);
+}
+
+/* Sky / Hospital Portal theme variant */
+.custom-pointer-ring.pointer-sky {
+  border-color: rgba(14, 165, 233, 0.85);
+  background: rgba(14, 165, 233, 0.14);
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.35);
+}
+.custom-pointer-dot.pointer-sky {
+  background: #0ea5e9;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.95);
+}
+
+/* Text Input Caret Mode */
+.custom-pointer-ring.pointer-text {
+  width: 3px;
+  height: 20px;
+  border-radius: 2px;
+  background: #10b981;
+  border: none;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+}
+.custom-pointer-dot.pointer-text {
+  opacity: 0;
+}
+
+/* Active Click Press */
+.custom-pointer-ring.pointer-active {
+  transform: translate(-50%, -50%) scale(0.75);
+  background: rgba(16, 185, 129, 0.28);
+}
+.custom-pointer-dot.pointer-active {
+  transform: translate(-50%, -50%) scale(0.7);
+}
+
+/* Click Ripple Wave */
+.pointer-click-ripple {
+  position: fixed;
+  border-radius: 50%;
+  border: 2px solid rgba(16, 185, 129, 0.75);
+  pointer-events: none !important;
+  z-index: 999989;
+  transform: translate(-50%, -50%);
+  animation: pointerRippleAnim 0.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes pointerRippleAnim {
+  0% {
+    width: 6px;
+    height: 6px;
+    opacity: 1;
+    border-width: 2.5px;
+  }
+  100% {
+    width: 65px;
+    height: 65px;
+    opacity: 0;
+    border-width: 1px;
+  }
+}
+
+/* Particle Sparks on Click */
+.pointer-particle {
+  position: fixed;
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  pointer-events: none !important;
+  z-index: 999989;
+  animation: particleFly 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes particleFly {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(var(--tx), var(--ty)) scale(0.2);
+  }
+}
+
+/* Disable on touch screens */
+@media (hover: none) and (pointer: coarse) {
+  #custom-pointer-layer,
+  .custom-pointer-dot,
+  .custom-pointer-ring,
+  .pointer-click-ripple,
+  .pointer-particle {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   3. LIVING AURORA BACKGROUND MESH & CHROMATIC ORBS (GPU ACCELERATED)
+   ========================================================================== */
+#bg-aurora-mesh {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none !important;
+  z-index: -2;
+  overflow: hidden;
+  opacity: 0.65;
+  transition: opacity 0.5s ease;
+}
+
+html.dark #bg-aurora-mesh {
+  opacity: 0.85;
+}
+
+.aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(85px);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.aurora-orb-1 {
+  width: 55vw;
+  height: 55vw;
+  max-width: 700px;
+  max-height: 700px;
+  top: -15%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.32) 0%, rgba(6, 78, 59, 0.08) 60%, transparent 80%);
+  animation: auroraFloat1 24s ease-in-out infinite alternate;
+}
+
+.aurora-orb-2 {
+  width: 50vw;
+  height: 50vw;
+  max-width: 650px;
+  max-height: 650px;
+  top: 20%;
+  right: -15%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.26) 0%, rgba(13, 148, 136, 0.06) 60%, transparent 80%);
+  animation: auroraFloat2 28s ease-in-out infinite alternate;
+}
+
+.aurora-orb-3 {
+  width: 60vw;
+  height: 60vw;
+  max-width: 750px;
+  max-height: 750px;
+  bottom: -20%;
+  left: 15%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, rgba(16, 185, 129, 0.06) 60%, transparent 80%);
+  animation: auroraFloat3 32s ease-in-out infinite alternate;
+}
+
+.aurora-orb-4 {
+  width: 40vw;
+  height: 40vw;
+  max-width: 500px;
+  max-height: 500px;
+  bottom: 10%;
+  right: 10%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(16, 185, 129, 0.04) 60%, transparent 80%);
+  animation: auroraFloat4 26s ease-in-out infinite alternate;
+}
+
+@keyframes auroraFloat1 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(60px, 40px, 0) scale(1.1); }
+  100% { transform: translate3d(-30px, 80px, 0) scale(0.95); }
+}
+
+@keyframes auroraFloat2 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-50px, 60px, 0) scale(1.15); }
+  100% { transform: translate3d(40px, -40px, 0) scale(0.9); }
+}
+
+@keyframes auroraFloat3 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(70px, -50px, 0) scale(1.08); }
+  100% { transform: translate3d(-40px, -30px, 0) scale(0.96); }
+}
+
+@keyframes auroraFloat4 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-60px, -40px, 0) scale(1.12); }
+  100% { transform: translate3d(50px, 50px, 0) scale(0.92); }
+}
+
+/* ==========================================================================
+   4. SYNAPTIC BIO-CANVAS BACKGROUND (HIGH-DENSITY DOTS + MOLECULAR FILAMENTS)
+   ========================================================================== */
+#bio-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none !important;
+  z-index: -1;
+  opacity: 0.8;
+}
+
+html.dark #bio-canvas {
+  opacity: 0.95;
+}
+
+/* ==========================================================================
+   5. SCROLL-DRIVEN MEDIA SCALING & COLOR SHIFTING
+   ========================================================================== */
+.scroll-zoom-media {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s ease, 
+              border-color 0.3s ease,
+              filter 0.3s ease;
+  will-change: transform, box-shadow, border-color;
+}
+
+/* In-viewport scroll magnification */
+.scroll-zoom-active {
+  transform: scale(1.035) translateZ(0);
+  box-shadow: 0 16px 36px -12px rgba(16, 185, 129, 0.25), 0 0 20px rgba(6, 182, 212, 0.15);
+  border-color: rgba(52, 211, 153, 0.6) !important;
+}
+
+/* Dynamic chromatic spectrum shift on scroll */
+.scroll-color-shift {
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* 3D Molecular Model Ambient Halo */
+.bio-3d-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bio-3d-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(6, 182, 212, 0.1) 50%, transparent 75%);
+  z-index: -1;
+  pointer-events: none;
+  animation: auraPulse3D 4s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+@keyframes auraPulse3D {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.14);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   6. SCROLL READING PROGRESS BAR (MULTI-COLORED PLASMA TRAIL)
+   ========================================================================== */
+#scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #10b981 0%, #06b6d4 40%, #8b5cf6 75%, #f59e0b 100%);
+  z-index: 999999;
+  width: 0%;
+  transition: width 0.08s linear;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.8), 0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+/* ==========================================================================
+   7. BUTTON & CARD CLICK RIPPLE
+   ========================================================================== */
+.ripple-circle {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: rippleAnimation 0.55s ease-out;
+  pointer-events: none !important;
+}
+
+@keyframes rippleAnimation {
+  to {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   8. CARD GLOSSY SHEEN REFLECTION & 3D SPOTLIGHT
+   ========================================================================== */
+.interactive-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+  will-change: transform, box-shadow;
+}
+
+.interactive-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.06) 45%,
+    rgba(52, 211, 153, 0.12) 50%,
+    transparent 55%
+  );
+  transform: rotate(-25deg) translateY(-100%);
+  transition: transform 0.75s ease-in-out;
+  pointer-events: none !important;
+}
+
+.interactive-card:hover::after {
+  transform: rotate(-25deg) translateY(100%);
+}
+
+.interactive-card:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 20px 35px -10px rgba(16, 185, 129, 0.2), 0 0 1px 1px rgba(16, 185, 129, 0.25);
+}
+
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(450px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(16, 185, 129, 0.16), transparent 80%);
+  pointer-events: none !important;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   9. SECTION ENTRANCE SPRING ANIMATIONS
+   ========================================================================== */
+.reveal, .reveal-scale, .reveal-left, .reveal-right {
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal {
+  transform: translateY(28px) scale(0.98);
+}
+
+.reveal-scale {
+  transform: scale(0.92) translateY(20px);
+}
+
+.reveal-left {
+  transform: translateX(-30px);
+}
+
+.reveal-right {
+  transform: translateX(30px);
+}
+
+.reveal.active, .reveal-scale.active, .reveal-left.active, .reveal-right.active {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+
+/* Stagger delays */
+.delay-100 { transition-delay: 100ms; }
+.delay-150 { transition-delay: 150ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-250 { transition-delay: 250ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-350 { transition-delay: 350ms; }

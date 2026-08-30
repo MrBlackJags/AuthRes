@@ -102,21 +102,53 @@
         </div>
       </div>
 
-      <!-- Platform Access & Admin Quick Sign In -->
-      <div class="p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 space-y-3 text-xs">
+      <!-- 4-Field Quick Access Selector -->
+      <div class="p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 space-y-2.5 text-xs">
         <div class="text-[10px] uppercase font-bold text-emerald-300 tracking-wider flex items-center justify-between">
-          <span>Platform Administration:</span>
-          <i class="fa-solid fa-crown text-amber-400"></i>
+          <span>Field Credentials Quick Sign-In:</span>
+          <i class="fa-solid fa-id-badge text-emerald-400"></i>
         </div>
-        <button onclick="fillAdminCredentials()" class="w-full px-3 py-2 bg-orange-500/20 border border-orange-400/40 hover:bg-orange-500 hover:text-slate-950 text-orange-200 font-bold rounded-xl text-left transition flex items-center justify-between">
-          <span class="flex items-center gap-2">
-            <i class="fa-solid fa-crown text-amber-400 text-xs"></i>
-            <span>Log In as Administrator (You)</span>
-          </span>
-          <span class="text-[9px] bg-orange-500/30 px-2 py-0.5 rounded font-black">Rank 1</span>
-        </button>
-        <p class="text-[11px] text-slate-300 leading-relaxed">
-          The System Administrator reviews and assigns ranks to all newly registered accounts.
+
+        <div class="space-y-1.5">
+          <!-- 1. Hospital Field -->
+          <button onclick="fillFieldCredentials('hospital')" class="w-full px-3 py-1.5 bg-purple-500/20 border border-purple-400/40 hover:bg-purple-500/30 text-purple-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
+            <span class="flex items-center gap-1.5">
+              <i class="fa-solid fa-hospital text-purple-400 text-xs"></i>
+              <span>Hospital Clinician (Hopkins)</span>
+            </span>
+            <span class="text-[9px] bg-purple-500/30 px-1.5 py-0.5 rounded font-mono">Hospital</span>
+          </button>
+
+          <!-- 2. Research Field -->
+          <button onclick="fillFieldCredentials('research')" class="w-full px-3 py-1.5 bg-emerald-500/20 border border-emerald-400/40 hover:bg-emerald-500/30 text-emerald-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
+            <span class="flex items-center gap-1.5">
+              <i class="fa-solid fa-microscope text-emerald-400 text-xs"></i>
+              <span>Research Scientist (GenVault)</span>
+            </span>
+            <span class="text-[9px] bg-emerald-500/30 px-1.5 py-0.5 rounded font-mono">Research</span>
+          </button>
+
+          <!-- 3. User / Donor Field -->
+          <button onclick="fillFieldCredentials('user')" class="w-full px-3 py-1.5 bg-cyan-500/20 border border-cyan-400/40 hover:bg-cyan-500/30 text-cyan-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
+            <span class="flex items-center gap-1.5">
+              <i class="fa-solid fa-heart text-cyan-400 text-xs"></i>
+              <span>Public Donor / Patient</span>
+            </span>
+            <span class="text-[9px] bg-cyan-500/30 px-1.5 py-0.5 rounded font-mono">User</span>
+          </button>
+
+          <!-- 4. SaaS Administrator -->
+          <button onclick="fillFieldCredentials('admin')" class="w-full px-3 py-1.5 bg-orange-500/20 border border-orange-400/40 hover:bg-orange-500/30 text-orange-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
+            <span class="flex items-center gap-1.5">
+              <i class="fa-solid fa-crown text-amber-400 text-xs"></i>
+              <span>Platform Administrator (You)</span>
+            </span>
+            <span class="text-[9px] bg-orange-500/30 px-1.5 py-0.5 rounded font-mono">SaaS PI</span>
+          </button>
+        </div>
+
+        <p class="text-[10px] text-slate-300 leading-relaxed pt-1">
+          Select a role to test role-based access control across all 4 platform fields.
         </p>
       </div>
     </div>
@@ -303,12 +335,24 @@
       if (alert) alert.classList.add('hidden');
     }
 
-    function fillAdminCredentials() {
+    function fillFieldCredentials(fieldKey) {
       switchAuthTab('login');
       hideError();
-      document.getElementById('loginEmail').value = 'admin@authros.org';
-      document.getElementById('loginPassword').value = 'admin2026';
-      showToast('Filled credentials for System Administrator (You)', 'Admin Selected', 'info');
+      const fieldCreds = {
+        hospital: { email: 'clinical@hopkinsmedicine.org', pass: 'clinical2026', role: 'hospital', label: 'Hospital Clinician (Johns Hopkins)' },
+        research: { email: 'dr.chen@genvault.org', pass: 'research2026', role: 'scientist', label: 'Research Scientist (GenVault Lab)' },
+        user: { email: 'supporter@gmail.com', pass: 'donor2026', role: 'public', label: 'Public Donor / Patient' },
+        admin: { email: 'admin@authros.org', pass: 'admin2026', role: 'admin', label: 'Platform Administrator (You)' }
+      };
+
+      const target = fieldCreds[fieldKey] || fieldCreds.admin;
+      document.getElementById('loginEmail').value = target.email;
+      document.getElementById('loginPassword').value = target.pass;
+      showToast(`Selected ${target.label}. Click "Sign In" to proceed.`, 'Role Selected', 'info');
+    }
+
+    function fillAdminCredentials() {
+      fillFieldCredentials('admin');
     }
 
     async function handleLoginSubmit() {
