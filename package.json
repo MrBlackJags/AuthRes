@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "seed": "node Database/init-db.js"
+    "seed": "node Database/init-db.js",
+    "migrate:neon": "node Database/migrate-to-neon.js"
   },
   "keywords": [
     "biomedical",
@@ -21,6 +22,8 @@
   "author": "Antigravity Engineering",
   "license": "MIT",
   "dependencies": {
+    "@neon/config": "^1.1.0",
+    "@neon/env": "^1.1.6",
     "@neondatabase/serverless": "^1.1.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",

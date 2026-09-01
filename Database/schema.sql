@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS milestones (
     title TEXT NOT NULL,
     description TEXT,
     order_index INTEGER NOT NULL,
-    is_completed BOOLEAN DEFAULT 0,
+    is_completed BOOLEAN DEFAULT false,
     completed_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
