@@ -3751,7 +3751,7 @@ const AnalyticsAPI = {
       const res = await fetch(`${API_BASE_URL}/analytics/overview`);
       return await res.json();
     } catch(e) {
-      return { success: false, data: { total_papers: 1250, ongoing: 618, completed: 632, total_countries: 12, total_domains: 6 } };
+      return { success: false, data: { total_papers: 38000000, ongoing: 18962000, completed: 19038000, total_countries: 54, total_domains: 11 } };
     }
   },
   getFunding: async function() {

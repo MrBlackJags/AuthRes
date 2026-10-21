@@ -127,3 +127,11 @@ CREATE INDEX IF NOT EXISTS idx_rp_domain ON research_projects(domain);
 CREATE INDEX IF NOT EXISTS idx_rp_country ON research_projects(country_code);
 CREATE INDEX IF NOT EXISTS idx_rp_year ON research_projects(publication_year);
 CREATE INDEX IF NOT EXISTS idx_rp_created ON research_projects(created_at);
+
+-- 11. Platform Catalog Stats (38,000,000 Research Scale Metrics)
+CREATE TABLE IF NOT EXISTS platform_catalog_stats (
+    metric_name TEXT PRIMARY KEY,
+    metric_value BIGINT NOT NULL,
+    description TEXT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

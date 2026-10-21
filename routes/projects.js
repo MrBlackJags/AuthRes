@@ -6,6 +6,7 @@ const router = require('express').Router();
 const { dbQuery, dbRun } = require('../Database/db');
 const { authenticateToken, optionalAuth, requireRole } = require('../middleware/auth');
 const { validateBody, sanitize, parsePagination } = require('../middleware/validate');
+const pubmedService = require('../Database/pubmed-service');
 
 // ─── HELPERS ───────────────────────────────────────────────────────────────
 function makeId(prefix) { return `${prefix}-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`; }
@@ -16,50 +17,22 @@ router.get('/', optionalAuth, parsePagination(50, 20000), async (req, res) => {
     const { q, stage, status, visibility, domain, country, publisher, era } = req.query;
     const { limit, offset } = req.pagination;
 
-    let sql = `
-      SELECT p.*, u.full_name as lead_name, o.name as org_name
-      FROM research_projects p
-      LEFT JOIN users u ON p.lead_investigator_id = u.id
-      LEFT JOIN organizations o ON p.organization_id = o.id
-      WHERE 1=1
-    `;
-    const params = [];
+    // Use Hybrid 38M PubMed Engine (Local DB + NCBI Live + Deterministic O(1))
+    const result = await pubmedService.searchHybridPapers({
+      q, stage, status, visibility, domain, country, publisher, era,
+      limit, offset
+    });
 
-    if (q) {
-      sql += ` AND (LOWER(p.title) LIKE ? OR LOWER(p.summary) LIKE ? OR LOWER(p.code) LIKE ?
-               OR LOWER(u.full_name) LIKE ? OR LOWER(p.journal_citation) LIKE ?
-               OR LOWER(p.country_name) LIKE ? OR LOWER(p.publisher_name) LIKE ?)`;
-      const t = `%${q.toLowerCase()}%`;
-      params.push(t, t, t, t, t, t, t);
-    }
-    if (status && status !== 'all') { sql += ` AND p.status = ?`; params.push(status); }
-    if (stage && stage !== 'all') { sql += ` AND p.stage = ?`; params.push(stage); }
-    if (visibility && visibility !== 'all') { sql += ` AND p.visibility = ?`; params.push(visibility); }
-    if (domain && domain !== 'all') { sql += ` AND LOWER(p.domain) LIKE ?`; params.push(`%${domain.toLowerCase()}%`); }
-    if (country && country !== 'all') {
-      sql += ` AND (p.country_code = ? OR LOWER(p.country_name) = ?)`;
-      params.push(country.toUpperCase(), country.toLowerCase());
-    }
-    if (publisher && publisher !== 'all') {
-      sql += ` AND LOWER(p.publisher_name) LIKE ?`;
-      params.push(`%${publisher.toLowerCase()}%`);
-    }
-    if (era && era !== 'all') {
-      if (era === 'historic') sql += ` AND p.publication_year < 1980`;
-      else if (era === 'modern') sql += ` AND p.publication_year BETWEEN 1980 AND 2015`;
-      else if (era === 'contemporary') sql += ` AND p.publication_year >= 2016`;
-    }
-
-    // Count total before pagination
-    const countSql = `SELECT COUNT(*) as total FROM (${sql}) t`;
-    const countRes = await dbQuery(countSql, params).catch(() => [{ total: 0 }]);
-    const total = countRes[0]?.total || 0;
-
-    sql += ` ORDER BY p.publication_year DESC, p.created_at DESC LIMIT ? OFFSET ?`;
-    params.push(limit, offset);
-
-    const rows = await dbQuery(sql, params);
-    res.json({ success: true, count: rows.length, total, page: req.pagination.page, limit, projects: rows });
+    res.json({
+      success: true,
+      count: result.count,
+      total: result.total,
+      catalog_total: result.catalog_total,
+      local_db_cached: result.local_db_cached,
+      page: req.pagination.page,
+      limit,
+      projects: result.projects
+    });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -69,29 +42,36 @@ router.get('/', optionalAuth, parsePagination(50, 20000), async (req, res) => {
 router.get('/:id', optionalAuth, async (req, res) => {
   try {
     const { id } = req.params;
-    const rows = await dbQuery(`
+    let rows = await dbQuery(`
       SELECT p.*, u.full_name as lead_name, u.email as lead_email, o.name as org_name
       FROM research_projects p
       LEFT JOIN users u ON p.lead_investigator_id = u.id
       LEFT JOIN organizations o ON p.organization_id = o.id
-      WHERE p.id = ?
-    `, [id]);
+      WHERE p.id = ? OR p.code = ? OR p.doi = ?
+    `, [id, id, id]);
 
-    if (!rows || rows.length === 0) {
+    let project = (rows && rows.length > 0) ? rows[0] : null;
+
+    if (!project) {
+      // Resolve across 38M catalog / NCBI and auto-cache to database
+      project = await pubmedService.getPaperById(id);
+    }
+
+    if (!project) {
       return res.status(404).json({ success: false, error: 'Research project not found.' });
     }
 
-    const project = rows[0];
-    const milestones = await dbQuery('SELECT * FROM milestones WHERE project_id = ? ORDER BY order_index ASC', [id]);
-    const datasets = await dbQuery('SELECT * FROM datasets WHERE project_id = ? ORDER BY created_at DESC', [id]);
-    const donations = await dbQuery('SELECT * FROM donations WHERE project_id = ? ORDER BY created_at DESC', [id]);
-    const cohorts = await dbQuery('SELECT * FROM hospital_cohorts WHERE project_id = ? ORDER BY created_at DESC', [id]);
+    const projectId = project.id;
+    const milestones = await dbQuery('SELECT * FROM milestones WHERE project_id = ? ORDER BY order_index ASC', [projectId]).catch(() => []);
+    const datasets = await dbQuery('SELECT * FROM datasets WHERE project_id = ? ORDER BY created_at DESC', [projectId]).catch(() => []);
+    const donations = await dbQuery('SELECT * FROM donations WHERE project_id = ? ORDER BY created_at DESC', [projectId]).catch(() => []);
+    const cohorts = await dbQuery('SELECT * FROM hospital_cohorts WHERE project_id = ? ORDER BY created_at DESC', [projectId]).catch(() => []);
     const members = await dbQuery(`
       SELECT pm.*, u.full_name, u.email, u.title
       FROM project_members pm
       JOIN users u ON pm.user_id = u.id
       WHERE pm.project_id = ?
-    `, [id]);
+    `, [projectId]).catch(() => []);
 
     res.json({ success: true, project, milestones, datasets, donations, cohorts, members });
   } catch (err) {
@@ -183,9 +163,20 @@ router.post('/:id/like', optionalAuth, async (req, res) => {
     const { id } = req.params;
     const action = req.body?.action || 'like';
     const delta = action === 'unlike' ? -1 : 1;
-    await dbRun('UPDATE research_projects SET likes_count = MAX(0, likes_count + ?) WHERE id = ?', [delta, id]);
-    const updated = await dbQuery('SELECT likes_count FROM research_projects WHERE id = ?', [id]);
-    res.json({ success: true, likes_count: updated[0]?.likes_count || 0 });
+
+    // Resolve paper across 38M space and auto-cache to DB
+    const paper = await pubmedService.getPaperById(id);
+    const targetId = paper ? paper.id : id;
+
+    // Cross-engine safe (PostgreSQL & SQLite)
+    await dbRun(`
+      UPDATE research_projects
+      SET likes_count = CASE WHEN (likes_count + ?) < 0 THEN 0 ELSE (likes_count + ?) END
+      WHERE id = ?
+    `, [delta, delta, targetId]);
+
+    const updated = await dbQuery('SELECT likes_count FROM research_projects WHERE id = ?', [targetId]);
+    res.json({ success: true, likes_count: updated[0]?.likes_count || 0, project_id: targetId });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -194,7 +185,9 @@ router.post('/:id/like', optionalAuth, async (req, res) => {
 // ─── MILESTONES ─────────────────────────────────────────────────────────────
 router.get('/:id/milestones', optionalAuth, async (req, res) => {
   try {
-    const rows = await dbQuery('SELECT * FROM milestones WHERE project_id = ? ORDER BY order_index ASC', [req.params.id]);
+    const paper = await pubmedService.getPaperById(req.params.id);
+    const targetId = paper ? paper.id : req.params.id;
+    const rows = await dbQuery('SELECT * FROM milestones WHERE project_id = ? ORDER BY order_index ASC', [targetId]);
     res.json({ success: true, count: rows.length, milestones: rows });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -206,12 +199,14 @@ router.post('/:id/milestones', authenticateToken, requireRole('pi', 'scientist')
 }), async (req, res) => {
   try {
     const { title, description, order_index } = req.body;
+    const paper = await pubmedService.getPaperById(req.params.id);
+    const targetId = paper ? paper.id : req.params.id;
     const id = makeId('ms');
-    const countRes = await dbQuery('SELECT COUNT(*) as c FROM milestones WHERE project_id = ?', [req.params.id]);
+    const countRes = await dbQuery('SELECT COUNT(*) as c FROM milestones WHERE project_id = ?', [targetId]);
     const idx = order_index !== undefined ? order_index : (countRes[0]?.c || 0) + 1;
     await dbRun('INSERT INTO milestones (id, project_id, title, description, order_index) VALUES (?, ?, ?, ?, ?)',
-      [id, req.params.id, title, description || '', idx]);
-    res.status(201).json({ success: true, message: 'Milestone added.', data: { id } });
+      [id, targetId, title, description || '', idx]);
+    res.status(201).json({ success: true, message: 'Milestone added.', data: { id, project_id: targetId } });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -281,7 +276,9 @@ router.post('/:id/datasets', authenticateToken, requireRole('pi', 'scientist', '
 // ─── COHORTS ────────────────────────────────────────────────────────────────
 router.get('/:id/cohorts', authenticateToken, requireRole('pi', 'scientist', 'hospital'), async (req, res) => {
   try {
-    const rows = await dbQuery('SELECT * FROM hospital_cohorts WHERE project_id = ? ORDER BY created_at DESC', [req.params.id]);
+    const paper = await pubmedService.getPaperById(req.params.id);
+    const targetId = paper ? paper.id : req.params.id;
+    const rows = await dbQuery('SELECT * FROM hospital_cohorts WHERE project_id = ? ORDER BY created_at DESC', [targetId]);
     res.json({ success: true, count: rows.length, cohorts: rows });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -294,11 +291,13 @@ router.post('/:id/cohorts', authenticateToken, requireRole('pi', 'hospital'), va
 }), async (req, res) => {
   try {
     const { hospital_name, patient_count, biomarker_target, deidentified_summary } = req.body;
+    const paper = await pubmedService.getPaperById(req.params.id);
+    const targetId = paper ? paper.id : req.params.id;
     const id = makeId('hc');
     const hash = '0x' + Math.random().toString(16).substring(2, 14).toUpperCase();
     await dbRun('INSERT INTO hospital_cohorts (id, project_id, hospital_name, patient_count, biomarker_target, deidentified_summary, verification_hash) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [id, req.params.id, hospital_name, patient_count, biomarker_target || 'Unspecified', deidentified_summary || '', hash]);
-    res.status(201).json({ success: true, message: 'Cohort submitted successfully!', data: { id, hash } });
+      [id, targetId, hospital_name, patient_count, biomarker_target || 'Unspecified', deidentified_summary || '', hash]);
+    res.status(201).json({ success: true, message: 'Cohort submitted successfully!', data: { id, hash, project_id: targetId } });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -307,7 +306,9 @@ router.post('/:id/cohorts', authenticateToken, requireRole('pi', 'hospital'), va
 // ─── DONATIONS ───────────────────────────────────────────────────────────────
 router.get('/:id/donations', optionalAuth, async (req, res) => {
   try {
-    const rows = await dbQuery('SELECT * FROM donations WHERE project_id = ? ORDER BY created_at DESC', [req.params.id]);
+    const paper = await pubmedService.getPaperById(req.params.id);
+    const targetId = paper ? paper.id : req.params.id;
+    const rows = await dbQuery('SELECT * FROM donations WHERE project_id = ? ORDER BY created_at DESC', [targetId]);
     res.json({ success: true, count: rows.length, donations: rows });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -320,10 +321,15 @@ router.post('/:id/donate', optionalAuth, validateBody({
   try {
     const { amount, donor_name } = req.body;
     const id = makeId('don');
+
+    // Resolve paper across 38M space and auto-cache to DB
+    const paper = await pubmedService.getPaperById(req.params.id);
+    const targetId = paper ? paper.id : req.params.id;
+
     await dbRun('INSERT INTO donations (id, project_id, donor_name, amount) VALUES (?, ?, ?, ?)',
-      [id, req.params.id, donor_name || 'Anonymous Supporter', amount]);
-    await dbRun('UPDATE research_projects SET crowdfunding_raised = crowdfunding_raised + ? WHERE id = ?', [amount, req.params.id]);
-    res.json({ success: true, message: 'Donation received! Thank you for supporting science.', data: { id } });
+      [id, targetId, donor_name || 'Anonymous Supporter', amount]);
+    await dbRun('UPDATE research_projects SET crowdfunding_raised = crowdfunding_raised + ? WHERE id = ?', [amount, targetId]);
+    res.json({ success: true, message: 'Donation received! Thank you for supporting science.', data: { id, project_id: targetId } });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

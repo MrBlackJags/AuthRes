@@ -9,6 +9,7 @@
 const router = require('express').Router();
 const { dbQuery, dbRun } = require('../Database/db');
 const { authenticateToken, requireRole } = require('../middleware/auth');
+const pubmedService = require('../Database/pubmed-service');
 
 // All admin routes require PI role
 router.use(authenticateToken, requireRole('pi'));
@@ -16,6 +17,7 @@ router.use(authenticateToken, requireRole('pi'));
 // GET /api/admin/stats — Full platform stats
 router.get('/stats', async (req, res) => {
   try {
+    const catalogStats = await pubmedService.getCatalogStats();
     const [projectStats] = await dbQuery(`
       SELECT
         COUNT(*) as total_projects,
@@ -46,7 +48,13 @@ router.get('/stats', async (req, res) => {
     res.json({
       success: true,
       data: {
-        projects: projectStats,
+        projects: {
+          ...projectStats,
+          total_catalog_papers: catalogStats.total_papers,
+          catalog_ongoing: catalogStats.ongoing,
+          catalog_completed: catalogStats.completed,
+          cached_in_db: projectStats?.total_projects || 0
+        },
         users: { ...userStats, role_breakdown: roleBreakdown },
         datasets: dsStats,
         cohorts: cohortStats,
