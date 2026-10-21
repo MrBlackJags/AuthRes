@@ -359,6 +359,8 @@
   <script>
     let allProjects = (typeof AuthRosData !== 'undefined') ? AuthRosData.getPapers() : [];
     let filteredProjects = [...allProjects];
+    window.allProjects = allProjects;
+    window.filteredProjects = filteredProjects;
     let currentStatus = 'all';
     let currentDomain = 'all';
     let currentSortKey = 'year';
@@ -380,16 +382,11 @@
     async function initResearchDirectory() {
       document.getElementById('header-root').innerHTML = renderHeader('research');
 
-      try {
-        const apiRes = await AuthRosAPI.getProjects({ limit: 12000 });
-        if (apiRes && apiRes.projects && apiRes.projects.length >= 50) {
-          allProjects = apiRes.projects;
-        } else {
-          allProjects = AuthRosData.getPapers();
-        }
-      } catch(e) {
-        allProjects = AuthRosData.getPapers();
-      }
+      // 1. Initial Immediate Render with base dataset (zero load latency)
+      allProjects = (typeof AuthRosData !== 'undefined') ? AuthRosData.getPapers() : [];
+      window.allProjects = allProjects;
+      window.filteredProjects = allProjects;
+
       // Parse URL parameters and session storage for direct linking
       const params = new URLSearchParams(window.location.search);
       if (params.get('q')) {
@@ -474,6 +471,19 @@
       checkResearchAuthBanner();
       updateCounts();
       filterStudies();
+
+      // 2. Asynchronously fetch full persistent database records without blocking UI
+      AuthRosAPI.getProjects({ limit: 12000 }).then(apiRes => {
+        if (apiRes && apiRes.projects && apiRes.projects.length >= 50) {
+          allProjects = apiRes.projects;
+          window.allProjects = allProjects;
+          window.filteredProjects = allProjects;
+          updateCounts();
+          filterStudies();
+        }
+      }).catch(e => {
+        console.warn('API database records fallback:', e);
+      });
 
       // Enable keyboard shortcut '/' to focus search
       document.addEventListener('keydown', (e) => {
@@ -575,7 +585,10 @@
       document.querySelectorAll('.view-mode-btn').forEach(b => {
         b.className = 'view-mode-btn p-1.5 rounded-lg text-muted-foreground hover:text-foreground transition';
       });
-      btn.className = 'view-mode-btn p-1.5 rounded-lg bg-emerald-600 text-white shadow-xs transition';
+      const targetBtn = btn || document.querySelector(`.view-mode-btn[onclick*="'${mode}'"]`);
+      if (targetBtn) {
+        targetBtn.className = 'view-mode-btn p-1.5 rounded-lg bg-emerald-600 text-white shadow-xs transition';
+      }
       renderProjects();
     }
 
@@ -584,7 +597,10 @@
       document.querySelectorAll('.status-tab-btn').forEach(b => {
         b.className = 'status-tab-btn px-3.5 py-1.5 rounded-lg text-muted-foreground hover:text-foreground transition flex items-center gap-1.5';
       });
-      btn.className = 'status-tab-btn px-3.5 py-1.5 rounded-lg bg-emerald-600 text-white font-bold shadow-xs transition flex items-center gap-1.5';
+      const targetBtn = btn || document.querySelector(`.status-tab-btn[onclick*="'${status}'"]`);
+      if (targetBtn) {
+        targetBtn.className = 'status-tab-btn px-3.5 py-1.5 rounded-lg bg-emerald-600 text-white font-bold shadow-xs transition flex items-center gap-1.5';
+      }
       currentPage = 1;
       filterStudies();
     }
@@ -730,6 +746,7 @@
 
       // Apply Sorting
       filteredProjects = sortProjects(matches);
+      window.filteredProjects = filteredProjects;
 
       renderProjects();
     }

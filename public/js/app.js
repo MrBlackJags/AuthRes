@@ -1380,8 +1380,30 @@ const AuthRosData = {
       }
     }
 
-    // Default to first base project or generate index 1
-    return this.generateStudyByIndex(1);
+    // Check proj-pmid pattern: proj-pmid-{pmid}
+    if (idStr.startsWith('proj-pmid-')) {
+      const pmid = parseInt(idStr.replace('proj-pmid-', ''), 10);
+      if (!isNaN(pmid) && pmid >= 1) {
+        return this.generateStudyByIndex(Math.abs(pmid % 38000000) || 1);
+      }
+    }
+
+    // Check PMID pattern: PMID-{pmid}
+    if (idStr.startsWith('PMID-')) {
+      const pmid = parseInt(idStr.replace('PMID-', ''), 10);
+      if (!isNaN(pmid) && pmid >= 1) {
+        return this.generateStudyByIndex(Math.abs(pmid % 38000000) || 1);
+      }
+    }
+
+    // Pure numeric index
+    const numeric = parseInt(idStr, 10);
+    if (!isNaN(numeric) && numeric >= 1) {
+      return this.generateStudyByIndex(Math.abs(numeric % 38000000) || 1);
+    }
+
+    // If ID not matched in cache, return null so caller can try runtime collections or server
+    return null;
   }
 };
 
@@ -2148,9 +2170,9 @@ function openShareModal(arg1, code, doi, citation, sourceUrl) {
   if (!modal) {
     modal = document.createElement('div');
     modal.id = 'share-modal';
-    modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300';
     document.body.appendChild(modal);
   }
+  modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300';
 
   modal.onclick = function(e) {
     if (e.target === modal) closeShareModal();
@@ -2159,7 +2181,7 @@ function openShareModal(arg1, code, doi, citation, sourceUrl) {
   const safeTitle = (title || 'Biomedical Research Protocol').replace(/"/g, '&quot;');
 
   modal.innerHTML = `
-    <div class="shadcn-dialog-content max-w-lg w-full bg-card border border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 rounded-3xl p-6 space-y-5" id="share-card" onclick="event.stopPropagation()">
+    <div class="relative max-w-lg w-full bg-card border border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 rounded-3xl p-6 space-y-5" id="share-card" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between pb-3 border-b border-border">
         <div class="flex items-center gap-2">
           <span class="shadcn-badge badge-forest text-xs">
@@ -2263,7 +2285,45 @@ function getStudyDetailsById(idOrArg, secondaryId) {
   if (typeof idOrArg === 'object' && idOrArg && idOrArg.title) return idOrArg;
 
   const candidateIds = [idOrArg, secondaryId].filter(Boolean).map(x => String(x).trim());
-  
+
+  // 1. Check runtime memory collections first (currently loaded / displayed papers)
+  const memoryLists = [];
+  if (typeof filteredProjects !== 'undefined' && Array.isArray(filteredProjects)) memoryLists.push(filteredProjects);
+  if (typeof allProjects !== 'undefined' && Array.isArray(allProjects)) memoryLists.push(allProjects);
+  if (typeof window !== 'undefined') {
+    if (Array.isArray(window.filteredProjects)) memoryLists.push(window.filteredProjects);
+    if (Array.isArray(window.allProjects)) memoryLists.push(window.allProjects);
+  }
+
+  for (const list of memoryLists) {
+    for (const cid of candidateIds) {
+      const lower = cid.toLowerCase();
+      const match = list.find(x => 
+        (x.id && String(x.id).toLowerCase() === lower) || 
+        (x.code && String(x.code).toLowerCase() === lower) ||
+        (x.doi && String(x.doi).toLowerCase() === lower) ||
+        (x.title && String(x.title).toLowerCase() === lower)
+      );
+      if (match) return match;
+    }
+  }
+
+  // 2. Search in landmark curated studies
+  if (typeof AuthRosData !== 'undefined' && typeof AuthRosData.getPapers === 'function') {
+    const papers = AuthRosData.getPapers();
+    for (const cid of candidateIds) {
+      const lower = cid.toLowerCase();
+      const match = papers.find(x => 
+        (x.id && String(x.id).toLowerCase() === lower) || 
+        (x.code && String(x.code).toLowerCase() === lower) ||
+        (x.doi && String(x.doi).toLowerCase() === lower) ||
+        (x.title && String(x.title).toLowerCase() === lower)
+      );
+      if (match) return match;
+    }
+  }
+
+  // 3. Search in 38M procedural generator
   if (typeof AuthRosData !== 'undefined' && typeof AuthRosData.getPaperById === 'function') {
     for (const cid of candidateIds) {
       const found = AuthRosData.getPaperById(cid);
@@ -2271,34 +2331,13 @@ function getStudyDetailsById(idOrArg, secondaryId) {
     }
   }
 
-  if (typeof allProjects !== 'undefined' && Array.isArray(allProjects)) {
-    for (const cid of candidateIds) {
-      const lower = cid.toLowerCase();
-      const match = allProjects.find(x => 
-        String(x.id).toLowerCase() === lower || 
-        String(x.code).toLowerCase() === lower ||
-        (x.doi && String(x.doi).toLowerCase() === lower) ||
-        (x.title && String(x.title).toLowerCase() === lower)
-      );
-      if (match) return match;
-    }
-  }
-
-  if (typeof AuthRosData !== 'undefined' && typeof AuthRosData.getPapers === 'function') {
-    const papers = AuthRosData.getPapers();
-    for (const cid of candidateIds) {
-      const lower = cid.toLowerCase();
-      const match = papers.find(x => 
-        String(x.id).toLowerCase() === lower || 
-        String(x.code).toLowerCase() === lower ||
-        (x.doi && String(x.doi).toLowerCase() === lower) ||
-        (x.title && String(x.title).toLowerCase() === lower)
-      );
-      if (match) return match;
-    }
-  }
-
+  // 4. Construct authentic fallback matching the specific ID requested
   const firstId = candidateIds[0] || 'proj-1';
+  let fallbackDomain = 'Biomedical Science';
+  if (firstId.includes('CRISPR') || firstId.includes('CAS9')) fallbackDomain = 'CRISPR & Gene Editing';
+  else if (firstId.includes('RNA') || firstId.includes('CANCER')) fallbackDomain = 'Cancer & RNA Oncology';
+  else if (firstId.includes('CARDIO')) fallbackDomain = 'Cardiology';
+
   return {
     id: firstId,
     title: typeof idOrArg === 'string' && idOrArg.length > 15 ? idOrArg : `Biomedical Research Protocol (${firstId.toUpperCase()})`,
@@ -2313,7 +2352,7 @@ function getStudyDetailsById(idOrArg, secondaryId) {
     country_name: 'Global Consortium',
     country_code: 'GL',
     institution_origin: 'International Medical Research Consortium',
-    domain: 'Cancer & RNA Oncology',
+    domain: fallbackDomain,
     crowdfunding_raised: 32500,
     crowdfunding_target: 50000,
     progress_percent: 65,
@@ -2345,9 +2384,9 @@ function openDonateModal(arg1, currentRaised, targetGoal, studyId) {
   if (!modal) {
     modal = document.createElement('div');
     modal.id = 'donate-modal';
-    modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300';
     document.body.appendChild(modal);
   }
+  modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300';
 
   modal.onclick = function(e) {
     if (e.target === modal) closeDonateModal();
@@ -2358,7 +2397,7 @@ function openDonateModal(arg1, currentRaised, targetGoal, studyId) {
   const donorName = user?.full_name || '';
 
   modal.innerHTML = `
-    <div class="shadcn-dialog-content max-w-lg w-full bg-card border border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 rounded-3xl p-0 flex flex-col max-h-[90vh]" id="donate-card" onclick="event.stopPropagation()">
+    <div class="relative max-w-lg w-full bg-card border border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 rounded-3xl p-0 flex flex-col max-h-[90vh]" id="donate-card" onclick="event.stopPropagation()">
       
       <!-- Top Modal Header -->
       <div class="px-6 py-4 border-b border-border flex items-center justify-between gap-3 bg-muted/20">
@@ -2691,9 +2730,9 @@ function openHospitalCohortModal(studyTitle) {
   if (!modal) {
     modal = document.createElement('div');
     modal.id = 'hospital-modal';
-    modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300';
     document.body.appendChild(modal);
   }
+  modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300';
 
   modal.onclick = function(e) {
     if (e.target === modal) closeHospitalModal();
@@ -2702,7 +2741,7 @@ function openHospitalCohortModal(studyTitle) {
   const safeTitle = (studyTitle || 'Targeted Clinical Protocol').replace(/"/g, '&quot;');
 
   modal.innerHTML = `
-    <div class="shadcn-dialog-content max-w-lg w-full bg-card border border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 rounded-3xl p-6 space-y-4" id="hospital-card" onclick="event.stopPropagation()">
+    <div class="relative max-w-lg w-full bg-card border border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 rounded-3xl p-6 space-y-4" id="hospital-card" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between pb-3 border-b border-border">
         <span class="shadcn-badge badge-hospital-purple text-xs font-bold">
           <i class="fa-solid fa-hospital mr-1 text-purple-600 dark:text-purple-400"></i> Clinical Trial Site Portal
@@ -2792,9 +2831,9 @@ function openQuickViewModal(projectId) {
   if (!modal) {
     modal = document.createElement('div');
     modal.id = 'quickview-modal';
-    modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300';
     document.body.appendChild(modal);
   }
+  modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 sm:p-6 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300';
 
   modal.onclick = function(e) {
     if (e.target === modal) closeQuickViewModal();
@@ -2820,7 +2859,7 @@ function openQuickViewModal(projectId) {
   const origin = p.institution_origin || p.lead_name || 'Academic Medical Research Consortium';
 
   modal.innerHTML = `
-    <div class="shadcn-dialog-content max-w-2xl w-full bg-card border border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 max-h-[90vh] flex flex-col p-0 rounded-3xl" id="quickview-card" onclick="event.stopPropagation()">
+    <div class="relative w-full max-w-2xl bg-card border border-border shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 max-h-[90vh] flex flex-col p-0 rounded-3xl" id="quickview-card" onclick="event.stopPropagation()">
       
       <!-- Top Modal Header -->
       <div class="px-6 py-4 border-b border-border flex items-center justify-between gap-3 bg-muted/20">
@@ -2983,9 +3022,16 @@ function openQuickViewModal(projectId) {
   `;
 
   modal.classList.remove('opacity-0', 'pointer-events-none');
+  modal.classList.add('opacity-100', 'pointer-events-auto');
+  if (typeof document !== 'undefined' && document.body) {
+    document.body.style.overflow = 'hidden';
+  }
   setTimeout(() => {
     const card = document.getElementById('quickview-card');
-    if (card) card.classList.remove('scale-95');
+    if (card) {
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    }
   }, 10);
 }
 
@@ -3011,8 +3057,15 @@ function closeQuickViewModal() {
   const modal = document.getElementById('quickview-modal');
   if (modal) {
     const card = document.getElementById('quickview-card');
-    if (card) card.classList.add('scale-95');
+    if (card) {
+      card.classList.add('scale-95');
+      card.classList.remove('scale-100');
+    }
+    modal.classList.remove('opacity-100', 'pointer-events-auto');
     modal.classList.add('opacity-0', 'pointer-events-none');
+    if (typeof document !== 'undefined' && document.body) {
+      document.body.style.overflow = '';
+    }
   }
 }
 

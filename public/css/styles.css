@@ -821,7 +821,7 @@ html.dark #bio-canvas {
   border-color: hsl(var(--border));
 }
 
-/* Equal-Height Box & Card Grid Alignment Framework */
+/* Equal-Height Box & Card Grid Alignment Framework with Glassmorphism */
 .interactive-card,
 .shadcn-card,
 .portal-card,
@@ -832,9 +832,27 @@ html.dark #bio-canvas {
   height: 100%;
   box-sizing: border-box;
   border-radius: var(--radius);
-  border: 1px solid hsl(var(--border));
-  background-color: hsl(var(--card));
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05),
+              0 2px 6px -1px rgba(0, 0, 0, 0.03),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.85);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+html.dark .interactive-card,
+html.dark .shadcn-card,
+html.dark .portal-card,
+html.dark .metric-kpi-card {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.38),
+              0 2px 8px 0 rgba(0, 0, 0, 0.2),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 /* Fixed Height Typography Clamps for Pixel-Perfect Box Sizing */
@@ -878,16 +896,18 @@ html.dark #bio-canvas {
 .portal-card:hover,
 .metric-kpi-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 30px -8px rgba(6, 78, 59, 0.12), 0 0 16px hsl(var(--primary) / 0.15);
-  border-color: hsl(var(--primary) / 0.5);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.2), 0 0 1px 1px rgba(16, 185, 129, 0.28), inset 0 1px 1px 0 rgba(255, 255, 255, 1);
+  border-color: rgba(16, 185, 129, 0.45);
 }
 
 html.dark .interactive-card:hover,
 html.dark .shadcn-card:hover,
 html.dark .portal-card:hover,
 html.dark .metric-kpi-card:hover {
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.55), 0 0 20px hsl(var(--primary) / 0.22);
-  border-color: hsl(var(--primary) / 0.6);
+  background: rgba(15, 23, 42, 0.8);
+  box-shadow: 0 22px 45px -10px rgba(0, 0, 0, 0.65), 0 0 22px rgba(16, 185, 129, 0.18), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(52, 211, 153, 0.4);
 }
 
 /* 2. Tactile Click & Active Press Response */
@@ -950,15 +970,27 @@ textarea:focus {
 }
 
 /* 6. Modals Standardized Harmonious Theme Styling */
+#quickview-modal,
+#donate-modal,
+#hospital-modal,
+#share-modal {
+  z-index: 9999 !important;
+}
+
 .modal-card-unified,
 #donate-card,
 #hospital-card,
 #share-modal-content,
 #quickview-card {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  margin: auto !important;
   background-color: hsl(var(--card)) !important;
   color: hsl(var(--card-foreground, var(--foreground))) !important;
   border: 1.5px solid hsl(var(--border)) !important;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35), 0 0 30px hsl(var(--primary) / 0.15) !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.45), 0 0 30px hsl(var(--primary) / 0.15) !important;
   border-radius: 1.5rem !important;
 }
 

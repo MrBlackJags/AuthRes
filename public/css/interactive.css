@@ -428,18 +428,41 @@ html.dark #bio-canvas {
 }
 
 /* ==========================================================================
-   8. CARD GLOSSY SHEEN REFLECTION & 3D SPOTLIGHT
+   8. CARD GLOSSY SHEEN REFLECTION, GLASSMORPHISM & 3D SPOTLIGHT
    ========================================================================== */
-.interactive-card {
+.interactive-card,
+#studiesContainer .shadcn-card,
+.glass-card {
   position: relative;
   overflow: hidden;
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  border: 1px solid rgba(226, 232, 240, 0.75) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05),
+              0 2px 6px -1px rgba(0, 0, 0, 0.03),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.85) !important;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s ease,
-              border-color 0.3s ease;
+              border-color 0.3s ease,
+              background-color 0.3s ease;
   will-change: transform, box-shadow;
 }
 
-.interactive-card::after {
+html.dark .interactive-card,
+html.dark #studiesContainer .shadcn-card,
+html.dark .glass-card {
+  background: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(18px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.38),
+              0 2px 8px 0 rgba(0, 0, 0, 0.2),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+.interactive-card::after,
+#studiesContainer .shadcn-card::after {
   content: '';
   position: absolute;
   top: -50%;
@@ -449,8 +472,8 @@ html.dark #bio-canvas {
   background: linear-gradient(
     60deg,
     transparent 35%,
-    rgba(255, 255, 255, 0.06) 45%,
-    rgba(52, 211, 153, 0.12) 50%,
+    rgba(255, 255, 255, 0.08) 45%,
+    rgba(52, 211, 153, 0.14) 50%,
     transparent 55%
   );
   transform: rotate(-25deg) translateY(-100%);
@@ -458,13 +481,28 @@ html.dark #bio-canvas {
   pointer-events: none !important;
 }
 
-.interactive-card:hover::after {
+.interactive-card:hover::after,
+#studiesContainer .shadcn-card:hover::after {
   transform: rotate(-25deg) translateY(100%);
 }
 
-.interactive-card:hover {
-  transform: translateY(-4px) scale(1.015);
-  box-shadow: 0 20px 35px -10px rgba(16, 185, 129, 0.2), 0 0 1px 1px rgba(16, 185, 129, 0.25);
+.interactive-card:hover,
+#studiesContainer .shadcn-card:hover {
+  transform: translateY(-4px) scale(1.012);
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(16, 185, 129, 0.45) !important;
+  box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.2),
+              0 0 1px 1px rgba(16, 185, 129, 0.28),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 1) !important;
+}
+
+html.dark .interactive-card:hover,
+html.dark #studiesContainer .shadcn-card:hover {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border-color: rgba(52, 211, 153, 0.4) !important;
+  box-shadow: 0 22px 45px -10px rgba(0, 0, 0, 0.65),
+              0 0 22px rgba(16, 185, 129, 0.18),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
 .spotlight-card {
