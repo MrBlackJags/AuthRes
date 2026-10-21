@@ -37,12 +37,22 @@ function initNativeSqlite() {
     ('org-4', 'BioNeura Institute', 'independent', 'https://bioneura.org')
   ;`);
 
-  // Default demo password is "password123"
-  const defaultHash = '$2a$10$w3U6R7UqyW2q4k9nU7Yw1eO5R9fK8a2w8x1e7y5z3c2b1a0d9e8f7'; // bcrypt hash for password123
+  // Pre-hashed demo credentials:
+  // admin@authros.org -> admin2026 / password123
+  // clinical@hopkinsmedicine.org -> clinical2026 / password123
+  // dr.chen@genvault.org -> research2026 / password123
+  // supporter@gmail.com -> donor2026 / password123
+  const adminHash = '$2b$10$zzCZ7zz2vcVwxIZUxF61eeFrBeCXRU183Ym8rLsCefgOMSIp6xgKq';
+  const clinicalHash = '$2b$10$KD8Pn0B4.NmQfA6oc3zVr.ppbUhOffznYNxKgA0YEJZMwdu8HfoaK';
+  const researchHash = '$2b$10$UNKdQu2Dwd8WNOcAkReW8eQ4ObkNm4U/3oII7jBPR2Wgkz0rX7TxW';
+  const donorHash = '$2b$10$vALsvACb/gLwYg/6Mk5moegvIpzQHBllCbo0DRyISDRfArP88yzsq';
 
-  // Seed Administrator Account (You)
+  // Seed 4 Core Domain Platform Accounts
   db.exec(`INSERT INTO users (id, email, password_hash, full_name, title, role, tier, api_key, organization_id) VALUES
-    ('usr-admin', 'admin@authros.org', '${defaultHash}', 'System Administrator (You)', 'Lead Platform Administrator', 'admin', 'enterprise', 'sk_live_authros_admin_99248201', 'org-1')
+    ('usr-admin', 'admin@authros.org', '${adminHash}', 'System Administrator (You)', 'Lead Platform Administrator & PI', 'admin', 'enterprise', 'sk_live_authros_admin_99248201', 'org-1'),
+    ('usr-hospital', 'clinical@hopkinsmedicine.org', '${clinicalHash}', 'Dr. Sarah Al-Mansoor, MD', 'Chief Clinical Investigator (Hopkins)', 'hospital', 'enterprise', 'sk_live_authros_hospital_hopkins_2026', 'org-3'),
+    ('usr-scientist', 'dr.chen@genvault.org', '${researchHash}', 'Dr. Alex Chen, PhD', 'Lead Molecular Scientist (GenVault)', 'scientist', 'pro', 'sk_live_authros_scientist_genvault_2026', 'org-1'),
+    ('usr-donor', 'supporter@gmail.com', '${donorHash}', 'Marcus Vance', 'Patient Advocate & Public Donor', 'public', 'free', 'sk_live_authros_public_supporter_2026', 'org-4')
   ;`);
 
   // Seed Landmark Historical and Active Clinical Research Projects (50+ Real World Studies + 12,500 Global Database)

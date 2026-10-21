@@ -111,40 +111,60 @@
 
         <div class="space-y-1.5">
           <!-- 1. Hospital Field -->
-          <button onclick="fillFieldCredentials('hospital')" class="w-full px-3 py-1.5 bg-purple-500/20 border border-purple-400/40 hover:bg-purple-500/30 text-purple-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
-            <span class="flex items-center gap-1.5">
-              <i class="fa-solid fa-hospital text-purple-400 text-xs"></i>
-              <span>Hospital Clinician (Hopkins)</span>
-            </span>
-            <span class="text-[9px] bg-purple-500/30 px-1.5 py-0.5 rounded font-mono">Hospital</span>
-          </button>
+          <div class="flex items-center gap-1">
+            <button type="button" onclick="fillFieldCredentials('hospital')" class="flex-1 px-3 py-1.5 bg-purple-500/20 border border-purple-400/40 hover:bg-purple-500/30 text-purple-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
+              <span class="flex items-center gap-1.5">
+                <i class="fa-solid fa-hospital text-purple-400 text-xs"></i>
+                <span>Hospital Clinician (Hopkins)</span>
+              </span>
+              <span class="text-[9px] bg-purple-500/30 px-1.5 py-0.5 rounded font-mono">Hospital</span>
+            </button>
+            <button type="button" onclick="fillFieldCredentials('hospital', true)" title="1-Click Sign In" class="px-2.5 py-1.5 rounded-xl bg-purple-500/30 hover:bg-purple-500/50 text-purple-100 text-xs font-bold transition">
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
+          </div>
 
           <!-- 2. Research Field -->
-          <button onclick="fillFieldCredentials('research')" class="w-full px-3 py-1.5 bg-emerald-500/20 border border-emerald-400/40 hover:bg-emerald-500/30 text-emerald-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
-            <span class="flex items-center gap-1.5">
-              <i class="fa-solid fa-microscope text-emerald-400 text-xs"></i>
-              <span>Research Scientist (GenVault)</span>
-            </span>
-            <span class="text-[9px] bg-emerald-500/30 px-1.5 py-0.5 rounded font-mono">Research</span>
-          </button>
+          <div class="flex items-center gap-1">
+            <button type="button" onclick="fillFieldCredentials('research')" class="flex-1 px-3 py-1.5 bg-orange-500/20 border border-orange-400/40 hover:bg-orange-500/30 text-orange-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
+              <span class="flex items-center gap-1.5">
+                <i class="fa-solid fa-microscope text-orange-400 text-xs"></i>
+                <span>Research Scientist (GenVault)</span>
+              </span>
+              <span class="text-[9px] bg-orange-500/30 px-1.5 py-0.5 rounded font-mono">Research</span>
+            </button>
+            <button type="button" onclick="fillFieldCredentials('research', true)" title="1-Click Sign In" class="px-2.5 py-1.5 rounded-xl bg-orange-500/30 hover:bg-orange-500/50 text-orange-100 text-xs font-bold transition">
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
+          </div>
 
           <!-- 3. User / Donor Field -->
-          <button onclick="fillFieldCredentials('user')" class="w-full px-3 py-1.5 bg-cyan-500/20 border border-cyan-400/40 hover:bg-cyan-500/30 text-cyan-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
-            <span class="flex items-center gap-1.5">
-              <i class="fa-solid fa-heart text-cyan-400 text-xs"></i>
-              <span>Public Donor / Patient</span>
-            </span>
-            <span class="text-[9px] bg-cyan-500/30 px-1.5 py-0.5 rounded font-mono">User</span>
-          </button>
+          <div class="flex items-center gap-1">
+            <button type="button" onclick="fillFieldCredentials('user')" class="flex-1 px-3 py-1.5 bg-emerald-500/20 border border-emerald-400/40 hover:bg-emerald-500/30 text-emerald-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
+              <span class="flex items-center gap-1.5">
+                <i class="fa-solid fa-heart text-emerald-400 text-xs"></i>
+                <span>Public Donor / Patient</span>
+              </span>
+              <span class="text-[9px] bg-emerald-500/30 px-1.5 py-0.5 rounded font-mono">Donor</span>
+            </button>
+            <button type="button" onclick="fillFieldCredentials('user', true)" title="1-Click Sign In" class="px-2.5 py-1.5 rounded-xl bg-emerald-500/30 hover:bg-emerald-500/50 text-emerald-100 text-xs font-bold transition">
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
+          </div>
 
           <!-- 4. SaaS Administrator -->
-          <button onclick="fillFieldCredentials('admin')" class="w-full px-3 py-1.5 bg-orange-500/20 border border-orange-400/40 hover:bg-orange-500/30 text-orange-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
-            <span class="flex items-center gap-1.5">
-              <i class="fa-solid fa-crown text-amber-400 text-xs"></i>
-              <span>Platform Administrator (You)</span>
-            </span>
-            <span class="text-[9px] bg-orange-500/30 px-1.5 py-0.5 rounded font-mono">SaaS PI</span>
-          </button>
+          <div class="flex items-center gap-1">
+            <button type="button" onclick="fillFieldCredentials('admin')" class="flex-1 px-3 py-1.5 bg-cyan-500/20 border border-cyan-400/40 hover:bg-cyan-500/30 text-cyan-200 font-bold rounded-xl text-left transition flex items-center justify-between text-[11px]">
+              <span class="flex items-center gap-1.5">
+                <i class="fa-solid fa-crown text-cyan-300 text-xs"></i>
+                <span>Platform Administrator (You)</span>
+              </span>
+              <span class="text-[9px] bg-cyan-500/30 px-1.5 py-0.5 rounded font-mono">SaaS PI</span>
+            </button>
+            <button type="button" onclick="fillFieldCredentials('admin', true)" title="1-Click Sign In" class="px-2.5 py-1.5 rounded-xl bg-cyan-500/30 hover:bg-cyan-500/50 text-cyan-100 text-xs font-bold transition">
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
+          </div>
         </div>
 
         <p class="text-[10px] text-slate-300 leading-relaxed pt-1">
@@ -230,8 +250,18 @@
       <!-- FORM 2: REGISTER -->
       <form id="registerForm" onsubmit="event.preventDefault(); handleRegisterSubmit();" class="hidden space-y-3.5 text-xs">
         <div class="space-y-1">
-          <h3 class="text-xl font-extrabold text-foreground">Create Laboratory Account</h3>
-          <p class="text-xs text-muted-foreground">Provision a new multi-tenant biomedical profile.</p>
+          <h3 class="text-xl font-extrabold text-foreground">Create Domain Account</h3>
+          <p class="text-xs text-muted-foreground">Select your platform domain and provision your role profile.</p>
+        </div>
+
+        <div>
+          <label class="block font-bold text-foreground text-[11px] mb-1">Platform Domain & Role *</label>
+          <select id="regDomainRole" class="shadcn-input h-9 text-xs font-semibold bg-card text-foreground">
+            <option value="scientist">🔬 Research & Lab Domain — Research Scientist</option>
+            <option value="hospital">🏥 Hospital & Clinical Domain — Clinician / Partner</option>
+            <option value="public">❤️ Public & Crowdfunding Domain — Supporter / Donor</option>
+            <option value="pi">👑 Scientific Institution — Principal Investigator (PI)</option>
+          </select>
         </div>
 
         <div>
@@ -240,24 +270,13 @@
         </div>
 
         <div>
-          <label class="block font-bold text-foreground text-[11px] mb-1">Institutional Email *</label>
+          <label class="block font-bold text-foreground text-[11px] mb-1">Email Address *</label>
           <input type="email" id="regEmail" required placeholder="name@institution.org" class="shadcn-input h-9 text-xs" />
         </div>
 
         <div>
           <label class="block font-bold text-foreground text-[11px] mb-1">Organization / Institution</label>
-          <input type="text" id="regOrg" placeholder="e.g. Stanford Cancer Center / Harvard BioLab" class="shadcn-input h-9 text-xs" />
-        </div>
-
-        <!-- Admin Decided Rank Gate Notice -->
-        <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-700 dark:text-amber-300 space-y-1">
-          <div class="flex items-center gap-1.5 font-bold text-[11px]">
-            <i class="fa-solid fa-crown text-amber-500"></i>
-            <span>Administrator Rank Approval Required</span>
-          </div>
-          <p class="text-[11px] opacity-90 leading-relaxed">
-            All newly registered accounts start at <strong>Rank 0 (Pending Approval)</strong>. The System Administrator decides and assigns your rank before research protocols can be accessed.
-          </p>
+          <input type="text" id="regOrg" placeholder="e.g. Johns Hopkins, GenVault, or Independent" class="shadcn-input h-9 text-xs" />
         </div>
 
         <div>
@@ -271,7 +290,7 @@
         </div>
 
         <button type="submit" id="regSubmitBtn" class="shadcn-btn btn-default w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-md transition">
-          Register Account (Awaiting Admin Rank) →
+          Create Account & Access Domain →
         </button>
       </form>
 
@@ -335,7 +354,19 @@
       if (alert) alert.classList.add('hidden');
     }
 
-    function fillFieldCredentials(fieldKey) {
+    function getDomainRedirectUrl(role) {
+      const roleClean = (role || '').toLowerCase();
+      if (roleClean === 'hospital' || roleClean === 'clinician') {
+        return 'hospital-portal.html';
+      } else if (roleClean === 'scientist' || roleClean === 'tech' || roleClean === 'researcher') {
+        return 'researcher-portal.html';
+      } else if (roleClean === 'public' || roleClean === 'donor' || roleClean === 'supporter') {
+        return 'public-portal.html';
+      }
+      return 'dashboard.html';
+    }
+
+    function fillFieldCredentials(fieldKey, autoSubmit = false) {
       switchAuthTab('login');
       hideError();
       const fieldCreds = {
@@ -348,7 +379,12 @@
       const target = fieldCreds[fieldKey] || fieldCreds.admin;
       document.getElementById('loginEmail').value = target.email;
       document.getElementById('loginPassword').value = target.pass;
-      showToast(`Selected ${target.label}. Click "Sign In" to proceed.`, 'Role Selected', 'info');
+
+      if (autoSubmit) {
+        handleLoginSubmit();
+      } else {
+        showToast(`Loaded ${target.label} credentials. Click "Sign In" or submit.`, 'Credentials Ready', 'info');
+      }
     }
 
     function fillAdminCredentials() {
@@ -372,12 +408,14 @@
       try {
         const res = await AuthManager.login(email, pass);
         const urlParams = new URLSearchParams(window.location.search);
-        const redirectUrl = urlParams.get('redirect') || 'dashboard.html';
-        showToast(`Welcome back, ${res.user?.full_name || 'User'}! Loading Workspace...`, 'Authentication Success', 'success');
-        setTimeout(() => { window.location.href = redirectUrl; }, 800);
+        const explicitRedirect = urlParams.get('redirect');
+        const redirectUrl = explicitRedirect || getDomainRedirectUrl(res.user?.role);
+        
+        showToast(`Welcome, ${res.user?.full_name || 'User'}! Accessing ${res.user?.role?.toUpperCase() || ''} Domain...`, 'Authentication Success', 'success');
+        setTimeout(() => { window.location.href = redirectUrl; }, 600);
       } catch (err) {
         showError(err.message || 'Login failed. Check your email and password.');
-        btn.innerHTML = 'Sign In to Workspace →';
+        btn.innerHTML = 'Sign In to Domain Workspace →';
         btn.disabled = false;
       }
     }
@@ -387,6 +425,7 @@
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim();
       const org = document.getElementById('regOrg').value.trim();
+      const role = document.getElementById('regDomainRole').value || 'scientist';
       const pass = document.getElementById('regPassword').value;
       const btn = document.getElementById('regSubmitBtn');
 
@@ -407,20 +446,43 @@
         const res = await AuthManager.register({
           full_name: name,
           email,
-          organization_name: org || 'Independent Lab',
-          role: 'pending',
+          organization_name: org || (role === 'hospital' ? 'Johns Hopkins Medicine' : role === 'public' ? 'Public Community' : 'GenVault Therapeutics'),
+          role: role,
           password: pass
         });
-        showToast('Account registered! You are placed in the queue for Admin rank assignment.', 'Account Created', 'success');
+
         const urlParams = new URLSearchParams(window.location.search);
-        const redirectUrl = urlParams.get('redirect') || 'dashboard.html';
-        setTimeout(() => { window.location.href = redirectUrl; }, 1000);
+        const explicitRedirect = urlParams.get('redirect');
+        const redirectUrl = explicitRedirect || getDomainRedirectUrl(res.user?.role || role);
+
+        showToast(`Account registered for ${res.user?.full_name || name}! Opening Domain Portal...`, 'Account Created', 'success');
+        setTimeout(() => { window.location.href = redirectUrl; }, 800);
       } catch (err) {
         showError(err.message || 'Registration error. Email may already be in use.');
-        btn.innerHTML = 'Create Account & Access Workspace →';
+        btn.innerHTML = 'Create Account & Access Domain →';
         btn.disabled = false;
       }
     }
+
+    // Auto-activate registration tab and pre-select domain if requested via query parameter
+    (function checkInitialTab() {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get('tab') || params.get('mode');
+      if (tab === 'register') {
+        switchAuthTab('register');
+      }
+      const domain = params.get('domain');
+      if (domain) {
+        const sel = document.getElementById('regDomainRole');
+        if (sel) {
+          const d = domain.toLowerCase();
+          if (d.includes('hosp')) sel.value = 'hospital';
+          else if (d.includes('pub') || d.includes('don')) sel.value = 'public';
+          else if (d.includes('res') || d.includes('sci')) sel.value = 'scientist';
+          else if (d.includes('pi') || d.includes('admin')) sel.value = 'pi';
+        }
+      }
+    })();
   </script>
 </body>
 </html>

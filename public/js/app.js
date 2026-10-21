@@ -1770,17 +1770,50 @@ const AuthManager = {
       }
     } catch(e) {}
     
-    // Clean initial registry with only the Administrator (You)
+    // Initial registry with all 4 domain accounts (PI, Hospital, Research, Public)
     const initialUsers = [
       { 
         id: 'usr-admin', 
         email: 'admin@authros.org', 
         full_name: 'System Administrator (You)', 
-        title: 'Lead Platform Administrator', 
+        title: 'Lead Platform Administrator & PI', 
         role: 'admin', 
         is_admin: true, 
         tier: 'enterprise', 
         org_name: 'AuthRos Open Science Platform', 
+        registered_at: '2026-01-01' 
+      },
+      { 
+        id: 'usr-hospital', 
+        email: 'clinical@hopkinsmedicine.org', 
+        full_name: 'Dr. Sarah Al-Mansoor, MD', 
+        title: 'Chief Clinical Investigator (Hopkins)', 
+        role: 'hospital', 
+        is_admin: false, 
+        tier: 'enterprise', 
+        org_name: 'Johns Hopkins Medicine', 
+        registered_at: '2026-01-01' 
+      },
+      { 
+        id: 'usr-scientist', 
+        email: 'dr.chen@genvault.org', 
+        full_name: 'Dr. Alex Chen, PhD', 
+        title: 'Lead Molecular Scientist (GenVault)', 
+        role: 'scientist', 
+        is_admin: false, 
+        tier: 'pro', 
+        org_name: 'GenVault Therapeutics', 
+        registered_at: '2026-01-01' 
+      },
+      { 
+        id: 'usr-donor', 
+        email: 'supporter@gmail.com', 
+        full_name: 'Marcus Vance', 
+        title: 'Patient Advocate & Public Donor', 
+        role: 'public', 
+        is_admin: false, 
+        tier: 'free', 
+        org_name: 'BioNeura Institute', 
         registered_at: '2026-01-01' 
       }
     ];
@@ -1839,24 +1872,47 @@ const AuthManager = {
       this.setUser(data.user);
       return data;
     } catch (err) {
-      // Offline fallback login: match from registered users directory
+      // Offline fallback login: match from registered users directory or predefined domain accounts
       const users = this.getAllUsers();
-      const matched = users.find(u => u.email.toLowerCase() === (email || '').toLowerCase().trim());
-      
-      const isAdminEmail = (email || '').toLowerCase().trim() === 'admin@authros.org';
-      const fallbackUser = matched || {
+      const emailClean = (email || '').toLowerCase().trim();
+      let matched = users.find(u => u.email.toLowerCase() === emailClean);
+
+      const domainAccounts = {
+        'admin@authros.org': {
+          id: 'usr-admin', email: 'admin@authros.org', full_name: 'System Administrator (You)',
+          title: 'Lead Platform Administrator & PI', role: 'admin', is_admin: true, tier: 'enterprise',
+          org_name: 'AuthRos Open Science Platform'
+        },
+        'clinical@hopkinsmedicine.org': {
+          id: 'usr-hospital', email: 'clinical@hopkinsmedicine.org', full_name: 'Dr. Sarah Al-Mansoor, MD',
+          title: 'Chief Clinical Investigator (Hopkins)', role: 'hospital', is_admin: false, tier: 'enterprise',
+          org_name: 'Johns Hopkins Medicine'
+        },
+        'dr.chen@genvault.org': {
+          id: 'usr-scientist', email: 'dr.chen@genvault.org', full_name: 'Dr. Alex Chen, PhD',
+          title: 'Lead Molecular Scientist (GenVault)', role: 'scientist', is_admin: false, tier: 'pro',
+          org_name: 'GenVault Therapeutics'
+        },
+        'supporter@gmail.com': {
+          id: 'usr-donor', email: 'supporter@gmail.com', full_name: 'Marcus Vance',
+          title: 'Patient Advocate & Public Donor', role: 'public', is_admin: false, tier: 'free',
+          org_name: 'BioNeura Institute'
+        }
+      };
+
+      const fallbackUser = matched || domainAccounts[emailClean] || {
         id: 'usr-' + Date.now(),
         email: email || 'user@authros.org',
-        full_name: isAdminEmail ? 'System Administrator (You)' : (email || 'User').split('@')[0],
-        title: isAdminEmail ? 'System Administrator (You)' : 'Pending Admin Rank Assignment',
-        role: isAdminEmail ? 'admin' : 'pending',
-        is_admin: isAdminEmail,
-        tier: isAdminEmail ? 'enterprise' : 'free',
-        org_name: isAdminEmail ? 'AuthRos Platform' : 'Independent Research Lab',
+        full_name: (email || 'User').split('@')[0],
+        title: 'Biomedical Researcher',
+        role: 'scientist',
+        is_admin: false,
+        tier: 'pro',
+        org_name: 'Independent Research Lab',
         registered_at: new Date().toISOString().split('T')[0]
       };
 
-      if (!matched && !isAdminEmail) {
+      if (!matched) {
         users.push(fallbackUser);
         this.saveAllUsers(users);
       }
@@ -2987,6 +3043,29 @@ function renderHeader(activePage = 'home') {
   const user = AuthManager.getUser();
   const roleKey = user?.role || 'pi';
   const isAuth = AuthManager.isAuthenticated();
+  const userHomeUrl = (roleKey === 'hospital' || roleKey === 'clinician')
+    ? 'hospital-portal.html'
+    : (roleKey === 'scientist' || roleKey === 'tech' || roleKey === 'researcher')
+    ? 'researcher-portal.html'
+    : (roleKey === 'public' || roleKey === 'donor')
+    ? 'public-portal.html'
+    : 'dashboard.html';
+
+  const userHomeLabel = (roleKey === 'hospital' || roleKey === 'clinician')
+    ? 'Hospital Portal'
+    : (roleKey === 'scientist' || roleKey === 'tech' || roleKey === 'researcher')
+    ? 'Researcher Portal'
+    : (roleKey === 'public' || roleKey === 'donor')
+    ? 'Public Portal'
+    : 'Workspace';
+
+  const userHomeIcon = (roleKey === 'hospital' || roleKey === 'clinician')
+    ? 'fa-solid fa-hospital'
+    : (roleKey === 'scientist' || roleKey === 'tech' || roleKey === 'researcher')
+    ? 'fa-solid fa-microscope'
+    : (roleKey === 'public' || roleKey === 'donor')
+    ? 'fa-solid fa-heart'
+    : 'fa-solid fa-gauge-high';
 
   return `
     <header class="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl transition-all">
@@ -3058,7 +3137,7 @@ function renderHeader(activePage = 'home') {
           ${isAuth ? `
             <!-- Authenticated User Dropdown -->
             <div class="relative group">
-              <a href="dashboard.html" class="flex items-center gap-1.5 p-1 pl-1.5 pr-2.5 rounded-full border border-border/80 bg-card hover:bg-accent transition text-xs font-nav font-semibold shadow-2xs">
+              <a href="${userHomeUrl}" class="flex items-center gap-1.5 p-1 pl-1.5 pr-2.5 rounded-full border border-border/80 bg-card hover:bg-accent transition text-xs font-nav font-semibold shadow-2xs">
                 <div class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px]">
                   ${(user?.full_name || 'U').charAt(0)}
                 </div>
@@ -3070,7 +3149,7 @@ function renderHeader(activePage = 'home') {
                   <div class="font-bold text-foreground truncate">${user?.full_name || 'Account'}</div>
                   <div class="text-[10px] text-muted-foreground truncate font-mono">${user?.email || ''}</div>
                 </div>
-                <a href="dashboard.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-accent text-foreground"><i class="fa-solid fa-gauge-high text-muted-foreground text-xs w-4"></i> Dashboard</a>
+                <a href="${userHomeUrl}" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-accent text-foreground"><i class="${userHomeIcon} text-muted-foreground text-xs w-4"></i> ${userHomeLabel}</a>
                 <a href="profile.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-accent text-foreground"><i class="fa-regular fa-user text-muted-foreground text-xs w-4"></i> Profile</a>
                 <a href="publish.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-accent text-foreground"><i class="fa-solid fa-upload text-muted-foreground text-xs w-4"></i> Publish</a>
                 <div class="border-t border-border my-1"></div>

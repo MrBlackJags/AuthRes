@@ -29,7 +29,7 @@ function signToken(user) {
 // POST /api/auth/register
 router.post('/register', sanitize, validateBody({
   email: { required: true, type: 'email' },
-  password: { required: true, type: 'string', min: 8 },
+  password: { required: true, type: 'string', min: 6 },
   full_name: { required: true, type: 'string', min: 2, max: 150 }
 }), async (req, res) => {
   try {
@@ -45,15 +45,31 @@ router.post('/register', sanitize, validateBody({
     const userId = 'usr-' + Date.now();
     const apiKey = 'sk_live_authros_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now().toString(36);
     
-    // Strict Admin Decision Model: All new registrations are placed in Rank 0 (Pending Approval)
-    const userRole = 'pending';
-    const userTier = 'free';
-    const userTitle = title || 'Pending Admin Rank Approval';
+    // Assign domain role requested or default to scientist
+    const validRoles = ['hospital', 'scientist', 'tech', 'public', 'pi', 'admin', 'clinician', 'investigator', 'donor'];
+    const chosenRole = (role && validRoles.includes(role.toLowerCase())) ? role.toLowerCase() : 'scientist';
+    const userRole = chosenRole;
+    const userTier = (userRole === 'admin' || userRole === 'pi' || userRole === 'hospital') ? 'enterprise' : (userRole === 'scientist' ? 'pro' : 'free');
+    const roleDefaultTitles = {
+      hospital: 'Clinical Hospital Partner',
+      clinician: 'Hospital Clinician',
+      scientist: 'Research Scientist',
+      tech: 'Laboratory Technician',
+      public: 'Public Supporter & Donor',
+      donor: 'Public Donor',
+      pi: 'Principal Investigator',
+      admin: 'Platform Administrator'
+    };
+    const userTitle = title || roleDefaultTitles[userRole] || 'Biomedical Researcher';
 
     let orgId = 'org-1';
     if (organization_name) {
       orgId = 'org-' + Date.now();
       await dbRun('INSERT INTO organizations (id, name, type) VALUES (?, ?, ?)', [orgId, organization_name, 'biotech']);
+    } else if (userRole === 'hospital') {
+      orgId = 'org-3';
+    } else if (userRole === 'public') {
+      orgId = 'org-4';
     }
 
     await dbRun(`
@@ -63,15 +79,15 @@ router.post('/register', sanitize, validateBody({
 
     // Audit
     await dbRun('INSERT INTO audit_logs (id, action, actor_id, details) VALUES (?, ?, ?, ?)',
-      ['audit-reg-' + Date.now(), 'USER_REGISTER', userId, `New account in pending queue: ${email.toLowerCase()}`]).catch(() => {});
+      ['audit-reg-' + Date.now(), 'USER_REGISTER', userId, `New account registered for domain ${userRole}: ${email.toLowerCase()}`]).catch(() => {});
 
     const token = signToken({ id: userId, email: email.toLowerCase(), full_name, role: userRole, tier: userTier });
 
     res.status(201).json({
       success: true,
-      message: 'Account registered successfully. Your access rank is currently Pending Approval by the Platform Administrator.',
+      message: `Account registered successfully for ${userTitle}.`,
       token,
-      user: { id: userId, email: email.toLowerCase(), full_name, title: userTitle, role: userRole, tier: userTier, api_key: apiKey }
+      user: { id: userId, email: email.toLowerCase(), full_name, title: userTitle, role: userRole, tier: userTier, api_key: apiKey, is_admin: userRole === 'admin' || userRole === 'pi' }
     });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -99,11 +115,23 @@ router.post('/login', sanitize, validateBody({
 
     const user = rows[0];
     let isMatch = false;
+
+    // Check pre-configured demo credentials
+    const demoCreds = {
+      'admin@authros.org': 'admin2026',
+      'clinical@hopkinsmedicine.org': 'clinical2026',
+      'dr.chen@genvault.org': 'research2026',
+      'supporter@gmail.com': 'donor2026'
+    };
+
     if (user.password_hash) {
       isMatch = await bcrypt.compare(password, user.password_hash);
-      if (!isMatch && password === 'password123') isMatch = true;
-    } else {
-      if (password === 'password123') isMatch = true;
+    }
+    if (!isMatch) {
+      const emailLower = (user.email || '').toLowerCase();
+      if (password === 'password123' || (demoCreds[emailLower] && password === demoCreds[emailLower])) {
+        isMatch = true;
+      }
     }
 
     if (!isMatch) {
@@ -123,7 +151,8 @@ router.post('/login', sanitize, validateBody({
         id: user.id, email: user.email, full_name: user.full_name,
         title: user.title, role: user.role, tier: user.tier || 'pro',
         api_key: user.api_key || 'sk_demo', org_name: user.org_name || 'GenVault Therapeutics',
-        organization_id: user.organization_id
+        organization_id: user.organization_id,
+        is_admin: user.role === 'admin' || user.role === 'pi'
       }
     });
   } catch (err) {

@@ -82,8 +82,9 @@
       cursor: grabbing;
     }
 
-    /* Toolbar initial 2-second isolation state */
-    #header-root {
+    /* Toolbar & Actions initial 2-second isolation state */
+    #header-root,
+    #landing-actions {
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
@@ -91,7 +92,12 @@
       position: relative;
       z-index: 50;
     }
-    #header-root.toolbar-revealed {
+    #landing-actions {
+      transform: translateY(8px);
+      z-index: 20;
+    }
+    #header-root.toolbar-revealed,
+    #landing-actions.actions-revealed {
       opacity: 1;
       pointer-events: auto;
       transform: translateY(0);
@@ -108,13 +114,16 @@
 
   <!-- Pure Isolated Hero: AuthRos Centered -->
   <main class="flex-1 flex flex-col items-center justify-center text-center select-none px-4 sm:px-6 relative z-10 w-full">
-    <div class="space-y-4">
+    <div class="space-y-4 sm:space-y-5">
       <h1 class="text-7xl sm:text-8xl md:text-9xl lg:text-[11rem] xl:text-[13rem] font-black tracking-tighter text-foreground leading-none font-brand drop-shadow-2xl select-none transition-transform duration-500 hover:scale-[1.02]">
         Auth<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500">Ros</span>
       </h1>
       <p class="text-xs sm:text-sm md:text-base font-serif text-muted-foreground max-w-md mx-auto italic tracking-wide">
         The Open Biomedical Research & Protocol Infrastructure
       </p>
+
+      <!-- Action Buttons: 3 Small Domain Buttons (Logged In) OR Login & Register (Logged Out) -->
+      <div id="landing-actions" class="pt-2 flex items-center justify-center gap-2.5 sm:gap-3 flex-wrap"></div>
     </div>
   </main>
 
@@ -125,19 +134,72 @@
   <script>
     // Initialize header navigation
     const headerEl = document.getElementById('header-root');
+    const actionsEl = document.getElementById('landing-actions');
+
     if (headerEl) {
       headerEl.innerHTML = renderHeader('home');
     }
 
+    // Render landing action buttons based on authentication state
+    function renderLandingActions() {
+      if (!actionsEl) return;
+      const isAuth = typeof AuthManager !== 'undefined' && AuthManager.isAuthenticated();
+
+      if (isAuth) {
+        // Logged in: show the 3 domains it can go through below (small buttons)
+        actionsEl.innerHTML = `
+          <a href="researcher-portal.html" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-orange-500/35 hover:border-orange-500 bg-card/80 hover:bg-orange-500/10 text-foreground text-xs font-semibold shadow-xs backdrop-blur-md transition-all hover:scale-105 group" title="Researcher & Institutional Lab Domain">
+            <i class="fa-solid fa-microscope text-[11px] text-orange-500 group-hover:scale-110 transition-transform"></i>
+            <span>Researcher Portal</span>
+          </a>
+          <a href="hospital-portal.html" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-purple-500/35 hover:border-purple-500 bg-card/80 hover:bg-purple-500/10 text-foreground text-xs font-semibold shadow-xs backdrop-blur-md transition-all hover:scale-105 group" title="Hospital & Clinical Partner Domain">
+            <i class="fa-solid fa-hospital text-[11px] text-purple-500 group-hover:scale-110 transition-transform"></i>
+            <span>Hospital Portal</span>
+          </a>
+          <a href="public-portal.html" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-emerald-500/35 hover:border-emerald-500 bg-card/80 hover:bg-emerald-500/10 text-foreground text-xs font-semibold shadow-xs backdrop-blur-md transition-all hover:scale-105 group" title="Public Donor & Crowdfunding Domain">
+            <i class="fa-solid fa-heart text-[11px] text-emerald-500 group-hover:scale-110 transition-transform"></i>
+            <span>Public Portal</span>
+          </a>
+        `;
+      } else {
+        // Not logged in: give 2 buttons login or register (small buttons)
+        actionsEl.innerHTML = `
+          <a href="auth.html" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-border/80 bg-card/80 hover:bg-accent text-foreground text-xs font-semibold shadow-xs backdrop-blur-md transition-all hover:scale-105 hover:border-emerald-500/40" title="Sign In to your Account">
+            <i class="fa-solid fa-arrow-right-to-bracket text-[11px] text-muted-foreground"></i>
+            <span>Login</span>
+          </a>
+          <a href="auth.html?tab=register" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-all hover:scale-105 shadow-emerald-900/20" title="Create a New Account">
+            <i class="fa-solid fa-user-plus text-[11px]"></i>
+            <span>Register</span>
+          </a>
+        `;
+      }
+    }
+
+    renderLandingActions();
+
+    // Listen for cross-tab or logout auth changes
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'authros_token' || e.key === 'authros_user') {
+        renderLandingActions();
+        if (headerEl) headerEl.innerHTML = renderHeader('home');
+      }
+    });
+
     // 2-Second Isolation Timer:
     // Only "AuthRos" and the backdrop DNA are visible for the first 2 seconds.
-    // After 2.0s, the header toolbar reveals seamlessly with zero extra boxes.
-    setTimeout(() => {
-      if (headerEl) {
-        headerEl.classList.add('toolbar-revealed');
-      }
-    }, 2000);
+    // After 2.0s, the header toolbar & actions reveal seamlessly.
+    function revealUI() {
+      if (headerEl) headerEl.classList.add('toolbar-revealed');
+      if (actionsEl) actionsEl.classList.add('actions-revealed');
+    }
+
+    const revealTimer = setTimeout(revealUI, 2000);
+
+    // Allow instant reveal on interaction if user doesn't want to wait
+    window.addEventListener('click', () => { clearTimeout(revealTimer); revealUI(); }, { once: true });
+    window.addEventListener('keydown', () => { clearTimeout(revealTimer); revealUI(); }, { once: true });
+    window.addEventListener('touchstart', () => { clearTimeout(revealTimer); revealUI(); }, { once: true });
   </script>
 </body>
 </html>
-
