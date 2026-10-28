@@ -97,6 +97,25 @@ CREATE TABLE IF NOT EXISTS hospital_cohorts (
     biomarker_target TEXT NOT NULL,
     deidentified_summary TEXT,
     verification_hash TEXT NOT NULL,
+    visibility TEXT DEFAULT 'public',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 7b. De-Identified Hospital Patient Records (Zero-PII HIPAA Safe Harbor)
+CREATE TABLE IF NOT EXISTS hospital_patient_records (
+    id TEXT PRIMARY KEY,
+    cohort_id TEXT,
+    project_id TEXT,
+    hospital_name TEXT DEFAULT 'Princeton-Plainsboro Teaching Hospital',
+    patient_hash TEXT NOT NULL,
+    age_bracket TEXT,
+    biological_sex TEXT,
+    diagnosis TEXT,
+    biomarkers TEXT,
+    trial_arm TEXT,
+    clinical_outcome TEXT,
+    specimen_hash TEXT,
+    visibility TEXT DEFAULT 'public',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
